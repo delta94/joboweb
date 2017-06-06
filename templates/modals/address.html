@@ -1,0 +1,26 @@
+
+<div class="modal fade">
+    <div class="modal-dialog" style="width: 30%">
+        <div class="card">
+            <div class="card-header">
+                <p>Hãy nhập địa chỉ của bạn</p>
+            </div>
+            <div class="card-block">
+                <div class="pop-add">
+                    <input ng-keydown="searchAddress()" id="address" ui-items="names"
+                           ng-model="autocompleteAddress.text" class="form-control">
+                    <i class="icon-close" id="delete-address"
+                       ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
+                    <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                        <li ng-repeat="ketqua in ketquasAddress"
+                            ng-click="setSelectedAddress(ketqua)">
+                            {{ketqua.formatted_address}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" ng-click="close()" data-dismiss="modal"  class="btn btn-success" data-dismiss="modal">Xác nhận</button>        </div>
+        </div>
+    </div>
+</div>

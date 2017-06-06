@@ -1,0 +1,288 @@
+﻿<div class="animated fadeIn" ng-init="init()">
+    <div class="parallax parallax-product parallax-"
+         style="background: url('/img/ava-background/backres.jpg')no-repeat;background-size: cover;padding-top: 0 ">
+
+        <div class="container" style="max-width: 100%">
+            <div class="row">
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="pay-area">
+
+                        <div>
+                            <h1 itemprop="name" class="product-name">Đăng tuyển và tìm ứng viên chỉ từ 100k/tháng</h1>
+                            <ul class="tagline" style="margin-bottom: 20px">
+                                <li>Chọn ứng viên phù hợp từ mạng lưới 200,000+ người tìm việc của Jobo
+                                </li>
+                                <li>Không giới hạn bài đăng tuyển
+                                </li>
+                                <li>Xác thực nhà tuyển dụng VIP
+                                </li>
+                                <li>Chạy quảng cáo và gửi email trực tiếp tới ứng viên phù hợp
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section-product-description section-white-gradient section-scaled" data-no-turbolink="">
+        <div class="container product" style="max-width: 100%">
+
+            <div class="summary">
+                <div class="section-heading text-center">
+                    <h2>Bảng giá</h2>
+
+                </div>
+                <div class="list-profile">
+                    <div class="row row-s">
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                            <!-- Normal Demo-->
+                            <!-- Post-->
+                            <div class="post-module" style="margin-bottom: 24px;height: 300px">
+                                <!-- Post Content-->
+                                <div class="content text-center">
+                                    <h3 class="title">Basic</h3>
+                                    <div class="section-heading" style="margin: 15px">
+                                        <h4>100.000đ</h4>
+                                        <h4>/tháng</h4>
+
+                                    </div>
+
+                                    <div class="post-meta">
+                                        <span class="comments">Tuyển tối đa 5 ứng viên</span>
+
+                                    </div>
+                                    <div style="padding: 10px">
+                                        <button ng-click="buy(1)" type="button" class="btn button-vip " style="color: white;" href="#!/pricing">
+                                            <i class="fa fa-diamond"></i> Đăng ký
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                            <!-- Normal Demo-->
+                            <!-- Post-->
+                            <div class="post-module" style="margin-bottom: 24px;height: 300px">
+                                <!-- Post Content-->
+                                <div class="content text-center">
+                                    <h3 class="title">Premium</h3>
+                                    <div class="section-heading" style="margin: 15px">
+                                        <h4>300.000đ</h4>
+                                        <h4>/tháng</h4>
+
+                                    </div>
+
+                                    <div class="post-meta">
+                                        <span class="comments">Tuyển tối đa 20 ứng viên</span>
+
+                                    </div>
+                                    <div style="padding: 10px">
+                                        <button ng-click="buy(2)" type="button" class="btn button-vip " style="color: white;" href="#!/pricing">
+                                            <i class="fa fa-diamond"></i> Đăng ký
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                            <!-- Normal Demo-->
+                            <!-- Post-->
+                            <div class="post-module" style="margin-bottom: 24px;height: 300px">
+                                <!-- Post Content-->
+                                <div class="content text-center">
+                                    <h3 class="title">Power</h3>
+                                    <div class="section-heading" style="margin: 15px">
+                                        <h4>1.000.000đ</h4>
+                                        <h4>/tháng</h4>
+
+                                    </div>
+
+                                    <div class="post-meta">
+                                        <span class="comments">Không giới hạn ứng viên</span><br>
+                                        <span class="comments">Chủ động liên hệ ứng viên</span>
+
+
+                                    </div>
+                                    <div style="padding: 10px">
+                                        <button ng-click="buy(3)" type="button" class="btn button-vip " style="color: white;" href="#!/pricing">
+                                            <i class="fa fa-diamond"></i> Đăng ký
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--<div class="main main-dark section-creators">-->
+    <!--<div class="container" style="max-width: 100%">-->
+        <!--<div class="testimonials testimonials-raised">-->
+            <!--<div class="row" ng-show="!reviewData[userId] && type == 1">-->
+                <!--<div class="col-md-8 col-md-offset-2 text-center" style="margin-bottom: 80px; margin-top: 40px">-->
+                    <!--<h1 itemprop="name" class="product-name">Đánh giá của bạn về </h1>-->
+                    <!--<h5 class="tagline">{{profileData.name}}</h5>-->
+
+                    <!--<div class="rating-just-view">-->
+                        <!--<div class="rating-stars">-->
+                            <!--<div star-rating ng-model="rating" max="5" on-rating-select="rateFunction(rating)"></div>-->
+
+                            <!--<div><strong>{{rating.rating1}}</strong></div>-->
+                            <!--&lt;!&ndash;<star-rating ng-model="rating.rating1" readonly="rating.isReadonly"></star-rating>&ndash;&gt;-->
+
+
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                        <!--<button ng-disabled="!reviews" ng-click="review(reviews,profileId)" class="btn button-gradient"-->
+                                <!--style="margin-left: 10px">Đánh giá-->
+                        <!--</button>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-6 col-md-offset-3" ng-repeat="card in reviewData" style="margin-top: -40px">-->
+                    <!--<div class="carde" itemprop="review" itemscope="" itemtype="http://schema.org/Review">-->
+                        <!--<div class="content">-->
+                            <!--<star-rating ng-model="card.rate" readonly="true"></star-rating>-->
+
+                            <!--<h3 class="small-title" itemprop="name">-->
+                                <!--{{CONFIG.review[card.rate]}}-->
+                            <!--</h3>-->
+
+                            <!--<div class="footer" style="color: #888888">-->
+                                <!--<div class="author">-->
+                                    <!--<a class="card-link">-->
+                                        <!--<img class="avatar"-->
+                                             <!--src="{{card.avatar || '/img/store.png'}}"-->
+                                             <!--alt="Anonymous thumb">-->
+                                        <!--<span itemprop="author">{{card.name}}</span>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<div class="stats pull-right">-->
+                                    <!--{{service.timeAgo(card.createdAt)}}-->
+                                <!--</div>-->
+                                <!--<div class="clearfix"></div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-8 col-md-offset-2 text-center">-->
+                <!--<div class="sharing-area">-->
+                    <!--<div class="big-icon">-->
+                        <!--<i class="icon-comments"></i>-->
+                    <!--</div>-->
+                    <!--<h2 class="legend text-center">Chia sẻ cho bạn bè!</h2>-->
+
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="facebook"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-facebookshare">-->
+                        <!--<i class="fa fa-facebook-square"></i> Facebook-->
+                    <!--</a>-->
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="skype"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Caption}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-skype"></i> Skype-->
+                    <!--</a>-->
+
+
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="sms"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-commenting-o"></i> SMS-->
+                    <!--</a>-->
+                    <!--<a href="{{share.Url}}"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="email"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-subject="{{share.Title}}"-->
+                       <!--socialshare-body="{{share.Description +'. Xem tại đây '+ share.Url}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-envelope-o"></i> Email-->
+                    <!--</a>-->
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="facebook-messenger"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-commenting-o"></i> Facebook messenger-->
+                    <!--</a>-->
+                <!--</div>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->

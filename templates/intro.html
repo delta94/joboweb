@@ -1,0 +1,70 @@
+<div class="app flex-row align-items-center animated fadeIn">
+    <div style="width: 1100px; margin: auto" ng-style="backgroundLoading">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-group mb-0">
+                    <div class="card p-2">
+                        <div class="card-block">
+                            <h1>Đăng nhập</h1>
+                            <p class="text-muted">Đăng nhập vào tài khoản của bạn</p>
+                            <form name="loginForm" ng-submit="doLogin(userLogin)">
+                                <div class="input-group mb-1" style="margin-bottom: 5px !important;">
+                                    <span class="input-group-addon">
+                                        <i class="icon-user"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Email"
+                                           ng-model="userLogin.username">
+                                </div>
+                                <label style="color:red">{{accout}}</label>
+
+                                <div class="input-group mb-2" style="margin-bottom: 5px !important;">
+                                    <span class="input-group-addon">
+                                        <i class="icon-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" placeholder="Mật khẩu"
+                                           ng-model="userLogin.password">
+                                </div>
+                                <label style="color:red">{{password}}</label>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button ng-click="doLogin(userLogin)" type="submit"
+                                                class="btn btn-primary px-2 main-backgroud"
+                                                ng-disabled="!userLogin.username || !userLogin.password || userLogin.username === '' ||userLogin.password === ''">
+                                            {{button}}
+                                        </button>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button ui-sref="reset" type="button" class="btn btn-link px-0">Quên mật khẩu?</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <button style="margin-top:20px" class="button btn btn-facebook btn-block" ng-click="facebookLogin()">
+                                Đăng nhập bằng Facebook
+                            </button>
+                        </div>
+
+
+                    </div>
+                    <div class="card p-2 card-inverse card-primary py-3">
+                        <div class="card-block text-center">
+                            <div>
+                                <h2>Đăng ký</h2>
+                                <p>Đăng ký tài khoản, tìm việc và đăng tin hoàn toàn miễn phí.</p>
+                                <button ui-sref="signup({id:1})" type="button"
+                                        class="btn btn-primary btn-block active mt-1">Tôi muốn tuyển dụng
+                                </button>
+                                <button ui-sref="signup({id:2})" type="button"
+                                        class="btn btn-primary btn-block active mt-1">Tôi muốn tìm việc
+                                </button>
+
+                                <!--<button type="button" class="btn btn-primary active mt-1">Register Now!</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

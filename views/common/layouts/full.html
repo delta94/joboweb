@@ -1,0 +1,65 @@
+<!-- Navbar -->
+<div>
+
+
+    <header class="app-header navbar">
+        <button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>
+        <a class="navbar-brand" ui-sref="app.dash"></a>
+
+        <ul class="nav navbar-nav ml-auto hidden-md-down">
+            <button ui-sref="signup ({id: 1})" type="button" class="btn btn-primary">Tôi muốn tuyển dụng</button>
+            <button ui-sref="signup ({id: 2})" class="btn btn-secondary">Tôi muốn tìm việc</button>
+            <button ui-sref="intro" class="btn btn-success" style="margin-left: 10px">Đăng nhập</button>
+
+        </ul>
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#!/jobfast" title="" onclick="closeNav()">Job list</a>
+            <a href="#!/seekerdash" title="" onclick="closeNav()">Khám phá</a>
+            <a href="#!/login" title="" onclick="closeNav()">Đăng nhập</a>
+        </div>
+    </header>
+
+
+
+
+</div>
+
+<div class="app-body">
+    <!-- Navigation -->
+
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb" breadcrumb>
+            <ncy-breadcrumb></ncy-breadcrumb>
+        </ol>
+
+        <div class="container-fluid">
+            <ui-view></ui-view>
+        </div>
+        <!-- /.conainer-fluid -->
+
+    </main>
+    <div ng-include="'views/common/aside.html'"></div>
+
+</div>
+
+<!--<div ng-include="'views/common/footer.html'"></div>-->
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+</script>

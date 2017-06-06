@@ -1,0 +1,44 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="card col-md-6" ng-show="userData.type == 1">
+
+            <div class="card-block text-center">
+                <h1>Chúc mừng!</h1>
+                <p class="font-default">Bạn và {{user.name}} đã "match" nhau! </p>
+                <div class="text-center" style="margin-top:45px;">
+                    <img ng-src="{{store.avatar || 'store.png'}}" style="margin-right:10px;" height="130" width="130"
+                         class="img-matched animated bounceInLeft" alt="">
+                    <img ng-src="{{user.avatar || 'macdinh.jpg'}}" height="130" width="130"
+                         class="img-matched animated bounceInRight"
+                         alt="">
+                </div>
+                <div style="margin: 50px">
+                    <button ui-sref="employer.chats {{id: user.userId}}" type="button"
+                            class="btn btn-primary btn-lg btn-block">Liên hệ với ứng viên
+                    </button>
+                    <button ng-click="close()" type="button" class="btn btn-secondary btn-lg btn-block">Bỏ quả</button>
+                </div>
+            </div>
+        </div>
+        <div class="card col-md-6" ng-show="userData.type == 2">
+
+            <div class="card-block text-center">
+                <h1>Chúc mừng!</h1>
+                <p class="font-default">Bạn và {{store.name}} đã "match" nhau! </p>
+                <div class="text-center" style="margin-top:45px;">
+                    <img ng-src="{{user.avatar || 'macdinh.jpg'}}" style="margin-right:10px;" height="130" width="130"
+                         class="img-matched animated bounceInLeft" alt="">
+                    <img ng-src="{{store.avatar || 'store.png'}}" height="130" width="130"
+                         class="img-matched animated bounceInRight"
+                         alt="">
+                </div>
+                <div style="margin: 50px">
+                    <button ui-sref="employer.chats {{id: store.storeId}}" type="button"
+                            class="btn btn-primary btn-lg btn-block">Liên hệ với ứng viên
+                    </button>
+                    <button ng-click="close()" type="button" class="btn btn-secondary btn-lg btn-block">Bỏ quả</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

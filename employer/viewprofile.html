@@ -1,0 +1,478 @@
+<div class="spinner" ng-hide="profileData" style="min-height: 800px">
+    <div class="cube1"></div>
+    <div class="cube2"></div>
+</div>
+
+<div class="animated fadeIn" ng-init="init()" ng-show="profileData">
+    <div class="container">
+        <div class="card" style="margin-top: 20px" ng-show="profileData.act">
+            <hr class="transparent mx-1 my-0">
+            <div class="callout callout-primary m-0 py-1">
+                <div class="noti" ng-show="profileData.act.status == 0 && profileData.act.type == 1">
+                    <h4> Bạn đã offer {{profileData.act.userName}} vị trí
+                        {{service.getStringJob(profileData.act.jobStore)}}, vui lòng chờ ứng viên phản hồi.</h4>
+                </div>
+                <div class="noti" ng-show="profileData.act.status == 0 && profileData.act.type == 2">
+                    <h4> {{profileData.act.userName}} muốn ứng tuyển vào vị trí
+                        {{service.getStringJob(profileData.act.jobUser)}}</h4>
+                </div>
+                <div class="noti" ng-show="profileData.act.status == 1">
+                    <h4> {{profileData.act.userName}} và bạn đã tương hợp
+                        {{service.timeAgo(profileData.act.matchedAt)}}</h4>
+                </div>
+
+            </div>
+            <hr class="mx-1 my-0">
+        </div>
+
+        <div class="row row-eq-height collaborators-card" style="margin-top: 15px">
+            <div class="card col-md-8 col-quel" style="padding: 0;margin: 0;
+">
+                <div class="card-block">
+                    <div class="big-img">
+                        <img src="{{profileData.avatar|| 'img/macdinh.jpg'}}" ng-hide="showVid == true"/>
+                        <div class="videogular-container-profile" ng-show="showVid == true">
+                            <videogular>
+                                <vg-media vg-auto-play="true"
+                                          vg-complete="hideVideo()"
+                                          vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                                          vg-src="videoTrusted"
+                                          vg-native-controls="true">
+                                </vg-media>
+                            </videogular>
+                        </div>
+                        <i class="fa fa-play-circle play-button" ng-if="profileData.videourl" ng-hide="showVid == true"
+                           ng-click="showVideo(profileData)"></i>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+
+            <div class="card col-md-4 col-quel" style="
+    padding: 0px;
+">
+                <div class="card-block" style="padding: 0px">
+
+                    <div class="em-info">
+                        <h4>{{profileData.name}}</h4>
+                        <div class="rating-stars" ng-show="reviewData">
+                            <div class="rating-input">
+                                <span class="fa fa-star fa-full" data-value="1"
+                                      ng-repeat="card in ratingModel.obj"></span>
+                            </div>
+                            <div class="aggregate-rating">
+                                <span>{{ratingModel.average}}</span>/5
+                                (<span>{{ratingModel.total}}</span> Reviews)
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        {{adminData.phone + ' '+ adminData.email}}
+                        <ul style="list-style-type: none;padding-left: 0px;">
+                            <li>
+                                <i class="fa fa-home"></i> {{service.shortAddress(profileData.address)}}
+                            </li>
+                            <li ng-show="profileData.birth">
+                                <i class="fa fa-calendar"></i> {{profileData.birth | date: 'y'}}
+                            </li>
+                            <li ng-show="profileData.sex">
+                                <i class="fa fa-user"></i> {{profileData.sex}}
+                            </li>
+                            <li ng-show="profileData.figure || profileData.height || profileData.weight ">
+                                <i class="fa fa-star"></i> <span ng-show="profileData.figure"> Ngoại hình khá -</span>
+                                {{profileData.height ? profileData.height + ' cm - ':''}} {{profileData.weight ?
+                                profileData.weight + ' kg':''}}
+                            </li>
+
+                        </ul>
+                        <div style="padding: 20px 0">
+                            <small>
+                                                        {{profileData.description}}
+                            </small>
+                        </div>
+
+                    </div>
+                    <div class="hobby" ng-show="profileData.school || profileData.languages">
+                        <h5><i class="fa fa-graduation-cap"></i> Học vấn</h5>
+
+                        <ul style="list-style-type: none;padding-left: 0px;">
+
+                            <li ng-show="profileData.school"><strong>Trường:</strong> {{profileData.school}}
+
+                            </li>
+                            <li ng-show="profileData.languages"><strong>Ngoại ngữ:</strong>
+                                <span ng-repeat="(key,value) in profileData.languages">{{dataLanguages[key]}}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="ex-em" ng-show="profileData.experience">
+                        <h5><i class="fa fa-briefcase"></i>Kinh nghiệm</h5>
+
+                        <ul>
+                            <li ng-repeat="card in profileData.experience">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p>{{card.start | date : "MM/y"}}
+                                            <i class="fa fa-level-down"></i><br>
+                                            {{card.end == true ? 'Đến nay': card.end | date : "MM/y"}}
+                                        </p>
+                                    </div>
+                                    <div class="col-9">
+                                        <h4 style="margin-top: 0px">{{card.company}}</h4>
+                                        <p>{{Lang[card.job]}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="hobby" style=" border-bottom: 0;">
+                        <h5><i class="fa fa-heart"></i> Mong muốn</h5>
+                        <div ng-if="profileData.job" style="margin: 5px 0"><strong>Vị trí:</strong>
+                            <span ng-repeat="(key,value) in profileData.job">{{Lang[key]}}, </span></div>
+                        <div ng-if="profileData.industry" style="margin: 5px 0"><strong>Lĩnh vực:</strong>
+                            <span ng-repeat="(key,value) in profileData.industry">{{Lang[key]}}, </span></div>
+                        <div ng-if="profileData.working_type" style="margin: 5px 0"><strong>Hình thức:</strong>
+                            {{Lang[profileData.working_type]}}
+                        </div>
+                        <div ng-if="profileData.time" style="margin: 5px 0"><strong>Thời gian sẵn sàng:</strong>
+                            <span ng-repeat="(key,value) in profileData.time">{{Lang[key]}}, </span></div>
+                        <div ng-if="profileData.expect_salary" style="margin: 5px 0"><strong>Mức lương mong
+                            muốn:</strong>
+                            {{profileData.expect_salary + ' triệu đồng/tháng'}}
+                        </div>
+
+                        <div ng-if="profileData.expect_distance" style="margin: 5px 0">Đi lại trong bán kính
+                            <strong> {{profileData.expect_distance}} km</strong>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="post-meta" ng-show="jobOffer[profileData.userId]">
+                            <span class="sub_title">Bạn muốn offer ứng viên cho vị trí?</span><br>
+                            <button ng-click="like(profileData,0,key)"
+                                    type="button"
+                                    class="btn btn-sm btn-outline-primary"
+                                    ng-repeat="(key,value) in storeData.job">{{Lang[key]}}
+                            </button>
+                        </div>
+                        <div style="padding: 10px">
+
+                            <button ng-click="service.chatToUser(profileData.userId)"
+                                    ng-if="profileData.act.status == 1"
+                                    type="button"
+                                    class="btn button-vip btn-block">Liên hệ
+                            </button>
+
+                            <button ng-click="jobOffer[profileData.userId] = true"
+                                    ng-if="profileData.act.status == 0 && profileData.act.type == 2"
+                                ng-hide="jobOffer[profileData.userId]"
+                                type="button"
+                                class="btn btn-primary btn-block">Chọn ứng viên này
+                            </button>
+
+
+                            <button ng-disabled="profileData.act.status == 0 && profileData.act.type == 1"
+                                    type="button" ng-if="profileData.act.status == 0 && profileData.act.type == 1"
+                                    class="btn btn-warning btn-block">Đang chờ phản hồi...
+                            </button>
+                            <button ng-click="jobOffer[profileData.userId] = true"
+                                    ng-hide="myself || profileData.act || type == 0 || jobOffer[profileData.userId]"
+                                    type="button"
+                                    class="btn button-gradient btn-block " style="color: white;">
+                                <i class="fa fa-thumbs-up"></i>Tuyển ứng viên
+                            </button>
+                            <button ui-sref="profile ({id:'update'})"
+                                    ng-if="myself" type="button"
+                                    class="btn btn-primary btn-block " style="color: white;">
+                                Sửa hồ sơ
+                            </button>
+                            <button ui-sref="intro"
+                                    ng-if="type == 0" type="button"
+                                    class="btn button-gradient btn-block " style="color: white;">
+                                Tuyển và liên hệ
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+
+        <div class="row" style="margin-top: 40px" ng-if="profileData.photo || myself">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3 class="card-title clearfix mb-0">Hình ảnh</h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <button ng-if="myself" type="button" class="btn btn-outline-primary float-right ml-1"><i
+                                        class="icon-add" ui-sref="profile"
+                                        type="button"></i> &nbsp;Thêm
+                                </button>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        {{!profileData.photo && myself ? 'Hãy tải thêm hình ảnh của bạn':''}}
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-4" style="padding: 5px"
+                                 ng-repeat="card in profileData.photo">
+                                <img src="{{card}}" style="width:100%;"/>
+                            </div>
+                        </div>
+                        <!--/.row-->
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+
+
+        <div class="row" ng-if="staticData">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3 class="card-title clearfix mb-0">Thống kê</h3>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-info">
+                                            <small class="text-muted">Tương hợp</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.matched +
+                                                staticData.match}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-danger">
+                                            <small class="text-muted">Đánh giá</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.rated*staticData.rateAverage ||
+                                                0}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-warning">
+                                            <small class="text-muted">Lời mời phỏng vấn</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.liked}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-success">
+                                            <small class="text-muted">Ứng tuyển</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.like}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout">
+                                            <small class="text-muted">Lượt xem</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.viewed}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-primary">
+                                            <small class="text-muted">Lượt chia sẻ</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.shared}}</strong>
+
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.row-->
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+    </div>
+</div>
+
+
+<div class="main main-dark section-creators" style="margin-top: 80px" ng-show="profileData">
+    <div class="container" style="max-width: 100%">
+        <div class="testimonials testimonials-raised">
+            <div class="row" ng-show="!reviewData[storeId] && type == 1">
+                <div class="col-md-8 col-md-offset-2 text-center" style="margin-bottom: 80px; margin-top: 40px">
+                    <h1 itemprop="name" class="product-name">Đánh giá của bạn về </h1>
+                    <h5 class="tagline">{{profileData.name}}</h5>
+
+                    <div class="rating-just-view">
+                        <div class="rating-stars">
+                            <div star-rating ng-model="rating" max="5" on-rating-select="rateFunction(rating)"></div>
+
+                            <div><strong>{{rating.rating1}}</strong></div>
+                            <!--<star-rating ng-model="rating.rating1" readonly="rating.isReadonly"></star-rating>-->
+
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <button ng-disabled="!reviews" ng-click="review(reviews,profileId)" class="btn button-gradient"
+                                style="margin-left: 10px">Đánh giá
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3" style="margin-top: -40px">
+                    <div class="carde" ng-repeat="card in reviewData">
+                        <div class="content">
+                            <star-rating ng-model="card.rate" readonly="true"></star-rating>
+                            <h3 class="small-title" itemprop="name">
+                                {{CONFIG.review[card.rate]}}
+                            </h3>
+
+                            <div class="footer" style="color: #888888">
+                                <div class="author">
+                                    <a class="card-link">
+                                        <img class="avatar"
+                                             src="{{card.avatar || '/img/store.png'}}"
+                                             alt="Anonymous thumb">
+                                        <span itemprop="author">{{card.name}}</span>
+                                    </a>
+                                </div>
+                                <div class="stats pull-right">
+                                    {{service.timeAgo(card.createdAt)}}
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <div class="sharing-area">
+                    <h2 class="legend text-center">Chia sẻ cho bạn bè!</h2>
+                    <!--socialshare-->
+                    <!--socialshare-provider="facebook"-->
+                    <!--socialshare-url="{{share.Url}}"-->
+                    <!--socialshare-text="{{share.Text}}"-->
+                    <!--socialshare-title="{{share.Title}}"-->
+                    <!--socialshare-description="{{share.Description}}"-->
+                    <!--socialshare-type="{{share.Type}}"-->
+                    <!--socialshare-via="{{share.Via}}"-->
+                    <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                    <!--socialshare-quote="{{share.Caption}}"-->
+                    <!--socialshare-media="{{share.Media}}"-->
+                    <a href="#"
+
+                       class="btn btn-facebookshare">
+                        <i class="fa fa-facebook-square"></i> Facebook
+                    </a>
+                    <a href="#"
+                       socialshare
+                       socialshare-provider="skype"
+                       socialshare-url="{{share.Url}}"
+                       socialshare-text="{{share.Caption}}"
+                       socialshare-title="{{share.Title}}"
+                       socialshare-description="{{share.Description}}"
+                       socialshare-type="{{share.Type}}"
+                       socialshare-via="{{share.Via}}"
+                       socialshare-hashtags="{{share.Hashtags}}"
+                       socialshare-quote="{{share.Caption}}"
+                       socialshare-media="{{share.Media}}"
+                       class="btn btn-skypeshare">
+                        <i class="fa fa-skype"></i> Skype
+                    </a>
+
+
+                    <a href="#"
+                       socialshare
+                       socialshare-provider="sms"
+                       socialshare-url="{{share.Url}}"
+                       socialshare-text="{{share.Text}}"
+                       socialshare-title="{{share.Title}}"
+                       socialshare-description="{{share.Description}}"
+                       socialshare-type="{{share.Type}}"
+                       socialshare-via="{{share.Via}}"
+                       socialshare-hashtags="{{share.Hashtags}}"
+                       socialshare-quote="{{share.Caption}}"
+                       socialshare-media="{{share.Media}}"
+                       class="btn btn-skypeshare">
+                        <i class="fa fa-commenting-o"></i> SMS
+                    </a>
+                    <a href="{{share.Url}}"
+                       socialshare
+                       socialshare-provider="email"
+                       socialshare-url="{{share.Url}}"
+                       socialshare-text="{{share.Text}}"
+                       socialshare-subject="{{share.Title}}"
+                       socialshare-body="{{share.Description +'. Xem tại đây '+ share.Url}}"
+                       socialshare-type="{{share.Type}}"
+                       socialshare-via="{{share.Via}}"
+                       socialshare-hashtags="{{share.Hashtags}}"
+                       socialshare-quote="{{share.Caption}}"
+                       socialshare-media="{{share.Media}}"
+                       class="btn btn-skypeshare">
+                        <i class="fa fa-envelope-o"></i> Email
+                    </a>
+                    <a href="#"
+                       socialshare
+                       socialshare-provider="facebook-messenger"
+                       socialshare-url="{{share.Url}}"
+                       socialshare-text="{{share.Text}}"
+                       socialshare-title="{{share.Title}}"
+                       socialshare-description="{{share.Description}}"
+                       socialshare-type="{{share.Type}}"
+                       socialshare-via="{{share.Via}}"
+                       socialshare-hashtags="{{share.Hashtags}}"
+                       socialshare-quote="{{share.Caption}}"
+                       socialshare-media="{{share.Media}}"
+                       class="btn btn-skypeshare">
+                        <i class="fa fa-commenting-o"></i> Facebook messenger
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<button class="job-ordinal job-prev js-job-prev btn btn-secondary" type="button" ng-click="backProfile()"
+        ng-show="usercard">
+    <span class="fa fa-chevron-left"></span>
+</button>
+<button class="job-ordinal job-next js-job-next btn btn-secondary" type="button" ng-click="nextProfile()"
+        ng-show="usercard">
+    <span class="fa fa-chevron-right"></span>
+</button>

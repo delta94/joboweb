@@ -1,0 +1,242 @@
+<div class="padding">
+    <div class="animated slideOutDown">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Lọc
+                    </div>
+                    <div class="card-block">
+                        <fieldset class="form-group {{error.address ? 'has-danger':''}}">
+                            <label>Địa chỉ</label>
+                            <div class="pop-add">
+                                <input ng-keydown="searchAddress()" id="address" ui-items="names"
+                                       ng-model="autocompleteAddress.text" class="form-control">
+                                <i class="icon-close" id="delete-address"
+                                   ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
+                                <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                                    <li ng-repeat="ketqua in ketquasAddress"
+                                        ng-click="setSelectedAddress(ketqua)">
+                                        {{ketqua.formatted_address}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </fieldset>
+                        <fieldset class="form-group {{error.birth ? 'has-danger':''}}">
+                            <label>Khoảng cách</label>
+                            <div class="input-group">
+
+                                <input type="number" class="form-control" ng-model="newfilter.distance">
+                            </div>
+                            <small class="text-muted">(km)</small>
+                        </fieldset>
+                        <div class="form-group row">
+                            <label class="col-md-5 form-control-label" for="select">Lĩnh vực</label>
+                            <div class="col-md-7">
+                                <select id="select" name="select" class="form-control" size="1"
+                                        ng-model="newfilter.industry">
+                                    <option ng-repeat="(key,value) in dataIndustry" value="{{key}}">
+                                        {{dataIndustry[key]}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-5 form-control-label" for="select">Vị trí</label>
+                            <div class="col-md-7">
+                                <select id="select" name="select" class="form-control" size="1"
+                                        ng-model="newfilter.job">
+                                    <option ng-repeat="(key,value) in dataJob" value="{{key}}">
+                                        {{dataJob[key]}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg" ng-click="createHospital(newfilter)">Tiến hành
+                    lọc
+                </button>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Employer
+                    </div>
+
+                    <div class="card-block">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>avatar</th>
+                                <th>Fullname</th>
+                                <th>Date registered</th>
+                                <th>Job</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="card in employer track by $index">
+                                <td><a href="/view/store/{{card.storeId}}"><img src="{{card.avatar}}" width="100px"></a> </td>
+
+                                <td ng-click="viewfull(card.storeId)">{{card.storeName}}- {{profileData[card.storeId].phone}} - {{profileData[card.storeId].email}}</td>
+                                <td>{{card.createdAt | date}}</td>
+                                <td>
+                                    <div ng-repeat="(key,value) in card.job">{{key}}</div>
+                                </td>
+                                <td>
+                                    <div class="card-block">
+                                        <label class="switch switch-3d switch-primary">
+                                            <input ng-model="card.feature" type="checkbox" class="switch-input"
+                                                   ng-change="updateProfile($index)"
+                                            >
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <label class="switch switch-3d switch-warning">
+                                            <input ng-model="card.hide" type="checkbox" class="switch-input" ng-change="updateProfile($index)">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+
+
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <paging
+                                page="page"
+                                ng-click="pagin(page)"
+                                page-size="response.per_page"
+                                total="response.total"
+                                show-prev-next="true"
+                                show-first-last="true">
+                        </paging>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="container animated fadeIn" ng-show="profileData">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="product-image">
+                        <img src="{{profileData.avatar || '/img/avares.jpg'}}"
+                             alt="Hinh anh cua hang" style="width: 100%">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-md-offset-1">
+                    <div style="color: black">
+
+                        <div>
+                            <h1 itemprop="name" class="product-name">{{profileData.storeName}}</h1>
+                            <h6 class="tagline">{{service.shortAddress(profileData.address)}}</h6>
+
+
+                            <div class="rating-stars" ng-show="reviewData">
+                                <div class="rating-input">
+                                <span class="fa fa-star fa-full" data-value="1"
+                                      ng-repeat="card in ratingModel.obj"></span>
+                                </div>
+                                <div class="aggregate-rating">
+                                    <span>{{ratingModel.average}}</span>/5
+                                    (<span>{{ratingModel.total}}</span> Reviews)
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="choose-license">
+                                <p><i class="fa fa-balance-scale"></i>
+                                    {{dataIndustry[profileData.industry]}}
+
+                                </p>
+                                <p><i class="fa fa-balance-scale"></i>
+                                    {{profileData.name}}
+                                </p>
+
+                                <p><i class="fa fa-balance-scale"></i>
+                                    {{profileData.phone}}
+                                </p>
+                                <p><i class="fa fa-balance-scale"></i>
+                                    {{profileData.email}}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <div class="container product" style="max-width: 100%">
+
+                    <div class="row">
+
+
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="description collapse" id="productDescription" aria-expanded="true">
+                                <h4 class="legend text-center">Mô tả</h4>
+
+                                <span itemprop="description">
+                            Chào đón những chiến binh trẻ năng động, chưa cần kinh nghiệm trận mạc đến với {{profileData.storeName}}. Hãy ứng tuyển để có mặt trong đội ngũ chiến binh vô cùng nhiệt huyết của chúng tôi!
+                        <br>
+                    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary">
+                        <h4 class="legend text-center">Vị trí đang tuyển</h4>
+
+                        <div class="row row-s">
+
+                            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in profileData.job">
+
+                                <div class="card card-accent-info job-card">
+                                    <div class="card-header card-header-text">
+                                        {{dataJob[card.job] || 'Your Job Here'}}
+                                    </div>
+                                    <div class="card-block">
+                                        <p ng-show="card.salary ">Mức lương: {{card.salary + ' triệu đồng'}}</p>
+                                        <p ng-show="card.time ">Thời gian: {{dataTime[card.time]}}</p>
+                                        <p ng-show="card.unit ">Số lượng: {{card.unit}}</p>
+                                        <p ng-show="card.deadline ">Hạn chót ứng tuyển: {{card.deadline | date}}</p>
+
+                                        <strong>Yêu cầu:</strong>
+                                        <p ng-show="card.experience ">Đã có kinh nghiệm</p>
+                                        <p ng-show="card.figure ">Có ngoại hình</p>
+
+
+                                        <p ng-show="card.sex ">{{'Giới tính ' + CONFIG.sex[card.sex]}}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+

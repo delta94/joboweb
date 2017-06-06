@@ -1,0 +1,526 @@
+<div class="spinner" ng-hide="userData">
+    <div class="cube1"></div>
+    <div class="cube2"></div>
+</div>
+
+<div class="app flex-row align-items-center animated fadeIn" ng-show="userData">
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 100px;">
+
+            <div class="col-md-6">
+                <div class="card" ng-show="preApply">
+                    <hr class="transparent mx-1 my-0">
+                    <div class="callout callout-primary m-0 py-1">
+                        <div class="callout_preApply" >
+                            <p>Hãy cập nhật thông tin cá nhân để hồ sơ của bạn nổi bật và {{preApply.card.storeName}} lựa chọn bạn</p>
+                        </div>
+                    </div>
+                    <hr class="mx-1 my-0">
+                </div>
+
+                <div class="card card-border">
+                    <div class="card-block p-2" style="text-align: left">
+                        <h1>Cập nhật thông tin</h1>
+                        <p class="text-muted">Cập nhật thêm đầy đủ thông tin của bạn</p>
+                    </div>
+                    <form name="signupForm" class="form-update" autocomplete="off">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Thông tin liên hệ</strong>
+                            </div>
+                            <div class="card-block">
+                                <fieldset class="form-group {{error.name ? 'has-danger':''}}" id="anchorname">
+                                    <label>Họ tên</label>
+                                    <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Họ tên"
+                                               ng-model="userData.name" id="name">
+                                    </div>
+                                </fieldset>
+                                <fieldset class="form-group {{error.birth ? 'has-danger':''}}">
+                                    <label>Ngày sinh</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" class="form-control" ng-model="userData.birth"
+                                               ui-mask="99/99/9999">
+                                    </div>
+                                    <small class="text-muted">ex. 99/99/9999</small>
+                                </fieldset>
+
+                                <fieldset class="form-group {{error.address ? 'has-danger':''}}">
+                                    <label>Địa chỉ</label>
+                                    <div class="pop-add">
+                                        <input ng-keydown="searchAddress()" id="address" ui-items="names"
+                                               ng-model="autocompleteAddress.text" class="form-control">
+                                        <i class="icon-close" id="delete-address"
+                                           ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
+                                        <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                                            <li ng-repeat="ketqua in ketquasAddress"
+                                                ng-click="setSelectedAddress(ketqua)">
+                                                {{ketqua.formatted_address}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <small class="text-muted">- Các công việc sẽ hiển thị xung quanh địa chỉ của bạn</small><br>
+                                    <small class="text-muted">- Hãy nhập từ khóa để tìm kiếm địa chỉ</small>
+
+                                </fieldset>
+
+                                <fieldset class="form-group {{error.email ? 'has-danger':''}}">
+                                    <label>Email</label>
+                                    <div class="input-group mb-1">
+                                        <span class="input-group-addon">@</span>
+                                        <input type="text" class="form-control" placeholder="Email" id="email"
+                                               ng-model="userData.email" ng-disabled="userInfo.email">
+                                    </div>
+                                </fieldset>
+
+                                <fieldset class="form-group {{error.phone ? 'has-danger':''}}">
+                                    <label>Số điện thoại</label>
+                                    <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-phone"></i>
+                                        </span>
+                                        <input type="number" class="form-control" placeholder=""
+                                               ng-model="userData.phone" ng-disabled="userInfo.phone">
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Thông tin cá nhân</strong>
+                            </div>
+                            <div class="card-block">
+
+                                <fieldset class="form-group">
+                                    <label>Avatar</label>
+
+                                    <div class="avatar-img">
+                                        <div class="card" ng-="picFile">
+                                            <div class="card-block" style="padding: 0px">
+                                                <img ng-src="{{userData.avatar || 'img/macdinh.jpg'}}"
+                                                     style="width: 100%"/>
+
+                                            </div>
+                                            <div class="card-footer" style="padding: 0px">
+                                                <button class="btn btn-outline-success btn-block" ngf-select
+                                                        ng-model="picFile"
+                                                        accept="image/*">
+                                                    <i class="fa fa-magic"></i> Chọn ảnh
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <span us-spinner spinner-key="avatar"></span>
+                                        <form name="myForm">
+                                            <div ng-show="picFile">
+                                                <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+                                                     class="cropArea">
+                                                    <img-crop image="picFile  | ngfDataUrl" area-type="square"
+                                                              result-image-size="800" result-image-format="image/jpeg"
+                                                              result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
+                                                    </img-crop>
+                                                </div>
+
+                                                <button class="btn btn-success" ng-click="uploadAvatar(croppedDataUrl)">
+                                                    Tải lên
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                    <small class="text-muted" ng-hide="userData.avatar">
+                                        - Thay hình đại diện bằng ảnh của bạn để nhà tuyển dụng biết bạn là ai<br>
+                                        - Chọn ảnh bán thân rõ mặt, đủ ánh sáng và chuyên nghiệp<br>
+                                    </small>
+                                </fieldset>
+                                <div class="form-group">
+                                    <label class="form-control-label">Chiều cao</label>
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <input ng-model="userData.height" class="form-control" size="16"
+                                                   type="text">
+                                            <span class="input-group-addon">cm</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-control-label">Cân nặng</label>
+                                    <div class="controls">
+                                        <div class="input-group">
+                                            <input ng-model="userData.weight" class="form-control" size="16"
+                                                   type="text">
+                                            <span class="input-group-addon">kg</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <fieldset class="form-group">
+                                    <label>Ngoại hình ưa nhìn</label>
+                                    <label class="switch switch-default switch-pill switch-primary"
+                                           style="float: right">
+                                        <input type="checkbox" class="switch-input" checked="{{userData.figure}}"
+                                               ng-model="userData.figure">
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label><br>
+                                    <small class="text-muted">
+                                        - Một số công việc sẽ yêu cầu ngoại hình<br>
+                                        - Bạn có thể tự đưa ra đánh giá cho mình<br>
+                                    </small>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Trình độ học vấn</strong>
+                            </div>
+                            <div class="card-block">
+                                <fieldset class="form-group">
+                                    <label>Trường</label>
+                                    <div class="pop-add">
+                                        <input ng-keydown="searchSchool()" id="school" ui-items="names"
+                                               ng-model="autocompleteSchool.text" class="form-control">
+                                        <i class="icon-close" id="delete-school"
+                                           ng-show="autocompleteSchool.text.length" ng-click="eraseSchool()"></i>
+                                        <ul id="list-school" ng-show="autocompleteSchool.text.length">
+                                            <li ng-repeat="ketqua in ketquasSchool | limitTo: 5"
+                                                ng-click="setSelectedSchool(ketqua)">{{ketqua.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </fieldset>
+
+                                <fieldset class="form-group">
+                                    <label>Ngoại ngữ</label>
+                                    <ui-select class="form-control" multiple ng-model="multiple.languages"
+                                               theme="select2">
+                                        <ui-select-match placeholder="Chọn ngoại ngữ">{{dataLanguages[$item]}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="color in arrayLang | filter:$select.search">
+                                            {{dataLanguages[color]}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<small class="text-muted">Selected: {{multipleDemo.colors}}</small>-->
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Mong muốn tìm việc</strong>
+                            </div>
+                            <div class="card-block">
+
+                                <div class="form-group">
+                                    <label class="form-control-label">Nơi làm việc mong muốn</label>
+                                    <ui-select class="form-control" multiple ng-model="multiple.industry"
+                                               theme="select2"
+                                               limit="3">
+                                        <ui-select-match placeholder="Chọn nơi làm việc">{{dataIndustry[$item]}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="ins in arrayIndustry | filter:$select.search">
+                                            {{dataIndustry[ins]}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <small class="text-muted">Chỉ được chọn tối đa 3 địa điểm</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Công việc mong muốn</label>
+                                    <ui-select class="form-control" multiple ng-model="multiple.job" theme="select2"
+                                               limit="3">
+                                        <ui-select-match placeholder="Chọn công việc">{{dataJob[$item]}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="job in arrayJob | filter:$select.search">
+                                            {{dataJob[job]}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">Thu nhập mong muốn</label>
+                                    <div class=" col-md-9 controls">
+                                        <div class="input-group">
+                                            <input ng-model="userData.expect_salary" class="form-control" type="number" step="any">
+                                            <span class="input-group-addon">triệu đồng/tháng</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            Vd: 300.000 đồng = 0.3 triệu đồng
+                                        </small>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">Hình thức làm việc</label>
+                                    <div class="col-md-9">
+                                        <label class="radio-inline" ng-repeat="(key,value) in CONFIG.data.working_type" style="margin-right: 10px">
+                                            <input type="radio"  ng-model="userData.working_type" value="{{key}}">{{CONFIG.data.working_type[key]}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">Thời gian sẵn sàng làm việc</label>
+                                    <div class="col-md-9">
+                                        <label class="checkbox-inline" for="inline-checkbox1" ng-repeat="(key,value) in CONFIG.data.time" style="margin-right: 10px">
+                                            <input type="checkbox" id="inline-checkbox1" ng-model="userData.time[key]" value="true">{{value}}
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Khoảng cách di chuyển (km)
+                                    </label>
+                                    <div class="controls">
+                                        <ionslider
+                                                min="0"
+                                                max="50"
+                                                from="userData.expect_distance"
+                                                on-finish='rangeFinishCallback'>
+                                        </ionslider>
+                                    </div>
+                                    <small class="text-muted">
+                                        Chúng tôi sẽ ưu tiên giới thiệu bạn tới các công việc trong bán kính di chuyển
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Trạng thái tìm việc</label>
+                                    <div>
+                                        <label class="radio-inline" >
+                                            <input type="radio"   value="1" ng-model="userData.urgent"> Tìm gấp
+                                        </label>
+                                        <label class="radio-inline" >
+                                            <input type="radio"  value="0" ng-model="userData.urgent"> Bình thường
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="-1" ng-model="userData.urgent"> Chưa muốn đi làm ngay
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Kinh nghiệm làm việc</strong>
+                            </div>
+                            <div class="card-block ex-em">
+
+                                <ul>
+                                    <li ng-repeat="card in userData.experience">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-3">
+                                                <p>{{card.start | date : "MM/y"}}
+                                                    <i class="fa fa-level-down"></i>
+                                                    {{card.end == true ? 'Đến nay': card.end | date : "MM/y"}}</p>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+                                                <h4 style="margin-top: 0px">{{card.company}}</h4>
+                                                <p>{{dataJob[card.job]}}</p>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-3">
+                                                <button ng-click="deleteExp(card.id)" type="button"
+                                                        class="btn btn-outline-danger">
+                                                    <i class="fa fa-times"></i>&nbsp;Xóa
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="card-block" ng-if="tempoExperience">
+                                <div>
+                                    <fieldset class="form-group">
+                                        <label>Nơi làm việc</label>
+                                        <div class="input-group mb-1">
+                                            <input type="text" class="form-control" placeholder="Nơi làm việc"
+                                                   ng-model="tempoExperience.company" ng-disabled="">
+                                        </div>
+                                        <small class="text-muted">
+                                            Điền tên công ty(thương hiệu) bạn đã từng làm việc
+                                        </small>
+                                    </fieldset>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label">Công việc</label>
+                                        <ui-select class="form-control" ng-model="tempoExperience.job" theme="select2">
+                                            <ui-select-match placeholder="Chọn công việc">
+                                                {{dataJob[$select.selected]}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="job in arrayJob | filter:$select.search">
+                                                {{dataJob[job]}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                    <fieldset class="form-group">
+                                        <label>Bắt đầu</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                            <input type="month" class="date-control" ng-model="tempoExperience.start">
+                                        </div>
+                                        <small class="text-muted">vd.  01/2017</small>
+                                    </fieldset>
+                                    <fieldset ng-hide="tempoExperience.end == true" class="form-group">
+                                        <label>Kết thúc</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                            <input type="month" class="date-control" ng-model="tempoExperience.end">
+                                        </div>
+                                        <small class="text-muted">vd.  03/2017</small>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label>Đến nay</label>
+                                        <label class="switch switch-default switch-pill switch-primary"
+                                               style="float: right">
+                                            <input type="checkbox" class="switch-input" checked="{{tempoExperience.end}}"
+                                                   ng-model="tempoExperience.end">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="saveJob(tempoExperience)"><i
+                                                class="fa fa-plus"></i>&nbsp;
+                                            Lưu
+                                        </button>
+
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                            <div class="card-footer" ng-hide="tempoExperience">
+                                <fieldset class="form-group">
+                                    <button type="button" class="btn btn-primary"
+                                            ng-click="addMoreExp(userData.experience)"><i
+                                            class="fa fa-plus"></i>&nbsp;
+                                        Thêm
+                                    </button>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Hình ảnh của bạn</strong>
+                            </div>
+                            <div class="card-block">
+                                <div ngf-drop ngf-select ng-model="files" class="drop-box"
+                                     ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                                     accept="image/*"
+                                     ngf-pattern="'image/*'"
+                                     ngf-resize="{width: 800, height: 800, centerCrop: true}">
+                                    Thả ảnh hoặc click vào đây để upload
+                                </div>
+                                <div ngf-no-file-drop>Bạn chỉ có thể upload file ảnh</div>
+                                <span us-spinner spinner-key="photo"></span>
+                                <div class="row">
+
+                                    <div class="col-sm-6 col-lg-3" ng-repeat="(key,value) in userData.photo">
+                                        <div class="card">
+                                            <div class="card-block p-0 clearfix">
+                                                <img src="{{value}}" width="100%">
+                                                <img ng-click="deleteImage(key)"
+                                                     ng-src="img/delete.png"
+                                                     class="profile-edit"
+                                                     width="30">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <small class="text-muted" ng-hide="userData.photo">
+                                - Upload thêm nhiều hình ảnh để thu hút nhiều nhà tuyển dụng tiềm năng<br>
+                                - Chọn những bức ảnh đẹp nhất của bản thân (có thể tải nhiều ảnh cùng một lúc)
+                            </small>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Video giới thiệu</strong>
+                                <div class="pull-right">
+                                    <button type="file" ngf-select="uploadVideo($file, $invalidFiles)"
+                                            accept="video/*" class="btn btn-outline-success">Tải lên Video
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div style="margin: 10px 0" ng-if="progress != 0 && progress != 100">
+                                    <span>Đang tải lên</span>
+                                    <div class="progress-bar bg-warning text-center" style="width:{{progress}}%;" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">{{progress}}%</div>
+
+                                </div>
+
+
+
+
+                                <div class="card" ng-show="userData.videourl">
+
+                                    <div class="videogular-container">
+                                        <videogular>
+                                            <vg-media vg-auto-play="true"
+                                                      vg-complete="hideVideo()"
+                                                      vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                                                      vg-src="videoTrusted"
+                                                      vg-native-controls="true">
+                                            </vg-media>
+                                        </videogular>
+                                    </div>
+                                </div>
+                                <small class="text-muted" ng-hide="userData.videourl">
+                                    - Nếu có video thì profile của bạn sẽ được tăng mức hiển thị trước nhà tuyển dụng gấp 2 lần<br>
+                                    - Hãy giới thiệu bản thân để gây ấn tượng với các nhà tuyển dụng<br>
+                                    - Nội dung video nên bao gồm các câu trả lời của câu hỏi sau:<br>
+                                    + Giới thiệu về bạn<br>
+                                    + Tại sao nhà tuyển dụng nên chọn bạn?<br>
+                                    + Định hướng/mong muốn công việc của bạn trong thời gian tới?<br>
+                                </small>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Giới thiệu bản thân</strong>
+                            </div>
+                            <div class="card-block">
+
+                                <fieldset class="form-group">
+                                    <div class="input-group mb-1">
+                                        <textarea class="form-control" ng-model="userData.description" placeholder="..."
+                                                  style="height: 100px;"></textarea>
+                                    </div>
+                                </fieldset>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button ng-click="submit()" type="submit"
+                                class="btn btn-block btn-success main-backgroud">Cập
+                            nhật
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

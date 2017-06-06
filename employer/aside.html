@@ -1,0 +1,307 @@
+<div class="tab-content">
+    <div class="tab-pane active" id="eMessages" role="tabpanel">
+        <div ng-hide="chat == true || !onlineList">
+            <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                <small><b>Đã tương hợp</b>
+                </small>
+            </div>
+            <div class="callout text-muted text-center" ng-show="reactList.match.length == 0">
+                <small><b>Bạn chưa tương hợp với ứng viên nào</b>
+                </small>
+            </div>
+            <div ng-repeat="card in reactList.match">
+
+                <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                    <div class="py-h mr-1 float-left">
+                        <div class="avatar">
+                            <img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                 alt="admin@bootstrapmaster.com">
+                            <span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>
+                            <span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>
+
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                            card.createdAt)}}
+                        </small>
+                    </div>
+                    <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                    <small class="text-muted" ng-repeat="(key,value) in card.jobUser" ng-show="card.jobUser">
+                        {{Lang[key] || '&nbsp'}}
+                    </small>
+                </div>
+            </div>
+            <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                <small><b>Đã ứng tuyển</b>
+                </small>
+            </div>
+            <hr class="transparent mx-1 my-0">
+            <div class="callout text-muted text-center" ng-show="reactList.liked.length == 0">
+                <small><b>Bạn chưa có ứng viên nào ứng tuyển</b>
+                </small>
+            </div>
+            <div ng-repeat="card in reactList.liked">
+
+                <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                    <div class="py-h mr-1 float-left">
+                        <div class="avatar">
+                            <img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                 alt="admin@bootstrapmaster.com">
+                            <span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>
+                            <span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>
+
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                            card.createdAt)}}
+                        </small>
+                    </div>
+                    <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                    <small ng-hide="card.jobUser" class="text-muted">Đang tìm công việc bất kỳ</small>
+                    <small class="text-muted" ng-repeat="(key,value) in card.jobUser" ng-show="card.jobUser">
+                        {{Lang[key] || '&nbsp'}}
+                    </small>
+                </div>
+            </div>
+            <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                <small><b>Đã gửi yêu cầu</b>
+                </small>
+            </div>
+            <div class="callout text-muted text-center" ng-show="reactList.like.length == 0">
+                <small><b>Bạn chưa gửi yêu cầu cho ứng viên nào, hãy chủ động tìm họ</b>
+                </small>
+            </div>
+            <div ng-repeat="card in reactList.like">
+
+                <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                    <div class="py-h mr-1 float-left">
+                        <div class="avatar">
+                            <img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                 alt="admin@bootstrapmaster.com">
+                            <span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>
+                            <span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>
+
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                            card.createdAt)}}
+                        </small>
+                    </div>
+                    <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                    <small ng-hide="card.jobStore" class="text-muted">Đang tìm công việc bất kỳ</small>
+                    <small class="text-muted" ng-repeat="(key,value) in card.jobStore" ng-show="card.jobStore">
+                        {{Lang[key] || '&nbsp'}}
+                    </small>
+                </div>
+            </div>
+
+            <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                <small><b>Đang tìm việc gấp</b>
+                </small>
+            </div>
+            <div ng-repeat="card in onlineList">
+                <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                    <div class="py-h mr-1 float-left">
+                        <div class="avatar">
+                            <img src="{{card.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                 alt="admin@bootstrapmaster.com">
+                            <span class="avatar-status badge-success" ng-if="card.presence.status == 'online'"></span>
+                            <span class="avatar-status badge-default" ng-if="card.presence.status == 'offline'"></span>
+
+                        </div>
+                    </div>
+                    <div>
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.presence.at)}}</small>
+                    </div>
+                    <div class="text-truncate font-weight-bold">{{card.name || 'Your Name Here'}}</div>
+                    <small ng-hide="card.job" class="text-muted">Đang tìm công việc bất kỳ</small>
+                    <small class="text-muted" ng-repeat="(key,value) in card.job" ng-show="card.job">
+                        {{Lang[key] || '&nbsp'}}
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="spinner" ng-show="chat == true && !chatUser.data || !onlineList">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+        <div ng-show="chat == true && chatUser.data">
+            <div class="card-header">
+                Liên hệ
+                <label class="float-right mb-0">
+                    <button ng-click="service.closeChat()" type="button"
+                            class="btn btn-link pull-right btn-sm"
+                            style="color: #ff2121">Đóng
+                    </button>
+                </label>
+            </div>
+
+            <div class="message p-1">
+                <div class="py-h mr-1 float-left">
+                    <div class="avatar">
+                        <img src="{{chatUser.data.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                             alt="admin@bootstrapmaster.com">
+                        <span class="avatar-status badge-success"
+                              ng-if="chatUser.presence == 'online'"></span>
+                        <span class="avatar-status badge-default"
+                              ng-if="chatUser.presence == 'offline'"></span>
+
+                    </div>
+                </div>
+                <div>
+                    <small class="text-muted float-right mt-q">{{service.timeAgo(chatUser.data.at ||
+                        chatUser.data.createdAt)}}
+                    </small>
+                </div>
+                <div class="text-truncate font-weight-bold">{{chatUser.data.name || ' Your Name Here'}}
+                </div>
+                <small ng-if="contact[chatUser.data.userId]">
+                    <i class="fa fa-phone"></i> {{contact[chatUser.data.userId].phone}}<br>
+                    <i class="fa fa-envelope"></i> {{contact[chatUser.data.userId].email}}
+                </small>
+                <button class="btn button-vip btn-sm" ng-if="!contact[chatUser.data.userId]"
+                        ng-click="showphone(chatUser.data.userId)"><i class="fa fa-phone"></i> Click để xem sđt
+                </button>
+
+            </div>
+            <div style="border-bottom: 1px solid #1FBDF1; padding:10px 20px">
+                <ul>
+                    <li>
+                        <a class="nav-link" href="/view/profile/{{chatUser.data.userId}}"><i
+                                class="fa fa fa-exclamation-circle"></i> Xem hồ sơ</a>
+                    </li>
+
+                    <li>
+                        <a ng-if="chatUser.act.status == 1" class="nav-link ng-binding" href="#"
+                           ui-sref-active="active" picker ng-model="interviewDate"><i class="fa fa-calendar"></i> Đặt
+                            lịch phỏng
+                            vấn</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="callout callout-warning m-0 py-1" ng-if="chatUser.interview">
+                <div class="avatar float-right">
+                    <img src="{{chatUser.data.avatar || '/img/macdinh.jpg'}}" class="img-avatar">
+                </div>
+                <div>Phỏng vấn với
+                    <strong>{{chatUser.data.name || 'Your Name Here'}}</strong>
+                </div>
+                <small class="text-muted mr-1"><i class="icon-calendar"></i>&nbsp;
+                    {{chatUser.interview.interview | date: "H:mm dd-MM-yyyy"}}
+                </small>
+                <small class="text-muted"><i class="icon-location-pin"></i>&nbsp;
+                    {{chatUser.interview.place}}
+                </small>
+            </div>
+
+            <div class="chat_area">
+
+                <ul class="list-unstyled" ng-repeat="message in chatUser.messages">
+                    <li class="left clearfix mes" ng-if="chatUser.data.userId === message.sender">
+                     <span class="chat-img1 pull-left">
+                     <img src="{{chatUser.data.avatar || '/img/macdinh.jpg'}}"
+                          alt="User Avatar" class="img-circle">
+                     </span>
+                        <div class="chat-body1 clearfix">
+                            <p ng-click="show[message.id]= true">{{message.text}}</p>
+                            <div class="chat_time pull-left" ng-if="show[message.id]">
+                                {{service.timeAgo(message.createdAt)}}
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="left clearfix mes admin_chat" ng-if="storeId === message.sender">
+                     <span class="chat-img1 pull-right">
+                     <img src="{{storeData.avatar|| '/img/macdinh.jpg'}}"
+                          alt="User Avatar" class="img-circle">
+                     </span>
+                        <div class="chat-body1 clearfix">
+                            <p ng-click="show[message.id]= true">{{message.text}}</p>
+                            <div class="chat_time pull-right" ng-if="show[message.id]">
+                                {{service.timeAgo(message.createdAt)}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sendmes">
+                <div class="input-group">
+                    <input type="text" id="input2-group2" name="input2-group2" class="form-control"
+                           style="border: 1px solid #fff !important;"
+                           ng-model="input.message" placeholder="Gửi tin nhắn"
+                           ng-keydown="pressArrow($event,input.message)">
+                    <span class="input-group-btn">
+                                        <button ng-disabled="!input.message || input.message == '' || chatUser.act.status != 1"
+                                                type="button" class="btn btn-link"
+                                                ng-click="sendMessage(input.message)">Send</button>
+                                    </span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="tab-pane" id="eTimeline" role="tabpanel">
+        <h6 style="padding: 10px">Lịch phỏng vấn</h6>
+
+        <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+            <small><b>Hôm nay</b>
+            </small>
+        </div>
+        <hr class="transparent mx-1 my-0">
+        <div class="callout text-muted text-center" ng-hide="interviewList">
+            <small><b>Bạn chưa có lịch phỏng vấn với ứng viên nào</b>
+            </small>
+        </div>
+        <div class="callout callout-warning m-0 py-1" ng-repeat="card in interviewList">
+            <div class="avatar float-right">
+                <img src="{{card.avatar || '/img/macdinh.jpg'}}" class="img-avatar">
+            </div>
+            <div>Phỏng vấn với
+                <strong>{{card.name || 'Your Name Here'}}</strong>
+            </div>
+            <small class="text-muted mr-1"><i class="icon-calendar"></i>&nbsp; {{card.time | date: 'HH:mm
+                dd/MM/yyyy'}}
+            </small>
+            <small class="text-muted"><i class="icon-location-pin"></i>&nbsp; {{card.place}}</small>
+        </div>
+        <hr class="mx-1 my-0">
+    </div>
+    <div class="tab-pane p-1" id="eSettings" role="tabpanel">
+        <h6>Cài đặt</h6>
+
+        <div class="aside-options">
+            <div class="clearfix mt-2">
+                <small><b>Ẩn hiển thị</b>
+                </small>
+                <label class="switch switch-text switch-pill switch-success switch-sm float-right">
+                    <input type="checkbox" class="switch-input" checked>
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                </label>
+            </div>
+            <div>
+                <small class="text-muted">Các ứng viên sẽ không nhìn thấy bạn đang trực tuyến
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+
+    <li class="nav-item">
+        <a tab class="nav-link active" data-toggle="tab" href="#eMessages" role="tab"><i
+                class="icon-speech"></i></a>
+    </li>
+    <li class="nav-item">
+        <a tab class="nav-link " data-toggle="tab" href="#eTimeline" role="tab"><i
+                class="icon-list"></i></a>
+    </li>
+    <li class="nav-item">
+        <a tab class="nav-link" data-toggle="tab" href="#eSettings" role="tab"><i class="icon-settings"></i></a>
+    </li>
+</ul>

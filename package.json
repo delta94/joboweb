@@ -1,0 +1,38 @@
+{
+  "name": "genesis-ui",
+  "version": "1.7.1",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+    "angular-toastr": "^2.1.1",
+    "del": "^2.2.2",
+    "firebase-admin": "^4.1.4",
+    "gulp": "^3.9.1",
+    "gulp-strip-debug": "^1.1.0",
+    "ng-file-upload": "^12.2.13",
+    "replace": "^0.3.0",
+    "string": "^3.3.3"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.16.0",
+    "gulp": "^3.9.1",
+    "gulp-bower-src": "^0.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-find": "0.0.10",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-zip": "^4.0.0",
+    "main-bower-files": "^2.13.1",
+    "run-sequence": "^1.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Łukasz Holeczek",
+  "url": "https://genesisui.com",
+  "copyright": "Copyright 2016 creativeLabs Łukasz Holeczek",
+  "license": "https://genesisui.com/license.html"
+}

@@ -1,0 +1,59 @@
+<!-- Navbar -->
+<div>
+
+
+    <header class="app-header navbar">
+        <button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>
+        <a class="navbar-brand" ui-sref="app.dash"></a>
+
+        <ul class="nav navbar-nav ml-auto hidden-md-down">
+            <button ui-sref="admin.dash" type="button" class="btn btn-primary">Dash</button>
+            <button ui-sref="admin.jobseeker" type="button" class="btn btn-primary">Jobseeker</button>
+            <button ui-sref="admin.employer" type="button" class="btn btn-primary">Employer</button>
+            <button ui-sref="admin.function" type="button" class="btn btn-primary">Function</button>
+            <button ui-sref="admin.working" type="button" class="btn btn-primary">Working</button>
+
+        </ul>
+    </header>
+
+
+
+
+</div>
+
+<div class="app-body">
+    <!-- Navigation -->
+    <!--<div ng-include="'views/common/sidebar-nav.html'"></div>-->
+
+    <!-- Main content -->
+    <!--<main>-->
+
+        <!-- Breadcrumb -->
+        <!--<ol class="breadcrumb" breadcrumb>
+            <ncy-breadcrumb></ncy-breadcrumb>
+        </ol>-->
+    <main class="main">
+
+            <ui-view></ui-view>
+    </main>
+        <!-- /.conainer-fluid -->
+    <!--</main>-->
+
+
+</div>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+</script>
+<!-- Footer -->
+<!--<div ng-include="'views/common/footer.html'"></div>-->

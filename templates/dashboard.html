@@ -1,0 +1,336 @@
+﻿<!--<div class="section section-header">-->
+<!--<div class="parallax-background parallax-active activated">-->
+<!--<img src="https://www.creative-tim.com/assets/gallery-17d73225ca9dfb385871952c81967bb3.jpg" alt="Gallery" style="top: 6.2px;">-->
+<!--<div class="filter filter-black"></div>-->
+<!--</div>-->
+<!--<div class="info">-->
+<!--<h1>Premium Bootstrap Themes</h1>-->
+<!--<p>-->
+<!--Premium Bootstrap themes, templates, UI Kits and more developed by Creative Tim. <br>-->
+<!--Join over 201,735 creatives to access all our products!-->
+<!--</p>-->
+
+<!--<div>-->
+<!--<meta itemprop="url" content="https://www.creative-tim.com/">-->
+<!--<form class="" itemprop="potentialAction" itemscope="itemscope" itemtype="http://schema.org/SearchAction" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">-->
+<!--<div class="form-group form-search">-->
+<!--<meta itemprop="target" content="https://www.creative-tim.com/search?q={q}">-->
+<!--<input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Search here..." itemprop="query-input">-->
+<!--<button type="submit" name="button" class="btn btn-default btn-round btn-submit">-->
+<!--<i class="fa fa-search"></i>-->
+<!--</button>-->
+
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+
+<!--</div>-->
+
+<!--</div>-->
+<!--<div class="tagBanner" style="width: {{width}}px">-->
+<!--<div class="tagBanner__content" >-->
+<!--<a class="tag tag&#45;&#45;card" style="background-color: #20a8d8;color: white;font-weight: 600" ng-repeat="(key,value) in CONFIG.data.job">-->
+<!--{{value}}-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
+    <div class="container">
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard">
+
+                    <div class="carde">
+                        <div class="content">
+
+                            <div class="pull-right">
+                                <button ng-click="service.userLike(card,0,card.job)"
+                                        type="button" class="btn btn-primary btn-sm">Ứng tuyển
+                                </button>
+                                <br>
+                                <div class="stats pull-right">
+                                    không cần CV
+                                </div>
+                            </div>
+                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId})">
+                                {{dataJob[card.job] || card.job}}
+                            </h3>
+
+                            <h4 class="message" itemprop="description">
+                                {{CONFIG.data.working_type[card.working_type]}}
+                            </h4>
+
+                            <div class="footer">
+                                <div class="author-card" ui-sref="app.viewstore ({id:card.storeId})">
+                                    <a class="card-link ">
+                                        <img class="avatar"
+                                             src="{{card.avatar || '/img/store.png'}}"
+                                             alt="{{card.storeName}}">
+                                        <span>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}</span>
+                                    </a>
+
+                                </div>
+                                <div class="stats pull-right">
+                                    {{card.salary? card.salary +' triệu | ':''}} {{service.timeAgo(card.createdAt)}}
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="animated fadeIn container" ng-init="checkuser()">
+    <div class="wpb_wrapper text-center">
+        <div class="section-heading">
+            <h2>Chọn Ứng Viên Phù Hợp</h2>
+        </div>
+    </div>
+    <div class="spinner" ng-show="!UserCard">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+    </div>
+    <div class="list-profile">
+        <div class="row row-s">
+            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">
+                <!-- Normal Demo-->
+                <!-- Post-->
+
+                <div class="post-module" style="margin-bottom: 24px">
+                    <!-- Thumbnail-->
+                    <div class="thumbnail" ng-hide="showVid == card.userId">
+                        <div class="date" ng-if="card.videourl">
+                            <i class="fa fa-play-circle play-button" aria-hidden="true"
+                               ng-click="showVideo(card)"></i>
+                        </div>
+                        <img ui-sref="app.viewprofile ({id:card.userId})"
+                             src="{{card.avatar || 'img/macdinh.jpg'}}">
+                    </div>
+                    <div class="videogular-container" ng-show="showVid == card.userId">
+                        <videogular>
+                            <vg-media vg-autoplay="true"
+                                      vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                                      vg-src="videoTrusted"
+                                      vg-native-controls="true">
+                            </vg-media>
+                        </videogular>
+                    </div>
+                    <!-- Post Content-->
+                    <div class="post-content">
+                        <div class="category" ng-if="card.feature">Hot</div>
+                        <h3 class="title">{{card.name || 'Your Name Here'}}</h3>
+
+                        <button ng-click="applyThis(card.userId,key)" type="button"
+                                class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
+                                ng-repeat="(key,value) in card.job">{{dataJob[key]}}
+                        </button>
+
+                        <div class="post-meta">
+                    <span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"
+                                                                                            data-toggle="popover"
+                                                                                            data-trigger="hover"
+                                                                                            data-content="Mức lương mong muốn (VNĐ/tháng)">{{card.expect_salary? card.expect_salary +' triệu':'Thương lượng'}} </a></span>
+                            <div style=" position: absolute;
+    right: 0px;bottom: 0px;">
+                                <button ng-disabled="!selectedJob" ng-click="like(card,0,selectedJob)"
+                                        type="button"
+                                        class="btn btn-primary btn-sm">Tuyển
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: auto; text-align: center;">
+        <button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem
+            tiếp
+        </button>
+    </div>
+     
+</div>
+
+<div class="animated fadeIn" style="margin-bottom: 50px">
+    <div class="container">
+        <div class="wpb_wrapper text-center">
+            <div class="section-heading">
+                <h2>Nhà Tuyển Dụng Nổi Bật</h2>
+            </div>
+        </div>
+        <div class="spinner" ng-show="!UserCard">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+        <div class="list-profile">
+            <div class="row row-s">
+                <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in StoreCard">
+                    <!-- Normal Demo-->
+                    <!-- Post-->
+                    <div class="post-module" style="margin-bottom: 24px">
+                        <!-- Thumbnail-->
+                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">
+                            <img src="{{card.avatar || 'img/store.png'}}"/>
+                        </div>
+                        <!-- Post Content-->
+                        <div class="post-content">
+                            <div class="category" ng-if="card.likeMe == 0">Hot</div>
+                            <h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>
+                            <h3 class="sub_title" ng-show="card.distance">
+                                <div> {{card.distance + ' km'}}</div>
+                            </h3>
+                            <button ng-click="applyThis(card.storeId,key)" type="button"
+                                    class="btn btn-vm {{selectedJob[card.storeId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
+                                    ng-repeat="(key,value) in card.job">{{dataJob[key]}}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: auto; text-align: center;">
+        <button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem tiếp
+        </button>
+    </div>
+</div> 
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-heading">
+                    <h2>Nhận việc phù hợp với 3 bước</h2>
+                    <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-user-following text-primary"></i>
+                    <h3>1. Ứng tuyển không cần CV</h3>
+                    <p>Cập nhật các thông tin về bạn để chúng tôi hiểu bạn hơn và đề xuất công việc phù hợp</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-envelope-letter text-primary"></i>
+                    <h3>2. Nhận lời mời phỏng vấn</h3>
+                    <p>Jobo sẽ đem đến cho bạn những công việc phù hợp hằng ngày, được thông báo qua email hoặc điện
+                        thoại của bạn</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-present text-primary"></i>
+                    <h3>3. Nhận việc và quà tặng</h3>
+                    <p>Để chúc mừng bạn được nhận công việc mới, Jobo sẽ tặng bạn một món quà (bằng hiện vật hoặc tiền
+                        mặt).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="full-pitch2 group">
+
+    <div class="full-text">
+        <h3>
+            Chúng tôi tin rằng bạn xứng đáng tìm được công việc phù hợp
+            nhất
+        </h3>
+        <div class="btn-area text-center" style="margin-top: 30px">
+            <button type="button" class="btn btn-primary" ng-click="changefilter()">Tạo hồ sơ của
+                bạn
+            </button>
+
+        </div>
+    </div>
+
+    <div class="full-opacity">
+
+    </div>
+</div>
+<footer class="app-footer main-dark" style="line-height: inherit;">
+    <div class="row">
+        <div class="padding col-md-3
+">
+            <img src="img/logo.png" width="100px">
+
+            <p style="margin: 0"><i class="icon-phone text-primary"></i> +84 968 269 860</p>
+            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@joboapp.com</p>
+
+            <div style="padding: 16px 0">
+                <p>
+                    <a href="http://facebook.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-facebook icon"
+                       type="button">
+                        <span>Facebook</span>
+                    </a>
+
+                    <a style="margin-bottom: 4px" class="btn btn-youtube icon" type="button">
+                        <span>YouTube</span>
+                    </a>
+
+                    <a href="http://instagram.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-instagram icon"
+                       type="button">
+                        <span>Instagram</span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+        <div class="padding col-md-3">
+            <h3>Về chúng tôi</h3>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="https://about.joboapp.com">Jobo là gì</a></li>
+                <li><a href="https://joboapp.com/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://about.joboapp.com/contact">Liên hệ</a></li>
+                <li><a href="https://about.joboapp.com/faq#terms">Terms</a></li>
+                <li><a href="http://about.joboapp.com/faq#privacy">Privacy</a></li>
+            </ul>
+
+        </div>
+        <div class="padding col-md-3">
+            <h5>Cho ứng viên</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="/signup/2">Tạo hồ sơ</a></li>
+                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="https://about.joboapp.com/refer">Refer</a></li>
+            </ul>
+            <h5>Cho nhà tuyển dụng</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="https://joboapp.com/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://about.joboapp.com/service">Dịch vụ</a></li>
+                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+
+            </ul>
+        </div>
+        <div class="padding col-md-3">
+            <h5>Tải ứng dụng</h5>
+
+            <div class="badges">
+                <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.ambius.jobo"
+                   style="margin-bottom: 10px"><img src="img/google-play-badge.svg" alt=""></a>
+                <a class="badge-link" href="https://itunes.apple.com/us/app/jobo-tim-viec-nhanh/id1180445871"><img
+                        src="img/app-store-badge.svg" alt=""></a>
+            </div>
+            &copy; Made with <i class="icon icon-heart"></i> in Hanoi .
+
+        </div>
+
+    </div>
+</footer>

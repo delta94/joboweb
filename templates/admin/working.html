@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Job List
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <th>Job</th>
+                        <th>In Charge</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>KPI</th>
+                        <th>Expect</th>
+                        <th>Result</th>
+                        <th>Refer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="card in working">
+                        <td>{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}</td>
+                        <td data-toggle="popover" data-trigger="hover" data-content="{{card.description}}">
+                            {{card.job}}
+                        </td>
+                        <td>{{card.incharge}}</td>
+                        <td>{{card.deadline | date: 'HH:mm dd/MM/yyyy'}}</td>
+                        <td>{{card.status}}</td>
+                        <td>{{card.kpi}}</td>
+                        <td>{{card.expect}}</td>
+                        <td>{{card.result}}</td>
+                        <td>{{card.refer}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td><input type="text" class="form-control" id="name" placeholder="job" ng-model="new.job">
+                            <input type="text" class="form-control" id="name" placeholder="Description"
+                                   ng-model="new.description"></td>
+                        <td><input type="text" class="form-control" id="name" placeholder="incharge"
+                                   ng-model="new.incharge"></td>
+                        <td><input type="date" class="form-control" id="name" placeholder="deadline"
+                                   ng-model="new.deadline"></td>
+                        <td><input type="text" class="form-control" id="name" placeholder="status" ng-model="new.status"
+                                   disabled></td>
+                        <td><input type="text" class="form-control" id="name" placeholder="kpi" ng-model="new.kpi"></td>
+                        <td><input type="text" class="form-control" id="name" placeholder="expect"
+                                   ng-model="new.expect"></td>
+                        <td>
+                            <input type="checkbox"
+                                   ng-model="new.repeat">
+                        </td>
+                        <td ng-if="new.repeat">
+                            <input type="text" ng-model="new.setRepeat">
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="addJob(new)">Add
+                            </button>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                HR
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="card in hr">
+
+                        <td>{{card.uid}}</td>
+                        <td>{{card.status}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td>Add new</td>
+                        <td><input type="text" class="form-control" id="name" placeholder="uid" ng-model="user.uid">
+                        </td>
+                        <td><input type="email" class="form-control" id="name" placeholder="email"
+                                   ng-model="user.email">
+                        </td>
+                        <td><input type="number" class="form-control" id="name" placeholder="phone"
+                                   ng-model="user.phone">
+                        </td>
+                        <td><input type="password" class="form-control" id="name" placeholder="password"
+                                   ng-model="user.password">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="addUser(user)">Create
+                            </button>
+                        </td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>

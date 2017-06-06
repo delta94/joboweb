@@ -1,0 +1,44 @@
+<div class="modal fade">
+    <div class="modal-dialog login animated">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 class="modal-title">Xác nhận đăng ký</h2>
+            </div>
+            <div class="modal-body">
+                <div class="box">
+                    <div class="content">
+                        <div ng-show="confirmBuy" class="division">
+                            <span>Chúc mừng bạn đã đăng ký thành công, vui lòng chờ liên hệ từ Jobo</span>
+                            <div style="padding-top: 10px">
+
+                                <button ui-sref=".dash" type="button" data-dismiss="modal" class="btn btn-primary">Tiếp tục tìm ứng viên</button>
+
+                            </div>
+                        </div>
+
+                        <div class="division" ng-hide="confirmBuy">
+                            <span>Bạn muốn đăng ký gói {{CONFIG.pack[pack].name}} với mức giá {{CONFIG.pack[pack].price}}</span>
+                            <div style="padding-top: 10px">
+                                <button ng-click="confirm()" type="button" class="btn button-vip " style="color: white;" href="#!/pricing">
+                                    <i class="fa fa-diamond"></i> Đăng ký
+                                </button>
+                                <button ng-click="close('dsfsd')"type="button" data-dismiss="modal" class="btn btn-link active">Hủy</button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="forgot login-footer">
+
+                    <span>Sau đây bộ phận chăm sóc khách hàng sẽ liên hệ với bạn để xác lập và kích hoạt</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

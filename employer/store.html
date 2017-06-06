@@ -1,0 +1,491 @@
+<div class="spinner" ng-hide="storeData">
+    <div class="cube1"></div>
+    <div class="cube2"></div>
+</div>
+
+<div class="app flex-row align-items-center animated fadeIn" ng-init="init()" ng-show="storeData">
+    <div class="container">
+
+        <div class="row justify-content-center" style="margin-top: 100px;">
+            <div class="col-md-6">
+                <div class="card card-border">
+
+                    <form name="signupForm" class="form-update" autocomplete="off">
+                        <div class="card" ng-hide="ByHand == true">
+                            <div class="card-header">
+                                <h2>Thông tin cửa hàng</h2>
+                            </div>
+                            <div class="card-block">
+                                <fieldset class="form-group">
+                                    <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
+
+                                    <div class="pop-add">
+                                        <input ng-keydown="searchStore()" id="Store" ui-items="names"
+                                               ng-model="autocompleteStore.text" class="form-control">
+                                        <i class="icon-close" id="delete-store"
+                                           ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
+                                        <ul id="list-store" ng-show="autocompleteStore.text.length">
+                                            <li ng-repeat="ketqua in ketquasStore"
+                                                ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
+                                                ketqua.formatted_address}}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </fieldset>
+
+                                <div class="row">
+                                    <div class="col-6 text-left">
+                                        <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
+                                            tìm thấy? Tự tạo
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button ng-click="createByHand()" type="submit"
+                                    class="btn btn-block btn-success main-backgroud">Đăng
+                                ký
+                            </button>
+                        </div>
+                        <div ng-show="ByHand == true">
+
+                            <div class="card" ng-hide="type == 'job'">
+                                <div class="card-header">
+                                    <strong>Thông tin chi tiết</strong>
+                                </div>
+                                <div class="card-block">
+                                    <fieldset class="form-group">
+                                        <label>Tên thương hiệu</label>
+                                        <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-directions"></i>
+                                        </span>
+                                            <input type="text" class="form-control" placeholder=""
+                                                   ng-model="storeData.storeName" id="name">
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label">Lĩnh vực</label>
+                                        <ui-select class="form-control" ng-model="storeData.industry" theme="select2">
+                                            <ui-select-match placeholder="Chọn lĩnh vực">
+                                                {{Lang[$select.selected]}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="ins in arrayIndustry | filter:$select.search">
+                                                {{Lang[ins]}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                    <fieldset class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <div class="pop-add">
+                                            <input ng-keydown="searchAddress()" id="address" ui-items="names"
+                                                   ng-model="autocompleteAddress.text" class="form-control">
+                                            <i class="icon-close" id="delete-address"
+                                               ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
+                                            <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                                                <li ng-repeat="ketqua in ketquasAddress"
+                                                    ng-click="setSelectedAddress(ketqua)">
+                                                    {{ketqua.formatted_address}}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </fieldset>
+
+
+                                    <fieldset class="form-group">
+                                        <label>Avatar/Logo cửa hàng</label>
+
+                                        <div class="card" ng-hide="picFile">
+                                            <div class="card-block" style="padding: 0px">
+                                                <img ng-src="{{storeData.avatar || 'img/store.png'}}"
+                                                     style="width: 100%"/>
+
+                                            </div>
+                                            <div class="card-footer" style="padding: 0px">
+                                                <button class="btn btn-outline-success btn-block" ngf-select
+                                                        ng-model="picFile"
+                                                        accept="image/*">
+                                                    <i class="fa fa-magic"></i> Chọn ảnh
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <span us-spinner spinner-key="avatar"></span>
+                                        <form name="myForm">
+                                            <div ng-show="picFile">
+                                                <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+                                                     class="cropArea">
+                                                    <img-crop image="picFile  | ngfDataUrl" area-type="square"
+                                                              area-min-size="200"
+                                                              result-image-size="800"
+                                                              result-image-format="image/jpeg"
+                                                              result-image="croppedDataUrl"
+                                                              ng-init="croppedDataUrl=''">
+                                                    </img-crop>
+                                                </div>
+
+                                                <button class="btn btn-success"
+                                                        ng-click="uploadFiles(croppedDataUrl)">
+                                                    Tải lên
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label>Giới thiệu</label>
+                                        <textarea class="form-control" ng-model="storeData.description"
+                                                  placeholder="Tại sao ứng viên nên chọn công ty của bạn?"
+                                                  style="height: 100px;"></textarea>
+                                    </fieldset>
+                                    <div>
+                                        <strong>Hình ảnh</strong>
+                                    </div>
+                                    <div class="card-block">
+                                        <div ngf-drop ngf-select ng-model="files" class="drop-box"
+                                             ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                                             accept="image/*"
+                                             ngf-pattern="'image/*'"
+                                             ngf-resize="{width: 800, height: 800, centerCrop: true}">
+                                            Thả ảnh hoặc click vào đây để upload
+                                        </div>
+                                        <div ngf-no-file-drop>Bạn chỉ có thể upload file ảnh</div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-3" ng-repeat="(key,value) in storeData.photo">
+                                                <div class="card">
+                                                    <div class="card-block p-0 clearfix">
+                                                        <img src="{{value}}" width="100%">
+                                                        <img ng-click="deleteImage(key)"
+                                                             ng-src="img/delete.png"
+                                                             class="profile-edit"
+                                                             width="30">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted" ng-hide="storeData.photo">
+                                        - Upload thêm nhiều hình ảnh để thu hút ứng viên tiềm năng<br>
+                                        - Chọn những bức ảnh đẹp nhất của bản thân (có thể tải nhiều ảnh cùng một lúc)
+                                    </small>
+                                    <span us-spinner spinner-key="photo"></span>
+                                </div>
+                            </div>
+
+                            <div class="card" ng-hide="type == 'job'">
+                                <div class="card-header">
+                                    <strong>Thông tin liên hệ</strong>
+                                </div>
+                                <div class="card-block">
+
+                                    <fieldset class="form-group">
+                                        <label>Họ tên</label>
+                                        <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-user"></i>
+                                        </span>
+                                            <input ng-disabled="contact.name" type="text" class="form-control"
+                                                   placeholder="Họ tên"
+                                                   ng-model="userData.name" id="name">
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="form-group">
+                                        <label>Email</label>
+                                        <div class="input-group mb-1">
+                                            <span class="input-group-addon">@</span>
+                                            <input ng-disabled="contact.email" type="text" class="form-control"
+                                                   placeholder="Email" id="email"
+                                                   ng-model="userData.email">
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="form-group">
+                                        <label>Số điện thoại</label>
+                                        <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-phone"></i>
+                                        </span>
+                                            <input ng-disabled="contact.phone" type="number" class="form-control"
+                                                   placeholder="{{userData.phone}}"
+                                                   ng-model="userData.phone">
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="card-block p-2" style="text-align: left">
+                                <h1>Vị trí cần tuyển</h1>
+                                <div class="form-group">
+                                    <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
+                                </div>
+                                <button ng-click="addJob()" type="submit" ng-hide="newJob"
+                                        class="btn btn-outline-primary main-backgroud">
+                                    Thêm
+                                </button>
+                            </div>
+                            <div class="card" ng-repeat="card in jobData" ng-hide="newJob">
+                                <div class="card-header">
+                                    <strong>Vị trí: {{Lang[card.job] || card.job}}</strong><br>
+                                    <span ng-if="card.createdAt">Đăng ngày: {{card.createdAt | date}} ({{service.timeAgo(card.createdAt)}})</span>
+                                </div>
+                                <div class="card-block">
+
+
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Hình thức</label>
+                                        <div class="col-md-7">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="card.working_type">
+                                                <option ng-repeat="(key,value) in CONFIG.data.working_type" value="{{key}}">
+                                                    {{ Lang[key]}}
+                                                </option>
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Lương</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input ng-model="card.salary" class="form-control"
+                                                       type="number" step="any">
+                                                <span class="input-group-addon">{{card.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Số lượng</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input ng-model="card.unit" class="form-control"
+                                                       type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Hạn chót</label>
+                                        <div class="col-md-7">
+
+                                            <div>
+                                                <input ng-if="showdate" type="date" class="date-control" ng-model="card.deadline">
+                                                <div class="form-control" ng-click="showdate = true" ng-hide="showdate">{{card.deadline | date}}{{!card.deadline? 'Thêm':''}}</div>
+                                            </div>
+                                            <small class="text-muted">- Nhấn để sửa mới</small>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Giới tính</label>
+                                        <div class="col-md-7">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="card.sex">
+                                                <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
+                                                    {{value}}
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại ngữ</label>
+                                        <div class="col-md-7">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="card.languages">
+                                                <option ng-repeat="(key,value) in CONFIG.data.languages" value="{{key}}">
+                                                    {{value}}
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
+                                        <div class="col-md-7">
+                                            <label class="switch switch-3d switch-primary">
+                                                <input ng-model="card.figure" type="checkbox"
+                                                       class="switch-input" checked="">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Đã có kinh nghiệm</label>
+                                        <div class="col-md-7">
+                                            <label class="switch switch-3d switch-primary">
+                                                <input ng-model="card.experience" type="checkbox"
+                                                       class="switch-input" checked="">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Mô tả thêm</label>
+                                        <div class="col-md-7">
+                                        <textarea class="form-control" ng-model="card.description"
+                                                  placeholder="..."
+                                                  style="height: 100px;"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div ng-if="newJob">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Thêm vị trí mới</h3>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="form-group row" ng-hide="newJob.job == 'other'">
+                                            <label class="col-md-5 form-control-label" for="select">Vị trí</label>
+                                            <div class="col-md-7">
+                                                <select id="select" name="select" class="form-control" size="1"
+                                                        ng-model="newJob.job">
+                                                    <option ng-repeat="job in arrayJob" value="{{job}}">
+                                                        {{Lang[job]}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" ng-if="newJob.job == 'other'">
+                                            <label class="col-md-5 form-control-label" for="select">Vị trí</label>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input ng-model="newJob.other" class="form-control"
+                                                           type="text" placeholder="Điền vị trí bạn cần tuyển">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label" for="select">Hình thức</label>
+                                            <div class="col-md-7">
+                                                <select id="select" name="select" class="form-control" size="1"
+                                                        ng-model="newJob.working_type">
+                                                    <option ng-repeat="(key,value) in CONFIG.data.working_type" value="{{key}}">
+                                                        {{Lang[key]}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Lương</label>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input ng-model="newJob.salary" class="form-control"
+                                                           type="number" step="any">
+                                                    <span class="input-group-addon">{{newJob.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Số lượng</label>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input ng-model="newJob.unit" class="form-control"
+                                                           type="number">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Hạn chót</label>
+                                            <div class="col-md-7">
+
+                                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                                    <input type="date" class="date-control" ng-model="newJob.deadline">
+                                                </div>
+                                                <small class="text-muted">ex. 99/99/9999</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label" for="select">Giới tính</label>
+                                            <div class="col-md-7">
+                                                <select id="select" name="select" class="form-control" size="1"
+                                                        ng-model="newJob.sex">
+                                                    <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
+                                                        {{value}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại ngữ</label>
+                                            <div class="col-md-7">
+                                                <select id="select" name="select" class="form-control" size="1"
+                                                        ng-model="newJob.languages">
+                                                    <option ng-repeat="(key,value) in CONFIG.data.languages" value="{{key}}">
+                                                        {{value}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
+                                            <div class="col-md-7">
+                                                <label class="switch switch-3d switch-primary">
+                                                    <input ng-model="newJob.figure" type="checkbox"
+                                                           class="switch-input" checked="">
+                                                    <span class="switch-label"></span>
+                                                    <span class="switch-handle"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Đã có kinh nghiệm</label>
+                                            <div class="col-md-7">
+                                                <label class="switch switch-3d switch-primary">
+                                                    <input ng-model="newJob.experience" type="checkbox"
+                                                           class="switch-input" checked="">
+                                                    <span class="switch-label"></span>
+                                                    <span class="switch-handle"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Mô tả thêm</label>
+                                            <div class="col-md-7">
+                                        <textarea class="form-control" ng-model="newJob.description"
+                                                  placeholder="..."
+                                                  style="height: 100px;"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <button ng-click="saveJob()" type="submit"
+                                                class="btn btn-primary main-backgroud">
+                                            Lưu
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button ng-hide="newJob" ng-click="submit()" type="submit" class="btn btn-block btn-success main-backgroud">
+                                Cập nhật
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

