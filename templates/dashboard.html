@@ -1,41 +1,4 @@
-﻿<!--<div class="section section-header">-->
-<!--<div class="parallax-background parallax-active activated">-->
-<!--<img src="https://www.creative-tim.com/assets/gallery-17d73225ca9dfb385871952c81967bb3.jpg" alt="Gallery" style="top: 6.2px;">-->
-<!--<div class="filter filter-black"></div>-->
-<!--</div>-->
-<!--<div class="info">-->
-<!--<h1>Premium Bootstrap Themes</h1>-->
-<!--<p>-->
-<!--Premium Bootstrap themes, templates, UI Kits and more developed by Creative Tim. <br>-->
-<!--Join over 201,735 creatives to access all our products!-->
-<!--</p>-->
-
-<!--<div>-->
-<!--<meta itemprop="url" content="https://www.creative-tim.com/">-->
-<!--<form class="" itemprop="potentialAction" itemscope="itemscope" itemtype="http://schema.org/SearchAction" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">-->
-<!--<div class="form-group form-search">-->
-<!--<meta itemprop="target" content="https://www.creative-tim.com/search?q={q}">-->
-<!--<input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Search here..." itemprop="query-input">-->
-<!--<button type="submit" name="button" class="btn btn-default btn-round btn-submit">-->
-<!--<i class="fa fa-search"></i>-->
-<!--</button>-->
-
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-
-
-<!--</div>-->
-
-<!--</div>-->
-<!--<div class="tagBanner" style="width: {{width}}px">-->
-<!--<div class="tagBanner__content" >-->
-<!--<a class="tag tag&#45;&#45;card" style="background-color: #20a8d8;color: white;font-weight: 600" ng-repeat="(key,value) in CONFIG.data.job">-->
-<!--{{value}}-->
-<!--</a>-->
-<!--</div>-->
-<!--</div>-->
-
+﻿
 <div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
@@ -54,7 +17,7 @@
                                     không cần CV
                                 </div>
                             </div>
-                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId})">
+                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
                                 {{dataJob[card.job] || card.job}}
                             </h3>
 

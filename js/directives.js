@@ -12,6 +12,16 @@ angular
     .directive('tab', bootstrapTabsDirective)
     .directive('button', cardCollapseDirective)
     .directive('starRating', starRating)
+    .directive('ngClickCopy', ['ngCopy', function (ngCopy) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.bind('click', function (e) {
+                    ngCopy(attrs.ngClickCopy);
+                });
+            }
+        }
+    }])
 
 //Prevent click if href="#"
 function preventClickDirective() {

@@ -121,7 +121,7 @@ var app = angular
             device: checkDevice() || ''
         }
         console.log('checkAgent', $rootScope.checkAgent)
-
+        $rootScope.today = new Date().getTime()
         $rootScope.jobOffer = {}
         $rootScope.dataJob = CONFIG.data.job;
         $rootScope.dataTime = CONFIG.data.time;

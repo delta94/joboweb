@@ -153,15 +153,9 @@ angular
                 controller: 'ViewProfileCtrl'
             })
             .state('app.viewstore', {
-                url: '/view/store/:id?admin',
+                url: '/view/store/:id?admin?job',
                 templateUrl: 'jobseeker/viewstore.html',
                 controller: 'ViewStoreCtrl'
-            })
-
-            .state('app.jobfast', {
-                url: '/jobfast',
-                templateUrl: 'views/joblist/joblist.html',
-                controller: 'joblistCtrl'
             })
 
             .state('app.404', {

@@ -275,12 +275,8 @@
                                         type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"
                                         class="btn btn-warning btn-sm">Đang chờ phản hồi...
                                 </button>
-                                <button ng-click="like(card,0,card.job)"
-                                        ng-hide="card.act.jobUser[card.job] || card.act.jobStore[card.job]"
-                                        type="button" class="btn btn-primary btn-sm">Ứng tuyển
-                                </button>
                             </div>
-                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId})">
+                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
                                 {{Lang[card.job] || card.job}}
                             </h3>
 

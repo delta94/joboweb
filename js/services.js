@@ -502,7 +502,6 @@
                 });
             }
         }
-
         function getToken() {
             messaging.getToken()
                 .then(function (currentToken) {
@@ -524,8 +523,6 @@
                     console.log('An error occurred while retrieving token. ', err);
                 })
         }
-
-
         function requestPermission() {
             messaging.requestPermission()
                 .then(function () {
@@ -598,11 +595,9 @@
                 messageRef = firebase.database().ref('chat/' + $rootScope.storeId + ':' + chatedId);
                 newPostRef = firebase.database().ref().child('activity/interview/' + $rootScope.storeId + ":" + chatedId)
 
-
                 //có user cụ thể
                 loadMessage($rootScope.storeId, chatedId);
             }
-
 
             // Get list
 
@@ -692,9 +687,9 @@
                 if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
                     newPostRef.update(message);
                     $rootScope.service.Ana('sendMessage', {
-                        type: 1,
-                        sender: $rootScope.userId,
-                        to: $scope.chatedId,
+                        type: 0,
+                        sender: $rootScope.storeId,
+                        to: chatedId,
                         text: message.text
                     })
                 } else {
@@ -702,7 +697,6 @@
                 }
 
             };
-
             $rootScope.phoneShow = function (chatedId) {
                 if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
                     var contactRef = firebase.database().ref('user/' + chatedId)
@@ -866,9 +860,9 @@
                 if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
                     newPostRef.update(message);
                     $rootScope.service.Ana('sendMessage', {
-                        type: 0,
-                        sender: $rootScope.storeId,
-                        to: $scope.chatedId,
+                        type: 1,
+                        sender: $rootScope.userId,
+                        to: chatedId,
                         text: message.text
                     })
 
@@ -1199,7 +1193,31 @@
                 $rootScope.Lang = snap.val()
             });
         }
-    });
+    })
+    .service('ngCopy', ['$window', function ($window) {
+        var body = angular.element($window.document.body);
+        var textarea = angular.element('<textarea/>');
+        textarea.css({
+            position: 'fixed',
+            opacity: '0'
+        });
+
+        return function (toCopy) {
+            textarea.val(toCopy);
+            body.append(textarea);
+            textarea[0].select();
+
+            try {
+                var successful = document.execCommand('copy');
+                if (!successful) throw successful;
+            } catch (err) {
+                window.prompt("Copy to clipboard: Ctrl+C, Enter", toCopy);
+            }
+
+            textarea.remove();
+        }
+    }])
+
 
 app.filter('myLimitTo', [function () {
     return function (obj, limit) {

@@ -5,6 +5,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
     $scope.profileId = $stateParams.id;
     loadStore($scope.profileId)
+    $scope.currentJob = $stateParams.job;
 
     $scope.admin = $stateParams.admin;
 
@@ -32,6 +33,11 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 console.log($scope.profileData)
                 $rootScope.service.loadJob($scope.profileData).then(function (data) {
                     $scope.profileData.job = data
+                    if($scope.currentJob){
+                        $timeout(function () {
+                            $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
+                        })
+                    }
                 })
                 loadListStore($scope.profileData.createdBy)
 
@@ -43,6 +49,19 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                     })
 
                 }
+                var reviewAct = firebase.database().ref('activity/review/' + profileId);
+                reviewAct.on('value', function (snap) {
+                    $timeout(function () {
+                        $scope.reviewData = snap.val();
+                        if ($scope.reviewData) {
+                            $timeout(function () {
+                                $scope.ratingModel = $rootScope.service.calReview($scope.reviewData);
+                                console.log($scope.ratingModel)
+                            })
+                        }
+                    })
+                })
+
                 // for share
                 var profileJobtake = "";
                 for (var i in $scope.profileData.job) {
@@ -74,19 +93,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         })
 
 
-        var reviewAct = firebase.database().ref('activity/review/' + profileId);
-        reviewAct.on('value', function (snap) {
-            $timeout(function () {
-                $scope.reviewData = snap.val();
-                if ($scope.reviewData) {
-                    $timeout(function () {
-                        $scope.ratingModel = $rootScope.service.calReview($scope.reviewData);
-                        console.log($scope.ratingModel)
-                    })
-                }
 
-            })
-        })
 
     }
 
