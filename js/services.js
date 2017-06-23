@@ -475,7 +475,7 @@
             var k = 0;
             for (var i in listJob) {
                 if (i != 'other') {
-                    stringJob += CONFIG.data.job[i] + ' (' + $rootScope.service.timeAgo(listJob[i]) + '), ';
+                    stringJob += $rootScope.Lang[i] + ' (' + $rootScope.service.timeAgo(listJob[i]) + '), ';
                     k++
                 }
             }
@@ -564,7 +564,7 @@
         }
         this.readNoti = function (id) {
             if ($rootScope.type == 1) {
-                db.ref('notification/' + $rootScope.storeId).child(id).update({update: new Date().getTime()})
+                db.ref('notification/' + $rootScope.userId).child(id).update({update: new Date().getTime()})
             } else if ($rootScope.type == 2) {
                 db.ref('notification/' + $rootScope.userId).child(id).update({update: new Date().getTime()})
             }
@@ -1184,6 +1184,7 @@
         this.ObjectToArray = function (Object) {
             var array = []
             for (var i in Object) {
+                Object[i].id = i
                 array.push(Object[i])
             }
             return array

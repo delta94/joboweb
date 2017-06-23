@@ -33,7 +33,8 @@ var app = angular
         'ngFileUpload',
         'ngImgCrop',
         'datetime',
-        'infinite-scroll'
+        'infinite-scroll',
+        'chart.js'
     ])
     .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
@@ -58,21 +59,41 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, CONFIG, AuthUser) {
+    .run(function ($rootScope, AuthUser) {
         $rootScope.width = window.innerWidth
         $rootScope.service = AuthUser
-        $rootScope.CONFIG = CONFIG;
-        firebase.database().ref('config/updateTime').once('value', function (snap) {
-            console.log('snap', snap.ref)
-            var time = snap.val()
-            if (time == CONFIG.UpdateAt) {
-                console.log('newest ' + time)
+        firebase.database().ref('config').once('value', function (snap) {
+            $rootScope.CONFIG = snap.val();
+            $rootScope.dataJob = $rootScope.CONFIG.data.job;
+            $rootScope.dataTime = $rootScope.CONFIG.data.time;
+            $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
+            $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
 
-            } else {
-                console.log('update At:' + CONFIG.UpdateAt + 'but now is' + time)
+            //Industry
+            $rootScope.arrayIndustry = [];
+            for (var i in $rootScope.dataIndustry) {
+                $rootScope.arrayIndustry.push(i);
             }
 
-        })
+            //Job
+            $rootScope.arrayJob = [];
+            for (var i in $rootScope.dataJob) {
+                $rootScope.arrayJob.push(i);
+            }
+
+            //Language
+            $rootScope.arrayLang = [];
+            for (var i in $rootScope.dataLanguages) {
+                $rootScope.arrayLang.push(i);
+            }
+
+            //Time
+            $rootScope.arrayTime = [];
+            for (var i in $rootScope.dataTime) {
+                $rootScope.arrayTime.push(i);
+            }
+        });
+
         if (!$rootScope.Lang) {
             $rootScope.lang = window.localStorage.getItem('lang')
             if (!$rootScope.lang) {
@@ -123,34 +144,7 @@ var app = angular
         console.log('checkAgent', $rootScope.checkAgent)
         $rootScope.today = new Date().getTime()
         $rootScope.jobOffer = {}
-        $rootScope.dataJob = CONFIG.data.job;
-        $rootScope.dataTime = CONFIG.data.time;
-        $rootScope.dataIndustry = CONFIG.data.industry;
-        $rootScope.dataLanguages = CONFIG.data.languages;
 
-        //Industry
-        $rootScope.arrayIndustry = [];
-        for (var i in $rootScope.dataIndustry) {
-            $rootScope.arrayIndustry.push(i);
-        }
-
-        //Job
-        $rootScope.arrayJob = [];
-        for (var i in $rootScope.dataJob) {
-            $rootScope.arrayJob.push(i);
-        }
-
-        //Language
-        $rootScope.arrayLang = [];
-        for (var i in $rootScope.dataLanguages) {
-            $rootScope.arrayLang.push(i);
-        }
-
-        //Time
-        $rootScope.arrayTime = [];
-        for (var i in $rootScope.dataTime) {
-            $rootScope.arrayTime.push(i);
-        }
     })
 
 
@@ -178,7 +172,7 @@ var app = angular
             }
             if (data.type == 1) {
                 loadCurrentStore($rootScope.storeId)
-                getNotification($rootScope.storeId);
+                getNotification($rootScope.userId);
                 loadListStore($rootScope.userId)
 
                 $timeout(function () {
@@ -390,7 +384,7 @@ var app = angular
                 }
             };
             function getNotification(userId) {
-                firebase.database().ref('notification/' + userId).orderByChild('createdAt').limitToFirst(10)
+                firebase.database().ref('notification/' + userId).orderByChild('createdAt')
                     .on('value', function (snap) {
                         $timeout(function () {
                             $rootScope.notification = $rootScope.service.ObjectToArray(snap.val())

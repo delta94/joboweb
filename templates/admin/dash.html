@@ -1,4 +1,130 @@
 <div class="container">
+
+    <div ng-controller="analyticsUserCtrl">
+        <div class="row" >
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Date</p>
+                    <p>All</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Total</p>
+                    <p>{{allUser.total}}</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Employer</p>
+                    <p>{{allUser.employer}}</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Jobseeker</p>
+                    <p>{{allUser.jobseeker}}</p>
+                </div>
+            </div>
+            <!--end button-->
+        </div>
+        <div class="row" >
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Date</p>
+                    <p>{{today.dateEnd}}</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Total</p>
+                    <p>{{today.total}}</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Employer</p>
+                    <p>{{today.employer}}</p>
+                </div>
+            </div>
+            <!--end button-->
+            <div class="col-sm-3 col-lg-3">
+                <div class="card" style="text-align: center">
+                    <p>Jobseeker</p>
+                    <p>{{today.jobseeker}}</p>
+                </div>
+            </div>
+            <!--end button-->
+        </div>
+        <div class="card ng-scope">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title">30 Days Ago</h4>
+                        <br>
+                        <div class="chart-wrapper" style="height:450px;margin-top:20px;">
+                            <iframe class="chartjs-hidden-iframe" tabindex="-1"
+                                    style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%;position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
+                                    chart-series="series" chart-options="options"
+                                    chart-dataset-override="datasetOverride"
+                                    chart-click="onClick">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- doughnut chart -->
+    <!--<div class="row">-->
+    <!--<div class="card col-sm-4 col-lg-4">-->
+    <!--<div class="card-block">-->
+    <!--<h4 class="card-title">Browsers</h4>-->
+    <!--<p class="text-muted">Total</p>-->
+    <!--<br>-->
+    <!--<div class="chart-wrapper ng-scope" style="height:300px;margin-top:20px;" ng-controller="DoughnutCtrl">-->
+    <!--<iframe class="chartjs-hidden-iframe" tabindex="-1"-->
+    <!--style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>-->
+    <!--<canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">-->
+    <!--</canvas>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash; <div class="card col-sm-4 col-lg-4">-->
+    <!--<div class="card-block">-->
+    <!--<h4 class="card-title">Browsers</h4>-->
+    <!--<p class="text-muted">Total Employer</p>-->
+    <!--<br>-->
+    <!--<div class="chart-wrapper ng-scope" style="height:300px;margin-top:20px;" ng-controller="DoughnutCtrl">-->
+    <!--<iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>-->
+    <!--<canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">-->
+    <!--</canvas>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="card col-sm-4 col-lg-4">-->
+    <!--<div class="card-block">-->
+    <!--<h4 class="card-title">Browsers</h4>-->
+    <!--<p class="text-muted">Total Jobseeker</p>-->
+    <!--<br>-->
+    <!--<div class="chart-wrapper ng-scope" style="height:300px;margin-top:20px;" ng-controller="DoughnutCtrl">-->
+    <!--<iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>-->
+    <!--<canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">-->
+    <!--</canvas>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div> &ndash;&gt;-->
+    <!--</div>-->
+    <!--  -->
+
     <div class="row" ng-controller="adminLogCtrl">
         <div class="col-lg-12">
             <div class="card">
@@ -39,7 +165,7 @@
         </div>
         <!--/.col-->
     </div>
-    <div class="row" ng-controller="userActivityAdminCtrl" >
+    <div class="row" ng-controller="userActivityAdminCtrl">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -65,8 +191,10 @@
                                 <span ng-if="card.matchedAt">matchedAt:{{card.matchedAt | date: 'HH:mm dd/MM/yyyy'}}</span>
                             </td>
                             <td>{{card.type}}</td>
-                            <td>{{card.storeName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.storeId}}</a></td>
-                            <td>{{card.userName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.userId}}</a></td>
+                            <td>{{card.storeName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.storeId}}</a>
+                            </td>
+                            <td>{{card.userName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.userId}}</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -83,7 +211,7 @@
         </div>
         <!--/.col-->
     </div>
-    <div class="row" ng-controller="jobAdminCtrl" >
+    <div class="row" ng-controller="jobAdminCtrl">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -104,7 +232,7 @@
                         <tbody>
                         <tr ng-repeat="card in log">
 
-                            <td>{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}   </td>
+                            <td>{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}</td>
                             <td>{{card.job}}</td>
                             <td>{{card.storeName}}<br>{{card.storeId}}</td>
                             <td>{{card.working_type}}</td>
@@ -126,7 +254,7 @@
         </div>
         <!--/.col-->
     </div>
-    <div class="row" ng-controller="profileAdminCtrl" >
+    <div class="row" ng-controller="profileAdminCtrl">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -152,7 +280,7 @@
                             <td>
                                 {{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}
                             </td>
-                            <td><img src="{{card.avatar}} " width="100px"> </td>
+                            <td><img src="{{card.avatar}} " width="100px"></td>
                             <td>{{card.name}}<br>{{card.userId}}</td>
                             <td>{{card.address}}</td>
                             <td>{{card.industry}}</td>
@@ -174,7 +302,7 @@
         </div>
         <!--/.col-->
     </div>
-    <div class="row" ng-controller="UserRegisterAdminCtrl" >
+    <div class="row" ng-controller="UserRegisterAdminCtrl">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">

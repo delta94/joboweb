@@ -35,15 +35,17 @@
                     <i class="icon-bell"></i>
                     <span class="badge badge-pill badge-danger" ng-if="newNoti != 0">{{newNoti}}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" style="width: 300px">
-
+                <div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;
+    max-height: 325px;
+    overflow-x: hidden;">
                     <div class="dropdown-header text-center">
                         <strong>Thông báo</strong>
                     </div>
                     <div class="text-center padding" ng-hide="notification">
                         <p>Bạn chưa có thông báo nào</p>
                     </div>
-                    <a ng-repeat="(id,card) in notification| orderBy:'-createdAt'" ng-click="service.readNoti(id)" href="{{card.cta}}">
+                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"
+                       href="{{card.linktoaction}}">
                         <div class="message" style="padding: 5px">
                             <div class="py-1 mr-1 float-left">
                                 <div class="avatar">
@@ -72,9 +74,9 @@
                 <a class="nav-link nav-pill" href="/employer/chats"><i class="icon-bubbles"></i></a>
             </li>
             <!--<a href="https://about.joboapp.com/services"-->
-               <!--class="btn button-vip " style="color: white;">-->
-                <!--<i-->
-                        <!--class="fa fa-diamond"></i> Đăng việc-->
+            <!--class="btn button-vip " style="color: white;">-->
+            <!--<i-->
+            <!--class="fa fa-diamond"></i> Đăng việc-->
             <!--</a>-->
             <li class="nav-item dropdown">
                 <a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -137,15 +139,17 @@
                     <i class="icon-bell"></i>
                     <span class="badge badge-pill badge-danger" ng-if="newNoti != 0">{{newNoti}}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" style="width: 300px">
-
+                <div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;
+    max-height: 325px;
+    overflow-x: hidden;">
                     <div class="dropdown-header text-center">
                         <strong>Thông báo</strong>
                     </div>
                     <div class="text-center padding" ng-hide="notification">
                         <p>Bạn chưa có thông báo nào</p>
                     </div>
-                    <a ng-repeat="(id,card) in notification" ng-click="service.readNoti(id)" href="{{card.cta}}">
+                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"
+                       href="{{card.linktoaction}}">
                         <div class="message" style="padding: 5px">
                             <div class="py-1 mr-1 float-left">
                                 <div class="avatar">
@@ -206,7 +210,6 @@
     </header>
 
 </div>
-
 
 
 <div class="app-body">

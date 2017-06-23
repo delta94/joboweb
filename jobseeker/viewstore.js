@@ -49,6 +49,12 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                     })
 
                 }
+                var staticRef = firebase.database().ref('static/' + profileId);
+                staticRef.on('value', function (snap) {
+                    $timeout(function () {
+                        $scope.staticData = snap.val();
+                    })
+                })
                 var reviewAct = firebase.database().ref('activity/review/' + profileId);
                 reviewAct.on('value', function (snap) {
                     $timeout(function () {
@@ -112,10 +118,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         if (profileId == $rootScope.storeId) {
             $timeout(function () {
                 $scope.myself = true
-                var staticRef = firebase.database().ref('static/' + userId)
-                staticRef.on('value', function (snap) {
-                    $scope.staticData = snap.val()
-                })
             })
         }
         var likeAct = firebase.database().ref('activity/like/' + profileId + ':' + userId);

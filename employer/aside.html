@@ -9,7 +9,7 @@
                 <small><b>Bạn chưa tương hợp với ứng viên nào</b>
                 </small>
             </div>
-            <div ng-repeat="card in reactList.match">
+            <div ng-repeat="card in reactList.match | orderBy:'-matchedAt'">
 
                 <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                     <div class="py-h mr-1 float-left">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div>
-                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.matchedAt ||
                             card.createdAt)}}
                         </small>
                     </div>
@@ -41,7 +41,7 @@
                 <small><b>Bạn chưa có ứng viên nào ứng tuyển</b>
                 </small>
             </div>
-            <div ng-repeat="card in reactList.liked">
+            <div ng-repeat="card in reactList.liked| orderBy:'-likeAt'">
 
                 <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                     <div class="py-h mr-1 float-left">
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div>
-                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt ||
                             card.createdAt)}}
                         </small>
                     </div>
@@ -73,7 +73,7 @@
                 <small><b>Bạn chưa gửi yêu cầu cho ứng viên nào, hãy chủ động tìm họ</b>
                 </small>
             </div>
-            <div ng-repeat="card in reactList.like">
+            <div ng-repeat="card in reactList.like| orderBy:'-likeAt'">
 
                 <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                     <div class="py-h mr-1 float-left">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div>
-                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.at ||
+                        <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt ||
                             card.createdAt)}}
                         </small>
                     </div>

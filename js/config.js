@@ -38,7 +38,6 @@ angular.module('starter.configs', [])
             "viewStore": "xem cửa hàng",
             "getToken": "lấy token"
         },
-
         "data": {
             "industry": {
                 "airlines": "Hàng không/ Sân bay",
@@ -50,11 +49,11 @@ angular.module('starter.configs', [])
                 "lodging": "Khách sạn/ Khu căn hộ",
                 "real_estate": "Dự án BĐS/ Quản lý tòa nhà",
                 "resort": "Resort/ Khu Du lịch",
-                "restaurant_bar": "Nhà hàng/ Bar/ Pub",
+                "restaurant_bar": "Nhà hàng/Cafe ",
                 "supermarket_cinema": "Siêu thị/ Rạp phim",
                 "travel_agency": "Công ty Du lịch/phòng vé",
                 "store": "Cửa hàng/Bán lẻ",
-                "other": "Khác",
+                "other": "Khác"
 
             },
             "job": {
@@ -73,7 +72,8 @@ angular.module('starter.configs', [])
                 "secretary": "Trợ lý/Thư ký",
                 "server": "Phục vụ",
                 "designer": "Designer",
-                "other": "Khác"
+                "other": "Khác",
+                "bartender":"Pha chế"
             },
             "languages": {
                 "english": "Tiếng Anh",
@@ -188,18 +188,6 @@ angular.module('starter.configs', [])
                     "lodging": true
                 }
             }
-        },
-        "chatlist": {
-            0: "Tất cả ứng viên",
-            1: "Đã gửi lời mời",
-            2: "Đã ứng tuyển",
-            3: "Đã tương hợp"
-        },
-        "chatlistUser": {
-            0: "Tất cả công việc",
-            1: "Đã ứng tuyển",
-            2: "Đã tuyển bạn",
-            3: "Đã tương hợp"
         },
         "review": {
             1: 'Rất tệ',

@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="pull-right">
-                                            <div ng-hide="card.deadline < today || card.static.going >= card.unit">
+                                            <div ng-hide="card.deadline < today || card.static.going >= card.unit || myself">
                                                 <button ng-click="service.chatToStore[profileData.storeId]"
                                                         type="button" ng-if="profileData.act.status == 1"
                                                         class="btn button-vip">Liên hệ
@@ -279,7 +279,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" ng-if="myself">
+                    <div class="row" ng-if="staticData">
 
                         <div class="col-md-12">
                             <h4 class="legend text-center">Thống kê</h4>
@@ -294,7 +294,7 @@
                                                         <small class="text-muted">Tương hợp</small>
                                                         <br>
                                                         <strong class="h4">{{staticData.matched +
-                                                            staticData.match || 0}}</strong>
+                                                            staticData.match}}</strong>
                                                     </div>
                                                 </div>
                                                 <!--/.col-->
@@ -302,8 +302,7 @@
                                                     <div class="callout callout-danger">
                                                         <small class="text-muted">Đánh giá</small>
                                                         <br>
-                                                        <strong class="h4">{{staticData.rated*staticData.rateAverage
-                                                            || 0}}</strong>
+                                                        <strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>
                                                     </div>
                                                 </div>
                                                 <!--/.col-->
@@ -317,7 +316,7 @@
                                                     <div class="callout callout-warning">
                                                         <small class="text-muted">Xin ứng tuyển</small>
                                                         <br>
-                                                        <strong class="h4">{{staticData.liked || 0}}</strong>
+                                                        <strong class="h4">{{staticData.liked}}</strong>
                                                     </div>
                                                 </div>
                                                 <!--/.col-->
@@ -325,7 +324,7 @@
                                                     <div class="callout callout-success">
                                                         <small class="text-muted">Mời ứng tuyển</small>
                                                         <br>
-                                                        <strong class="h4">{{staticData.like || 0}}</strong>
+                                                        <strong class="h4">{{staticData.like}}</strong>
                                                     </div>
                                                 </div>
                                                 <!--/.col-->
@@ -339,7 +338,7 @@
                                                     <div class="callout">
                                                         <small class="text-muted">Lượt xem</small>
                                                         <br>
-                                                        <strong class="h4">{{staticData.viewed || 0}}</strong>
+                                                        <strong class="h4">{{staticData.viewed}}</strong>
                                                     </div>
                                                 </div>
                                                 <!--/.col-->
@@ -347,7 +346,7 @@
                                                     <div class="callout callout-primary">
                                                         <small class="text-muted">Lượt chia sẻ</small>
                                                         <br>
-                                                        <strong class="h4">{{staticData.shared || 0}}</strong>
+                                                        <strong class="h4">{{staticData.shared}}</strong>
 
                                                     </div>
                                                 </div>

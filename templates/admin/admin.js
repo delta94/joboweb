@@ -1,139 +1,143 @@
 "use strict";
 
 
-app.controller('jobseekerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
-    //address
-    $scope.newfilter = {}
-    $scope.font = "'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;"
-    $scope.autocompleteAddress = {text: ''};
-    $scope.ketquasAddress = [];
-    $scope.searchAddress = function () {
-        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
-        $http({
-            method: 'GET',
-            url: $scope.URL
-        }).then(function successCallback(response) {
-            $scope.ketquasAddress = response.data.results;
-            console.log($scope.ketquasAddress);
-            $('#list-add').show();
+app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+})
+    .controller('jobseekerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+        //address
+        $scope.newfilter = {}
+        $scope.font = "'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;"
+        $scope.autocompleteAddress = {text: ''};
+        $scope.ketquasAddress = [];
+        $scope.searchAddress = function () {
+            $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
+            $http({
+                method: 'GET',
+                url: $scope.URL
+            }).then(function successCallback(response) {
+                $scope.ketquasAddress = response.data.results;
+                console.log($scope.ketquasAddress);
+                $('#list-add').show();
 
-        })
-    };
-
-    $scope.setSelectedAddress = function (selected) {
-        $scope.autocompleteAddress.text = selected.formatted_address;
-        $scope.address = selected;
-        $scope.newfilter.location = selected.geometry.location;
-        console.log(selected);
-        $('#list-add').hide();
-        //$rootScope.userData.address = selected.formatted_address;
-        //$rootScope.userData.location = selected.geometry.location;
-
-    };
-
-    $scope.eraseAddress = function () {
-        $scope.autocompleteAddress.text = null;
-        $('#list-add').hide();
-    }
-
-
-    $scope.createHospital = function (newfilter, p) {
-        console.log(newfilter)
-        var q = JSON.stringify(newfilter)
-        var params = {q: q, p: p}
-        $http({
-            method: 'GET',
-            url: CONFIG.APIURL + '/api/filterUser',
-            params: params
-        }).then(function successCallback(response) {
-            console.log("respond", response);
-            $timeout(function () {
-                $scope.response = response.data
-                console.log($scope.response)
-                $scope.jobSeeker = response.data.data;
             })
-        }, function (error) {
-            console.log(error)
-        })
-    }
+        };
 
-    $scope.page = 1
-    $scope.pagin = function (page) {
-        console.log(page)
-        $scope.createHospital($scope.newfilter, page)
-    }
-    $scope.profileData = {}
-    $scope.viewfull = function (userid) {
-        firebase.database().ref('user/' + userid).once('value', function (res) {
-            $scope.profileData[userid] = res.val()
+        $scope.setSelectedAddress = function (selected) {
+            $scope.autocompleteAddress.text = selected.formatted_address;
+            $scope.address = selected;
+            $scope.newfilter.location = selected.geometry.location;
+            console.log(selected);
+            $('#list-add').hide();
+            //$rootScope.userData.address = selected.formatted_address;
+            //$rootScope.userData.location = selected.geometry.location;
 
-        })
-    }
+        };
 
-    $scope.mail = {};
-    $scope.data = {};
+        $scope.eraseAddress = function () {
+            $scope.autocompleteAddress.text = null;
+            $('#list-add').hide();
+        }
 
-    $scope.sendEmail = function () {
 
-        console.log($scope.mail)
-        var mailstring = JSON.stringify($scope.mail)
-        var params = {
-            mail: mailstring,
-            name: $scope.data.name,
-            number: $scope.data.number
+        $scope.createHospital = function (newfilter, p) {
+            console.log(newfilter)
+            var q = JSON.stringify(newfilter)
+            var params = {q: q, p: p}
+            $http({
+                method: 'GET',
+                url: CONFIG.APIURL + '/api/filterUser',
+                params: params
+            }).then(function successCallback(response) {
+                console.log("respond", response);
+                $timeout(function () {
+                    $scope.response = response.data
+                    console.log($scope.response)
+                    $scope.jobSeeker = response.data.data;
+                })
+            }, function (error) {
+                console.log(error)
+            })
+        }
+
+        $scope.page = 1
+        $scope.pagin = function (page) {
+            console.log(page)
+            $scope.createHospital($scope.newfilter, page)
+        }
+        $scope.profileData = {}
+        $scope.viewfull = function (userid) {
+            firebase.database().ref('user/' + userid).once('value', function (res) {
+                $scope.profileData[userid] = res.val()
+
+            })
+        }
+
+        $scope.mail = {};
+        $scope.data = {};
+
+        $scope.sendEmail = function () {
+
+            console.log($scope.mail)
+            var mailstring = JSON.stringify($scope.mail)
+            var params = {
+                mail: mailstring,
+                name: $scope.data.name,
+                number: $scope.data.number
+
+            }
+            console.log(params)
+            $http({
+                method: 'GET',
+                url: CONFIG.APIURL + '/admin/sendEmail',
+                params: params
+            }).then(function successCallback(response) {
+                console.log("respond", response);
+            }, function (error) {
+                console.log(error)
+            })
 
         }
-        console.log(params)
-        $http({
-            method: 'GET',
-            url: CONFIG.APIURL + '/admin/sendEmail',
-            params: params
-        }).then(function successCallback(response) {
-            console.log("respond", response);
-        }, function (error) {
-            console.log(error)
-        })
+        $scope.upload = function (imageData) {
+            console.log('imageData', imageData)
+            var metadata = {
+                'contentType': imageData.type
+            };
+            var storageRef = firebase.storage().ref();
+            var uploadTask = storageRef.child('image/' + $rootScope.userId).put(imageData, metadata);
+            uploadTask.then(function (snapVideo) {
+                var download = snapVideo.downloadURL;
+                console.log(download);
+                $timeout(function () {
+                    $scope.mail.image = download;
+                })
 
-    }
-    $scope.upload = function (imageData) {
-        console.log('imageData', imageData)
-        var metadata = {
-            'contentType': imageData.type
-        };
-        var storageRef = firebase.storage().ref();
-        var uploadTask = storageRef.child('image/' + $rootScope.userId).put(imageData, metadata);
-        uploadTask.then(function (snapVideo) {
-            var download = snapVideo.downloadURL;
-            console.log(download);
-            $timeout(function () {
-                $scope.mail.image = download;
             })
-
-        })
-    };
+        };
 
 
-    $scope.deleteProfile = function (userId) {
-        firebase.database().ref('profile/' + userId).set(null).then(function (data) {
-            toastr.success('done', data)
-        }, function (error) {
-            toastr.error('error', error)
+        $scope.deleteProfile = function (userId) {
+            firebase.database().ref('profile/' + userId).set(null).then(function (data) {
+                toastr.success('done', data)
+            }, function (error) {
+                toastr.error('error', error)
 
-        })
-    }
-    $scope.updateProfile = function (index) {
-        var card = $scope.jobSeeker[index]
-        console.log(card)
-        firebase.database().ref('profile/' + card.userId).update(card).then(function () {
-            toastr.success('done', card.feature + card.hide)
-        }, function (error) {
-            toastr.error('error', error)
+            })
+        }
+        $scope.updateProfile = function (index) {
+            var card = $scope.jobSeeker[index]
+            console.log(card)
+            firebase.database().ref('profile/' + card.userId).update(card).then(function () {
+                toastr.success('done', card.feature + card.hide)
+            }, function (error) {
+                toastr.error('error', error)
 
-        })
-    }
+            })
+        }
 
 
-})
+    })
+
+
     .controller('employerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
         $scope.newfilter = {}
@@ -226,7 +230,113 @@ app.controller('jobseekerAdminCtrl', function ($state, $scope, $rootScope, $time
             })
         }
     })
-    .controller('dashAdminCtrl', function () {
+    .controller("analyticsUserCtrl", function ($scope, $timeout) {
+        $scope.labels = []
+        $scope.series = ['Total', 'Jobseeker', 'Employer']
+        $scope.TotalArray = []
+        $scope.JobseekerArray = []
+        $scope.EmployerArray = []
+        function toDate(date) {
+            var day = new Date(date);
+            var dd = day.getDate();
+            var mm = day.getMonth() + 1;
+            var yyyy = day.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var day = dd + '/' + mm + '/' + yyyy;
+            return day;
+        }
+
+        firebase.database().ref('analytics/user/all').on('value', function (snap) {
+            $timeout(function () {
+                $scope.allUser = snap.val()
+            })
+        })
+
+
+        firebase.database().ref('analytics/user').on('value', function (snap) {
+            $scope.dataAnalyticsUser = snap.val()
+
+            var Array = []
+            for (var i in $scope.dataAnalyticsUser) {
+                Array.push($scope.dataAnalyticsUser[i])
+            }
+            for (var i = 0; i < Array.length; i++) {
+                Array[i].dateEnd = toDate(Array[i].dateEnd);
+            }
+            //push 30 days to chart
+            var today = new Date().getTime()
+            var last30days = today - 86400 * 1000 * 360
+            for (var i in $scope.dataAnalyticsUser) {
+                if (last30days < $scope.dataAnalyticsUser[i].dateStart) {
+                    $scope.labels.push(toDate($scope.dataAnalyticsUser[i].dateStart))
+                    $scope.TotalArray.push($scope.dataAnalyticsUser[i].total)
+                    $scope.JobseekerArray.push($scope.dataAnalyticsUser[i].jobseeker)
+                    $scope.EmployerArray.push($scope.dataAnalyticsUser[i].employer)
+                }
+            }
+            return new Promise(function (res, rej) {
+                res($scope.labels)
+            }).then(function () {
+                $timeout(function () {
+                    $scope.today = Array[Array.length - 2]
+                    $scope.data = [$scope.TotalArray, $scope.JobseekerArray, $scope.EmployerArray]
+                });
+            })
+        })
+        $scope.onClick = function (points, evt) {
+            console.log(points, evt);
+        };
+        $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
+        $scope.options = {
+            scales: {
+                yAxes: [{
+                    id: 'y-axis-1',
+                    type: 'linear',
+                    display: true,
+                    position: 'left'
+                }, {
+                    id: 'y-axis-2',
+                    type: 'linear',
+                    display: true,
+                    position: 'right'
+                }]
+            }
+        };
+    })
+
+
+    .controller('staticLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+
+
+        firebase.database().ref('analytics/user').once('value', function (snap) {
+            $scope.dataAnalyticsUser = snap.val()
+
+            $scope.labels = []
+            $scope.series = ['Total', 'Jobseeker', 'Employer']
+            $scope.TotalArray = []
+            $scope.JobseekerArray = []
+            $scope.EmployerArray = []
+
+            for (var i in $scope.dataAnalyticsUser) {
+                $scope.labels.push($scope.dataAnalyticsUser[i].dateStart)
+                $scope.TotalArray.push($scope.dataAnalyticsUser[i].total)
+                $scope.JobseekerArray.push($scope.dataAnalyticsUser[i].jobseeker)
+                $scope.EmployerArray.push($scope.dataAnalyticsUser[i].employer)
+            }
+            return new Promise(function (res, rej) {
+                res($scope.labels)
+            }).then(function () {
+                $scope.data = [$scope.TotalArray, $scope.JobseekerArray, $scope.EmployerArray]
+            })
+
+        })
+
+
     })
     .controller('adminLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
         $scope.page = 1
@@ -326,39 +436,73 @@ app.controller('jobseekerAdminCtrl', function ($state, $scope, $rootScope, $time
 
     })
     .controller('functionAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, $q, toastr) {
+            var dataUser;
             var db = firebase.database()
-            $scope.convert = function () {
 
-                for (var i in $scope.profile) {
-                    var card = $scope.profile[i]
-                    // if (card.stars) {
-                    //      for (var k in card.stars) {
-                    //           if($scope.profile[k] && $scope.profile[k].name && $scope.profile[k].userid){
-                    //              if($scope.profile[k].photourl == "http://www.ppp-alumni.de/fileadmin/user_upload/user_upload/alumni-berichten/platzhalter-leuchtturm.jpg"){
-                    //                  $scope.profile[k].photourl =''
-                    //              }
-                    //              var reviews = {
-                    //                  name: $scope.profile[k].name,
-                    //                  avatar: $scope.profile[k].photourl || "",
-                    //                  userId: $scope.profile[k].userid,
-                    //                  rate: rating,
-                    //                  createdAt: new Date().getTime() - 60000 * 24 * 30 *10* Math.random(),
-                    //                  type: 2
-                    //              };
-                    //              rating = 9 - rating
-                    //          }
-                    //
-                    //          firebase.database().ref('activity/review/' + card.userid + '/' + reviews.userId).update(reviews)
-                    //
-                    //      }
-                    //  }
-                    var viewed = ((card.starCount || 0) + (card.disstarCount || 0)) * 10
-                    var disliked = card.disstarCount || 0
-                    firebase.database().ref('static/' + card.userid).update({viewed: viewed, disliked: disliked})
-                    console.log('Rating', viewed, disliked);
-                }
+            db.ref('user').once('value', function (snap) {
+                dataUser = snap.val()
+            })
+            var dateStart = new Date()
+            var dateEnd
+            dateStart.setHours(0, 0, 0, 0)
+            dateStart = dateStart.getTime()
+            console.log(dateStart);
+            var ObjectData = {}
+            var day = 30
+            for (i = 0; i < day; i++) {
+                dateStart = dateStart - 86400 * 1000 * i
+                dateEnd = dateStart + 86400 * 1000
+                StaticCountingNewUser(dateStart, dateEnd).then(function (data) {
+                    db.ref('analytics/user/').update(ObjectData)
+                    ObjectData[dateStart] = data
+
+                })
+
             }
+            function StaticCountingNewUser(dateStart, dateEnd) {
+                if (!dateEnd) {
+                    dateEnd = new Date().getTime()
 
+                }
+
+                if (!dateStart) {
+                    dateStart = dateEnd - 86400 * 1000
+
+                }
+                var total = 0
+                var employer = 0
+                var jobseeker = 0
+
+
+                for (var i in dataUser) {
+                    var userData = dataUser[i]
+                    if (userData.createdAt) {
+                        if (userData.createdAt > dateStart && userData.createdAt < dateEnd) {
+                            total++
+                            if (userData.type == 1) {
+                                employer++
+                            } else if (userData.type == 2) {
+                                jobseeker++
+                            }
+
+                        }
+                    } else {
+                        console.log('StaticCountingNewUser', i)
+                    }
+                }
+                return new Promise(function (resolve, reject) {
+                    var data = {
+                        dateStart: dateStart,
+                        dateEnd: dateEnd,
+                        total: total,
+                        employer: employer,
+                        jobseeker: jobseeker
+                    }
+                    console.log(data)
+                    resolve(data)
+                })
+
+            }
 
             $scope.data = {employer: {}, store: {}, job: {}}
 
