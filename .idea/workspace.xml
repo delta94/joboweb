@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a62824ef-a1e7-48c6-9f54-b832985f2e1a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="a62824ef-a1e7-48c6-9f54-b832985f2e1a" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -643,7 +641,7 @@
       <workItem from="1496904367627" duration="3753000" />
       <workItem from="1496977359384" duration="12702000" />
       <workItem from="1497581558208" duration="1272000" />
-      <workItem from="1497928087690" duration="17161000" />
+      <workItem from="1497928087690" duration="17200000" />
     </task>
     <task id="LOCAL-00001" summary="upload done">
       <created>1489469703542</created>
@@ -694,11 +692,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496905982279</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="hihihihi">
+      <created>1498188099498</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1498188099498</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1266241000" />
+    <option name="totallyTimeSpent" value="1266280000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -773,7 +778,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="upload done" />
     <MESSAGE value="new" />
-    <option name="LAST_COMMIT_MESSAGE" value="new" />
+    <MESSAGE value="hihihihi" />
+    <option name="LAST_COMMIT_MESSAGE" value="hihihihi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
