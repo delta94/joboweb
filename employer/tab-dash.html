@@ -1,31 +1,28 @@
 <div class="card" ng-init="init()" ng-if="type" style="padding:10px;">
     <div class="row">
         <div class="col-md-2">
-            <div class="popup dropdown" style=" margin-top: 10px">
-                <button class="text-truncate nav-link nav-pill btn btn-primary" data-toggle="dropdown" role="button"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    {{Lang[newfilter.job] || 'Vị trí'}} <i
-                        class="fa fa-chevron-down"
-                        aria-hidden="true"
-                        style="color: #ffffff;"></i>
-                </button>
+            <div class="popup dropdown">
+                <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    {{Lang[newfilter.job] || 'Vị trí'}} <i class="fa fa-chevron-down" aria-hidden="true"
+                                                               style="color: #999"></i>
+                </a>
                 <div class="dropdown-menu popup-content">
-                    <div class="sort-menu cfix desktop-list">
+                    <div class="sort-menu cfix desktop-list" id="featured-menu">
                         <div class="list-header">Vị trí cần tuyển</div>
-                        <ul class="divided-list" ng-repeat="(key,value) in storeData.job">
-                            <li ng-if="CONFIG.data.job[key]" class="list-browse {{newfilter.job == key? 'selected':''}}"
-                                ng-click="newfilterFilter('job',key)"><a
-                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations">{{Lang[key]}}</a>
+                        <ul id="browse-list" class="divided-list">
+                            <li class="list-browse {{!newfilter.time ? 'selected':''}}"
+                                ng-click="newfilterFilter('job','')"><a
+                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất cả</a>
                             </li>
                         </ul>
-                        <ul class="divided-list" style="margin-top: 10px">
-                            <li class="list-browse"><a
-                                    href="/store/job"
-                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations "><i
-                                    class="fa fa-magic"></i>&nbsp;Đăng thêm</a>
+                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.job">
+                            <li class="list-browse {{newfilter.job == key ? 'selected':''}}"
+                                ng-click="newfilterFilter('job',key)"><a class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                             </li>
                         </ul>
+
+
                     </div>
                 </div>
             </div>
@@ -34,22 +31,22 @@
             <div class="popup dropdown">
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    {{Lang[newfilter.time] || 'Hình thức'}} <i class="fa fa-chevron-down" aria-hidden="true"
+                    {{Lang[newfilter.working_type] || 'Hình thức'}} <i class="fa fa-chevron-down" aria-hidden="true"
                                                                style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu">
                         <div class="list-header">Hình thức làm việc</div>
                         <ul id="browse-list" class="divided-list">
-                            <li class="list-browse {{!newfilter.time ? 'selected':''}}"
-                                ng-click="newfilterFilter('time','')"><a
+                            <li class="list-browse {{!newfilter.working_type ? 'selected':''}}"
+                                ng-click="newfilterFilter('working_type','')"><a
 
                                     class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất cả</a>
                             </li>
                         </ul>
-                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.time">
-                            <li class="list-browse {{newfilter.time == key ? 'selected':''}}"
-                                ng-click="newfilterFilter('time',key)"><a
+                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.working_type">
+                            <li class="list-browse {{newfilter.working_type == key ? 'selected':''}}"
+                                ng-click="newfilterFilter('working_type',key)"><a
 
                                     class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                             </li>
@@ -110,28 +107,31 @@
             </fieldset>
         </div>
         <div class="col-md-2">
-            <div class="popup dropdown" style=" margin-top: 10px">
-                <button class="text-truncate nav-link nav-pill btn btn-outline-primary" data-toggle="dropdown"
-                        role="button"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    {{Lang[newfilter.sort] || 'Sắp xếp'}} <i
-                        class="fa fa-chevron-down"
-                        aria-hidden="true"></i>
-                </button>
-
+            <div class="popup dropdown">
+                <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    {{Lang[newfilter.sort] || 'Sắp xếp'}} <i class="fa fa-chevron-down" aria-hidden="true"
+                                                               style="color: #999"></i>
+                </a>
                 <div class="dropdown-menu popup-content">
-                    <div class="sort-menu cfix desktop-list">
-                        <div class="list-header">Sắp xếp theo</div>
+                    <div class="sort-menu cfix desktop-list" id="featured-menu">
+                        <div class="list-header">Sắp xếp</div>
+                        <ul id="browse-list" class="divided-list">
+                            <li class="list-browse {{!newfilter.sort ? 'selected':''}}"
+                                ng-click="newfilterFilter('sort','')"><a
 
-                        <ul class="divided-list" ng-repeat="(key,value) in CONFIG.data.sort">
-
+                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất cả</a>
+                            </li>
+                        </ul>
+                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.sort">
                             <li class="list-browse {{newfilter.sort == key ? 'selected':''}}"
                                 ng-click="newfilterFilter('sort',key)"><a
 
                                     class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                             </li>
                         </ul>
+
+
                     </div>
                 </div>
             </div>

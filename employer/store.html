@@ -3,52 +3,56 @@
     <div class="cube2"></div>
 </div>
 
-<div class="app flex-row align-items-center animated fadeIn" ng-init="init()" ng-show="storeData">
+<div class="app flex-row align-items-center animated fadeIn" ng-show="storeData">
     <div class="container">
 
         <div class="row justify-content-center" style="margin-top: 100px;">
-            <div class="col-md-6">
+            <div class="col-md-6" ng-hide="ByHand == true">
+                <div class="card" >
+                    <div class="card-header">
+                        <h2>Thông tin cửa hàng</h2>
+                    </div>
+                    <div class="card-block">
+                        <fieldset class="form-group">
+                            <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
+
+                            <div class="pop-add">
+                                <input ng-keydown="searchStore()" id="Store" ui-items="names"
+                                       ng-model="autocompleteStore.text" class="form-control">
+                                <i class="icon-close" id="delete-store"
+                                   ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
+                                <ul id="list-store" ng-show="autocompleteStore.text.length">
+                                    <li ng-repeat="ketqua in ketquasStore"
+                                        ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
+                                        ketqua.formatted_address}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
+                                    tìm thấy? Tự tạo
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button ng-click="createByHand()" type="submit"
+                            class="btn btn-block btn-success main-backgroud">Đăng
+                        ký
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" ng-show="ByHand == true">
                 <div class="card card-border">
 
                     <form name="signupForm" class="form-update" autocomplete="off">
-                        <div class="card" ng-hide="ByHand == true">
-                            <div class="card-header">
-                                <h2>Thông tin cửa hàng</h2>
-                            </div>
-                            <div class="card-block">
-                                <fieldset class="form-group">
-                                    <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
-
-                                    <div class="pop-add">
-                                        <input ng-keydown="searchStore()" id="Store" ui-items="names"
-                                               ng-model="autocompleteStore.text" class="form-control">
-                                        <i class="icon-close" id="delete-store"
-                                           ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
-                                        <ul id="list-store" ng-show="autocompleteStore.text.length">
-                                            <li ng-repeat="ketqua in ketquasStore"
-                                                ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
-                                                ketqua.formatted_address}}
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </fieldset>
-
-                                <div class="row">
-                                    <div class="col-6 text-left">
-                                        <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
-                                            tìm thấy? Tự tạo
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <button ng-click="createByHand()" type="submit"
-                                    class="btn btn-block btn-success main-backgroud">Đăng
-                                ký
-                            </button>
-                        </div>
-                        <div ng-show="ByHand == true">
+                        <div >
 
                             <div class="card" ng-hide="type == 'job'">
                                 <div class="card-header">
@@ -173,6 +177,30 @@
                                     <span us-spinner spinner-key="photo"></span>
                                 </div>
                             </div>
+                            <div class="card" ng-hide="type == 'job'">
+                                <div class="card-header">
+                                    <strong>Gói sử dụng</strong>
+                                </div>
+                                <div class="card-block">
+
+                                    <div class="radio">
+                                        <label for="radio2">
+                                            <input type="radio" id="radio2" ng-model="userData.package" name="radios" value="basic"> Basic:
+                                        </label>
+                                        <small class="text-muted">Tự chọn ứng viên, liên hệ và phỏng vấn</small>
+
+                                    </div>
+
+                                    <div class="radio">
+                                        <label for="radio3">
+                                            <input type="radio" id="radio3" ng-model="userData.package" name="radios" value="premium"> Premium:
+                                        </label>
+                                        <small class="text-muted">Chúng tôi sẽ cung cấp nhân sự theo yêu cầu của bạn, bảo hành 7 ngày</small>
+
+                                    </div>
+
+                                </div>
+                            </div>
 
                             <div class="card" ng-hide="type == 'job'">
                                 <div class="card-header">
@@ -217,9 +245,7 @@
                             </div>
                             <div class="card-block p-2" style="text-align: left">
                                 <h1>Vị trí cần tuyển</h1>
-                                <div class="form-group">
-                                    <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
-                                </div>
+
                                 <button ng-click="addJob()" type="submit" ng-hide="newJob"
                                         class="btn btn-outline-primary main-backgroud">
                                     Thêm
@@ -478,13 +504,13 @@
                                 </div>
 
                             </div>
-                            <button ng-hide="newJob" ng-click="submit()" type="submit" class="btn btn-block btn-success main-backgroud">
-                                Cập nhật
-                            </button>
+
                         </div>
                     </form>
-
                 </div>
+                <button ng-hide="newJob" ng-click="submit()" type="submit" class="btn btn-block btn-success main-backgroud">
+                    Cập nhật
+                </button>
             </div>
         </div>
     </div>

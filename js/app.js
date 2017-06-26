@@ -59,7 +59,7 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, AuthUser) {
+    .run(function ($rootScope, AuthUser,$stateParams,$state) {
         $rootScope.width = window.innerWidth
         $rootScope.service = AuthUser
         firebase.database().ref('config').once('value', function (snap) {
@@ -145,11 +145,18 @@ var app = angular
         $rootScope.today = new Date().getTime()
         $rootScope.jobOffer = {}
 
+
     })
 
 
-    .controller('navbarCtrl', function ($scope, $rootScope, $timeout, AuthUser, toastr, $state, $stateParams) {
-        $rootScope.service.Ana('trackView', {track: $stateParams['#'], state: $state.current.name})
+    .controller('navbarCtrl', function ($scope, $rootScope, $timeout, AuthUser, toastr, $state,$stateParams) {
+        $rootScope.service.Ana('trackView', {track: $stateParams['#'], state: $state.current.name || 'new'})
+        var params = $stateParams['#']
+        if(params && params.startsWith("ref")){
+            window.localStorage.setItem('ref', $rootScope.service.getRefer(params))
+            console.log('ref',$rootScope.service.getRefer(params))
+        }
+
 
         AuthUser.user().then(function (data) {
             console.log(data);

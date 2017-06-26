@@ -523,6 +523,7 @@
                     console.log('An error occurred while retrieving token. ', err);
                 })
         }
+
         function requestPermission() {
             messaging.requestPermission()
                 .then(function () {
@@ -967,6 +968,8 @@
             firebase.auth().signOut().then(function () {
                 // Sign-out successful.
                 toastr.info("Bạn đã đăng xuất thành công!");
+                $rootScope = undefined
+                console.log($rootScope)
                 $state.go("app.dash");
 
             }, function (error) {
@@ -1189,10 +1192,24 @@
             }
             return array
         }
-        this.loadLang =  function (lang) {
+        this.loadLang = function (lang) {
             firebase.database().ref('tran/' + lang).once('value', function (snap) {
                 $rootScope.Lang = snap.val()
             });
+        }
+        this.getRefer = function (str) {
+            var res
+            if (str) {
+                var n = str.search("&");
+                var m = str.search("ref");
+                var k = m + 4
+                if(n == -1){
+                     res = str.substr(k, str.length - k);
+                } else {
+                     res = str.substr(k, n - k);
+                }
+                return res;
+            }
         }
     })
     .service('ngCopy', ['$window', function ($window) {

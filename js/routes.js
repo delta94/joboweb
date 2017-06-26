@@ -76,7 +76,7 @@ angular
             })
 
             .state('profile', {
-                url: '/profile',
+                url: '/profile?admin',
                 templateUrl: 'jobseeker/sprofile.html',
                 controller: 'sprofileCtrl',
                 resolve: {
@@ -168,7 +168,7 @@ angular
             })
 
             .state('store', {
-                url: '/store/:id',
+                url: '/store/:id?admin',
                 templateUrl: 'employer/store.html',
                 controller: 'storeCtrl',
                 resolve: {

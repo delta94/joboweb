@@ -277,7 +277,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                     userId: user.uid,
                     name: user.displayName,
                     email: user.email,
-                    createdAt: new Date().getTime(),
+                    provider: 'facebook'
                 };
 
                 console.log(user);
@@ -338,8 +338,12 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         function createDataUser(userRef, userData, type) {
             userData.type = type;
+            userData.createdAt = new Date().getTime();
+            var refer = window.localStorage.getItem('ref')
+            if(refer){
+                userData.ref = refer;
+            }
             userRef.update(userData);
-            toastr.success('Đăng ký thành công')
             if (userData.type == 1) {
                 $state.go('store', {id: null})
             }
@@ -356,13 +360,14 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
                 $rootScope.userId = user.uid;
                 $scope.usersRef = firebase.database().ref('user/' + user.uid);
-                $scope.usersRef.update({
+                var userData = {
                     type: $scope.type,
                     phone: '',
                     userId: user.uid,
                     email: userSignup.username,
-                    createdAt: new Date().getTime()
-                });
+                    provider: 'normal'
+                };
+                createDataUser($scope.usersRef, userData, $scope.type)
 
                 toastr.success("Đăng ký thành công, mật khẩu đăng nhập của bạn là: tuyendungjobo");
                 if ($scope.type == 1) {

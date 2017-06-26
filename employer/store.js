@@ -20,12 +20,9 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         login: 1,
         profile: 0
     }
-
-
     $scope.init = function () {
         $scope.type = $stateParams.id;
         console.log($scope.type);
-        //
         $scope.multiple = {
             industry: [],
             languages: [],
@@ -35,10 +32,6 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         $scope.contact = {}
         $scope.picFile = null;
         $scope.tempoExperience = {}
-
-
-        //
-
 
         if ($scope.type == 'new') {
 
@@ -91,7 +84,9 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
                 console.log(result)
                 if (result.currentStore) {
-                    $scope.ByHand = true
+                    $timeout(function () {
+                        $scope.ByHand = true
+                    })
                     firebase.database().ref('store/' + result.currentStore).once('value', function (snap) {
                         $timeout(function () {
                             $rootScope.storeData = snap.val();
@@ -139,16 +134,52 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
             }, function (error) {
                 console.log(error)
-                // error
             });
-
-
         }
 
 
     }
+    var admin = $stateParams.admin
+    if (admin) {
+        $rootScope.storeId = admin
+        console.log($rootScope.storeId)
+        $scope.ByHand = true
+        firebase.database().ref('store/' + $rootScope.storeId).once('value', function (snap) {
+            $timeout(function () {
+                $rootScope.storeData = snap.val();
+                $rootScope.userId = $rootScope.storeData.createdBy
+                firebase.database().ref('user/' + $rootScope.userId ).once('value', function (snap) {
+                    $timeout(function () {
+                        $rootScope.userData = snap.val()
+                    })
+                })
+                if ($rootScope.storeData && $rootScope.storeData.job) {
+                    $rootScope.service.loadJob($rootScope.storeData)
+                        .then(function (data) {
+                            $timeout(function () {
+                                $scope.jobData = data
+                                console.log($scope.jobData)
+
+                            })
+                        })
+                } else {
+                    //chưa có job
+                    $rootScope.storeData.job = {}
+                    $scope.jobData = []
+                }
+
+                //Đã có, vào để update
+                $scope.autocompleteAddress.text = $rootScope.storeData.address
+            })
+        })
+
+    } else {
+        $scope.init()
+    }
+
+
     $scope.createByHand = function () {
-        if ($rootScope.storeData.googleIns) {
+        if ($rootScope.storeData && $rootScope.storeData.googleIns) {
             $rootScope.storeData.industry = $scope.convertIns($rootScope.storeData.googleIns[0])
         }
         $timeout(function () {
@@ -274,7 +305,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     uploadTask[i].then(function (snapshot) {
                         var downloadURL = snapshot.downloadURL;
                         console.log(downloadURL);
-                        if(!$rootScope.storeData.photo){
+                        if (!$rootScope.storeData.photo) {
                             $rootScope.storeData.photo = []
                         }
                         $rootScope.storeData.photo.push(downloadURL);
@@ -312,7 +343,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         if (!$scope.anaJob) {
             $scope.anaJob = []
         }
-        if($scope.newJob.job == 'other'){
+        if ($scope.newJob.job == 'other') {
             $scope.newJob.job = $scope.newJob.other
         }
 
@@ -328,7 +359,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         delete  $scope.jobData[id]
     };
     $scope.submit = function () {
-        console.log('submit',$rootScope.storeData)
+        console.log('submit', $rootScope.storeData)
         $scope.error = $rootScope.userData;
 
         if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.storeData.location) {
@@ -339,12 +370,12 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     job.deadline = new Date(job.deadline).getTime()
                     console.log(job.deadline)
                 }
-                if(!job.createdAt){
+                if (!job.createdAt) {
                     job.createdAt = new Date().getTime()
                 }
                 delete job.$$hashKey
 
-                if(job.other){
+                if (job.other) {
                     var jobkey = $rootScope.service.latinese(job.job)
                     $rootScope.storeData.job[jobkey] = job.job
                     firebase.database().ref('job/' + $rootScope.storeId + ":" + jobkey).update(job)
@@ -356,7 +387,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
 
             }
-            firebase.database().ref('store/' + $rootScope.storeData.storeId).update($rootScope.storeData)
+            firebase.database().ref('store/' + $rootScope.storeId).update($rootScope.storeData)
 
             firebase.database().ref('user/' + $rootScope.userId).update($rootScope.userData);
 
@@ -366,18 +397,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             } else {
                 $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                 toastr.success('Cập nhật thành công')
-
             }
             $state.go('app.edash')
-
-
 
         } else {
             toastr.error('Bạn chưa cập nhật đủ thông tin', 'Lỗi');
         }
     }
-
-
     $scope.startSpin = function (spin) {
         usSpinnerService.spin(spin);
     }

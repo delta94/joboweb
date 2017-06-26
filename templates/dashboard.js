@@ -22,7 +22,7 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         })
         $http({
             method: 'GET',
-            url: CONFIG.APIURL + '/api/job'
+            url: CONFIG.APIURL + '/api/job?show=hot'
         }).then(function successCallback(response) {
             console.log("respond", response);
             $timeout(function () {
