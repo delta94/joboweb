@@ -13,7 +13,7 @@
                     <small><b>Bạn chưa tương hợp với ứng viên nào</b>
                     </small>
                 </div>
-                <div ng-repeat="card in reactList.match| orderBy:'-matchedAt'">
+                <div ng-repeat="card in reactList.match | orderBy:'-matchedAt' | limitTo : numberDisplay.match">
 
                     <div class="message p-h" ng-click="service.chatToStore(card.storeId)">
                         <div class="py-h mr-1 float-left">
@@ -38,6 +38,8 @@
                     </div>
 
                 </div>
+                <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('match')" role="button" ng-if="reactList.match.length > numberDisplay.match">Xem tất cả</a></div>
+
                 <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
                     <small><b>Đã chọn bạn</b>
                     </small>
@@ -47,7 +49,7 @@
                     <small><b>Bạn chưa có ứng viên nào ứng tuyển</b>
                     </small>
                 </div>
-                <div ng-repeat="card in reactList.liked| orderBy:'-likeAt'">
+                <div ng-repeat="card in reactList.liked| orderBy:'-likeAt'| limitTo: numberDisplay.liked">
 
                     <div class="message p-h" ng-click="service.chatToStore(card.storeId)">
                         <div class="py-h mr-1 float-left">
@@ -73,6 +75,8 @@
                     </div>
 
                 </div>
+                <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('liked')" role="button" ng-if="reactList.liked.length > numberDisplay.liked">Xem tất cả</a></div>
+
                 <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
                     <small><b>Đã ứng tuyển</b>
                     </small>
@@ -81,7 +85,7 @@
                     <small><b>Bạn chưa gửi yêu cầu cho ứng viên nào, hãy chủ động tìm họ</b>
                     </small>
                 </div>
-                <div ng-repeat="card in reactList.like| orderBy:'-likeAt'">
+                <div ng-repeat="card in reactList.like| orderBy:'-likeAt'| limitTo : numberDisplay.like">
 
                     <div class="message p-h" ng-click="service.chatToStore(card.storeId)">
                         <div class="py-h mr-1 float-left">
@@ -106,6 +110,7 @@
                     </div>
 
                 </div>
+                <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('like')" role="button" ng-if="reactList.like.length > numberDisplay.like">Xem tất cả</a></div>
 
                 <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
                     <small><b>Đang tuyển gấp</b>

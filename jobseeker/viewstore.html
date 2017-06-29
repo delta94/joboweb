@@ -279,94 +279,95 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" ng-if="staticData">
-
-                        <div class="col-md-12">
-                            <h4 class="legend text-center">Thống kê</h4>
-
-                            <div class="card">
-                                <div class="card-block">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-lg-4">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="callout callout-info">
-                                                        <small class="text-muted">Tương hợp</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.matched +
-                                                            staticData.match}}</strong>
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                                <div class="col-sm-6">
-                                                    <div class="callout callout-danger">
-                                                        <small class="text-muted">Đánh giá</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                            </div>
-                                            <!--/.row-->
-                                        </div>
-                                        <!--/.col-->
-                                        <div class="col-sm-6 col-lg-4">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="callout callout-warning">
-                                                        <small class="text-muted">Xin ứng tuyển</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.liked}}</strong>
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                                <div class="col-sm-6">
-                                                    <div class="callout callout-success">
-                                                        <small class="text-muted">Mời ứng tuyển</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.like}}</strong>
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                            </div>
-                                            <!--/.row-->
-                                        </div>
-                                        <!--/.col-->
-                                        <div class="col-sm-6 col-lg-4">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="callout">
-                                                        <small class="text-muted">Lượt xem</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.viewed}}</strong>
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                                <div class="col-sm-6">
-                                                    <div class="callout callout-primary">
-                                                        <small class="text-muted">Lượt chia sẻ</small>
-                                                        <br>
-                                                        <strong class="h4">{{staticData.shared}}</strong>
-
-                                                    </div>
-                                                </div>
-                                                <!--/.col-->
-                                            </div>
-                                            <!--/.row-->
-                                        </div>
-                                        <!--/.col-->
-                                    </div>
-                                    <!--/.row-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--/.col-->
-                    </div>
 
                 </div>
+
             </div>
         </div>
 
+        <div class="row" ng-if="staticData">
+
+            <div class="col-md-12">
+                <h4 class="legend text-center">Thống kê</h4>
+
+                <div class="card">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-info">
+                                            <small class="text-muted">Tương hợp</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.matched +
+                                                staticData.match}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-danger">
+                                            <small class="text-muted">Đánh giá</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-warning">
+                                            <small class="text-muted">Xin ứng tuyển</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.liked}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-success">
+                                            <small class="text-muted">Mời ứng tuyển</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.like}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="callout">
+                                            <small class="text-muted">Lượt xem</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.viewed}}</strong>
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-6">
+                                        <div class="callout callout-primary">
+                                            <small class="text-muted">Lượt chia sẻ</small>
+                                            <br>
+                                            <strong class="h4">{{staticData.shared}}</strong>
+
+                                        </div>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+                                <!--/.row-->
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.row-->
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
 
     </div>
 </div>

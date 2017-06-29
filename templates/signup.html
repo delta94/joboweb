@@ -22,10 +22,11 @@
                         </button>
                         <hr class="mx-1" >
                         <form name="signupForm" ng-submit="doSignup(userSignup)" autocomplete="off">
-                            <div class="input-group mb-1">
+                            <div class="input-group mb-1" ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
                                 <span class="input-group-addon">@</span>
-                                <input type="email" class="form-control" placeholder="Đăng ký bằng Email" id="email"
-                                       ng-model="userSignup.username">
+                                <input type="email" name="email" class="form-control" placeholder="Đăng ký bằng Email" id="email"
+                                       ng-model="userSignup.username" required>
+                                <i class="fa fa-check" ng-show="signupForm.email.$valid && signupForm.email.$pristine"></i>
                             </div>
 
                             <button ng-disabled="!userSignup.username" type="submit" class="btn btn-block btn-primary main-backgroud">Đăng ký</button>

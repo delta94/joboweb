@@ -33,7 +33,7 @@
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     {{Lang[newfilter.industry] || 'Lĩnh vực'}} <i class="fa fa-chevron-down"
-                                                                                  aria-hidden="true" style="color: #999"></i>
+                                                                  aria-hidden="true" style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu">
@@ -124,7 +124,8 @@
         </div>
         <div class="col-md-2 col-sm-2 col-xs-2">
             <div class="popup dropdown" style="margin-top: 10px">
-                <button class="text-truncate nav-link nav-pill btn btn-outline-primary" data-toggle="dropdown" role="button"
+                <button class="text-truncate nav-link nav-pill btn btn-outline-primary" data-toggle="dropdown"
+                        role="button"
                         aria-haspopup="true"
                         aria-expanded="false">
                     {{Lang[newfilter.sort] || 'Sắp xếp'}} <i
@@ -152,21 +153,23 @@
     </div>
 </div>
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="verifyEmail">
-    <div class="card-block"  style="padding: 0.25rem 1.25rem">
-        <button class="btn btn-secondary pull-right" style="border-radius: 30px" ng-click="service.sendVerifyEmail(userId)"><i
-                aria-hidden="true" ></i> Gửi lại email cho tôi
+    <div class="card-block" style="padding: 0.25rem 1.25rem">
+        <button class="btn btn-secondary pull-right" style="border-radius: 30px"
+                ng-click="service.sendVerifyEmail(userId)"><i
+                aria-hidden="true"></i> Gửi lại email cho tôi
         </button>
         <span>Bạn không thể sử dụng mọi tính năng nếu chưa xác nhận Email, hãy đảm bảo bạn đã kiểm tra hòm mail.</span>
 
     </div>
 </div>
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="webToken && !verifyEmail">
-    <div class="card-block"  style="padding: 0.25rem 1.25rem">
+    <div class="card-block" style="padding: 0.25rem 1.25rem">
         <button class="btn btn-secondary pull-right" style="border-radius: 30px" ng-click="service.saveWebToken()"><i
 
-                aria-hidden="true" ></i> Bật thông báo
+                aria-hidden="true"></i> Bật thông báo
         </button>
-        <p>Để nhận thông báo khi có công việc phù hợp, hãy bật thông báo (Nếu bật thông báo, hồ sơ của bạn sẽ ưu tiên hiển thị hơn).</p>
+        <p>Để nhận thông báo khi có công việc phù hợp, hãy bật thông báo (Nếu bật thông báo, hồ sơ của bạn sẽ ưu tiên
+            hiển thị hơn).</p>
     </div>
 </div>
 
@@ -228,9 +231,15 @@
                         <div class="progress progress-sm" data-toggle="popover"
                              data-trigger="hover"
                              data-content="Bạn có {{card.match}} điểm chung với thương hiệu này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">
-                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89"class="progress-bar bg-info" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
 
                         </div>
 
@@ -254,9 +263,15 @@
                         <div class="progress progress-sm" data-toggle="popover"
                              data-trigger="hover"
                              data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">
-                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89"class="progress-bar bg-info" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning" style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"
+                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
+                                 aria-valuemax="100"></div>
 
                         </div>
                         <div class="content">
@@ -280,10 +295,11 @@
                                 {{Lang[card.job] || card.job}}
                             </h3>
 
-                            <h4 class="message" itemprop="description">
-                                {{Lang[card.working_type]}}
-                            </h4>
-
+                            <div style="display:inline-block;width:150px;height:25px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
+                                <h4 class="message" itemprop="description">
+                                    {{Lang[card.working_type]}}
+                                </h4>
+                            </div>
                             <div class="footer">
                                 <div class="author-card" ui-sref="app.viewstore ({id:card.storeId})">
                                     <a class="card-link ">
@@ -295,7 +311,8 @@
 
                                 </div>
                                 <div class="stats pull-right">
-                                    {{card.salary? card.salary +' triệu | ':''}} {{service.timeAgo(card.createdAt)}}                                </div>
+                                    {{card.salary? card.salary +' triệu | ':''}} {{service.timeAgo(card.createdAt)}}
+                                </div>
                                 <div class="clearfix"></div>
                             </div>
                         </div>

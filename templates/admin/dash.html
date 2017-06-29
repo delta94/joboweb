@@ -320,6 +320,8 @@
                             <th>VerifyEmail</th>
                             <th>mobileToken</th>
                             <th>webToken</th>
+                            <th>ref</th>
+
 
                         </tr>
                         </thead>
@@ -333,9 +335,11 @@
                             <td>{{card.name}}<br>{{card.userId}}</td>
                             <td>{{card.email}}</td>
                             <td>{{card.phone}}</td>
-                            <td>{{card.VerifyEmail}}</td>
+                            <td>{{card.verifyEmail}}</td>
                             <td><span ng-if="card.mobileToken">true</span></td>
                             <td><span ng-if="card.webToken">true</span></td>
+                            <td>{{card.ref}}</td>
+
                         </tr>
                         </tbody>
                     </table>

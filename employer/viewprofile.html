@@ -55,6 +55,8 @@
 
                     <div class="em-info">
                         <h4>{{profileData.name}}</h4>
+                        <span class="badge badge-danger pull-right" ng-if="profileData.urgent == -1">Đã có việc</span>
+                        <span class="badge badge-info pull-right" ng-if="profileData.urgent == 1">Tìm việc gấp</span>
                         <div class="rating-stars" ng-show="reviewData">
                             <div class="rating-input">
                                 <span class="fa fa-star fa-full" data-value="1"

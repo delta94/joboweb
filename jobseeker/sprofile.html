@@ -2,7 +2,7 @@
     <div class="cube1"></div>
     <div class="cube2"></div>
 </div>
-<div class="app flex-row align-items-center animated fadeIn" ng-init="init()" ng-show="userData">
+<div class="app flex-row align-items-center animated fadeIn" ng-show="userData">
     <div class="container">
         <div class="row justify-content-center" style="margin-top: 100px;">
 
@@ -10,8 +10,9 @@
                 <div class="card" ng-show="preApply">
                     <hr class="transparent mx-1 my-0">
                     <div class="callout callout-primary m-0 py-1">
-                        <div class="callout_preApply" >
-                            <p>Hãy cập nhật thông tin cá nhân để hồ sơ của bạn nổi bật và {{preApply.card.storeName}} lựa chọn bạn</p>
+                        <div class="callout_preApply">
+                            <p>Hãy cập nhật thông tin cá nhân để hồ sơ của bạn nổi bật và {{preApply.card.storeName}}
+                                lựa chọn bạn</p>
                         </div>
                     </div>
                     <hr class="mx-1 my-0">
@@ -29,75 +30,96 @@
                                 <strong>Thông tin liên hệ</strong>
                             </div>
                             <div class="card-block">
-                                <fieldset class="form-group {{error.name ? 'has-danger':''}}" id="anchorname">
-                                    <label>Họ tên</label>
+                                <fieldset class="form-group {{error.name ? 'has-danger':''}}" id="anchorname"
+                                          ng-class="{ 'has-danger' : signupForm.name.$invalid }">
+                                    <label>Họ tên* </label><i class="fa fa-check" ng-show="signupForm.name.$valid"></i>
+
                                     <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-user"></i>
                                         </span>
-                                        <input type="text" class="form-control" placeholder="Họ tên"
-                                               ng-model="userData.name" id="name">
+                                        <input type="text" name="name" class="form-control" placeholder="Họ tên"
+                                               ng-model="userData.name" id="name" required>
                                     </div>
                                 </fieldset>
                                 <fieldset class="form-group {{error.birth ? 'has-danger':''}}">
-                                    <label>Ngày sinh</label>
+                                    <label>Ngày sinh *</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
+                                            Ngày
                                         </span>
-                                        <input type="text" class="form-control" ng-model="userData.birth"
-                                               ui-mask="99/99/9999">
+                                        <select class="form-control" ng-model="userData.birthArray.day"
+                                                ng-options="n for n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"></select>
+                                        <span class="input-group-addon">
+                                            Tháng
+                                        </span>
+                                        <select class="form-control" ng-model="userData.birthArray.month"
+                                                ng-options="n for n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"></select>
+                                        <span class="input-group-addon">
+                                            Năm
+                                        </span>
+                                        <select class="form-control" ng-model="userData.birthArray.year"
+                                                ng-options="n for n in [2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989, 1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980]"></select>
+
                                     </div>
-                                    <small class="text-muted">ex. 99/99/9999</small>
                                 </fieldset>
 
                                 <fieldset class="form-group {{error.address ? 'has-danger':''}}">
-                                    <label>Địa chỉ</label>
-                                    <div class="pop-add">
-                                        <input ng-keydown="searchAddress()" id="address" ui-items="names"
-                                               ng-model="autocompleteAddress.text" class="form-control">
-                                        <i class="icon-close" id="delete-address"
+                                    <label>Địa chỉ *</label>
+                                    <div class="pop-add"
+                                         ng-class="{ 'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine }">
+                                        <input name="address" ng-keydown="searchAddress(autocompleteAddress.text)" id="address" ui-items="names"
+                                               ng-model="autocompleteAddress.text" class="form-control" required>
+                                        <i class="fa fa-close" id="delete-address" style="color: #aaaaaa"
                                            ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
                                         <ul id="list-add" ng-show="autocompleteAddress.text.length">
                                             <li ng-repeat="ketqua in ketquasAddress"
+                                                ng-if="ketqua.address_components.length > 1"
                                                 ng-click="setSelectedAddress(ketqua)">
                                                 {{ketqua.formatted_address}}
                                             </li>
                                         </ul>
                                     </div>
                                     <small class="text-muted">- Các công việc sẽ hiển thị xung quanh địa chỉ của bạn</small><br>
-                                    <small class="text-muted">- Hãy nhập từ khóa để tìm kiếm địa chỉ</small>
+                                    <small class="text-muted">- Hãy nhập từ khóa để tìm kiếm địa chỉ</small><br>
+                                    <small class="text-muted">- Lựa chọn những địa chỉ được gợi ý</small>
 
                                 </fieldset>
 
+                                <div class="form-group">
+                                    <label class="form-control-label">Công việc mong muốn *</label>
+                                    <ui-select class="form-control" multiple ng-model="multiple.job" theme="select2"
+                                               limit="3">
+                                        <ui-select-match placeholder="Chọn công việc">{{Lang[$item]}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="job in arrayJob | filter:$select.search">
+                                            {{Lang[job]}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
+                                </div>
+
                                 <fieldset class="form-group {{error.email ? 'has-danger':''}}">
-                                    <label>Email</label>
-                                    <div class="input-group mb-1">
+                                    <label>Email *</label> <i class="fa fa-check" ng-show="signupForm.email.$valid && signupForm.email.$pristine"></i>
+                                    <div class="input-group mb-1" ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
                                         <span class="input-group-addon">@</span>
-                                        <input type="text" class="form-control" placeholder="Email" id="email"
-                                               ng-model="userData.email" ng-disabled="userInfo.email">
+                                        <input type="text" name="email" class="form-control" placeholder="Email" id="email"
+                                               ng-model="userData.email" ng-disabled="userInfo.email" required>
+
                                     </div>
                                 </fieldset>
 
                                 <fieldset class="form-group {{error.phone ? 'has-danger':''}}">
-                                    <label>Số điện thoại</label>
+                                    <label>Số điện thoại *</label>
                                     <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-phone"></i>
                                         </span>
-                                        <input type="number" class="form-control" placeholder=""
-                                               ng-model="userData.phone" ng-disabled="userInfo.phone">
+                                        <input type="number" name="phonenum" class="form-control" placeholder=""
+                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required><i class="fa fa-check" ng-show="signupForm.phone.$valid && signupForm.phone.$pristine"></i>
+
                                     </div>
                                 </fieldset>
-
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <strong>Thông tin cá nhân</strong>
-                            </div>
-                            <div class="card-block">
-
                                 <fieldset class="form-group">
                                     <label>Avatar</label>
 
@@ -139,11 +161,21 @@
                                         - Chọn ảnh bán thân rõ mặt, đủ ánh sáng và chuyên nghiệp<br>
                                     </small>
                                 </fieldset>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Thông tin cá nhân</strong>
+
+                            </div>
+                            <div class="card-block">
+
                                 <div class="form-group">
                                     <label class="form-control-label">Chiều cao</label>
                                     <div class="controls">
                                         <div class="input-group">
-                                            <input ng-model="userData.height" class="form-control" size="16"
+                                            <input name="height" ng-model="userData.height" class="form-control" size="16"
                                                    type="text">
                                             <span class="input-group-addon">cm</span>
                                         </div>
@@ -154,7 +186,7 @@
                                     <label class="form-control-label">Cân nặng</label>
                                     <div class="controls">
                                         <div class="input-group">
-                                            <input ng-model="userData.weight" class="form-control" size="16"
+                                            <input name="weight" ng-model="userData.weight" class="form-control" size="16"
                                                    type="text">
                                             <span class="input-group-addon">kg</span>
                                         </div>
@@ -185,9 +217,9 @@
                                 <fieldset class="form-group">
                                     <label>Trường</label>
                                     <div class="pop-add">
-                                        <input ng-keydown="searchSchool()" id="school" ui-items="names"
-                                               ng-model="autocompleteSchool.text" class="form-control">
-                                        <i class="icon-close" id="delete-school"
+                                        <input name="school" ng-keydown="searchSchool()" id="school" ui-items="names"
+                                               ng-model="autocompleteSchool.text" class="form-control" required>
+                                        <i class="fa fa-close" id="delete-school" style="color: #aaaaaa"
                                            ng-show="autocompleteSchool.text.length" ng-click="eraseSchool()"></i>
                                         <ul id="list-school" ng-show="autocompleteSchool.text.length">
                                             <li ng-repeat="ketqua in ketquasSchool | limitTo: 5"
@@ -231,23 +263,13 @@
                                     </ui-select>
                                     <small class="text-muted">Chỉ được chọn tối đa 3 địa điểm</small>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">Công việc mong muốn</label>
-                                    <ui-select class="form-control" multiple ng-model="multiple.job" theme="select2"
-                                               limit="3">
-                                        <ui-select-match placeholder="Chọn công việc">{{Lang[$item]}}
-                                        </ui-select-match>
-                                        <ui-select-choices repeat="job in arrayJob | filter:$select.search">
-                                            {{Lang[job]}}
-                                        </ui-select-choices>
-                                    </ui-select>
-                                    <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
-                                </div>
+
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Thu nhập mong muốn</label>
                                     <div class=" col-md-9 controls">
                                         <div class="input-group">
-                                            <input ng-model="userData.expect_salary" class="form-control" type="number" step="any">
+                                            <input ng-model="userData.expect_salary" class="form-control" type="number"
+                                                   step="any">
                                             <span class="input-group-addon">triệu đồng/tháng</span>
                                         </div>
                                         <small class="text-muted">
@@ -260,16 +282,19 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Hình thức làm việc</label>
                                     <div class="col-md-9">
-                                        <label class="radio-inline" ng-repeat="(key,value) in CONFIG.data.working_type" style="margin-right: 10px">
-                                            <input type="radio"  ng-model="userData.working_type" value="{{key}}">{{Lang[key]}}
+                                        <label class="radio-inline" ng-repeat="(key,value) in CONFIG.data.working_type"
+                                               style="margin-right: 10px">
+                                            <input type="radio" ng-model="userData.working_type" value="{{key}}">{{Lang[key]}}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">Thời gian sẵn sàng làm việc</label>
                                     <div class="col-md-9">
-                                        <label class="checkbox-inline" for="inline-checkbox1" ng-repeat="(key,value) in CONFIG.data.time" style="margin-right: 10px">
-                                            <input type="checkbox" id="inline-checkbox1" ng-model="userData.time[key]" value="true">{{value}}
+                                        <label class="checkbox-inline" for="inline-checkbox1"
+                                               ng-repeat="(key,value) in CONFIG.data.time" style="margin-right: 10px">
+                                            <input type="checkbox" id="inline-checkbox1" ng-model="userData.time[key]"
+                                                   value="true">{{value}}
                                         </label>
 
                                     </div>
@@ -292,14 +317,14 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Trạng thái tìm việc</label>
                                     <div>
-                                        <label class="radio-inline" >
-                                            <input type="radio"   value="1" ng-model="userData.urgent"> Tìm gấp
-                                        </label>
-                                        <label class="radio-inline" >
-                                            <input type="radio"  value="0" ng-model="userData.urgent"> Bình thường
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" ng-model="userData.urgent"> Tìm gấp
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" value="-1" ng-model="userData.urgent"> Chưa muốn đi làm ngay
+                                            <input type="radio" value="0" ng-model="userData.urgent"> Bình thường
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="-1" ng-model="userData.urgent"> Đã có việc
                                         </label>
                                     </div>
 
@@ -369,7 +394,7 @@
                                         </span>
                                             <input type="month" class="date-control" ng-model="tempoExperience.start">
                                         </div>
-                                        <small class="text-muted">vd.  01/2017</small>
+                                        <small class="text-muted">vd. 01/2017</small>
                                     </fieldset>
                                     <fieldset ng-hide="tempoExperience.end == true" class="form-group">
                                         <label>Kết thúc</label>
@@ -379,13 +404,14 @@
                                         </span>
                                             <input type="month" class="date-control" ng-model="tempoExperience.end">
                                         </div>
-                                        <small class="text-muted">vd.  03/2017</small>
+                                        <small class="text-muted">vd. 03/2017</small>
                                     </fieldset>
                                     <fieldset class="form-group">
                                         <label>Đến nay</label>
                                         <label class="switch switch-default switch-pill switch-primary"
                                                style="float: right">
-                                            <input type="checkbox" class="switch-input" checked="{{tempoExperience.end}}"
+                                            <input type="checkbox" class="switch-input"
+                                                   checked="{{tempoExperience.end}}"
                                                    ng-model="tempoExperience.end">
                                             <span class="switch-label"></span>
                                             <span class="switch-handle"></span>
@@ -457,11 +483,12 @@
                             <div class="card-block">
                                 <div style="margin: 10px 0" ng-if="progress != 0 && progress != 100">
                                     <span>Đang tải lên</span>
-                                    <div class="progress-bar bg-warning text-center" style="width:{{progress}}%;" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">{{progress}}%</div>
+                                    <div class="progress-bar bg-warning text-center" style="width:{{progress}}%;"
+                                         aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+                                        {{progress}}%
+                                    </div>
 
                                 </div>
-
-
 
 
                                 <div class="card" ng-show="userData.videourl">
@@ -478,7 +505,8 @@
                                     </div>
                                 </div>
                                 <small class="text-muted" ng-hide="userData.videourl">
-                                    - Nếu có video thì profile của bạn sẽ được tăng mức hiển thị trước nhà tuyển dụng gấp 2 lần<br>
+                                    - Nếu có video thì profile của bạn sẽ được tăng mức hiển thị trước nhà tuyển dụng
+                                    gấp 2 lần<br>
                                     - Hãy giới thiệu bản thân để gây ấn tượng với các nhà tuyển dụng<br>
                                     - Nội dung video nên bao gồm các câu trả lời của câu hỏi sau:<br>
                                     + Giới thiệu về bạn<br>

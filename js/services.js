@@ -436,32 +436,21 @@
             return defer.promise
 
         }
-        this.convertDate = function (date) {
-            var str = date;
-            var res = str.slice(0, 2);
-            var res2 = str.slice(2, 4);
-            var res3 = str.slice(4, 8);
-            var createDate = new Date(res3, res2, res)
-            return createDate
+        this.convertDate = function (array) {
+
+            return new Date(array.year,array.month,array.day).getTime()
         }
-        this.convertDateRes = function (date) {
-            var k = new Date(date).getDate()
-            if (k <= 9) {
-                k = '0' + k;
+        this.convertDateArray = function (date) {
+            var dateAr = new Date(date)
+
+            return {
+                day: dateAr.getDate(),
+                month: dateAr.getMonth() + 1,
+                year: dateAr.getFullYear()
             }
 
-            var a = new Date(date).getMonth()
-            if (a <= 9) {
-                a = '0' + a;
-            }
-
-            var x = new Date(date).getFullYear()
-
-            var c = k + '' + a + '' + x
-
-            return c
-
         }
+
         this.getfirst = function (obj) {
             if (obj) {
                 return Object.keys(obj)[0]
@@ -968,9 +957,9 @@
             firebase.auth().signOut().then(function () {
                 // Sign-out successful.
                 toastr.info("Bạn đã đăng xuất thành công!");
-                $rootScope = undefined
-                console.log($rootScope)
                 $state.go("app.dash");
+                window.location.reload()
+                $rootScope = undefined
 
             }, function (error) {
                 // An error happened.
@@ -1210,6 +1199,9 @@
                 }
                 return res;
             }
+        }
+        this.increasedBy = function (type) {
+            $rootScope.numberDisplay[type] = $rootScope.reactList[type].length
         }
     })
     .service('ngCopy', ['$window', function ($window) {
