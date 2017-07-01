@@ -31,8 +31,8 @@
                             </div>
                             <div class="card-block">
                                 <fieldset class="form-group {{error.name ? 'has-danger':''}}" id="anchorname"
-                                          ng-class="{ 'has-danger' : signupForm.name.$invalid }">
-                                    <label>Họ tên* </label><i class="fa fa-check" ng-show="signupForm.name.$valid"></i>
+                                          ng-class="{ 'has-danger' : signupForm.name.$invalid && !signupForm.name.$pristine, 'has-success' : signupForm.name.$valid }">
+                                    <label>Họ tên* </label> <i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.name.$valid"></i>
 
                                     <div class="input-group mb-1">
                                         <span class="input-group-addon">
@@ -42,8 +42,8 @@
                                                ng-model="userData.name" id="name" required>
                                     </div>
                                 </fieldset>
-                                <fieldset class="form-group {{error.birth ? 'has-danger':''}}">
-                                    <label>Ngày sinh *</label>
+                                <fieldset class="form-group {{error.birth ? 'has-danger':''}}" ng-class="{'has-success' : userData.birthArray.day > 0 && userData.birthArray.month > 0 && userData.birthArray.year > 0}">
+                                    <label>Ngày sinh *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.birthArray.day > 0 && userData.birthArray.month > 0 && userData.birthArray.year > 0"></i>
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             Ngày
@@ -64,8 +64,8 @@
                                     </div>
                                 </fieldset>
 
-                                <fieldset class="form-group {{error.address ? 'has-danger':''}}">
-                                    <label>Địa chỉ *</label>
+                                <fieldset class="form-group {{error.address ? 'has-danger':''}}" ng-class="{'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine, 'has-success' : signupForm.address.$valid}">
+                                    <label>Địa chỉ *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.address.$valid"></i>
                                     <div class="pop-add"
                                          ng-class="{ 'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine }">
                                         <input name="address" ng-keydown="searchAddress(autocompleteAddress.text)" id="address" ui-items="names"
@@ -86,9 +86,9 @@
 
                                 </fieldset>
 
-                                <div class="form-group">
-                                    <label class="form-control-label">Công việc mong muốn *</label>
-                                    <ui-select class="form-control" multiple ng-model="multiple.job" theme="select2"
+                                <div class="form-group {{error.job ? 'has-danger':''}}" ng-class="{'has-success' : multiple.job.length > 0 }">
+                                    <label class="form-control-label">Công việc mong muốn *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="multiple.job.length > 0"></i>
+                                    <ui-select name="job" id="job" class="form-control" multiple ng-model="multiple.job" theme="select2"
                                                limit="3">
                                         <ui-select-match placeholder="Chọn công việc">{{Lang[$item]}}
                                         </ui-select-match>
@@ -99,8 +99,8 @@
                                     <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
                                 </div>
 
-                                <fieldset class="form-group {{error.email ? 'has-danger':''}}">
-                                    <label>Email *</label> <i class="fa fa-check" ng-show="signupForm.email.$valid && signupForm.email.$pristine"></i>
+                                <fieldset class="form-group {{error.email ? 'has-danger':''}}" ng-class="{'has-danger' : signupForm.email.$valid && !signupForm.email.$pristine,'has-success' : signupForm.email.$valid}">
+                                    <label>Email *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.email.$valid"></i>
                                     <div class="input-group mb-1" ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
                                         <span class="input-group-addon">@</span>
                                         <input type="text" name="email" class="form-control" placeholder="Email" id="email"
@@ -109,51 +109,65 @@
                                     </div>
                                 </fieldset>
 
-                                <fieldset class="form-group {{error.phone ? 'has-danger':''}}">
-                                    <label>Số điện thoại *</label>
+                                <fieldset class="form-group {{error.phone ? 'has-danger':''}}" ng-class="{'has-danger' : signupForm.phonenum.$invalid && !signupForm.phonenum.$pristine, 'has-success' : signupForm.phonenum.$valid}">
+                                    <label>Số điện thoại *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.phonenum.$valid"></i>
                                     <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-phone"></i>
                                         </span>
                                         <input type="number" name="phonenum" class="form-control" placeholder=""
-                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required><i class="fa fa-check" ng-show="signupForm.phone.$valid && signupForm.phone.$pristine"></i>
+                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required>
 
                                     </div>
                                 </fieldset>
-                                <fieldset class="form-group">
-                                    <label>Avatar</label>
+                                <fieldset class="form-group {{error.avatar ? 'has-danger':''}}" ng-class="{'has-success' : userData.avatar != null}">
+                                    <label>Avatar *</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.avatar != null"></i>
 
                                     <div class="avatar-img">
-                                        <div class="card" ng-="picFile">
-                                            <div class="card-block" style="padding: 0px">
-                                                <img ng-src="{{userData.avatar || 'img/macdinh.jpg'}}"
-                                                     style="width: 100%"/>
-
-                                            </div>
-                                            <div class="card-footer" style="padding: 0px">
-                                                <button class="btn btn-outline-success btn-block" ngf-select
-                                                        ng-model="picFile"
-                                                        accept="image/*">
-                                                    <i class="fa fa-magic"></i> Chọn ảnh
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <span us-spinner spinner-key="avatar"></span>
-                                        <form name="myForm">
-                                            <div ng-show="picFile">
+                                        <div class="card">
+                                            <!--<a ng-hide="picFile" class="btn card-block" style="padding: 0px" href="#">
+                                                <img ngf-drop ng-src="{{userData.avatar || 'img/macdinh.jpg'}}"
+                                                     style="width: 100%" ngf-select ng-model="picFile" accept="image/*"/>
+                                            </a>-->
+                                            <div>
                                                 <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-                                                     class="cropArea">
+                                                     class="cropArea" style="height: 400px">
+                                                    <a ng-show="userData.avatar" ng-hide="picFile" class="btn card-block" style="padding: 0px;" href="#">
+                                                        <img ngf-drop ng-src="{{userData.avatar || 'img/macdinh.jpg'}}"
+                                                             style="width: 100%" ngf-select ng-model="picFile" accept="image/*"/>
+                                                    </a>
                                                     <img-crop image="picFile  | ngfDataUrl" area-type="square"
                                                               result-image-size="800" result-image-format="image/jpeg"
                                                               result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
                                                     </img-crop>
                                                 </div>
-
+                                                <button ng-show="picFile" class="btn btn-success btn-block" ng-click="uploadAvatar(croppedDataUrl)">
+                                                    Tải lên
+                                                </button>
+                                            </div>
+                                            <!--<div class="card-footer" style="padding: 0px">
+                                                <button class="btn btn-outline-success btn-block" ngf-select
+                                                        ng-model="picFile"
+                                                        accept="image/*">
+                                                    <i class="fa fa-magic"></i> Chọn ảnh
+                                                </button>
+                                            </div>-->
+                                        </div>
+                                        <!--<span us-spinner spinner-key="avatar"></span>
+                                        <form name="myForm">
+                                            <div ng-show="picFile">
+                                                <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+                                                     class="cropArea" style="height: 500px;">
+                                                    <img-crop image="picFile  | ngfDataUrl" area-type="square"
+                                                              result-image-size="800" result-image-format="image/jpeg"
+                                                              result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
+                                                    </img-crop>
+                                                </div>
                                                 <button class="btn btn-success" ng-click="uploadAvatar(croppedDataUrl)">
                                                     Tải lên
                                                 </button>
                                             </div>
-                                        </form>
+                                        </form>-->
 
                                     </div>
                                     <small class="text-muted" ng-hide="userData.avatar">
@@ -171,22 +185,22 @@
                             </div>
                             <div class="card-block">
 
-                                <div class="form-group">
-                                    <label class="form-control-label">Chiều cao</label>
+                                <div class="form-group" ng-class="{'has-success' : userData.height > 0}">
+                                    <label class="form-control-label">Chiều cao</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.height > 0"></i>
                                     <div class="controls">
                                         <div class="input-group">
-                                            <input name="height" ng-model="userData.height" class="form-control" size="16"
+                                            <input ng-model="userData.height" class="form-control" size="16"
                                                    type="text">
                                             <span class="input-group-addon">cm</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-control-label">Cân nặng</label>
+                                <div class="form-group" ng-class="{'has-success' : userData.weight > 0}">
+                                    <label class="form-control-label">Cân nặng</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.weight > 0"></i>
                                     <div class="controls">
                                         <div class="input-group">
-                                            <input name="weight" ng-model="userData.weight" class="form-control" size="16"
+                                            <input ng-model="userData.weight" class="form-control" size="16"
                                                    type="text">
                                             <span class="input-group-addon">kg</span>
                                         </div>
@@ -214,11 +228,11 @@
                                 <strong>Trình độ học vấn</strong>
                             </div>
                             <div class="card-block">
-                                <fieldset class="form-group">
-                                    <label>Trường</label>
+                                <fieldset class="form-group" ng-class="{'has-success' : autocompleteSchool.text.length > 0}">
+                                    <label>Trường</label> <i class="fa fa-check" style="color: #00ff00" ng-show="autocompleteSchool.text.length > 0"></i>
                                     <div class="pop-add">
-                                        <input name="school" ng-keydown="searchSchool()" id="school" ui-items="names"
-                                               ng-model="autocompleteSchool.text" class="form-control" required>
+                                        <input ng-keydown="searchSchool()" id="school" ui-items="names"
+                                               ng-model="autocompleteSchool.text" class="form-control">
                                         <i class="fa fa-close" id="delete-school" style="color: #aaaaaa"
                                            ng-show="autocompleteSchool.text.length" ng-click="eraseSchool()"></i>
                                         <ul id="list-school" ng-show="autocompleteSchool.text.length">
@@ -230,8 +244,8 @@
 
                                 </fieldset>
 
-                                <fieldset class="form-group">
-                                    <label>Ngoại ngữ</label>
+                                <fieldset class="form-group" ng-class="{'has-success' : multiple.languages.length > 0}">
+                                    <label>Ngoại ngữ</label> <i class="fa fa-check" style="color: #00ff00" ng-show="multiple.languages.length > 0"></i>
                                     <ui-select class="form-control" multiple ng-model="multiple.languages"
                                                theme="select2">
                                         <ui-select-match placeholder="Chọn ngoại ngữ">{{Lang[$item]}}
@@ -250,8 +264,8 @@
                             </div>
                             <div class="card-block">
 
-                                <div class="form-group">
-                                    <label class="form-control-label">Nơi làm việc mong muốn</label>
+                                <div class="form-group" ng-class="{'has-success' : multiple.industry.length > 0}">
+                                    <label class="form-control-label">Nơi làm việc mong muốn</label> <i class="fa fa-check" style="color: #00ff00" ng-show="multiple.industry.length > 0"></i>
                                     <ui-select class="form-control" multiple ng-model="multiple.industry"
                                                theme="select2"
                                                limit="3">
@@ -264,9 +278,9 @@
                                     <small class="text-muted">Chỉ được chọn tối đa 3 địa điểm</small>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Thu nhập mong muốn</label>
-                                    <div class=" col-md-9 controls">
+                                <div class="form-group row" ng-class="{'has-success' : userData.expect_salary > 0}">
+                                    <label class="col-md-4 form-control-label">Thu nhập mong muốn <i class="fa fa-check" style="color: #00ff00" ng-show="userData.expect_salary > 0"></i></label>
+                                    <div class=" col-md-8 controls">
                                         <div class="input-group">
                                             <input ng-model="userData.expect_salary" class="form-control" type="number"
                                                    step="any">
@@ -279,8 +293,8 @@
 
 
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Hình thức làm việc</label>
+                                <div class="form-group row" ng-class="{'has-success' : userData.working_type.length > 0}">
+                                    <label class="col-md-3 form-control-label">Hình thức làm việc <i class="fa fa-check" style="color: #00ff00" ng-show="userData.working_type.length > 0"></i></label>
                                     <div class="col-md-9">
                                         <label class="radio-inline" ng-repeat="(key,value) in CONFIG.data.working_type"
                                                style="margin-right: 10px">
@@ -288,9 +302,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label">Thời gian sẵn sàng làm việc</label>
-                                    <div class="col-md-9">
+                                <div class="form-group row" ng-class="{'has-success' : userData.time != null}">
+                                    <label class="col-md-4 form-control-label">Thời gian sẵn sàng làm việc <i class="fa fa-check" style="color: #00ff00" ng-show="userData.time != null"></i></label>
+                                    <div class="col-md-8">
                                         <label class="checkbox-inline" for="inline-checkbox1"
                                                ng-repeat="(key,value) in CONFIG.data.time" style="margin-right: 10px">
                                             <input type="checkbox" id="inline-checkbox1" ng-model="userData.time[key]"
@@ -314,8 +328,8 @@
                                         Chúng tôi sẽ ưu tiên giới thiệu bạn tới các công việc trong bán kính di chuyển
                                     </small>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">Trạng thái tìm việc</label>
+                                <div class="form-group" ng-class="{'has-success' : userData.urgent.length > 0}">
+                                    <label class="form-control-label">Trạng thái tìm việc</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.urgent.length > 0"></i>
                                     <div>
                                         <label class="radio-inline">
                                             <input type="radio" value="1" ng-model="userData.urgent"> Tìm gấp

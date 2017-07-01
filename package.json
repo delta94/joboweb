@@ -18,7 +18,7 @@
     "browser-sync": "^2.16.0",
     "gulp": "^3.9.1",
     "gulp-bower-src": "^0.1.0",
-    "gulp-concat": "^2.6.0",
+    "gulp-concat": "^2.6.1",
     "gulp-filter": "^4.0.0",
     "gulp-find": "0.0.10",
     "gulp-rename": "^1.2.2",

@@ -2,7 +2,7 @@
 
 app.controller('sprofileCtrl', sprofileCtrl).filter('propsFilter', propsFilter);
 
-function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, CONFIG, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
+function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
     $scope.startSpin = function (spin) {
         usSpinnerService.spin(spin);
     };
@@ -278,7 +278,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         }
         $http({
             method: 'GET',
-            url: CONFIG.APIURL + '/api/places',
+            url: $rootScope.CONFIG.APIURL + '/api/places',
             params: params
         }).then(function successCallback(response) {
             $scope.ketquasSchool = response.data.results;
@@ -306,18 +306,24 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
     //address
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
+    var delay = false
     $scope.searchAddress = function (textfull) {
-        var text =  S(textfull).latinise().s
-        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
-        $http({
-            method: 'GET',
-            url: $scope.URL
-        }).then(function successCallback(response) {
-            $scope.ketquasAddress = response.data.results;
-            console.log($scope.ketquasAddress);
-            $('#list-add').show();
-
-        })
+        var text = S(textfull).latinise().s
+        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text;
+        if (delay == false) {
+            delay = true
+            $http({
+                method: 'GET',
+                url: $scope.URL
+            }).then(function successCallback(response) {
+                $scope.ketquasAddress = response.data.results;
+                console.log($scope.ketquasAddress);
+                $('#list-add').show();
+            })
+            $timeout(function () {
+                delay = false
+            }, 1000)
+        }
     };
     $scope.setSelectedAddress = function (selected) {
         $scope.autocompleteAddress.text = selected.formatted_address;
@@ -422,8 +428,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray) {
-            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
+        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.avatar && $rootScope.userData.job) {            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
             $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
             console.log($rootScope.userData);
 
@@ -476,18 +481,63 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         } else {
             console.log($rootScope.userData);
             $scope.error = {}
-            for (var i in $rootScope.userData) {
-                if ($rootScope.userData[i]) {
+            if ($rootScope.userData.name){
 
-                } else {
-                    $scope.error[i] = true;
-
-                    $timeout(function () {
-                        console.log($scope.error)
-
-                    })
-                }
+            } else {
+                $scope.error.name = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
             }
+            if ($rootScope.userData.birth){
+
+            } else {
+                $scope.error.birth = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+            if ($rootScope.userData.email){
+
+            } else {
+                $scope.error.email = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+            if ($rootScope.userData.phone){
+
+            } else {
+                $scope.error.phone = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+            if ($rootScope.userData.address){
+
+            } else {
+                $scope.error.address = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+            if ($rootScope.userData.job){
+
+            } else {
+                $scope.error.job = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+            if ($rootScope.userData.avatar){
+
+            } else {
+                $scope.error.avatar = true;
+                $timeout(function () {
+                    console.log($scope.error)
+                })
+            }
+
             toastr.error('Bạn chưa cập nhật đủ thông tin', 'Lỗi');
             $scope.gotoAnchor('name')
         }

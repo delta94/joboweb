@@ -2,7 +2,7 @@
 
 app.controller('storeCtrl', storeCtrl)
 
-function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, CONFIG, Upload, usSpinnerService, $sce) {
+function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce) {
     var staticData = {
         viewed: 0,
         liked: 0,
@@ -212,7 +212,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
         $http({
             method: 'GET',
-            url: CONFIG.APIURL + '/api/places',
+            url: $rootScope.CONFIG.APIURL + '/api/places',
             params: params
         }).then(function successCallback(response) {
             $scope.ketquasStore = response.data.results;
@@ -243,17 +243,25 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 //address
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
-    $scope.searchAddress = function () {
-        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + S($scope.autocompleteAddress.text).latinise().s + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
-        $http({
-            method: 'GET',
-            url: $scope.URL
-        }).then(function successCallback(response) {
-            $scope.ketquasAddress = response.data.results;
-            console.log($scope.ketquasAddress);
-            $('#list-add').show();
 
-        })
+    var delay = false
+    $scope.searchAddress = function (textfull) {
+        var text = S(textfull).latinise().s
+        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + S($scope.autocompleteAddress.text).latinise().s + '&components=country:VN&sensor=true&key=' + $rootScope.CONFIG.APIKey;
+        if (delay == false) {
+            delay = true
+            $http({
+                method: 'GET',
+                url: $scope.URL
+            }).then(function successCallback(response) {
+                $scope.ketquasAddress = response.data.results;
+                console.log($scope.ketquasAddress);
+                $('#list-add').show();
+            });
+            $timeout(function () {
+                delay = false
+            }, 1000)
+        }
     };
     $scope.setSelectedAddress = function (selected) {
         $scope.autocompleteAddress.text = selected.formatted_address;
@@ -411,7 +419,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         usSpinnerService.stop(spin);
     }
     $scope.convertIns = function (job) {
-        var card = CONFIG.data.convertIns
+        var card = $rootScope.CONFIG.data.convertIns
 
         var converted;
         if

@@ -13,6 +13,7 @@ var runSequence = require('run-sequence');
 var replace = require('gulp-replace');
 var replacePure = require('replace');
 var stripDebug = require('gulp-strip-debug');
+var concat = require('gulp-concat');
 
 firebase.initializeApp({
     credential: firebase.credential.cert('adminsdk.json'),
@@ -270,6 +271,14 @@ gulp.task('strip-3', function () {
         .pipe(stripDebug())
         .pipe(gulp.dest(paths.dist+ '/jobseeker/'));
 });
+
+gulp.task('concat', function() {
+    return gulp.src(paths.dist+ 'jobseeker/*.js')
+        .pipe(concat('all.js'))
+        .pipe(gulp.dest(paths.dist+ '/'));
+});
+
+
 gulp.task('build:dist', function (callback) {
     runSequence(
         'clean:dist',
