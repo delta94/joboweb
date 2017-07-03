@@ -317,3 +317,13 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
 
 
 });
+
+$(window).scroll(function() {
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 300) {
+        $(".filter-tab").addClass("fixed-top").css({top: 60, 'z-index': 1});
+    } else {
+        $(".filter-tab").removeClass("fixed-top").css({top: 0});
+    }
+});
