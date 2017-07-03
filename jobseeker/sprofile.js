@@ -428,7 +428,9 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.avatar && $rootScope.userData.job) {            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
+        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.avatar && $scope.multiple.job.length > 0) {
+            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
+
             $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
             console.log($rootScope.userData);
 
@@ -481,7 +483,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         } else {
             console.log($rootScope.userData);
             $scope.error = {}
-            if ($rootScope.userData.name){
+            if ($rootScope.userData.name) {
 
             } else {
                 $scope.error.name = true;
@@ -489,7 +491,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.birth){
+            if ($rootScope.userData.birth) {
 
             } else {
                 $scope.error.birth = true;
@@ -497,7 +499,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.email){
+            if ($rootScope.userData.email) {
 
             } else {
                 $scope.error.email = true;
@@ -505,7 +507,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.phone){
+            if ($rootScope.userData.phone) {
 
             } else {
                 $scope.error.phone = true;
@@ -513,7 +515,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.address){
+            if ($rootScope.userData.address) {
 
             } else {
                 $scope.error.address = true;
@@ -521,7 +523,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.job){
+            if ($scope.multiple.job.length > 0) {
 
             } else {
                 $scope.error.job = true;
@@ -529,7 +531,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.avatar){
+            if ($rootScope.userData.avatar) {
 
             } else {
                 $scope.error.avatar = true;
