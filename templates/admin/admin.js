@@ -260,7 +260,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
         firebase.database().ref('analytics/user').on('value', function (snap) {
             $scope.dataAnalyticsUser = snap.val()
-
+            $scope.data = []
             var Array = []
             for (var i in $scope.dataAnalyticsUser) {
                 Array.push($scope.dataAnalyticsUser[i])

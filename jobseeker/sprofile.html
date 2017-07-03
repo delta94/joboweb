@@ -228,10 +228,14 @@
                                 <strong>Trình độ học vấn</strong>
                             </div>
                             <div class="card-block">
-                                <fieldset class="form-group" ng-class="{'has-success' : autocompleteSchool.text.length > 0}">
-                                    <label>Trường</label> <i class="fa fa-check" style="color: #00ff00" ng-show="autocompleteSchool.text.length > 0"></i>
+                                <fieldset class="form-group" ng-class="{'has-success' : userData.school > 0}">
+                                    <label>Trường</label> <i class="fa fa-check" style="color: #00ff00" ng-show="userData.school > 0"></i>
+                                    <label class="item item-input item-stacked-label">
+                                        <span class="input-label">Trường</span>
+                                        <input ng-model="userData.school" type="text" placeholder="">
+                                    </label>
                                     <div class="pop-add">
-                                        <input ng-keydown="searchSchool()" id="school" ui-items="names"
+                                        <input id="school" ui-items="names"
                                                ng-model="autocompleteSchool.text" class="form-control">
                                         <i class="fa fa-close" id="delete-school" style="color: #aaaaaa"
                                            ng-show="autocompleteSchool.text.length" ng-click="eraseSchool()"></i>
