@@ -1199,9 +1199,85 @@
                 }
                 return res;
             }
-        }
+        };
         this.increasedBy = function (type) {
             $rootScope.numberDisplay[type] = $rootScope.reactList[type].length
+        };
+
+        this.searchProfile = function (textfull) {
+            $rootScope.searchResults = []
+            var text = S(textfull).latinise().s
+            var URL = $rootScope.CONFIG.APIURL +'/query?q=' + text;
+
+            $http({
+                method: 'GET',
+                url: URL
+            }).then(function successCallback(response) {
+                var i = 0;
+                for (var j = 0; j < response.data.store.length; j++){
+                    $rootScope.searchResults[i] = response.data.store[j];
+                    i++;
+                }
+                for (var j = 0; j < response.data.profile.length; j++){
+                    $rootScope.searchResults[i] = response.data.profile[j];
+                    i++;
+                }
+                console.log($rootScope.searchResults);
+            })
+
+        };
+        this.getListReact = function (pros, type) {
+            var totalReactList = {like: [], liked: [], match: []}
+            var reactRef = firebase.database().ref('activity/like').orderByChild(type).equalTo(pros);
+            reactRef.on('value', function (snap) {
+                var reactList = snap.val();
+                if (type == 'storeId') {
+                    angular.forEach(reactList, function (card) {
+                        firebase.database().ref('presence/profile/' + card.userId).on('value', function (snap) {
+                            if (snap.val()) {
+                                card.presence = snap.val().status
+                                card.at = snap.val().at
+                            }
+                        })
+                        if (card.status == 1) {
+                            totalReactList.match.push(card)
+                        } else if (card.status == 0 && card.type == 1) {
+                            totalReactList.like.push(card)
+
+                        } else if (card.status == 0 && card.type == 2) {
+                            totalReactList.liked.push(card)
+
+                        }
+                    })
+
+                }
+                if (type == 'userId') {
+                    angular.forEach(reactList, function (card) {
+                        firebase.database().ref('presence/store/' + card.storeId).on('value', function (snap) {
+                            if (snap.val()) {
+                                card.presence = snap.val().status
+                                card.at = snap.val().at
+                            }
+
+
+                        })
+                        if (card.status == 1) {
+                            totalReactList.match.push(card)
+                        } else if (card.status == 0 && card.type == 2) {
+                            totalReactList.like.push(card)
+
+                        } else if (card.status == 0 && card.type == 1) {
+                            totalReactList.liked.push(card)
+
+                        }
+                    })
+                }
+
+
+            })
+            return new Promise(function(res,rej){
+                res(totalReactList)
+            })
         }
     })
     .service('ngCopy', ['$window', function ($window) {

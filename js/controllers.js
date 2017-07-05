@@ -10,6 +10,7 @@ angular
         };
 
     })
+
     .controller('ModalPermitCtrl', function ($scope, close) {
 
         $scope.close = function (result) {

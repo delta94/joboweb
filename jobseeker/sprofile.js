@@ -166,7 +166,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     }
                 }
                 if ($rootScope.userData.birth) {
-                    $rootScope.userData.birth = $rootScope.service.convertDateRes($rootScope.userData.birth)
+                    $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
                 }
 
                 if (!$rootScope.userData.photo) {
@@ -428,7 +428,13 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.avatar && $rootScope.userData.job) {            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
+        if ($rootScope.userData.email
+            && $rootScope.userData.phone
+            && $rootScope.userData.address
+            && $rootScope.userData.name
+            && $rootScope.userData.birthArray
+            && $scope.multiple.job.length > 0) {
+            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
             $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
             console.log($rootScope.userData);
 
@@ -472,6 +478,11 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                 } else {
                     $rootScope.service.Ana('updateProfile');
                 }
+
+                if (!$rootScope.userData.avatar) {
+                    toastr.info('Bạn cần cập nhật avatar thì thông tin của bạn mới được hiện thị cho nhà tuyển dụng, hãy cập nhật ngay!');
+
+                }
                 toastr.success('Cập nhật hồ sơ thành công');
                 if ($rootScope.preApply) {
                     $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
@@ -489,7 +500,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.birth){
+            if ($rootScope.userData.birthArray){
 
             } else {
                 $scope.error.birth = true;
@@ -521,8 +532,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.job){
-
+            if ($scope.multiple.job.length > 0){
             } else {
                 $scope.error.job = true;
                 $timeout(function () {

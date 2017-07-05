@@ -33,6 +33,9 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
                         })
 
                     }
+                    $rootScope.service.getListReact($scope.profileData.userId,'userId').then(function (data) {
+                            $scope.listReact = data;
+                    })
 
                     // for share
                     var profileJob = $rootScope.service.getStringJob($scope.profileData.job);

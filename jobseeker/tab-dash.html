@@ -1,29 +1,33 @@
-<div class="section section-header  ">
-    <div class="parallax-background parallax-active activated">
-        <img src="img/banner.jpg" alt="Gallery" style="top: 14.6px;">
-        <div class="filter filter-black"></div>
-    </div>
-    <div class="info">
-        <h1>Premium Bootstrap Themes</h1>
-        <p>
-            Premium Bootstrap themes, templates, UI Kits and more developed by Creative Tim. <br>
-            Join over 220,263 creatives to access all our products!
-        </p>
-
-        <div itemscope="" itemtype="http://schema.org/WebSite">
-            <meta itemprop="url" content="https://www.creative-tim.com/">
-            <form class="" itemprop="potentialAction" itemscope="itemscope" itemtype="http://schema.org/SearchAction" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+<div class="section section-header"
+     style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
+     background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
+    <div class="info" style="margin-top: 0px; float: left">
+        <div style="margin-top: 50px">
+            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+                <h1>Tìm việc nhanh xung quanh bạn</h1>
                 <div class="form-group form-search">
-                    <meta itemprop="target" content="https://www.creative-tim.com/search?q={q}">
-                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Search here..." itemprop="query-input">
-                    <button type="submit" name="button" class="btn btn-default btn-round btn-submit">
-                        <i class="icon-search icon-2x"></i>
-                    </button>
+                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;z-index: 10">
+                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
+                            <div class="message p-h">
+                                <div class="py-h mr-1 float-left">
+                                    <div class="avatar">
+                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                             alt="admin@bootstrapmaster.com">
+                                    </div>
+                                </div>
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}" class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job" ng-show="result.job">
+                                    {{Lang[key] || 'Xem thêm'}}
+                                </small>
+                            </div>
+
+                        </li>
+                    </ul>
 
                 </div>
-            </form></div>
-
-
+            </form>
+        </div>
     </div>
 
 </div>
@@ -65,7 +69,7 @@
                                                                       aria-hidden="true" style="color: #999"></i>
                     </a>
                     <div class="dropdown-menu popup-content">
-                        <div class="sort-menu cfix desktop-list" id="featured-menu">
+                        <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">
                             <div class="list-header">Lĩnh vực</div>
 
                             <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.industry">
@@ -88,8 +92,7 @@
                                                                   style="color: #999"></i>
                     </a>
                     <div class="dropdown-menu popup-content">
-                        <div class="sort-menu cfix desktop-list">
-                            <div class="list-header">Vị trí</div>
+                        <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">                            <div class="list-header">Vị trí</div>
                             <ul class="divided-list" ng-repeat="(key,value) in CONFIG.data.job">
                                 <li class="list-browse {{newfilter.job == key? 'selected':''}}"
                                     ng-click="newfilterFilter('job',key)"><a

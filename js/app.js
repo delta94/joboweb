@@ -68,6 +68,7 @@ var app = angular
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
             $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
+            $rootScope.numberDisplay = {like: 10, liked: 10, match: 10}
 
             //Industry
             $rootScope.arrayIndustry = [];
@@ -341,7 +342,7 @@ var app = angular
                             var reactList = snap.val();
                             console.log('reactList', reactList)
                             $rootScope.reactList = {like: [], liked: [], match: []}
-                            $rootScope.numberDisplay = {like: 10, liked: 10, match: 10}
+                            $scope.number = {like: 10, liked: 10, match: 10}
                             if (type == 'storeId') {
                                 angular.forEach(reactList, function (card) {
                                     firebase.database().ref('presence/profile/' + card.userId).on('value', function (snap) {

@@ -33,7 +33,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 console.log($scope.profileData)
                 $rootScope.service.loadJob($scope.profileData).then(function (data) {
                     $scope.profileData.job = data
-                    if($scope.currentJob){
+                    if ($scope.currentJob) {
                         $timeout(function () {
                             $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
                         })
@@ -67,6 +67,11 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                         }
                     })
                 })
+                $rootScope.service.getListReact($scope.profileData.storeId, 'storeId').then(function (data) {
+                    $scope.listReact = data;
+                    console.log('listReact', $scope.listReact)
+                })
+
 
                 // for share
                 var profileJobtake = "";
@@ -97,8 +102,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
             })
         })
-
-
 
 
     }
