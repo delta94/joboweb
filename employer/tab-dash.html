@@ -5,9 +5,9 @@
         <div style="margin-top: 50px">
             <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
                 <h1>Tìm việc nhanh xung quanh bạn</h1>
-                <div class="form-group form-search">
+                <div class="form-group form-search" style="z-index: 2000">
                     <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;z-index: 10">
+                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;">
                         <li ng-repeat="result in searchResults" style="display: block; text-align: left">
                             <div class="message p-h">
                                 <div class="py-h mr-1 float-left">
@@ -29,7 +29,6 @@
             </form>
         </div>
     </div>
-
 </div>
 <div class="card filter-tab" ng-init="init()" ng-if="type" style="padding:10px;">
     <div class="row">
