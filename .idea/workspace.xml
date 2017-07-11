@@ -3,21 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a62824ef-a1e7-48c6-9f54-b832985f2e1a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/edash.js" afterPath="$PROJECT_DIR$/employer/edash.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/tab-dash.html" afterPath="$PROJECT_DIR$/employer/tab-dash.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/viewprofile.html" afterPath="$PROJECT_DIR$/employer/viewprofile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/viewprofile.js" afterPath="$PROJECT_DIR$/employer/viewprofile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/sdash.js" afterPath="$PROJECT_DIR$/jobseeker/sdash.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/sprofile.html" afterPath="$PROJECT_DIR$/jobseeker/sprofile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/tab-dash.html" afterPath="$PROJECT_DIR$/jobseeker/tab-dash.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/viewstore.html" afterPath="$PROJECT_DIR$/jobseeker/viewstore.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/viewstore.js" afterPath="$PROJECT_DIR$/jobseeker/viewstore.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/services.js" afterPath="$PROJECT_DIR$/js/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/dashboard.html" afterPath="$PROJECT_DIR$/templates/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/dashboard.js" afterPath="$PROJECT_DIR$/templates/dashboard.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -679,7 +664,7 @@
       <workItem from="1499057326852" duration="1186000" />
       <workItem from="1499100975209" duration="16513000" />
       <workItem from="1499308233245" duration="16537000" />
-      <workItem from="1499604242017" duration="9942000" />
+      <workItem from="1499604242017" duration="10006000" />
     </task>
     <task id="LOCAL-00001" summary="upload done">
       <created>1489469703542</created>
@@ -793,11 +778,18 @@
       <option name="project" value="LOCAL" />
       <updated>1499329019872</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Add age">
+      <created>1499749079973</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1499749079973</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1360316000" />
+    <option name="totallyTimeSpent" value="1360380000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -876,7 +868,8 @@
     <MESSAGE value="see more and valid input" />
     <MESSAGE value="hoaifix banner" />
     <MESSAGE value="search done" />
-    <option name="LAST_COMMIT_MESSAGE" value="search done" />
+    <MESSAGE value="Add age" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add age" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
