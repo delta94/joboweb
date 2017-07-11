@@ -21,22 +21,41 @@
                                     {{Lang[key] || 'Xem thêm'}}
                                 </small>
                             </div>
-
                         </li>
                     </ul>
-
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div class="card filter-tab" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
+    <div class="container-fluid container" style="width: 60%;">
+        <div class="row" style="margin: 0 auto; ">
+            <div class="col-md-4">
+                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('new')"
+                   ng-class="{actives:newfilter.show == 'new'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Mới nhất</a>
+            </div>
+            <div class="col-md-4">
+                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('urgent')"
+                   ng-class="{actives:newfilter.show == 'urgent'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Tuyển gấp</a>
+            </div>
+            <div class="col-md-4">
+                <a class="text-truncate nav-link nav-pill text-center" ng-click="sortFilter('hot')"
+                   ng-class="{actives:newfilter.show == 'hot'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Việc hot</a>
+            </div>
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
-    <div class="wpb_wrapper text-center">
-        <div class="section-heading">
-            <h2>Tuyển gấp, đi làm ngay!</h2>
+
         </div>
     </div>
+</div>
+
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">

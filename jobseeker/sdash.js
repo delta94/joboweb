@@ -61,7 +61,7 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                 userId: $rootScope.userId,
                 type: 'job',
                 p: 1,
-                job: $rootScope.service.getfirst($rootScope.userData.job),
+                show:'new'
 
             }
             $scope.getUserFiltered($rootScope.newfilter)
@@ -94,6 +94,16 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
         }
 
     }
+
+    $scope.sortFilter = function (param) {
+        $rootScope.newfilter = {
+            show: param
+        }
+        $scope.getUserFiltered($rootScope.newfilter)
+
+    }
+
+
     $scope.selectFilter = function (card) {
         console.log('$rootScope.newfilter',$rootScope.newfilter)
         $rootScope.newfilter = card;

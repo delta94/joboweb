@@ -377,14 +377,14 @@
                             <div class="row">
                                 <div class="col-sm-4" style="float:right">
                                     <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Đã tương hợp</b>
+                                        <small><b>Đã tương hợp: {{listReact.match.length}}</b>
                                         </small>
                                     </div>
                                     <div class="callout text-muted text-center" ng-show="listReact.match.length == 0">
-                                        <small><b>Bạn chưa tương hợp với ứng viên nào</b>
+                                        <small><b>Chưa tương hợp với ứng viên nào</b>
                                         </small>
                                     </div>
-                                    <div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : numberDisplay.match">
+                                    <div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">
                                         <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                                             <div class="py-h mr-1 float-left">
                                                 <div class="avatar">
@@ -406,21 +406,21 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('match')" role="button" ng-if="reactList.match.length > numberDisplay.match">Xem tất cả</a></div>
+                                    <div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('match')" role="button" ng-if="listReact.match.length > limit.match">Xem tất cả</a></div>
 
                                 </div>
 
                                 <div class="col-sm-4" style="float:right">
                                     <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Đã ứng tuyển</b>
+                                        <small><b>Ứng viên ứng tuyển vào: {{listReact.liked.length}}</b>
                                         </small>
                                     </div>
                                     <hr class="transparent mx-1 my-0">
                                     <div class="callout text-muted text-center" ng-show="listReact.liked.length == 0">
-                                        <small><b>Bạn chưa có ứng viên nào ứng tuyển</b>
+                                        <small><b>Chưa có ứng viên nào ứng tuyển</b>
                                         </small>
                                     </div>
-                                    <div ng-repeat="card in listReact.liked| orderBy:'-likeAt' | limitTo:numberDisplay.liked">
+                                    <div ng-repeat="card in listReact.liked| orderBy:'-likeAt' | limitTo:limit.liked">
 
                                         <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                                             <div class="py-h mr-1 float-left">
@@ -444,18 +444,18 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('liked')" role="button" ng-if="reactList.liked.length > numberDisplay.liked">Xem tất cả</a></div>
+                                    <div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('liked')" role="button" ng-if="listReact.liked.length > limit.liked">Xem tất cả</a></div>
                                 </div>
                                 <div class="col-sm-4" style="float:right">
                                     <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Đã gửi yêu cầu</b>
+                                        <small><b>Đã gửi yêu cầu cho ứng viên: {{listReact.like.length}}</b>
                                         </small>
                                     </div>
                                     <div class="callout text-muted text-center" ng-show="listReact.like.length == 0">
-                                        <small><b>Bạn chưa gửi yêu cầu cho ứng viên nào, hãy chủ động tìm họ</b>
+                                        <small><b>Chưa gửi yêu cầu cho ứng viên nào</b>
                                         </small>
                                     </div>
-                                    <div ng-repeat="card in listReact.like| orderBy:'-likeAt'| limitTo:numberDisplay.like">
+                                    <div ng-repeat="card in listReact.like| orderBy:'-likeAt'| limitTo:limit.like">
 
                                         <div class="message p-h" ng-click="service.chatToUser(card.userId)">
                                             <div class="py-h mr-1 float-left">
@@ -479,7 +479,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div align="right" style="color:#42a1f4";><a ng-click="service.increasedBy('like')" role="button" ng-if="reactList.like.length > numberDisplay.like">Xem tất cả</a></div>
+                                    <div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('like')" role="button" ng-if="listReact.like.length > limit.like">Xem tất cả</a></div>
                                 </div>
                             </div>
                         </div>

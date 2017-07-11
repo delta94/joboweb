@@ -1279,6 +1279,7 @@
                 res(totalReactList)
             })
         }
+
     })
     .service('ngCopy', ['$window', function ($window) {
         var body = angular.element($window.document.body);

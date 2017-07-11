@@ -70,6 +70,11 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 $rootScope.service.getListReact($scope.profileData.storeId, 'storeId').then(function (data) {
                     $scope.listReact = data;
                     console.log('listReact', $scope.listReact)
+                    $scope.limit = {like: 10, liked: 10, match: 10}
+                    $scope.incrementLimit = function (type) {
+                        $scope.limit[type] = $scope.listReact[type].length
+
+                    }
                 })
 
 

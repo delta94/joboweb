@@ -55,7 +55,13 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         });
 
     };
+    $scope.sortFilter = function (param) {
+        $rootScope.newfilter = {
+            show: param
+        }
+        $scope.getUserFiltered($rootScope.newfilter)
 
+    }
     $scope.newfilterFilter = function () {
         toastr.info('Bạn phải đăng nhập để thực hiện tác vụ này!');
         $state.go('intro')

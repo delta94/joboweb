@@ -36,11 +36,16 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         }
 
     };
+    $scope.calculateAge = function calculateAge(birthday) { // birthday is a date
+              var ageDifMs = Date.now() - new Date(birthday).getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+           return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 
     $scope.initData = function (storeData) {
         if (!storeData) {
-            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
             $state.go('store', {id: null})
+            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
         } else if (!$rootScope.storeData.location) {
             ModalService.showModal({
                 templateUrl: 'templates/modals/address.html',

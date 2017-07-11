@@ -21,18 +21,46 @@
                                     {{Lang[key] || 'Xem thêm'}}
                                 </small>
                             </div>
-
                         </li>
                     </ul>
-
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div class="card filter-tab" ng-init="init()" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
+    <div class="container-fluid container" style="width: 60%;">
+        <div class="row" style="margin: 0 auto; ">
+            <div class="col-md-3">
+                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('new')"
+                   ng-class="{actives:newfilter.show == 'new'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Mới nhất</a>
+            </div>
+            <div class="col-md-3">
+                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('urgent')"
+                   ng-class="{actives:newfilter.show == 'urgent'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Tuyển gấp</a>
+            </div>
+            <div class="col-md-3">
+                <a class="text-truncate nav-link nav-pill text-center" ng-click="sortFilter('hot')"
+                   ng-class="{actives:newfilter.show == 'hot'}" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    Việc hot</a>
+            </div>
 
+            <div class="col-md-3 btn-filter-advace pull-right">
+                <a class="text-truncate nav-link nav-pill text-center pull-right " style="float: right;margin-right: -150px"
+                   role="button" aria-haspopup="true"
+                   aria-expanded="false" style="float:right;" ng-click="showFilter=true">
+                    Lọc nâng cao</a>
+            </div>
 
-<div class="card filter-tab" ng-init="init()" ng-if="type" style="padding:10px;margin-bottom: 0px;">
+        </div>
+    </div>
+</div>
+<div class="card filter-tab" ng-init="init()" style="padding:10px;margin-bottom: 0px;" ng-show="showFilter">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-sm-2 col-xs-2">
@@ -186,6 +214,7 @@
         </div>
     </div>
 </div>
+
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="verifyEmail">
     <div class="card-block" style="padding: 0.25rem 1.25rem">
         <button class="btn btn-secondary pull-right" style="border-radius: 30px"

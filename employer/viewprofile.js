@@ -35,6 +35,12 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
                     }
                     $rootScope.service.getListReact($scope.profileData.userId,'userId').then(function (data) {
                             $scope.listReact = data;
+                        console.log('listReact', $scope.listReact)
+                        $scope.limit = {like: 10, liked: 10, match: 10}
+                        $scope.incrementLimit = function (type) {
+                            $scope.limit[type] =$scope.listReact[type].length
+                        }
+
                     })
 
                     // for share
