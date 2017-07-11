@@ -26,6 +26,38 @@
                     <form name="signupForm" class="form-update" autocomplete="off">
 
                         <div class="card">
+                            <div class="card-block">
+                                <fieldset class="form-group {{error.email ? 'has-danger':''}}"
+                                          ng-class="{'has-danger' : signupForm.email.$valid && !signupForm.email.$pristine,'has-success' : signupForm.email.$valid}">
+                                    <label>Email *</label> <i class="fa fa-check" style="color: #00ff00"
+                                                              ng-show="signupForm.email.$valid"></i>
+                                    <div class="input-group mb-1"
+                                         ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
+                                        <span class="input-group-addon">@</span>
+                                        <input type="text" name="email" class="form-control" placeholder="Email"
+                                               id="email"
+                                               ng-model="userData.email" ng-disabled="userInfo.email" required>
+
+                                    </div>
+                                </fieldset>
+
+                                <fieldset class="form-group {{error.phone ? 'has-danger':''}}"
+                                          ng-class="{'has-danger' : signupForm.phonenum.$invalid && !signupForm.phonenum.$pristine, 'has-success' : signupForm.phonenum.$valid}">
+                                    <label>Số điện thoại *</label> <i class="fa fa-check" style="color: #00ff00"
+                                                                      ng-show="signupForm.phonenum.$valid"></i>
+                                    <div class="input-group mb-1">
+                                                                        <span class="input-group-addon">
+                                             <i class="icon-phone"></i>
+                                         </span>
+                                        <input type="number" name="phonenum" class="form-control" placeholder=""
+                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required>
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <div class="card" ng-show="indexToShow > 0">
                             <div class="card-header">
                                 <strong>Thông tin liên hệ</strong>
                             </div>
@@ -73,7 +105,8 @@
                                                                 ng-show="signupForm.address.$valid"></i>
                                     <div class="pop-add"
                                          ng-class="{ 'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine }">
-                                        <input name="address" ng-keydown="searchAddress(autocompleteAddress.text)"
+                                        <input name="address" ng-change="searchAddress(autocompleteAddress.text)"
+                                               ng-model-options="{debounce: 1000}"
                                                id="address" ui-items="names"
                                                ng-model="autocompleteAddress.text" class="form-control" required>
                                         <i class="fa fa-close" id="delete-address" style="color: #aaaaaa"
@@ -111,34 +144,6 @@
                                     </ui-select>
                                     <small class="text-muted">Chỉ được chọn tối đa 3 công việc</small>
                                 </div>
-
-                                <fieldset class="form-group {{error.email ? 'has-danger':''}}"
-                                          ng-class="{'has-danger' : signupForm.email.$valid && !signupForm.email.$pristine,'has-success' : signupForm.email.$valid}">
-                                    <label>Email *</label> <i class="fa fa-check" style="color: #00ff00"
-                                                              ng-show="signupForm.email.$valid"></i>
-                                    <div class="input-group mb-1"
-                                         ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
-                                        <span class="input-group-addon">@</span>
-                                        <input type="text" name="email" class="form-control" placeholder="Email"
-                                               id="email"
-                                               ng-model="userData.email" ng-disabled="userInfo.email" required>
-
-                                    </div>
-                                </fieldset>
-
-                                <fieldset class="form-group {{error.phone ? 'has-danger':''}}"
-                                          ng-class="{'has-danger' : signupForm.phonenum.$invalid && !signupForm.phonenum.$pristine, 'has-success' : signupForm.phonenum.$valid}">
-                                    <label>Số điện thoại *</label> <i class="fa fa-check" style="color: #00ff00"
-                                                                      ng-show="signupForm.phonenum.$valid"></i>
-                                    <div class="input-group mb-1">
-                                        <span class="input-group-addon">
-                                            <i class="icon-phone"></i>
-                                        </span>
-                                        <input type="number" name="phonenum" class="form-control" placeholder=""
-                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required>
-
-                                    </div>
-                                </fieldset>
                                 <fieldset class="form-group" ng-class="{'has-success' : userData.avatar != null}">
                                     <label>Avatar</label> <i class="fa fa-check" style="color: #00ff00"
                                                              ng-show="userData.avatar != null"></i>
@@ -200,7 +205,11 @@
 
                             </div>
                         </div>
-                        <div class="card">
+                        <button ng-hide="indexToShow === 2" ng-click="updateData()" type="submit"
+                                class="btn btn-block btn-outline-primary main-backgroud">
+                            Cập nhật
+                        </button>
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Thông tin cá nhân</strong>
 
@@ -249,7 +258,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Trình độ học vấn</strong>
                             </div>
@@ -263,7 +272,7 @@
 
                                         <input type="text" class="form-control"
                                                placeholder="Bạn đã/đang học trường nào?"
-                                               ng-model="userData.school" required>
+                                               ng-model="userData.school">
                                     </div>
                                 </fieldset>
 
@@ -283,7 +292,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Mong muốn tìm việc</strong>
                             </div>
@@ -381,7 +390,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Kinh nghiệm làm việc</strong>
                             </div>
@@ -488,7 +497,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Hình ảnh của bạn</strong>
                             </div>
@@ -521,7 +530,7 @@
                                 - Chọn những bức ảnh đẹp nhất của bản thân (có thể tải nhiều ảnh cùng một lúc)
                             </small>
                         </div>
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Video giới thiệu</strong>
                                 <div class="pull-right">
@@ -570,7 +579,7 @@
                         </div>
 
 
-                        <div class="card">
+                        <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Giới thiệu bản thân</strong>
                             </div>
@@ -590,7 +599,7 @@
                         </div>
 
 
-                        <button ng-click="submit()" type="submit"
+                        <button ng-show="indexToShow > 1" ng-click="submit()" type="submit"
                                 class="btn btn-block btn-success main-backgroud">Cập
                             nhật
                         </button>

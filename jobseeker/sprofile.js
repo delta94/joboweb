@@ -2,7 +2,7 @@
 
 app.controller('sprofileCtrl', sprofileCtrl).filter('propsFilter', propsFilter);
 
-function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
+function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
     $scope.startSpin = function (spin) {
         usSpinnerService.spin(spin);
     };
@@ -304,13 +304,14 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
 
     //address
+    // var delay = false;
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
-    var delay = false
+
     $scope.searchAddress = function (textfull) {
         var text = S(textfull).latinise().s
         $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text;
-        if (delay == false) {
+        /*if (delay == false) {
             delay = true
             $http({
                 method: 'GET',
@@ -323,7 +324,15 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
             $timeout(function () {
                 delay = false
             }, 1000)
-        }
+         }*/
+        $http({
+            method: 'GET',
+            url: $scope.URL
+        }).then(function successCallback(response) {
+            $scope.ketquasAddress = response.data.results;
+            console.log($scope.ketquasAddress);
+            $('#list-add').show();
+        })
     };
     $scope.setSelectedAddress = function (selected) {
         $scope.autocompleteAddress.text = selected.formatted_address;
@@ -357,6 +366,142 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         $scope.userData.experience[newkey] = $scope.tempoExperience
         delete $scope.tempoExperience
     }
+    //autoupdate data
+    $scope.$watchCollection('[$root.userData.name, $root.userData.email, $root.userData.phone, $root.userData.address, $root.userData.birthArray.day, $root.userData.birthArray.month, $root.userData.birthArray.year, multiple.job.length]', debounce(function () {
+        console.log('autoupdate');
+        if ($rootScope.userData.email
+            && $rootScope.userData.phone
+            && $rootScope.userData.address
+            && $rootScope.userData.name
+            && $rootScope.userData.birthArray
+            && $scope.multiple.job.length > 0) {
+            // console.log('$rootScope.userData', $rootScope.userData);
+            console.log('autoupdate Start');
+            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
+            $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
+            console.log($rootScope.userData);
+            $timeout(function () {
+                // console.log($scope.multiple);
+                if ($scope.multiple.job.length >= 0) {
+                    $rootScope.userData.job = {};
+                    angular.forEach($scope.multiple.job, function (card) {
+                        $rootScope.userData.job[card] = true
+                    })
+                }
+                console.log($rootScope.userData);
+
+                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
+                profileRef.update($rootScope.userData);
+
+                var userRef = firebase.database().ref('user/' + $rootScope.userId);
+                userRef.update({
+                    name: $rootScope.userData.name,
+                    phone: $rootScope.userData.phone,
+                    email: $rootScope.userData.email
+                });
+
+                $rootScope.service.Ana('autoupdateData');
+                console.log('autoupdate Complete');
+
+            }, 1000)
+        }
+    }, 1000));
+    //update data
+    $scope.indexToShow = 0;
+    $scope.$watch('$root.userData', function () {
+        if ($rootScope.userData.email
+            && $rootScope.userData.phone
+            && $rootScope.userData.address
+            && $rootScope.userData.name
+            && $rootScope.userData.birthArray
+            && $scope.multiple.job.length > 0
+            && $scope.indexToShow === 0) {
+            $scope.indexToShow = 2;
+        }
+    });
+    $scope.updateData = function () {
+        $scope.error = {};
+        if ($scope.indexToShow === 0) {
+            console.log('Update phone and email');
+            if ($rootScope.userData.email && $rootScope.userData.phone) {
+                console.log($rootScope.userData.phone);
+                console.log($rootScope.userData.email);
+                var userRef = firebase.database().ref('user/' + $rootScope.userId);
+                userRef.update({
+                    phone: $rootScope.userData.phone,
+                    email: $rootScope.userData.email
+                });
+                $scope.indexToShow++;
+                console.log($scope.indexToShow);
+                $rootScope.service.Ana('Update phone and email');
+            }
+            else {
+                if (!$rootScope.userData.email) {
+                    $scope.error.email = true;
+                }
+                if (!$rootScope.userData.phone) {
+                    $scope.error.phone = true;
+                }
+            }
+        } else if ($scope.indexToShow === 1) {
+            console.log('Update User Profile');
+            if ($rootScope.userData.email
+                && $rootScope.userData.phone
+                && $rootScope.userData.address
+                && $rootScope.userData.name
+                && $rootScope.userData.birthArray
+                && $scope.multiple.job.length > 0) {
+                $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
+                $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
+                console.log($rootScope.userData);
+                $timeout(function () {
+                    // console.log($scope.multiple);
+                    if ($scope.multiple.job.length >= 0) {
+                        $rootScope.userData.job = {};
+                        angular.forEach($scope.multiple.job, function (card) {
+                            $rootScope.userData.job[card] = true
+                        })
+                    }
+                    console.log($rootScope.userData);
+
+                    var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
+                    profileRef.update($rootScope.userData);
+
+                    var userRef = firebase.database().ref('user/' + $rootScope.userId);
+                    userRef.update({
+                        name: $rootScope.userData.name,
+                        phone: $rootScope.userData.phone,
+                        email: $rootScope.userData.email
+                    });
+
+                    console.log('Update User Profile Complete');
+
+                }, 1000)
+                $rootScope.service.Ana('Update user profile');
+                $scope.indexToShow++;
+                console.log($scope.indexToShow);
+            } else {
+                if (!$rootScope.userData.name) {
+                    $scope.error.name = true;
+                }
+                if (!$rootScope.userData.birthArray) {
+                    $scope.error.birth = true;
+                }
+                if (!$rootScope.userData.email) {
+                    $scope.error.email = true;
+                }
+                if (!$rootScope.userData.phone) {
+                    $scope.error.phone = true;
+                }
+                if (!$rootScope.userData.address) {
+                    $scope.error.address = true;
+                }
+                if ($scope.multiple.job.length === 0) {
+                    $scope.error.job = true;
+                }
+            }
+        }
+    };
     //upload more image
     $scope.$watch('files', function () {
         $scope.upload($scope.files);
@@ -428,12 +573,12 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.email
+        if (($rootScope.userData.email
             && $rootScope.userData.phone
             && $rootScope.userData.address
             && $rootScope.userData.name
             && $rootScope.userData.birthArray
-            && $scope.multiple.job.length > 0) {
+            && $scope.multiple.job.length > 0) || ($stateParams.admin)) {
             $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
             $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
             console.log($rootScope.userData);
@@ -491,7 +636,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
             }, 1000)
         } else {
             console.log($rootScope.userData);
-            $scope.error = {}
+            $scope.error = {};
             if ($rootScope.userData.name){
 
             } else {
