@@ -271,7 +271,6 @@ var app = angular
             function getStoreOnline(storeId) {
                 var userRef = firebase.database().ref('store/' + storeId + '/presence');
 
-
                 var presenceRef = firebase.database().ref('.info/connected');
                 presenceRef.on("value", function (snap) {
                     if (snap.val()) {
