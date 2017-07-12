@@ -434,6 +434,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 $scope.indexToShow++;
                 console.log($scope.indexToShow);
                 $rootScope.service.Ana('Update phone and email');
+                $scope.gotoAnchor('name');
             }
             else {
                 if (!$rootScope.userData.email) {
@@ -480,6 +481,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 $rootScope.service.Ana('Update user profile');
                 $scope.indexToShow++;
                 console.log($scope.indexToShow);
+                $scope.gotoAnchor('info');
             } else {
                 if (!$rootScope.userData.name) {
                     $scope.error.name = true;
