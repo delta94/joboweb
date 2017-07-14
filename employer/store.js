@@ -21,6 +21,10 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         profile: 0
     }
     $scope.init = function () {
+        $timeout(function () {
+            $scope.ByHand = true
+        })
+
         $scope.type = $stateParams.id;
         console.log($scope.type);
         $scope.multiple = {
@@ -84,9 +88,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
                 console.log(result)
                 if (result.currentStore) {
-                    $timeout(function () {
-                        $scope.ByHand = true
-                    })
+
                     firebase.database().ref('store/' + result.currentStore).once('value', function (snap) {
                         $timeout(function () {
                             $rootScope.storeData = snap.val();
@@ -325,8 +327,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                                 $scope.log[i] = progress + '%';
                                 console.log('Upload is ' + progress + '% done');
-                            }
-                        );
+                            });
                         // Observe state change events such as progress, pause, and resume
                     }, function (error) {
                         // Handle unsuccessful uploads

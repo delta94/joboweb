@@ -77,9 +77,11 @@
                                 {{dataJob[card.job] || card.job}}
                             </h3>
 
-                            <h4 class="message" itemprop="description">
-                                {{CONFIG.data.working_type[card.working_type]}}
-                            </h4>
+                            <div style="display:inline-block;width:150px;height:25px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
+                                <h4 class="message" itemprop="description">
+                                    {{CONFIG.data.working_type[card.working_type]}}
+                                </h4>
+                            </div>
 
                             <div class="footer">
                                 <div class="author-card" ui-sref="app.viewstore ({id:card.storeId})">
@@ -149,10 +151,12 @@
                         <div class="category" ng-if="card.feature">Hot</div>
                         <h3 class="title">{{card.name || 'Your Name Here'}}</h3>
 
-                        <button ng-click="applyThis(card.userId,key)" type="button"
-                                class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
-                                ng-repeat="(key,value) in card.job">{{dataJob[key]}}
-                        </button>
+                        <div style="display:inline-block;width:313.98px;height:30px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
+                            <button ng-click="applyThis(card.userId,key)" type="button"
+                                    class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
+                                    ng-repeat="(key,value) in card.job">{{dataJob[key]}}
+                            </button>
+                        </div>
 
                         <div class="post-meta">
                     <span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"

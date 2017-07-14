@@ -29,7 +29,6 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
     $scope.init = function () {
         $scope.progress = 0
 
-
         $scope.multiple = {
             industry: [],
             languages: [],
@@ -99,8 +98,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 }, function (error) {
                     console.log(error)
                     // error
-                }
-            );
+                });
     }
     var admin = $stateParams.admin
     if (admin) {
@@ -296,18 +294,14 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
     };
 
-
     $scope.eraseSchool = function () {
         $scope.autocompleteSchool.text = null;
         $('#list-school').hide();
     }
-
-
     //address
     // var delay = false;
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
-
     $scope.searchAddress = function (textfull) {
         var text = S(textfull).latinise().s
         $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text;
@@ -349,13 +343,14 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
     $scope.eraseAddress = function () {
         $scope.autocompleteAddress.text = null;
         $('#list-add').hide();
-    }
+    };
     $scope.deleteExp = function (id) {
         delete  $scope.userData.experience[id]
-    }
+    };
+
     $scope.addMoreExp = function () {
         $scope.tempoExperience = {}
-    }
+    };
     $scope.saveJob = function () {
         var experienceRef = firebase.database().ref('profile/' + $rootScope.userId + '/experience');
         var newkey = experienceRef.push().key;
@@ -517,7 +512,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
     $scope.deleteImage = function (images) {
         console.log('clicked', images)
         $scope.userData.photo.splice(images, 1);
-    }
+    };
 
     $scope.upload = function (files) {
         $scope.uploadPhoto = true
@@ -572,8 +567,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         }
     };
 
-
-    $scope.submit = function () {
+    $scope.submit = function ()     {
         console.log('$rootScope.userData', $rootScope.userData)
         if (($rootScope.userData.email
             && $rootScope.userData.phone
@@ -712,7 +706,6 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
             $anchorScroll();
         }
     };
-
 
 }
 

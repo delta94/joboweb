@@ -11,7 +11,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
 
     $rootScope.$watch('newNoti', function (newNoti) {
         $rootScope.og = {
-            title: '('+ newNoti +') Jobo' || 'Jobo'
+            title: '(' + newNoti + ') Jobo' || 'Jobo'
         }
     });
 
@@ -37,9 +37,9 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
 
     };
     $scope.calculateAge = function calculateAge(birthday) { // birthday is a date
-              var ageDifMs = Date.now() - new Date(birthday).getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-           return Math.abs(ageDate.getUTCFullYear() - 1970);
+        var ageDifMs = Date.now() - new Date(birthday).getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
     $scope.initData = function (storeData) {
@@ -100,7 +100,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
     $scope.loading = false;
     $scope.loadMore = function () {
         console.log('request load')
-        if (!$scope.loading && $rootScope.newfilter) {
+        if (!$scope.loading && $rootScope.newfilter && $rootScope.newfilter.p < $scope.response.total_pages)  {
             $scope.loading = true;
 
             console.log('loading')
@@ -112,7 +112,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         }
     }
     $rootScope.maxMatchUser = 0
-
 
 
     $scope.getUserFiltered = function (newfilter) {
@@ -145,7 +144,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
                         })
                     }
                     firebase.database().ref('presence/profile/' + profileData.userId + 'status').on('value', function (snap) {
-                        if(snap.val()){
+                        if (snap.val()) {
                             $scope.response.data[i].presence = snap.val()
                         }
                     })
