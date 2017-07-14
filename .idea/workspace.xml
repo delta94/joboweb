@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a62824ef-a1e7-48c6-9f54-b832985f2e1a" name="Default" comment="dashboard">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/edash.js" afterPath="$PROJECT_DIR$/employer/edash.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/store.js" afterPath="$PROJECT_DIR$/employer/store.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/employer/tab-dash.html" afterPath="$PROJECT_DIR$/employer/tab-dash.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobseeker/sprofile.js" afterPath="$PROJECT_DIR$/jobseeker/sprofile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/admin/employer.html" afterPath="$PROJECT_DIR$/templates/admin/employer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/dashboard.html" afterPath="$PROJECT_DIR$/templates/dashboard.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -739,7 +732,7 @@
       <workItem from="1499100975209" duration="16513000" />
       <workItem from="1499308233245" duration="16537000" />
       <workItem from="1499604242017" duration="18457000" />
-      <workItem from="1499829181455" duration="13451000" />
+      <workItem from="1499829181455" duration="13830000" />
     </task>
     <task id="LOCAL-00001" summary="upload done">
       <created>1489469703542</created>
@@ -888,11 +881,18 @@
       <option name="project" value="LOCAL" />
       <updated>1499850062862</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="dashboard">
+      <created>1500016600480</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1500016600480</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1382282000" />
+    <option name="totallyTimeSpent" value="1382661000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
