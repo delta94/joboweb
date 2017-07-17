@@ -1,4 +1,4 @@
-﻿<div class="section section-header"
+<div class="section section-header"
      style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
      background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
     <div class="info" style="margin-top: 0px; float: left">
@@ -55,60 +55,151 @@
     </div>
 </div>
 
+
 <div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard">
-
                     <div class="carde">
-                        <div class="content">
-
-                            <div class="pull-right">
-                                <button ng-click="service.userLike(card,0,card.job)"
-                                        type="button" class="btn btn-primary btn-sm">Ứng tuyển
-                                </button>
-                                <br>
-                                <div class="stats pull-right">
-                                    không cần CV
+                        <div class="content_">
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <img src="{{card.avatar || '../img/Tabachina.jpg'}}" alt="{{card.storeName}}">
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img src="../img/waiter.png" alt="" width="auto" height="80px">
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
-                            <h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                {{dataJob[card.job] || card.job}}
-                            </h3>
-
-                            <div style="display:inline-block;width:150px;height:25px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
-                                <h4 class="message" itemprop="description">
-                                    {{CONFIG.data.working_type[card.working_type]}}
-                                </h4>
-                            </div>
-
-                            <div class="footer">
-                                <div class="author-card" ui-sref="app.viewstore ({id:card.storeId})">
-                                    <a class="card-link ">
-                                        <img class="avatar"
-                                             src="{{card.avatar || '/img/store.png'}}"
-                                             alt="{{card.storeName}}">
-                                        <span>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}</span>
-                                    </a>
-
+                            <div class="content-bottom-new text-center">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}
+                                        <br> <i>{{service.timeAgo(card.createdAt)}}</i>
+                                    </p>
                                 </div>
-                                <div class="stats pull-right">
-                                    {{card.salary? card.salary +' triệu | ':''}} {{service.timeAgo(card.createdAt)}}
-                                </div>
-                                <div class="clearfix"></div>
+                                <button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
+
+<!--<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">-->
+    <!--<div class="container">-->
+        <!--<div class="testimonials testimonials-raised">-->
+            <!--<div class="row">-->
+                <!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard">-->
+                    <!--<div class="card-new">-->
+                        <!--<div class="content-top-new">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-6 logo-restaurant-new">-->
+                                    <!--<img src="{{card.avatar || '../img/Tabachina.jpg'}}" alt="{{card.storeName}}">-->
+                                <!--</div>-->
+                                <!--<div class="col-md-6 logo-job-new">-->
+                                    <!--<img src="../img/waiter.png" alt="" width="auto" height="80px">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="row main-content-new">-->
+                                <!--<table>-->
+                                    <!--<tr>-->
+                                        <!--<td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>-->
+                                    <!--</tr>-->
+                                <!--</table>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="content-bottom-new text-center">-->
+                            <!--<div class="jobseeker-new text-left">-->
+                                <!--<p>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}-->
+                                    <!--<br> <i>{{service.timeAgo(card.createdAt)}}</i>-->
+                                <!--</p>-->
+                            <!--</div>-->
+                            <!--<button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">-->
+    <!--<div class="container">-->
+        <!--<div class="testimonials testimonials-raised">-->
+            <!--<div class="row">-->
+                <!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard">-->
+
+                    <!--<div class="carde">-->
+                        <!--<div class="content">-->
+
+                            <!--<div class="pull-right">-->
+                                <!--<button  ng-click="service.userLike(card,0,card.job)"-->
+                                        <!--type="button" class="btn btn-primary btn-sm">Ứng tuyển-->
+                                <!--</button>-->
+                                <!--<br>-->
+                                <!--<div class="stats pull-right">-->
+                                    <!--không cần CV-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<h3 class="small-title" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">-->
+                                <!--{{dataJob[card.job] || card.job}}-->
+                            <!--</h3>-->
+
+                            <!--<div style="display:inline-block;width:150px;height:25px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">-->
+                                <!--<h4 class="message" itemprop="description">-->
+                                    <!--{{CONFIG.data.working_type[card.working_type]}}-->
+                                <!--</h4>-->
+                            <!--</div>-->
+
+                            <!--<div class="footer">-->
+                                <!--<div class="author-card" ui-sref="app.viewstore ({id:card.storeId})">-->
+                                    <!--<a class="card-link ">-->
+                                        <!--<img class="avatar"-->
+                                             <!--src="{{card.avatar || '/img/store.png'}}"-->
+                                             <!--alt="{{card.storeName}}">-->
+                                        <!--<span>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}</span>-->
+                                    <!--</a>-->
+
+                                <!--</div>-->
+                                <!--<div class="stats pull-right">-->
+                                    <!--{{card.salary? card.salary +' triệu | ':''}} {{service.timeAgo(card.createdAt)}}-->
+                                <!--</div>-->
+                                <!--<div class="clearfix"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
 
 
 <div class="animated fadeIn container" ng-init="checkuser()">
