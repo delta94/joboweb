@@ -445,7 +445,7 @@
 
             return {
                 day: dateAr.getDate(),
-                month: dateAr.getMonth() + 1,
+                month: dateAr.getMonth(),
                 year: dateAr.getFullYear()
             }
 

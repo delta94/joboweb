@@ -39,143 +39,229 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         $scope.picFile = null;
         AuthUser.user()
             .then(function (userInfo) {
-                    $scope.userInfo = userInfo
-                    var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                    profileRef.once('value', function (snap) {
-                        $rootScope.userData = snap.val();
-                        $timeout(function () {
-                            if (!$rootScope.userData) {
-                                //chưa có hồ sơ
-                                $scope.firsttime = true
-                                $rootScope.userData = {
-                                    userId: $rootScope.userId,
-                                    name: userInfo.name,
-                                    photo: [],
-                                    static: staticData
-                                }
+                $scope.userInfo = userInfo
+                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
+                profileRef.once('value', function (snap) {
+                    $rootScope.userData = snap.val();
+                    $timeout(function () {
+                        if (!$rootScope.userData) {
+                            //chưa có hồ sơ
+                            $scope.firsttime = true
+                            $rootScope.userData = {
+                                userId: $rootScope.userId,
+                                name: userInfo.name,
+                                photo: [],
+                                static: staticData
                             }
+                        }
 
-                            $rootScope.userData.email = userInfo.email;
-                            $rootScope.userData.phone = userInfo.phone;
+                        $rootScope.userData.email = userInfo.email;
+                        $rootScope.userData.phone = userInfo.phone;
 
-                            if ($rootScope.userData.school) {
-                                $scope.autocompleteSchool = {text: $rootScope.userData.school}
-                            }
-                            if ($rootScope.userData.address) {
-                                $scope.autocompleteAddress = {text: $rootScope.userData.address}
-                            }
+                        if ($rootScope.userData.school) {
+                            $scope.autocompleteSchool = {text: $rootScope.userData.school}
+                        }
+                        if ($rootScope.userData.address) {
+                            $scope.autocompleteAddress = {text: $rootScope.userData.address}
+                        }
 
-                            if ($rootScope.userData.industry) {
-                                for (var i in $rootScope.userData.industry) {
-                                    $scope.multiple.industry.push(i)
-                                }
+                        if ($rootScope.userData.industry) {
+                            for (var i in $rootScope.userData.industry) {
+                                $scope.multiple.industry.push(i)
                             }
-                            if ($rootScope.userData.languages) {
-                                for (var i in $rootScope.userData.languages) {
-                                    $scope.multiple.languages.push(i)
-                                }
+                        }
+                        if ($rootScope.userData.languages) {
+                            for (var i in $rootScope.userData.languages) {
+                                $scope.multiple.languages.push(i)
                             }
+                        }
 
-                            if ($rootScope.userData.job) {
-                                for (var i in $rootScope.userData.job) {
-                                    $scope.multiple.job.push(i)
-                                }
+                        if ($rootScope.userData.job) {
+                            for (var i in $rootScope.userData.job) {
+                                $scope.multiple.job.push(i)
                             }
-                            if ($rootScope.userData.birth) {
-                                $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
-                                console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
-                            }
+                        }
+                        if ($rootScope.userData.birth) {
+                            $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+                            console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
+                        }
 
-                            if (!$rootScope.userData.photo) {
-                                $rootScope.userData.photo = []
-                            }
+                        if (!$rootScope.userData.photo) {
+                            $rootScope.userData.photo = []
+                        }
 
-                            $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
+                        $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
+                    })
+
+
+                })
+            }, function (error) {
+                console.log(error)
+                // error
+            });
+    }
+    var admin = $stateParams.admin
+    $scope.admin = $stateParams.admin;
+    if (admin && $rootScope.type !== 0) {
+        AuthUser.user().then(function (adminInfo) {
+            var adminRef = firebase.database().ref('user/' + adminInfo.userId);
+            adminRef.once('value', function (snap) {
+                $timeout(function () {
+                    $scope.adminData = snap.val();
+                })
+            });
+            if (adminInfo.admin){
+                $rootScope.userId = admin;
+
+
+                $scope.progress = 0;
+
+
+                $scope.multiple = {
+                    industry: [],
+                    languages: [],
+                    time: [],
+                    job: []
+                };
+
+                $scope.picFile = null;
+
+                var profileRef = firebase.database().ref('profile/'+  $rootScope.userId);
+                profileRef.once('value', function (snap) {
+                    $rootScope.userData = snap.val();
+                    $timeout(function () {
+                        if (!$rootScope.userData) {
+                            //chưa có hồ sơ
+                            $scope.firsttime = true
+                            $rootScope.userData = {
+                                userId: $rootScope.userId,
+                                photo: [],
+                                static: staticData
+                            }
+                        }
+
+                        var userRef = firebase.database().ref('user/'+  $rootScope.userId);
+                        userRef.once('value', function (snap) {
+                            $timeout(function () {
+                                $rootScope.userData.email = snap.val().email;
+                                $rootScope.userData.phone = snap.val().phone;
+                            })
                         })
 
 
+                        if ($rootScope.userData.school) {
+                            $scope.autocompleteSchool = {text: $rootScope.userData.school}
+                        }
+                        if ($rootScope.userData.address) {
+                            $scope.autocompleteAddress = {text: $rootScope.userData.address}
+                        }
+
+                        if ($rootScope.userData.industry) {
+                            for (var i in $rootScope.userData.industry) {
+                                $scope.multiple.industry.push(i)
+                            }
+                        }
+                        if ($rootScope.userData.languages) {
+                            for (var i in $rootScope.userData.languages) {
+                                $scope.multiple.languages.push(i)
+                            }
+                        }
+
+                        if ($rootScope.userData.job) {
+                            for (var i in $rootScope.userData.job) {
+                                $scope.multiple.job.push(i)
+                            }
+                        }
+                        if ($rootScope.userData.birth) {
+                            $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+                        }
+
+                        if (!$rootScope.userData.photo) {
+                            $rootScope.userData.photo = []
+                        }
+
+                        $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
                     })
-                }, function (error) {
-                    console.log(error)
-                    // error
-                });
-    }
-    var admin = $stateParams.admin
-    if (admin) {
-        $rootScope.userId = admin
 
 
-        $scope.progress = 0
-
-
-        $scope.multiple = {
-            industry: [],
-            languages: [],
-            time: [],
-            job: []
-        };
-
-        $scope.picFile = null;
-
-        var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-        profileRef.once('value', function (snap) {
-            $rootScope.userData = snap.val();
-            $timeout(function () {
-                if (!$rootScope.userData) {
-                    //chưa có hồ sơ
-                    $scope.firsttime = true
-                    $rootScope.userData = {
-                        userId: $rootScope.userId,
-                        photo: [],
-                        static: staticData
-                    }
-                }
-
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.once('value', function (snap) {
-                    $timeout(function () {
-                        $rootScope.userData.email = snap.val().email;
-                        $rootScope.userData.phone = snap.val().phone;
-                    })
                 })
+            }
+        });
+        /*if (admin) {
+         $rootScope.userId = admin
 
 
-                if ($rootScope.userData.school) {
-                    $scope.autocompleteSchool = {text: $rootScope.userData.school}
-                }
-                if ($rootScope.userData.address) {
-                    $scope.autocompleteAddress = {text: $rootScope.userData.address}
-                }
-
-                if ($rootScope.userData.industry) {
-                    for (var i in $rootScope.userData.industry) {
-                        $scope.multiple.industry.push(i)
-                    }
-                }
-                if ($rootScope.userData.languages) {
-                    for (var i in $rootScope.userData.languages) {
-                        $scope.multiple.languages.push(i)
-                    }
-                }
-
-                if ($rootScope.userData.job) {
-                    for (var i in $rootScope.userData.job) {
-                        $scope.multiple.job.push(i)
-                    }
-                }
-                if ($rootScope.userData.birth) {
-                    $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
-                }
-
-                if (!$rootScope.userData.photo) {
-                    $rootScope.userData.photo = []
-                }
-
-                $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
-            })
+         $scope.progress = 0
 
 
-        })
+         $scope.multiple = {
+         industry: [],
+         languages: [],
+         time: [],
+         job: []
+         };
+
+         $scope.picFile = null;
+
+         var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
+         profileRef.once('value', function (snap) {
+         $rootScope.userData = snap.val();
+         $timeout(function () {
+         if (!$rootScope.userData) {
+         //chưa có hồ sơ
+         $scope.firsttime = true
+         $rootScope.userData = {
+         userId: $rootScope.userId,
+         photo: [],
+         static: staticData
+         }
+         }
+
+         var userRef = firebase.database().ref('user/' + $rootScope.userId);
+         userRef.once('value', function (snap) {
+         $timeout(function () {
+         $rootScope.userData.email = snap.val().email;
+         $rootScope.userData.phone = snap.val().phone;
+         })
+         })
+
+
+         if ($rootScope.userData.school) {
+         $scope.autocompleteSchool = {text: $rootScope.userData.school}
+         }
+         if ($rootScope.userData.address) {
+         $scope.autocompleteAddress = {text: $rootScope.userData.address}
+         }
+
+         if ($rootScope.userData.industry) {
+         for (var i in $rootScope.userData.industry) {
+         $scope.multiple.industry.push(i)
+         }
+         }
+         if ($rootScope.userData.languages) {
+         for (var i in $rootScope.userData.languages) {
+         $scope.multiple.languages.push(i)
+         }
+         }
+
+         if ($rootScope.userData.job) {
+         for (var i in $rootScope.userData.job) {
+         $scope.multiple.job.push(i)
+         }
+         }
+         if ($rootScope.userData.birth) {
+         $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+         }
+
+         if (!$rootScope.userData.photo) {
+         $rootScope.userData.photo = []
+         }
+
+         $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
+         })
+
+
+         })*/
     } else {
         $scope.init()
     }
@@ -306,18 +392,18 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         var text = S(textfull).latinise().s
         $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text;
         /*if (delay == false) {
-            delay = true
-            $http({
-                method: 'GET',
-                url: $scope.URL
-            }).then(function successCallback(response) {
-                $scope.ketquasAddress = response.data.results;
-                console.log($scope.ketquasAddress);
-                $('#list-add').show();
-            })
-            $timeout(function () {
-                delay = false
-            }, 1000)
+         delay = true
+         $http({
+         method: 'GET',
+         url: $scope.URL
+         }).then(function successCallback(response) {
+         $scope.ketquasAddress = response.data.results;
+         console.log($scope.ketquasAddress);
+         $('#list-add').show();
+         })
+         $timeout(function () {
+         delay = false
+         }, 1000)
          }*/
         $http({
             method: 'GET',
@@ -361,6 +447,28 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         $scope.userData.experience[newkey] = $scope.tempoExperience
         delete $scope.tempoExperience
     }
+    //admin note
+    $scope.addMoreNote = function () {
+        $scope.tempoAdminNote = {};
+        $scope.tempoAdminNote.date = new Date();
+        $scope.tempoAdminNote.adminId = $scope.adminData.userId;
+    };
+    $scope.deleteNote = function (id) {
+        delete $scope.userData.adminNote[id]
+    };
+    $scope.deleteTempNote = function () {
+        delete $scope.tempoAdminNote
+    }
+    $scope.saveNote = function () {
+        var adminNoteRef = firebase.database().ref('profile/' +  $rootScope.userId +  '/note');
+        var newkey = adminNoteRef.push().key;
+        $scope.tempoAdminNote.id = newkey;
+        if (!$scope.userData.adminNote){
+            $scope.userData.adminNote = {}
+        }
+        $scope.userData.adminNote[newkey] = $scope.tempoAdminNote;
+        delete $scope.tempoAdminNote
+    };
     //autoupdate data
     $scope.$watchCollection('[$root.userData.name, $root.userData.email, $root.userData.phone, $root.userData.address, $root.userData.birthArray.day, $root.userData.birthArray.month, $root.userData.birthArray.year, multiple.job.length]', debounce(function () {
         console.log('autoupdate');
@@ -404,14 +512,16 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
     //update data
     $scope.indexToShow = 0;
     $scope.$watch('$root.userData', function () {
-        if ($rootScope.userData.email
+        if (($rootScope.userData.email
             && $rootScope.userData.phone
-            && $rootScope.userData.address
-            && $rootScope.userData.name
-            && $rootScope.userData.birthArray
-            && $scope.multiple.job.length > 0
-            && $scope.indexToShow === 0) {
-            $scope.indexToShow = 2;
+            && $scope.indexToShow === 0)||($stateParams.admin)) {
+            $scope.indexToShow = 1;
+            if (($rootScope.userData.address
+                && $rootScope.userData.name
+                && $rootScope.userData.birthArray
+                && $scope.multiple.job.length > 0) || ($stateParams.admin)) {
+                $scope.indexToShow = 2;
+            }
         }
     });
     $scope.updateData = function () {

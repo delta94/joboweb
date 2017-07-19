@@ -270,7 +270,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             }
             //push 30 days to chart
             var today = new Date().getTime()
-            var last30days = today - 86400 * 1000 * 360
+            var last30days = today - 86400 * 1000 * 30
             for (var i in $scope.dataAnalyticsUser) {
                 if (last30days < $scope.dataAnalyticsUser[i].dateStart) {
                     $scope.labels.push(toDate($scope.dataAnalyticsUser[i].dateStart))
