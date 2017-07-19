@@ -3149,3 +3149,126 @@ section.features .feature-item h3 {
 
 
 }
+
+/*Industry*/
+
+.industry {
+    width: 90%;
+    margin-top: 50px auto;
+    height:auto;
+}
+.detail-industry{
+    margin-top: 80px;
+}
+.industry .col-md-6{
+    height: 150px;
+    width: 150px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    background-color: #fff;
+    border: solid 3px #000;
+    box-shadow: 5px 5px #000;
+    margin: 10px;
+}
+.card-industry{
+    margin-bottom: 30px;
+    height: 220px;
+    width: 105%;
+    border-radius:10px;
+    background-color: #fff;
+    box-shadow: 0 3px 9px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+/* Transition to a bigger shadow on hover */
+.card-industry:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.card-industry {
+    padding: 30px;
+}
+#div1{
+    display:inline-block;
+    /*width:150px;*/
+    /*height:20px;*/
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+    /*margin: 5px 0;*/
+}
+#descrip{
+    display: block;
+    display: -webkit-box;
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 1.4;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.industry .col-md-8 table tr i  {
+    font-size: .7em;
+    color: #00a67c;
+}
+.industry .col-md-8 table tr th{
+    font-size: 17px;
+    color: #00a67c;
+    font-weight: 600;
+}
+.card-industry h5{
+    color: #00a67c;
+}
+.card-industry ul li{
+    margin: 3px 0;
+}
+.card-industry ul li i{
+    font-size: .8em;
+    margin:0 5px;
+    color: #00a67c;
+}
+.card-industry ul li a{
+    color:#000;
+}
+.card-industry ul li a:hover{
+    color:#0b58a2;
+}
+.content-detail{
+    opacity: 1;
+    transition: opacity 2s linear;
+}
+.detail-industry ul li{
+    font-size:16px;
+    margin: 10px 10px;
+}
+.detail-industry ul li i{
+    margin-right:10px;
+    color: #00b3ee;
+}
+.detail-industry h1{
+    color:#272a2e;
+    font-family: 'HelveticaNeue'!important;
+    font-size: 30px;
+}
+.detail-industry {
+    text-align: left;
+    margin-right: 50px;
+}
+.detail-industry a {
+    /*padding: 10px 15px;*/
+    border: none;
+}
+.detail-industry input{
+    padding: 7px 40px;
+    border: none;
+    background-color: #F498BC;
+    color: #fff;
+    font-size: 18px;
+}
+.try-fade:target{
+    -webkit-transition: opacity 2.0s ease-in;
+    -moz-transition: opacity 2.0s ease-in;
+    -o-transition: opacity 2.0s ease-in;
+    opacity: 1;
+}
