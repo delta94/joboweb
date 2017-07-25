@@ -2,15 +2,35 @@
 
 app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootScope, $http, CONFIG, $timeout, $state, AuthUser) {
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
     });
+
+    $scope.loadData = function () {
+                $http({
+                        method: 'GET',
+                        url: CONFIG.APIURL + '/view/profile',
+                        params: {profileId : $scope.profileId , userId: $rootScope.userId}
+                }).then(function successCallback(response) {
+                        console.log("respond", response);
+                        $scope.profileData = response.data
+                        $scope.adminData = $scope.profileData.adminData
+                        })
+            }
 
     $scope.init = function () {
         $rootScope.aside = false
         $scope.profileId = $stateParams.id;
         $scope.admin = $stateParams.admin;
-        if($scope.profileId){
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/view/profile',
+            params: {profileId: $scope.profileId}
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+        })
+
+        if ($scope.profileId) {
             var ProfileRef = firebase.database().ref('profile/' + $scope.profileId);
             ProfileRef.on('value', function (snap) {
                 $timeout(function () {
@@ -25,22 +45,24 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
 
                         })
                     });
-                    if($scope.admin == '1'){
-                        firebase.database().ref('user/'+ $scope.profileId).once('value', function (snap) {
+                    if ($rootScope.userData && $rootScope.userData.admin) {
+                        firebase.database().ref('user/' + $scope.profileId).once('value', function (snap) {
                             $timeout(function () {
-                                $scope.adminData = snap.val()
+                                $scope.adminData = snap.val();
+                                $scope.adminData.adminNote = $scope.profileData.adminNote;
                             })
                         })
 
                     }
-                    $rootScope.service.getListReact($scope.profileData.userId,'userId').then(function (data) {
+                    $rootScope.service.getListReact($scope.profileData.storeId, 'storeId').then(function (data) {
+                        $timeout(function () {
                             $scope.listReact = data;
-                        console.log('listReact', $scope.listReact)
+                            console.log('listReact', $scope.listReact)
+                        })
                         $scope.limit = {like: 10, liked: 10, match: 10}
                         $scope.incrementLimit = function (type) {
-                            $scope.limit[type] =$scope.listReact[type].length
+                            $scope.limit[type] = $scope.listReact[type].length
                         }
-
                     })
 
                     // for share
@@ -58,7 +80,7 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
                         Caption: 'Có ai đang cần tuyển ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy ứng viên này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
                     }
                     $rootScope.og = {
-                        title:'Ứng viên ' + $scope.profileData.name,
+                        title: 'Ứng viên ' + $scope.profileData.name,
                         description: 'Xem thông tin ứng viên ' + $scope.profileData.name + " cho vị trí " + profileJob,
                         image: $scope.profileData.avatar
                     }
@@ -72,12 +94,13 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
         if ($rootScope.userId) {
             init($rootScope.userId)
         } else {
-            $rootScope.$on('storeListen', function (event,userData) {
+            $rootScope.$on('storeListen', function (event, userData) {
                 init(userData.userId)
+                $scope.loadData()
             });
-            $rootScope.$on('handleBroadcast', function (event,userData) {
+            $rootScope.$on('handleBroadcast', function (event, userData) {
                 init(userData.userId)
-
+                $scope.loadData()
             });
 
 
@@ -86,8 +109,8 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
             if ($scope.profileId == userId) {
                 $timeout(function () {
                     $scope.myself = true
-                    var staticRef =  firebase.database().ref('static/'+ userId)
-                    staticRef.on('value',function (snap) {
+                    var staticRef = firebase.database().ref('static/' + userId)
+                    staticRef.on('value', function (snap) {
                         $timeout(function () {
                             $scope.staticData = snap.val()
                         })
@@ -129,7 +152,7 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
 
     $scope.API = null;
 
-    $scope.onPlayerReady = function(API) {
+    $scope.onPlayerReady = function (API) {
         $scope.API = API;
     };
     $scope.rating = 3

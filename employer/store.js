@@ -273,8 +273,6 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
         console.log(selected);
         $('#list-add').hide();
-        //$rootScope.userData.address = selected.formatted_address;
-        //$rootScope.userData.location = selected.geometry.location;
 
     };
     $scope.eraseAddress = function () {
@@ -363,9 +361,16 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         $scope.anaJob.push($scope.newJob.job)
 
         delete $scope.newJob
-    }
+    };
     $scope.deleteJob = function (id) {
-        delete  $scope.jobData[id]
+        console.log($scope.jobData[id]);
+        delete $rootScope.storeData.job[$scope.jobData[id].job];
+        delete $scope.jobData[id];
+        console.log($rootScope.storeData);
+        console.log($scope.jobData);
+    };
+    $scope.deleteNewJob = function () {
+        delete $scope.newJob;
     };
     $scope.submit = function () {
         console.log('submit', $rootScope.storeData)

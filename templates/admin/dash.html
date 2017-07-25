@@ -332,7 +332,7 @@
                                 {{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}
                             </td>
                             <td>{{card.type}}</td>
-                            <td>{{card.name}}<br>{{card.userId}}</td>
+                            <td>{{card.name}}<br><a href="{{CONFIG.WEBURL + '/profile?admin='+ card.userId}}">{{card.userId}}</a><a href="{{CONFIG.WEBURL + '/view/store/'+ card.currentStore}}">{{card.currentStore}}</a></td>
                             <td>{{card.email}}</td>
                             <td>{{card.phone}}</td>
                             <td>{{card.verifyEmail}}</td>

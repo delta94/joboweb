@@ -1,6 +1,6 @@
 <div class="tab-content">
     <div class="tab-pane active" id="eMessages" role="tabpanel">
-        <div ng-hide="chat == true || !onlineList">
+        <div ng-hide="chat == true">
             <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
                 <small><b>Đã tương hợp</b>
                 </small>
@@ -127,7 +127,7 @@
                 </div>
             </div>
         </div>
-        <div class="spinner" ng-show="chat == true && !chatUser.data || !onlineList">
+        <div class="spinner" ng-show="chat == true && !chatUser.data">
             <div class="cube1"></div>
             <div class="cube2"></div>
         </div>

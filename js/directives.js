@@ -803,7 +803,6 @@ angular.module('bw.paging', []).directive('paging', function () {
             restrict: 'A',
             link: function (scope, element, attrs) {
                 var raw = element[0];
-                console.log('loading directive');
 
                 element.bind('scroll', function () {
                     console.log('in scroll');

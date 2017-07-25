@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Job List
+            </div>
+            <div class="card-block">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <th>Job</th>
+                        <th>In Charge</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th>KPI</th>
+                        <th>Expect</th>
+                        <th>Result</th>
+                        <th>Refer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="card in working">
+                        <td>{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}</td>
+                        <td data-toggle="popover" data-trigger="hover" data-content="{{card.description}}">
+                            {{card.job}}
+                        </td>
+                        <td>{{card.incharge}}</td>
+                        <td>{{card.deadline | date: 'HH:mm dd/MM/yyyy'}}</td>
+                        <td>{{card.status}}</td>
+                        <td>{{card.kpi}}</td>
+                        <td>{{card.expect}}</td>
+                        <td>{{card.result}}</td>
+                        <td>{{card.refer}}</td>
+
+                    </tr>
+
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="email" ng-model="new.email">
+                            <input type="text" class="form-control" placeholder="phone" ng-model="new.phone"></td>
+                        <td><input type="text" class="form-control" placeholder="storeName" ng-model="new.storeName">
+                        </td>
+                        <td><input ng-keydown="searchAddress()" id="address" ui-items="names"
+                                   ng-model="autocompleteAddress.text" class="form-control">
+                            <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                                <li ng-repeat="ketqua in ketquasAddress"
+                                    ng-click="setSelectedAddress(ketqua)">
+                                    {{ketqua.formatted_address}}
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <select  name="select" class="form-control" size="1" ng-model="new.industry">
+                                <option ng-repeat="job in arrayIndustry" value="{{job}}">
+                                    {{Lang[job]}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="select" class="form-control" size="1" ng-model="new.job">
+                                <option ng-repeat="job in arrayJob" value="{{job}}">
+                                    {{Lang[job]}}
+                                </option>
+                            </select>
+                        </td>
+
+
+                        <td>
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="addJob(new)">Add
+                            </button>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>

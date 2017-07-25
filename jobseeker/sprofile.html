@@ -172,13 +172,13 @@
                                                     Tải lên
                                                 </button>
                                             </div>
-                                            <!--<div class="card-footer" style="padding: 0px">
+                                            <div class="card-footer" style="padding: 0px">
                                                 <button class="btn btn-outline-success btn-block" ngf-select
                                                         ng-model="picFile"
                                                         accept="image/*">
                                                     <i class="fa fa-magic"></i> Chọn ảnh
                                                 </button>
-                                            </div>-->
+                                            </div>
                                         </div>
                                         <!--<span us-spinner spinner-key="avatar"></span>
                                         <form name="myForm">
@@ -601,6 +601,15 @@
                             <div class="card-header">
                                 <strong>Admin ghi chú</strong>
                             </div>
+                            <fieldset class="form-group {{error.name ? 'has-danger':''}}">
+                                <label>Ref</label>
+
+                                <div class="input-group mb-1">
+
+                                    <input type="text" name="name" class="form-control" placeholder="Họ tên"
+                                           ng-model="userData.ref" id="ref">
+                                </div>
+                            </fieldset>
                             <div class="card-block ex-em">
                                 <ul>
                                     <li ng-repeat="card in userData.adminNote">

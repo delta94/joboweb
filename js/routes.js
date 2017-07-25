@@ -313,10 +313,10 @@ angular
                 templateUrl: 'templates/admin/working.html',
                 controller: 'workingAdminCtrl'
             })
-            .state('admin.edit', {
-                url: '/admin/edit?id',
-                templateUrl: 'templates/admin/sprofile.html',
-                controller: 'adminprofileCtrl'
+            .state('admin.addjob', {
+                url: '/admin/addjob',
+                templateUrl: 'templates/admin/addjobemail.html',
+                controller: 'addJobCtrl'
             })
             // static
 

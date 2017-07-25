@@ -12,6 +12,15 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
     console.log('admin', $scope.admin)
 
     $rootScope.service.Ana('viewStore', {storeId: $scope.profileId})
+    $http({
+                method: 'GET',
+                url: CONFIG.APIURL + '/view/store',
+                params: {storeId : $scope.profileId , userId: $rootScope.userId}
+        }).then(function successCallback(response) {
+                console.log("respond", response);
+                $scope.profileData = response.data
+                $scope.adminData = $scope.profileData.adminData
+                })
 
     if ($rootScope.userId) {
         init($scope.profileId, $rootScope.userId)
@@ -41,7 +50,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 })
                 loadListStore($scope.profileData.createdBy)
 
-                if ($scope.admin == '1') {
+                if ($rootScope.userData && $rootScope.userData.admin) {
                     firebase.database().ref('user/' + $scope.profileData.createdBy).once('value', function (snap) {
                         $timeout(function () {
                             $scope.adminData = snap.val()
@@ -55,25 +64,27 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                         $scope.staticData = snap.val();
                     })
                 })
-                var reviewAct = firebase.database().ref('activity/review/' + profileId);
-                reviewAct.on('value', function (snap) {
-                    $timeout(function () {
-                        $scope.reviewData = snap.val();
-                        if ($scope.reviewData) {
-                            $timeout(function () {
-                                $scope.ratingModel = $rootScope.service.calReview($scope.reviewData);
-                                console.log($scope.ratingModel)
-                            })
-                        }
-                    })
-                })
+                // var reviewAct = firebase.database().ref('activity/review/' + profileId);
+                // reviewAct.on('value', function (snap) {
+                //     $timeout(function () {
+                //         $scope.reviewData = snap.val();
+                //         if ($scope.reviewData) {
+                //             $timeout(function () {
+                //                 $scope.ratingModel = $rootScope.service.calReview($scope.reviewData);
+                //                 console.log($scope.ratingModel)
+                //             })
+                //         }
+                //     })
+                // })
                 $rootScope.service.getListReact($scope.profileData.storeId, 'storeId').then(function (data) {
-                    $scope.listReact = data;
-                    console.log('listReact', $scope.listReact)
+                    $timeout(function () {
+                        $scope.listReact = data;
+                        console.log('listReact', $scope.listReact)
+                    })
                     $scope.limit = {like: 10, liked: 10, match: 10}
+
                     $scope.incrementLimit = function (type) {
                         $scope.limit[type] = $scope.listReact[type].length
-
                     }
                 })
 

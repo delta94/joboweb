@@ -59,7 +59,7 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, AuthUser,$stateParams,$state) {
+    .run(function ($rootScope, AuthUser, $stateParams, $state) {
         $rootScope.width = window.innerWidth
         $rootScope.service = AuthUser
         firebase.database().ref('config').once('value', function (snap) {
@@ -150,12 +150,12 @@ var app = angular
     })
 
 
-    .controller('navbarCtrl', function ($scope, $rootScope, $timeout, AuthUser, toastr, $state,$stateParams) {
+    .controller('navbarCtrl', function ($scope, $rootScope, $timeout, AuthUser, toastr, $state, $stateParams) {
         $rootScope.service.Ana('trackView', {track: $stateParams['#'], state: $state.current.name || 'new'})
         var params = $stateParams['#']
-        if(params && params.startsWith("ref")){
+        if (params && params.startsWith("ref")) {
             window.localStorage.setItem('ref', $rootScope.service.getRefer(params))
-            console.log('ref',$rootScope.service.getRefer(params))
+            console.log('ref', $rootScope.service.getRefer(params))
         }
 
 
@@ -166,248 +166,260 @@ var app = angular
             if (!data.webToken) {
                 $rootScope.service.saveWebToken();
             }
-
-            if (data.type == 2) {
-                loadUserData($rootScope.userId);
-                getNotification($rootScope.userId);
-
-
-                $timeout(function () {
-                    getListReact($rootScope.userId, 'userId');
-                    getStoreOnlineList()
-
-                }, 1000)
-            }
-            if (data.type == 1) {
-                loadCurrentStore($rootScope.storeId)
-                getNotification($rootScope.userId);
-                loadListStore($rootScope.userId)
-
-                $timeout(function () {
-                    getProfileOnlineList()
-                    getListReact($rootScope.storeId, 'storeId')
-                }, 1000)
-
-                $scope.setCurrentStore = function (storeId) {
-                    $rootScope.storeId = storeId;
-                    var setCurrent = firebase.database().ref('user/' + $rootScope.userId)
-                    setCurrent.update({currentStore: storeId});
-                    window.location.reload();
-                };
-
-            }
-
-            function getUserOnline(userId) {
-                var userRef = firebase.database().ref('profile/' + userId + '/presence');
-
-                // Add ourselves to presence list when online.
-                var presenceRef = firebase.database().ref('.info/connected');
-                presenceRef.on("value", function (snap) {
-                    if (snap.val()) {
-                        // Remove ourselves when we disconnect.
-                        var off = {
-                            status: 'offline',
-                            at: new Date().getTime()
-                        }
-
-                        userRef.onDisconnect().set(off);
-                        var on = {
-                            status: 'online',
-                            at: new Date().getTime()
-
-                        };
-                        firebase.database().ref('profile/' + userId + '/name').on('value', function (snap) {
-                            var name = snap.val()
-                            if (name) {
-                                console.log(on);
-                                userRef.set(on)
-                            }
-                        })
+            $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
+                console.log(res);
+                var user = res.data;
+                $rootScope.userData = user.userData;
+                $rootScope.storeList = user.storeList;
+                $rootScope.storeData = user.storeData;
+                $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
+                $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+                $rootScope.reactList = user.reactList;
+            })
 
 
-                    }
-                });
-            }
-
-            function loadUserData(userId) {
-                var userRef = firebase.database().ref('profile/' + userId);
-                var firsttime;
-
-                userRef.on('value', function (snap) {
-                    $timeout(function () {
-                        $rootScope.userData = snap.val()
-
-                        if (!firsttime) {
-                            firsttime = true;
-                            if (!$rootScope.userData) {
-                                getUserOnline(userId);
-                            }
-                            $rootScope.$broadcast('handleBroadcast', $rootScope.userData);
-                        }
-                    })
-                })
-            }
-
-            function getStoreOnlineList() {
-                var time = new Date().getTime() - 24 * 60 * 60 * 1000
-                var onlinelistRef = firebase.database().ref('store').orderByChild('presence/at').startAt(time);
-                onlinelistRef.on("value", function (snap) {
-                    $rootScope.onlineList = snap.val()
-                    console.log("# of online users = ", $rootScope.onlineList);
-
-                });
-            }
-
-
-            function getProfileOnlineList() {
-                var time = new Date().getTime() - 24 * 60 * 60 * 1000
-                var onlinelistRef = firebase.database().ref('profile').orderByChild('presence/at').startAt(time);
-                onlinelistRef.on("value", function (snap) {
-                    $rootScope.onlineList = snap.val()
-                    console.log("# of online users = ", $rootScope.onlineList);
-                });
-            }
-
-            function getStoreOnline(storeId) {
-                var userRef = firebase.database().ref('store/' + storeId + '/presence');
-
-                var presenceRef = firebase.database().ref('.info/connected');
-                presenceRef.on("value", function (snap) {
-                    if (snap.val()) {
-                        // Remove ourselves when we disconnect.
-                        var off = {
-                            status: 'offline',
-                            at: new Date().getTime(),
-
-                        };
-                        userRef.onDisconnect().set(off);
-                        var on = {
-                            status: 'online',
-                            at: new Date().getTime()
-
-                        }
-                        firebase.database().ref('store/' + storeId + '/storeName').on('value', function (snap) {
-                            var storeName = snap.val()
-                            if (storeName) {
-                                console.log(on)
-                                userRef.set(on)
-                            }
-                        })
-
-
-                    }
-                });
-
-
-            }
-
-            function loadCurrentStore(storeId) {
-
-                var storeRef = firebase.database().ref('store/' + storeId);
-                var firsttime;
-
-                storeRef.on('value', function (snap) {
-                    $timeout(function () {
-                        $rootScope.storeData = snap.val()
-
-                        if (!firsttime) {
-                            firsttime = true
-                            if ($rootScope.storeData) {
-                                getStoreOnline(storeId)
-                            }
-                            $rootScope.$broadcast('storeListen', $rootScope.storeData);
-                        }
-
-                    })
-                })
-            }
-
-            function loadListStore(userId) {
-                var storeListRef = firebase.database().ref('store').orderByChild('createdBy').equalTo(userId);
-                storeListRef.on('value', function (snap) {
-                    $timeout(function () {
-                        $scope.storeList = snap.val()
-                        console.log($scope.storeList)
-
-                    })
-                })
-            }
-
-            function getListReact(pros, type) {
-                if (!$rootScope.reactList) {
-                    var reactRef = firebase.database().ref('activity/like').orderByChild(type).equalTo(pros);
-                    reactRef.on('value', function (snap) {
-                        $timeout(function () {
-                            var reactList = snap.val();
-                            console.log('reactList', reactList)
-                            $rootScope.reactList = {like: [], liked: [], match: []}
-
-                            if (type == 'storeId') {
-                                angular.forEach(reactList, function (card) {
-                                    firebase.database().ref('presence/profile/' + card.userId).on('value', function (snap) {
-                                        if (snap.val()) {
-                                            card.presence = snap.val().status
-                                            card.at = snap.val().at
-                                        }
-                                    })
-                                    if (card.status == 1) {
-                                        $rootScope.reactList.match.push(card)
-                                    } else if (card.status == 0 && card.type == 1) {
-                                        $rootScope.reactList.like.push(card)
-
-                                    } else if (card.status == 0 && card.type == 2) {
-                                        $rootScope.reactList.liked.push(card)
-
-                                    }
-                                })
-                                console.log($rootScope.reactList)
-                            }
-                            if (type == 'userId') {
-                                angular.forEach(reactList, function (card) {
-                                    firebase.database().ref('presence/store/' + card.storeId).on('value', function (snap) {
-                                        if (snap.val()) {
-                                            card.presence = snap.val().status
-                                            card.at = snap.val().at
-                                        }
-
-
-                                    })
-                                    if (card.status == 1) {
-                                        $rootScope.reactList.match.push(card)
-                                    } else if (card.status == 0 && card.type == 2) {
-                                        $rootScope.reactList.like.push(card)
-
-                                    } else if (card.status == 0 && card.type == 1) {
-                                        $rootScope.reactList.liked.push(card)
-
-                                    }
-                                })
-                                console.log($rootScope.reactList)
-                            }
-
-
-                        })
-                    })
-                }
-            };
-            function getNotification(userId) {
-                firebase.database().ref('notification/' + userId).orderByChild('createdAt')
-                    .on('value', function (snap) {
-                        $timeout(function () {
-                            $rootScope.notification = $rootScope.service.ObjectToArray(snap.val())
-                            console.log($rootScope.notification)
-                            $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
-                        })
-                    })
-            }
-
-            if (data.type == 0) {
-                if ($state.current.name == 'app.viewprofile' || $state.current.name == 'app.viewstore') {
-
-                } else {
-                    $state.go('/')
-
-                }
-            }
         })
+
+        $scope.setCurrentStore = function (storeId) {
+            $rootScope.storeId = storeId;
+            var setCurrent = firebase.database().ref('user/' + $rootScope.userId)
+            setCurrent.update({currentStore: storeId});
+            window.location.reload();
+        };
     })
+
+// if (data.type == 2) {
+//     loadUserData($rootScope.userId);
+//     getNotification($rootScope.userId);
+//
+//     $timeout(function () {
+//         getListReact($rootScope.userId, 'userId');
+//         getStoreOnlineList()
+//     }, 1000)
+// }
+// if (data.type == 1) {
+//     loadCurrentStore($rootScope.storeId)
+//     getNotification($rootScope.userId);
+//     loadListStore($rootScope.userId)
+//
+//     $timeout(function () {
+//         getProfileOnlineList()
+//         getListReact($rootScope.storeId, 'storeId')
+//     }, 1000)
+//
+
+//
+// }
+//
+// function getUserOnline(userId) {
+//     var userRef = firebase.database().ref('profile/' + userId + '/presence');
+//
+//     // Add ourselves to presence list when online.
+//     var presenceRef = firebase.database().ref('.info/connected');
+//     presenceRef.on("value", function (snap) {
+//         if (snap.val()) {
+//             // Remove ourselves when we disconnect.
+//             var off = {
+//                 status: 'offline',
+//                 at: new Date().getTime()
+//             }
+//
+//             userRef.onDisconnect().set(off);
+//             var on = {
+//                 status: 'online',
+//                 at: new Date().getTime()
+//
+//             };
+//             firebase.database().ref('profile/' + userId + '/name').on('value', function (snap) {
+//                 var name = snap.val()
+//                 if (name) {
+//                     console.log(on);
+//                     userRef.set(on)
+//                 }
+//             })
+//
+//
+//         }
+//     });
+// }
+//
+// function loadUserData(userId) {
+//     var userRef = firebase.database().ref('profile/' + userId);
+//     var firsttime;
+//
+//     userRef.on('value', function (snap) {
+//         $timeout(function () {
+//             $rootScope.userData = snap.val()
+//
+//             if (!firsttime) {
+//                 firsttime = true;
+//                 if (!$rootScope.userData) {
+//                     getUserOnline(userId);
+//                 }
+//                 $rootScope.$broadcast('handleBroadcast', $rootScope.userData);
+//             }
+//         })
+//     })
+// }
+//
+// function getStoreOnlineList() {
+//     var time = new Date().getTime() - 24 * 60 * 60 * 1000
+//     var onlinelistRef = firebase.database().ref('store').orderByChild('presence/at').startAt(time);
+//     onlinelistRef.on("value", function (snap) {
+//         $rootScope.onlineList = snap.val()
+//         console.log("# of online users = ", $rootScope.onlineList);
+//
+//     });
+// }
+//
+//
+// function getProfileOnlineList() {
+//     var time = new Date().getTime() - 24 * 60 * 60 * 1000
+//     var onlinelistRef = firebase.database().ref('profile').orderByChild('presence/at').startAt(time);
+//     onlinelistRef.on("value", function (snap) {
+//         $rootScope.onlineList = snap.val()
+//         console.log("# of online users = ", $rootScope.onlineList);
+//     });
+// }
+//
+// function getStoreOnline(storeId) {
+//     var userRef = firebase.database().ref('store/' + storeId + '/presence');
+//
+//     var presenceRef = firebase.database().ref('.info/connected');
+//     presenceRef.on("value", function (snap) {
+//         if (snap.val()) {
+//             // Remove ourselves when we disconnect.
+//             var off = {
+//                 status: 'offline',
+//                 at: new Date().getTime(),
+//
+//             };
+//             userRef.onDisconnect().set(off);
+//             var on = {
+//                 status: 'online',
+//                 at: new Date().getTime()
+//
+//             }
+//             firebase.database().ref('store/' + storeId + '/storeName').on('value', function (snap) {
+//                 var storeName = snap.val()
+//                 if (storeName) {
+//                     console.log(on)
+//                     userRef.set(on)
+//                 }
+//             })
+//
+//
+//         }
+//     });
+//
+//
+// }
+//
+// function loadCurrentStore(storeId) {
+//
+//     var storeRef = firebase.database().ref('store/' + storeId);
+//     var firsttime;
+//
+//     storeRef.on('value', function (snap) {
+//         $timeout(function () {
+//             $rootScope.storeData = snap.val()
+//
+//             if (!firsttime) {
+//                 firsttime = true
+//                 if ($rootScope.storeData) {
+//                     getStoreOnline(storeId)
+//                 }
+//                 $rootScope.$broadcast('storeListen', $rootScope.storeData);
+//             }
+//
+//         })
+//     })
+// }
+//
+// function loadListStore(userId) {
+//     var storeListRef = firebase.database().ref('store').orderByChild('createdBy').equalTo(userId);
+//     storeListRef.on('value', function (snap) {
+//         $timeout(function () {
+//             $scope.storeList = snap.val()
+//             console.log($scope.storeList)
+//
+//         })
+//     })
+// }
+//
+// function getListReact(pros, type) {
+//     if (!$rootScope.reactList) {
+//         var reactRef = firebase.database().ref('activity/like').orderByChild(type).equalTo(pros);
+//         reactRef.on('value', function (snap) {
+//             $timeout(function () {
+//                 var reactList = snap.val();
+//                 console.log('reactList', reactList)
+//                 $rootScope.reactList = {like: [], liked: [], match: []}
+//
+//                 if (type == 'storeId') {
+//                     angular.forEach(reactList, function (card) {
+//                         firebase.database().ref('presence/profile/' + card.userId).on('value', function (snap) {
+//                             if (snap.val()) {
+//                                 card.presence = snap.val().status
+//                                 card.at = snap.val().at
+//                             }
+//                         })
+//                         if (card.status == 1) {
+//                             $rootScope.reactList.match.push(card)
+//                         } else if (card.status == 0 && card.type == 1) {
+//                             $rootScope.reactList.like.push(card)
+//
+//                         } else if (card.status == 0 && card.type == 2) {
+//                             $rootScope.reactList.liked.push(card)
+//
+//                         }
+//                     })
+//                     console.log($rootScope.reactList)
+//                 }
+//                 if (type == 'userId') {
+//                     angular.forEach(reactList, function (card) {
+//                         firebase.database().ref('presence/store/' + card.storeId).on('value', function (snap) {
+//                             if (snap.val()) {
+//                                 card.presence = snap.val().status
+//                                 card.at = snap.val().at
+//                             }
+//
+//
+//                         })
+//                         if (card.status == 1) {
+//                             $rootScope.reactList.match.push(card)
+//                         } else if (card.status == 0 && card.type == 2) {
+//                             $rootScope.reactList.like.push(card)
+//
+//                         } else if (card.status == 0 && card.type == 1) {
+//                             $rootScope.reactList.liked.push(card)
+//
+//                         }
+//                     })
+//                     console.log($rootScope.reactList)
+//                 }
+//
+//
+//             })
+//         })
+//     }
+// };
+// function getNotification(userId) {
+//     firebase.database().ref('notification/' + userId).orderByChild('createdAt')
+//         .on('value', function (snap) {
+//             $timeout(function () {
+//                 $rootScope.notification = $rootScope.service.ObjectToArray(snap.val())
+//                 console.log($rootScope.notification)
+//                 $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+//             })
+//         })
+// }
+//
+// if (data.type == 0) {
+//     if ($state.current.name == 'app.viewprofile' || $state.current.name == 'app.viewstore') {
+//
+//     } else {
+//         $state.go('/')
+//
+//     }
+// }

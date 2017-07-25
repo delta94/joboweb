@@ -40,10 +40,10 @@
                     // No user is signed in.
                 }
 
-            })
+            });
 
             return deferred.promise;
-        }
+        };
 
         this.sendVerifyEmail = function (userId) {
             console.log('sendVerifyEmail')
@@ -121,6 +121,24 @@
                 }
             }
         };
+        this.deg2rad = function (deg) {
+            return deg * (Math.PI/180)
+        }
+        this.getDistanceFromLatLonInKm = function(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = $rootScope.service.deg2rad(lat2 - lat1);  // deg2rad below
+            var dLon = $rootScope.service.deg2rad(lon2 - lon1);
+            var a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos($rootScope.service.deg2rad(lat1)) * Math.cos($rootScope.service.deg2rad(lat2)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2)
+                ;
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var x = R * c; // Distance in km
+            var n = parseFloat(x);
+            x = Math.round(n * 10) / 10;
+            return x;
+        };
         this.userLike = function (card, action, jobOffer) {
             $rootScope.jobOffer = {}
 
@@ -158,27 +176,46 @@
                     if (card.act && card.act.jobUser) {
                         selectedJob = Object.assign(selectedJob, card.act.jobUser)
                     }
-                    likeActivity.update({
-                        likeAt: new Date().getTime(),
-                        type: 2,
-                        status: action,
-                        jobUser: selectedJob,
-                        employerId: card.createdBy,
-                        storeId: likedId,
-                        storeName: card.storeName,
-                        storeAvatar: card.avatar || "",
-                        userAvatar: $rootScope.userData.avatar || "",
-                        userName: $rootScope.userData.name,
-                        userId: $rootScope.userId
-                    })
-                    output = {
-                        result: 0,
-                        storeId: likedId,
-                        userId: $rootScope.userId
+                    var store = firebase.database().ref('store/' + card.storeId +'/location');
+                    var storeLocation;
+                    store.once('value',function (snap) {
+                        storeLocation = snap.val();
+                    });
+                    console.log($rootScope.userData);
+                    var distance = $rootScope.service.getDistanceFromLatLonInKm($rootScope.userData.location.lat,$rootScope.userData.location.lng,storeLocation.lat,storeLocation.lng);
+                    console.log(distance + 'km');
+                    if ($rootScope.userData.avatar && $rootScope.userData.name){
+                        if (distance <= 50){
+                            likeActivity.update({
+                                likeAt: new Date().getTime(),
+                                type: 2,
+                                status: action,
+                                jobUser: selectedJob,
+                                employerId: card.createdBy,
+                                storeId: likedId,
+                                storeName: card.storeName,
+                                storeAvatar: card.avatar || "",
+                                userAvatar: $rootScope.userData.avatar || "",
+                                userName: $rootScope.userData.name,
+                                userId: $rootScope.userId
+                            });
+                            output = {
+                                result: 0,
+                                storeId: likedId,
+                                userId: $rootScope.userId
+                            };
+                            $rootScope.clicked[card.storeId] = true;
+                            toastr.success('Bạn đã ứng tuyển vào ' + card.storeName);
+                            $rootScope.service.Ana('like', {storeId: card.storeId, job: jobOffer})
+                        } else {
+                            $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
+                            toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km','Bạn ở quá xa nhà tuyển dụng, không thể apply');
+                        }
+                    } else {
+                        $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
+                        toastr.error('Bạn cần cập nhật ảnh đại diện và tên để ứng tuyển');
+                        $state.go('profile')
                     }
-                    $rootScope.clicked[card.storeId] = true
-                    toastr.success('Bạn đã ứng tuyển vào ' + card.storeName)
-                    $rootScope.service.Ana('like', {storeId: card.storeId, job: jobOffer})
 
                 }
                 deferred.resolve(output);
@@ -337,7 +374,7 @@
                 createdAt: new Date().getTime(),
                 data: data,
                 id: analyticKey
-            }
+            };
 
             logRef.child(analyticKey).set(obj)
             console.log("Jobo Analytics", obj);
@@ -1246,10 +1283,8 @@
 
                         } else if (card.status == 0 && card.type == 2) {
                             totalReactList.liked.push(card)
-
                         }
                     })
-
                 }
                 if (type == 'userId') {
                     angular.forEach(reactList, function (card) {

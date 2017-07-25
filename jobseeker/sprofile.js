@@ -110,12 +110,10 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     $scope.adminData = snap.val();
                 })
             });
-            if (adminInfo.admin){
+            if (adminInfo.admin) {
                 $rootScope.userId = admin;
 
-
                 $scope.progress = 0;
-
 
                 $scope.multiple = {
                     industry: [],
@@ -126,7 +124,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
                 $scope.picFile = null;
 
-                var profileRef = firebase.database().ref('profile/'+  $rootScope.userId);
+                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
                 profileRef.once('value', function (snap) {
                     $rootScope.userData = snap.val();
                     $timeout(function () {
@@ -140,7 +138,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                             }
                         }
 
-                        var userRef = firebase.database().ref('user/'+  $rootScope.userId);
+                        var userRef = firebase.database().ref('user/' + $rootScope.userId);
                         userRef.once('value', function (snap) {
                             $timeout(function () {
                                 $rootScope.userData.email = snap.val().email;
@@ -460,63 +458,24 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         delete $scope.tempoAdminNote
     }
     $scope.saveNote = function () {
-        var adminNoteRef = firebase.database().ref('profile/' +  $rootScope.userId +  '/note');
+        var adminNoteRef = firebase.database().ref('profile/' + $rootScope.userId + '/note');
         var newkey = adminNoteRef.push().key;
         $scope.tempoAdminNote.id = newkey;
-        if (!$scope.userData.adminNote){
+        if (!$scope.userData.adminNote) {
             $scope.userData.adminNote = {}
         }
         $scope.userData.adminNote[newkey] = $scope.tempoAdminNote;
         delete $scope.tempoAdminNote
     };
-    //autoupdate data
-    $scope.$watchCollection('[$root.userData.name, $root.userData.email, $root.userData.phone, $root.userData.address, $root.userData.birthArray.day, $root.userData.birthArray.month, $root.userData.birthArray.year, multiple.job.length]', debounce(function () {
-        console.log('autoupdate');
-        if ($rootScope.userData.email
-            && $rootScope.userData.phone
-            && $rootScope.userData.address
-            && $rootScope.userData.name
-            && $rootScope.userData.birthArray
-            && $scope.multiple.job.length > 0) {
-            // console.log('$rootScope.userData', $rootScope.userData);
-            console.log('autoupdate Start');
-            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
-            $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
-            console.log($rootScope.userData);
-            $timeout(function () {
-                // console.log($scope.multiple);
-                if ($scope.multiple.job.length >= 0) {
-                    $rootScope.userData.job = {};
-                    angular.forEach($scope.multiple.job, function (card) {
-                        $rootScope.userData.job[card] = true
-                    })
-                }
-                console.log($rootScope.userData);
-
-                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                profileRef.update($rootScope.userData);
-
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.update({
-                    name: $rootScope.userData.name,
-                    phone: $rootScope.userData.phone,
-                    email: $rootScope.userData.email
-                });
-
-                $rootScope.service.Ana('autoupdateData');
-                console.log('autoupdate Complete');
-
-            }, 1000)
-        }
-    }, 1000));
-    //update data
+   //update data
     $scope.indexToShow = 0;
     $scope.$watch('$root.userData', function () {
-        if (($rootScope.userData.email
+        if (($rootScope.userData && $rootScope.userData.email
             && $rootScope.userData.phone
-            && $scope.indexToShow === 0)||($stateParams.admin)) {
+            && $scope.indexToShow === 0) || ($stateParams.admin)) {
+
             $scope.indexToShow = 1;
-            if (($rootScope.userData.address
+            if (($rootScope.userData && $rootScope.userData.address
                 && $rootScope.userData.name
                 && $rootScope.userData.birthArray
                 && $scope.multiple.job.length > 0) || ($stateParams.admin)) {
@@ -528,7 +487,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         $scope.error = {};
         if ($scope.indexToShow === 0) {
             console.log('Update phone and email');
-            if ($rootScope.userData.email && $rootScope.userData.phone) {
+            if ($rootScope.userData && $rootScope.userData.email && $rootScope.userData.phone) {
                 console.log($rootScope.userData.phone);
                 console.log($rootScope.userData.email);
                 var userRef = firebase.database().ref('user/' + $rootScope.userId);
@@ -677,7 +636,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         }
     };
 
-    $scope.submit = function ()     {
+    $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
         if (($rootScope.userData.email
             && $rootScope.userData.phone
@@ -717,11 +676,15 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 profileRef.update($rootScope.userData);
 
                 var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.update({
+                var dataUser = {
                     name: $rootScope.userData.name,
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
-                });
+                }
+                if($rootScope.userData.wrongEmail){
+                    dataUser.wrongEmail = $rootScope.userData.wrongEmail
+                }
+                userRef.update(dataUser);
 
                 //init profile
                 if ($scope.firsttime) {
@@ -743,7 +706,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         } else {
             console.log($rootScope.userData);
             $scope.error = {};
-            if ($rootScope.userData.name){
+            if ($rootScope.userData.name) {
 
             } else {
                 $scope.error.name = true;
@@ -751,7 +714,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.birthArray){
+            if ($rootScope.userData.birthArray) {
 
             } else {
                 $scope.error.birth = true;
@@ -759,7 +722,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.email){
+            if ($rootScope.userData.email) {
 
             } else {
                 $scope.error.email = true;
@@ -767,7 +730,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.phone){
+            if ($rootScope.userData.phone) {
 
             } else {
                 $scope.error.phone = true;
@@ -775,7 +738,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.address){
+            if ($rootScope.userData.address) {
 
             } else {
                 $scope.error.address = true;
@@ -783,14 +746,14 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($scope.multiple.job.length > 0){
+            if ($scope.multiple.job.length > 0) {
             } else {
                 $scope.error.job = true;
                 $timeout(function () {
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.avatar){
+            if ($rootScope.userData.avatar) {
 
             } else {
                 $scope.error.avatar = true;

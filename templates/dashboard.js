@@ -59,6 +59,7 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         $rootScope.newfilter = {
             show: param
         }
+        $rootScope.JobCard = {}
         $scope.getUserFiltered($rootScope.newfilter)
 
     }
