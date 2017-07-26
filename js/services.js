@@ -19,22 +19,12 @@
                 console.log('Auth')
                 if (user) {
                     $rootScope.userId = user.uid;
-                    firebase.database().ref('user/' + $rootScope.userId)
-                        .on('value', function (snap) {
-                            $rootScope.userData = snap.val()
-                            $rootScope.type = $rootScope.userData.type;
-                            if ($rootScope.userData.currentStore) {
-                                $rootScope.storeId = $rootScope.userData.currentStore
-                            }
-                            output = $rootScope.userData;
-                            console.log(output)
-                            deferred.resolve(output);
-                        })
+                    output = {userId: $rootScope.userId}
+                    deferred.resolve(output);
                     // User is signed in.
                 } else {
                     $rootScope.type = 0;
-
-                    output = {type: 0}
+                    output = null
                     console.log(output)
                     deferred.resolve(output);
                     // No user is signed in.
@@ -72,12 +62,12 @@
                         status: 1,
                         jobStore: selectedJob
                     });
-                    console.log('match')
+                    console.log('match');
                     output = {
                         result: 1,
                         userId: card.userId,
                         storeId: $rootScope.storeId
-                    }
+                    };
                     $rootScope.service.Ana('match', {userId: card.userId, job: jobOffer})
 
                     itsMatch(output.storeId, output.userId)

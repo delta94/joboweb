@@ -7,28 +7,21 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
     });
 
     $scope.loadData = function () {
-                $http({
-                        method: 'GET',
-                        url: CONFIG.APIURL + '/view/profile',
-                        params: {profileId : $scope.profileId , userId: $rootScope.userId}
-                }).then(function successCallback(response) {
-                        console.log("respond", response);
-                        $scope.profileData = response.data
-                        $scope.adminData = $scope.profileData.adminData
-                        })
-            }
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/view/profile',
+            params: {profileId : $scope.profileId , userId: $rootScope.userId}
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            $scope.profileData = response.data
+            $scope.adminData = $scope.profileData.adminData
+        })
+    }
 
     $scope.init = function () {
         $rootScope.aside = false
         $scope.profileId = $stateParams.id;
         $scope.admin = $stateParams.admin;
-        $http({
-            method: 'GET',
-            url: CONFIG.APIURL + '/view/profile',
-            params: {profileId: $scope.profileId}
-        }).then(function successCallback(response) {
-            console.log("respond", response);
-        })
 
         if ($scope.profileId) {
             var ProfileRef = firebase.database().ref('profile/' + $scope.profileId);

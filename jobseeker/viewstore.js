@@ -13,14 +13,14 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
     $rootScope.service.Ana('viewStore', {storeId: $scope.profileId})
     $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/view/store',
-                params: {storeId : $scope.profileId , userId: $rootScope.userId}
-        }).then(function successCallback(response) {
-                console.log("respond", response);
-                $scope.profileData = response.data
-                $scope.adminData = $scope.profileData.adminData
-                })
+        method: 'GET',
+        url: CONFIG.APIURL + '/view/store',
+        params: {storeId : $scope.profileId , userId: $rootScope.userId}
+    }).then(function successCallback(response) {
+        console.log("respond", response);
+        $scope.profileData = response.data
+        $scope.adminData = $scope.profileData.adminData
+    })
 
     if ($rootScope.userId) {
         init($scope.profileId, $rootScope.userId)

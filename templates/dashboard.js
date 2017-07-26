@@ -39,22 +39,6 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
     }
 
 
-    $scope.checkuser = function () {
-        $rootScope.$on('auth', function (event, data) {
-            console.log(data)
-            if (data.type == 2) {
-                $state.go('app.sdash')
-            }
-            if (data.type == 1) {
-                $state.go('app.edash')
-            }
-            if (data.type == 0) {
-
-                console.log("Hãy đăng nhập!")
-            }
-        });
-
-    };
     $scope.sortFilter = function (param) {
         $rootScope.newfilter = {
             show: param

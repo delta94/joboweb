@@ -158,18 +158,34 @@ var app = angular
             console.log('ref', $rootScope.service.getRefer(params))
         }
 
+        $scope.$watch('$rootScope.type', function () {
+            if ($rootScope.type == 1) {
+                console.log('employer go to');
+
+                $state.go('app.edash')
+            }
+            if ($rootScope.type == 2) {
+                console.log('jobseeker go to');
+
+                $state.go('app.sdash')
+            }
+        });
 
         AuthUser.user().then(function (data) {
             console.log(data);
             $rootScope.$broadcast('auth', data);
 
-            if (!data.webToken) {
-                $rootScope.service.saveWebToken();
-            }
             $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
                 console.log(res);
                 var user = res.data;
                 $rootScope.userData = user.userData;
+                if (!$rootScope.userData.webToken) {
+                    $rootScope.service.saveWebToken();
+                }
+                $rootScope.type = $rootScope.userData.type;
+                if($rootScope.userData.currentStore){
+                    $rootScope.storeId = $rootScope.userData.currentStore
+                }
                 $rootScope.storeList = user.storeList;
                 $rootScope.storeData = user.storeData;
                 $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
