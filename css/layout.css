@@ -3299,5 +3299,21 @@ section.features .feature-item h3 {
 }
 
 
+/*job tab*/
+.job-tab > a > button:hover{
+    cursor: pointer;
+}
+.job-tab > a > button{
+    padding: 10px 50px;
+
+}
+
+.active-tab-white{
+    background-color: #fff;
+}
+
+.active-tab-green{
+    background-color: #00a67c;
+}
 
 

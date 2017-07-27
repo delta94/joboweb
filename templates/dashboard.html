@@ -534,10 +534,20 @@
 </div>
 
 <div class="section-heading text-center">
-    <h2>Việc làm gấp (Sài Gòn)</h2>
+    <h2>Việc làm gấp</h2>
+</div>
+<div class="text-center job-tab">
+    <a href="" ng-click="showjob=false">
+        <button type="button" class="btn btn-gradient"  ng-class="{'active-tab-green' : showjob == false, 'active-tab-white' :showjob == true}" style="border:solid 1px #00a67c">Sài Gòn</button>
+    </a>
+    <a href="" ng-click="showjob=true">
+        <button type="button" class="btn btn-gradient" ng-class="{'active-tab-green' : showjob == true, 'active-tab-white' :showjob == false}" style="border:solid 1px #00a67c">Hà Nội</button>
+    </a>
 </div>
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
+<!--Sai Gon-->
+
+<div class="animated fadeIn" ng-hide="showjob" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
@@ -587,11 +597,9 @@
         </div>
     </div>
 </div>
-<div class="section-heading text-center" style="margin-top: 50px">
-    <h2>Việc làm gấp (Hà Nội)</h2>
-</div>
+<!--Ha noi-->
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
+<div class="animated fadeIn" ng-show="showjob" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
@@ -660,7 +668,7 @@
                 <!-- Normal Demo-->
                 <!-- Post-->
 
-                <div class="post-module" style="margin-bottom: 24px">
+                <div class="post-module" style="margin-bottom: 24px;">
                     <!-- Thumbnail-->
                     <div class="thumbnail" ng-hide="showVid == card.userId">
                         <div class="date" ng-if="card.videourl">
@@ -735,9 +743,9 @@
                 <div class="col-xs-12 col-md-6 col-lg-3 col-s" ng-repeat="card in StoreCard">
                     <!-- Normal Demo-->
                     <!-- Post-->
-                    <div class="post-module" style="margin-bottom: 24px">
+                    <div class="post-module" style="margin-bottom: 24px; height: 250px">
                         <!-- Thumbnail-->
-                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">
+                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})" style="height: 250px;">
                             <img src="{{card.avatar || 'img/store.png'}}"/>
                         </div>
                         <!-- Post Content-->
