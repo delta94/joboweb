@@ -29,6 +29,7 @@
     </div>
 </div>
 
+
 <!--Industry-->
 <div class="industry" style="margin:50px auto">
     <div class="container" style="margin:0 auto; max-width: 100% !important">
@@ -549,7 +550,9 @@
                                         <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
                                     </div>
                                     <div class="logo-job-new pull-right">
-                                        <img src="../img/waiter.png" alt="" width="auto" height="80px">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+                                        ||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >
                                     </div>
                                 </div>
                                 <div class="row main-content-new">
@@ -562,6 +565,9 @@
                                         </tr>
                                         <tr>
                                             <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td id="descrip">{{card.description}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -613,6 +619,9 @@
                                         </tr>
                                         <tr>
                                             <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td id="descrip">{{card.description}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -708,6 +717,8 @@
      
 </div>
 
+
+
 <div class="animated fadeIn" style="margin-bottom: 50px">
     <div class="container">
         <div class="wpb_wrapper text-center">
@@ -752,6 +763,40 @@
         </button>
     </div>
 </div> 
+
+<div class="section-heading text-center" style="margin-top:30px;">
+    <h2>Về chúng tôi</h2>
+</div>
+<!--Award-->
+<div class="award-demo" style="margin-top:30px;">
+    <div class="container">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="img/award3.png" alt="" width="90%">
+                    <p class="text-center">Giải nhì cuộc thi Khởi nghiệp của đại sứ Mỹ</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="img/vtv.png" alt="" width="100%" style="padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                </div>
+                <div class="col-md-4">
+                    <img src="img/vitv.png" alt="" width="100%" style="padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                </div>
+                <div class="col-md-4">
+                    <img src="img/baomoi.png" alt="" width="100%" style="padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F541563406234694%2F&show_text=0&width=560"
+                    width="616" height="346.5" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"
+                    allowFullScreen="true"></iframe>
+        </div>
+    </div>
+</div>
+
 <section id="features" class="features">
     <div class="container">
         <div class="row">
@@ -807,6 +852,7 @@
 
     </div>
 </div>
+
 <footer class="app-footer main-dark" style="line-height: inherit;">
     <div class="row">
         <div class="padding col-md-3

@@ -3283,3 +3283,21 @@ section.features .feature-item h3 {
     -o-transition: opacity 2.0s ease-in;
     opacity: 1;
 }
+
+
+/*award*/
+.communication{
+    margin-bottom: 150px;
+}
+.award-demo{
+    margin-bottom: 50px;
+}
+.award-demo p{
+    font-size: 18px;
+    font-weight: 400;
+    color: #474747;
+}
+
+
+
+
