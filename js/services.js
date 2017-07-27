@@ -19,12 +19,34 @@
                 console.log('Auth')
                 if (user) {
                     $rootScope.userId = user.uid;
-                    output = {userId: $rootScope.userId}
-                    deferred.resolve(output);
+
+                    $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
+                        console.log(res);
+                        var user = res.data;
+                        $rootScope.userData = user.userData;
+                        $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
+
+                        output = $rootScope.userData;
+                        console.log(output)
+                        deferred.resolve(output);
+                        if (!$rootScope.userData.webToken) {
+                            $rootScope.service.saveWebToken();
+                        }
+                        $rootScope.type = $rootScope.userData.type;
+                        if($rootScope.userData.currentStore){
+                            $rootScope.storeId = $rootScope.userData.currentStore
+                        }
+                        $rootScope.storeList = user.storeList;
+                        $rootScope.storeData = user.storeData;
+                        $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
+                        $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+                        $rootScope.reactList = user.reactList;
+                    })
                     // User is signed in.
                 } else {
                     $rootScope.type = 0;
-                    output = null
+
+                    output = {type: 0}
                     console.log(output)
                     deferred.resolve(output);
                     // No user is signed in.

@@ -20,6 +20,12 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         console.log("respond", response);
         $scope.profileData = response.data
         $scope.adminData = $scope.profileData.adminData
+        $scope.listReact = $scope.profileData.actData
+        $scope.limit = {like: 10, liked: 10, match: 10}
+
+        $scope.incrementLimit = function (type) {
+            $scope.limit[type] = $scope.listReact[type].length
+        }
     })
 
     if ($rootScope.userId) {
@@ -28,10 +34,8 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         $rootScope.$on('handleBroadcast', function (event, userData) {
             init($scope.profileId, userData.userId)
         });
-        $rootScope.$on('storeListen', function (event, userData) {
-            init($scope.profileId, userData.userId)
-        });
     }
+
     function loadStore(profileId) {
 
         var ProfileRef = firebase.database().ref('store/' + profileId);
@@ -76,17 +80,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 //         }
                 //     })
                 // })
-                $rootScope.service.getListReact($scope.profileData.storeId, 'storeId').then(function (data) {
-                    $timeout(function () {
-                        $scope.listReact = data;
-                        console.log('listReact', $scope.listReact)
-                    })
-                    $scope.limit = {like: 10, liked: 10, match: 10}
-
-                    $scope.incrementLimit = function (type) {
-                        $scope.limit[type] = $scope.listReact[type].length
-                    }
-                })
 
 
                 // for share

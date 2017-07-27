@@ -467,7 +467,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         $scope.userData.adminNote[newkey] = $scope.tempoAdminNote;
         delete $scope.tempoAdminNote
     };
-   //update data
+    //update data
     $scope.indexToShow = 0;
     $scope.$watch('$root.userData', function () {
         if (($rootScope.userData && $rootScope.userData.email
@@ -490,11 +490,20 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
             if ($rootScope.userData && $rootScope.userData.email && $rootScope.userData.phone) {
                 console.log($rootScope.userData.phone);
                 console.log($rootScope.userData.email);
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.update({
+
+                $rootScope.service.JoboApi('update/user', {
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
-                });
+                }).then(function (data) {
+
+                }, function () {
+
+                })
+                // var userRef = firebase.database().ref('user/' + $rootScope.userId);
+                // userRef.update({
+                //     phone: $rootScope.userData.phone,
+                //     email: $rootScope.userData.email
+                // });
                 $scope.indexToShow++;
                 console.log($scope.indexToShow);
                 $rootScope.service.Ana('Update phone and email');
@@ -680,8 +689,17 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     name: $rootScope.userData.name,
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
+                };
+
+                var dataUpload = {
+                    user: dataUser,
+                    profile: $rootScope.userData
                 }
-                if($rootScope.userData.wrongEmail){
+                $rootScope.service.JoboApi('update/user', {
+                    userId: $rootScope.userId,
+                    data: dataUpload
+                })
+                if ($rootScope.userData.wrongEmail) {
                     dataUser.wrongEmail = $rootScope.userData.wrongEmail
                 }
                 userRef.update(dataUser);

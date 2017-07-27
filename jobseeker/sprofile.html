@@ -297,7 +297,23 @@
                                 <strong>Mong muốn tìm việc</strong>
                             </div>
                             <div class="card-block">
+                                <div class="form-group" ng-class="{'has-success' : userData.urgent.length > 0}">
+                                    <label class="form-control-label">Trạng thái tìm việc</label> <i class="fa fa-check"
+                                                                                                     style="color: #00ff00"
+                                                                                                     ng-show="userData.urgent.length > 0"></i>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="1" ng-model="userData.urgent"> Tìm gấp
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="0" ng-model="userData.urgent"> Bình thường
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="-1" ng-model="userData.urgent"> Đã có việc
+                                        </label>
+                                    </div>
 
+                                </div>
                                 <div class="form-group" ng-class="{'has-success' : multiple.industry.length > 0}">
                                     <label class="form-control-label">Nơi làm việc mong muốn</label> <i
                                         class="fa fa-check" style="color: #00ff00"
@@ -371,23 +387,7 @@
                                         Chúng tôi sẽ ưu tiên giới thiệu bạn tới các công việc trong bán kính di chuyển
                                     </small>
                                 </div>
-                                <div class="form-group" ng-class="{'has-success' : userData.urgent.length > 0}">
-                                    <label class="form-control-label">Trạng thái tìm việc</label> <i class="fa fa-check"
-                                                                                                     style="color: #00ff00"
-                                                                                                     ng-show="userData.urgent.length > 0"></i>
-                                    <div>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="1" ng-model="userData.urgent"> Tìm gấp
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="0" ng-model="userData.urgent"> Bình thường
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" value="-1" ng-model="userData.urgent"> Đã có việc
-                                        </label>
-                                    </div>
 
-                                </div>
                             </div>
                         </div>
                         <div class="card" ng-show="indexToShow > 1">
@@ -578,7 +578,6 @@
                             </div>
                         </div>
 
-
                         <div class="card" ng-show="indexToShow > 1">
                             <div class="card-header">
                                 <strong>Giới thiệu bản thân</strong>
@@ -623,7 +622,7 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-3">
                                                 <button ng-click="deleteNote(card.id)" type="button"
-                                                        +                                                        class="btn btn-outline-danger">
+                                                        + class="btn btn-outline-danger">
                                                     <i class="fa fa-times"></i>Xóa
                                                 </button>
                                             </div>
@@ -639,7 +638,9 @@
                                              <i class="fa fa-calendar"></i>
                                          </span>
                                         <!--<input type="datetime-local" class="date-control" ng-model="tempoAdminNote.date" ng-disabled="tempoAdminNote.date">-->
-                                        <div class="date-control">{{tempoAdminNote.date | date: 'dd/MM/yyyy - HH:mm:ss'}}</div>
+                                        <div class="date-control">{{tempoAdminNote.date | date: 'dd/MM/yyyy -
+                                            HH:mm:ss'}}
+                                        </div>
                                     </div>
                                 </fieldset>
                                 <fieldset class="form-group">
@@ -648,13 +649,16 @@
                                                                      <span class="input-group-addon">
                                              <i class="icon-user"></i>
                                          </span>
-                                        <input type="text" class="form-control" placeholder="Admin ID" ng-model="tempoAdminNote.adminId" ng-disabled="tempoAdminNote.adminId">
+                                        <input type="text" class="form-control" placeholder="Admin ID"
+                                               ng-model="tempoAdminNote.adminId" ng-disabled="tempoAdminNote.adminId">
                                     </div>
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label>Note</label>
                                     <div class="input-group mb-1">
-                                                                     <textarea class="form-control" ng-model="tempoAdminNote.note" placeholder="..."
+                                                                     <textarea class="form-control"
+                                                                               ng-model="tempoAdminNote.note"
+                                                                               placeholder="..."
                                                                                style="height: 150px;"></textarea>
                                     </div>
                                 </fieldset>
@@ -664,13 +668,24 @@
                                         <i class="fa fa-plus"></i>&nbsp;
                                         Lưu
                                     </button>
-                                    <button type="button" class="btn btn-danger" ng-click="deleteTempNote(tempoAdminNote)">
+                                    <button type="button" class="btn btn-danger"
+                                            ng-click="deleteTempNote(tempoAdminNote)">
                                         <i class="fa fa-times"></i>
                                         Hủy
                                     </button>
                                 </fieldset>
                             </div>
                             <div class="card-block ex-em">
+                                <fieldset class="form-group">
+                                    <label>Verify</label>
+                                    <label class="switch switch-default switch-pill switch-primary"
+                                           style="float: right">
+                                        <input type="checkbox" class="switch-input" class="switch-input"
+                                               ng-model="userData.verify">
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </fieldset>
                                 <fieldset class="form-group">
                                     <label>Feature</label>
                                     <label class="switch switch-default switch-pill switch-primary"
@@ -703,7 +718,8 @@
                                 </fieldset>
                             </div>
                             <div class="card-footer" ng-hide="tempoAdminNote">
-                                <button type="button" class="btn btn-outline-primary" ng-click="addMoreNote(userData.adminNote)">
+                                <button type="button" class="btn btn-outline-primary"
+                                        ng-click="addMoreNote(userData.adminNote)">
                                     <i class="fa fa-plus"></i>
                                     Thêm ghi chú
                                 </button>

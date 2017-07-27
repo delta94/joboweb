@@ -28,38 +28,11 @@
         </div>
     </div>
 </div>
-<div class="card filter-tab" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
-    <div class="container-fluid container" style="width: 60%;">
-        <div class="row" style="margin: 0 auto; ">
-            <div class="col-md-4">
-                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('new')"
-                   ng-class="{actives:newfilter.show == 'new'}" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    Mới nhất</a>
-            </div>
-            <div class="col-md-4">
-                <a class="text-truncate nav-link nav-pill text-center " ng-click="sortFilter('urgent')"
-                   ng-class="{actives:newfilter.show == 'urgent'}" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    Tuyển gấp</a>
-            </div>
-            <div class="col-md-4">
-                <a class="text-truncate nav-link nav-pill text-center" ng-click="sortFilter('hot')"
-                   ng-class="{actives:newfilter.show == 'hot'}" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    Việc hot</a>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
 
 <!--Industry-->
 <div class="industry" style="margin:50px auto">
     <div class="container" style="margin:0 auto; max-width: 100% !important">
-        <div class="row">
+        <div class="row" style="margin-top: 40px">
             <div class="col-md-4">
                 <div class="detail-industry">
                     <div class="welcom" ng-hide="showme">
@@ -560,14 +533,14 @@
 </div>
 
 <div class="section-heading text-center">
-    <h2>Việc làm gấp</h2>
+    <h2>Việc làm gấp (Sài Gòn)</h2>
 </div>
 
 <div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">
                     <div class="card-new">
                         <div class="content_">
                             <div class="content-top-new">
@@ -595,8 +568,8 @@
                             </div>
                             <div class="content-bottom-new text-center">
                                 <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}
-                                        <br> <i>{{service.timeAgo(card.createdAt)}}</i>
+                                    <p>{{card.storeName}}
+                                        <br> <i>{{card.address}}</i>
                                     </p>
                                 </div>
                                 <button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>
@@ -608,6 +581,58 @@
         </div>
     </div>
 </div>
+<div class="section-heading text-center" style="margin-top: 50px">
+    <h2>Việc làm gấp (Hà Nội)</h2>
+</div>
+
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px">
+    <div class="container">
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">
+                    <div class="card-new">
+                        <div class="content_">
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+                                        ||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="content-bottom-new text-center">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}}
+                                        <br> <i>{{card.address}}</i>
+                                    </p>
+                                </div>
+                                <button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="animated fadeIn container" >
@@ -696,7 +721,7 @@
         </div>
         <div class="list-profile">
             <div class="row row-s">
-                <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in StoreCard">
+                <div class="col-xs-12 col-md-6 col-lg-3 col-s" ng-repeat="card in StoreCard">
                     <!-- Normal Demo-->
                     <!-- Post-->
                     <div class="post-module" style="margin-bottom: 24px">

@@ -21,10 +21,8 @@
                                     {{Lang[key] || 'Xem thêm'}}
                                 </small>
                             </div>
-
                         </li>
                     </ul>
-
                 </div>
             </form>
         </div>
@@ -244,7 +242,7 @@
                         </div>
                         <!-- Post Content-->
                         <div class="post-content">
-                            <div class="category" ng-if="card.status == 1">Hot</div>
+                            <div class="category" ng-if="card.urgent == 1">Tìm việc gấp</div>
                             <span class="sub_title pull-right"> {{card.distance}} km</span>
                             <h3 class="title"><a href="/view/profile/{{card.userId}}">{{card.name || 'Your Name Here'}}, {{calculateAge(card.birth)}}</a></h3>
                             <div style="display:inline-block;width:150px;height:20px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
