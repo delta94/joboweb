@@ -3310,10 +3310,12 @@ section.features .feature-item h3 {
 
 .active-tab-white{
     background-color: #fff;
+    color:#2c2c2c;
 }
 
 .active-tab-green{
     background-color: #00a67c;
+    color: #fff;
 }
 
 

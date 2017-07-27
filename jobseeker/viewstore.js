@@ -4,125 +4,89 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
     $rootScope.aside = false
 
     $scope.profileId = $stateParams.id;
-    loadStore($scope.profileId)
     $scope.currentJob = $stateParams.job;
+
 
     $scope.admin = $stateParams.admin;
 
     console.log('admin', $scope.admin)
 
     $rootScope.service.Ana('viewStore', {storeId: $scope.profileId})
-    $http({
-        method: 'GET',
-        url: CONFIG.APIURL + '/view/store',
-        params: {storeId : $scope.profileId , userId: $rootScope.userId}
-    }).then(function successCallback(response) {
-        console.log("respond", response);
-        $scope.profileData = response.data
-        $scope.adminData = $scope.profileData.adminData
-        $scope.listReact = $scope.profileData.actData
-        $scope.limit = {like: 10, liked: 10, match: 10}
 
-        $scope.incrementLimit = function (type) {
-            $scope.limit[type] = $scope.listReact[type].length
-        }
-    })
 
-    if ($rootScope.userId) {
+    if ($scope.profileId) {
+        loadStore($scope.profileId)
         init($scope.profileId, $rootScope.userId)
-    } else {
-        $rootScope.$on('handleBroadcast', function (event, userData) {
-            init($scope.profileId, userData.userId)
-        });
+
+        if (!$rootScope.userId) {
+            $rootScope.$on('handleBroadcast', function (event, userData) {
+                init($scope.profileId, userData.userId)
+                loadStore($scope.profileId)
+
+            });
+        }
     }
 
     function loadStore(profileId) {
 
-        var ProfileRef = firebase.database().ref('store/' + profileId);
-        ProfileRef.once('value', function (snap) {
-            $timeout(function () {
-                $scope.profileData = snap.val();
-                $scope.profileData.background = '/img/ava-background/background_' + $scope.profileData.industry + '.png';
-                console.log($scope.profileData)
-                $rootScope.service.loadJob($scope.profileData).then(function (data) {
-                    $scope.profileData.job = data
-                    if ($scope.currentJob) {
-                        $timeout(function () {
-                            $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
-                        })
-                    }
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/view/store',
+            params: {storeId: $scope.profileId, userId: $rootScope.userId}
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            $scope.profileData = response.data
+            $scope.profileData.background = '/img/ava-background/background_' + $scope.profileData.industry + '.png';
+            if ($scope.currentJob) {
+                $timeout(function () {
+                    $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
                 })
-                loadListStore($scope.profileData.createdBy)
+            }
 
-                if ($rootScope.userData && $rootScope.userData.admin) {
-                    firebase.database().ref('user/' + $scope.profileData.createdBy).once('value', function (snap) {
-                        $timeout(function () {
-                            $scope.adminData = snap.val()
-                        })
-                    })
+            $scope.adminData = $scope.profileData.adminData
+            $scope.listReact = $scope.profileData.actData
+            $scope.staticData = $scope.profileData.static
+            $scope.limit = {like: 10, liked: 10, match: 10}
 
-                }
-                var staticRef = firebase.database().ref('static/' + profileId);
-                staticRef.on('value', function (snap) {
-                    $timeout(function () {
-                        $scope.staticData = snap.val();
-                    })
-                })
-                // var reviewAct = firebase.database().ref('activity/review/' + profileId);
-                // reviewAct.on('value', function (snap) {
-                //     $timeout(function () {
-                //         $scope.reviewData = snap.val();
-                //         if ($scope.reviewData) {
-                //             $timeout(function () {
-                //                 $scope.ratingModel = $rootScope.service.calReview($scope.reviewData);
-                //                 console.log($scope.ratingModel)
-                //             })
-                //         }
-                //     })
-                // })
-
-
-                // for share
-                var profileJobtake = "";
-                for (var i in $scope.profileData.job) {
-                    if (i != 'other') {
-                        profileJobtake += CONFIG.data.job[i] + ", "
-
-                    }
-                }
-                var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
-                console.log(profileJob);
-                $scope.share = {
-                    Url: "web.joboapp.com/view/profile/" + profileId,
-                    Text: $scope.profileData.storeName + ' tuyển dụng',
-                    Title: $scope.profileData.industry + ' ' + $scope.profileData.name,
-                    Description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
-                    Type: 'feed',
-                    Media: $scope.profileData.avatar,
-                    Via: '295208480879128',
-                    Hashtags: 'jobo,timviecnhanh,pg,sale,model',
-                    Caption: 'Có ai muốn làm ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy tin tuyển dụng này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
-                }
-                $rootScope.og = {
-                    title: $scope.profileData.storeName + ' tuyển dụng',
-                    description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
-                    image: $scope.profileData.avatar
-                }
-
-            })
-        })
-
-
-    }
-
-    function loadListStore(userId) {
-        var storeListRef = firebase.database().ref('store').orderByChild('createdBy').equalTo(userId);
-        storeListRef.on('value', function (snap) {
-            $timeout(function () {
-                $scope.storeList = snap.val()
+            if ($scope.profileData.storeList) {
+                $scope.storeList = $scope.profileData.storeList
                 $scope.numberStore = Object.keys($scope.storeList).length
-            })
+            }
+
+            $scope.incrementLimit = function (type) {
+                $scope.limit[type] = $scope.listReact[type].length
+            }
+            // for share
+            var profileJobtake = "";
+            for (var i in $scope.profileData.job) {
+                if (i != 'other') {
+                    profileJobtake += CONFIG.data.job[i] + ", "
+
+                }
+            }
+
+
+            var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
+            console.log(profileJob);
+            $scope.share = {
+                Url: "web.joboapp.com/view/profile/" + profileId,
+                Text: $scope.profileData.storeName + ' tuyển dụng',
+                Title: $scope.profileData.industry + ' ' + $scope.profileData.name,
+                Description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
+                Type: 'feed',
+                Media: $scope.profileData.avatar,
+                Via: '295208480879128',
+                Hashtags: 'jobo,timviecnhanh,pg,sale,model',
+                Caption: 'Có ai muốn làm ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy tin tuyển dụng này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
+            }
+            $rootScope.og = {
+                title: $scope.profileData.storeName + ' tuyển dụng',
+                description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
+                image: $scope.profileData.avatar
+            }
         })
+
+
     }
 
 
@@ -132,13 +96,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 $scope.myself = true
             })
         }
-        var likeAct = firebase.database().ref('activity/like/' + profileId + ':' + userId);
-        likeAct.on('value', function (snap) {
-            $timeout(function () {
-                $scope.profileData = Object.assign($scope.profileData, {act: snap.val()});
-                console.log('$scope.profileData.act', $scope.profileData.act)
-            })
-        })
+
     }
 
     $scope.indexCurrent = 0;
