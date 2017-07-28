@@ -1,0 +1,935 @@
+<div class="section section-header"
+     style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
+     background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
+    <div class="info" style="margin-top: 0px; float: left">
+        <div style="margin-top: 50px">
+            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+                <h1>Tìm việc nhanh xung quanh bạn</h1>
+                <div class="form-group form-search" style="z-index: 2000">
+                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;">
+                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
+                            <div class="message p-h">
+                                <div class="py-h mr-1 float-left">
+                                    <div class="avatar">
+                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                             alt="admin@bootstrapmaster.com">
+                                    </div>
+                                </div>
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}" class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job" ng-show="result.job">
+                                    {{Lang[key] || 'Xem thêm'}}
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--Industry-->
+<div class="industry" style="margin:50px auto">
+    <div class="container" style="margin:0 auto; max-width: 100% !important">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-4">
+                <div class="detail-industry">
+                    <div class="welcom" ng-hide="showme">
+                        <h1 style="
+ font-size: 33px;font-weight: 200;
+ background: -webkit-linear-gradient(#38DEA8 , #20BEEF );
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ ">Kiếm thêm thu nhập, đăng ký Jobo</h1>
+
+                        <h3>Hàng nghìn công việc bán thời gian và thời vụ đang được nhận mỗi ngày trên Jobo</h3>
+                        <div style="margin-top:30px;">
+                            <a class="typeform-share button" href="https://thynguyen3.typeform.com/to/jc8O5W" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#267DDD;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:25px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" data-hide-headers=true data-hide-footer=true target="_blank">Launch me </a> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <div ng-show="showme === 11" class="try-fade">
+                        <h1>Phục vụ</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Nhận order đồ ăn thức uống từ khách hàng</li>
+                                <li><i class="fa fa-check"></i>Setup bàn ghế</li>
+                                <li><i class="fa fa-check"></i>Phục vụ khách hàng</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <div ng-show="showme === 12">
+                        <h1>Pha chế</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Pha chế thức uống</li>
+                                <li><i class="fa fa-check"></i>Giữ vệ sinh quầy pha chế</li>
+                                <li><i class="fa fa-check"></i>Kiểm tra nguyên vật liệu</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <div ng-show="showme === 13">
+                        <h1>Lễ tân</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Đón khách, tiếp khách</li>
+                                <li><i class="fa fa-check"></i>Hỗ trợ khách vấn đề chỗ ngồi</li>
+                                <li><i class="fa fa-check"></i>Nhận đặt bàn từ khách</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <div ng-show="showme === 14">
+                        <h1>Thu ngân</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Chịu trách nhiệm thu tiền, in hóa đơn, kiểm tra tiền thừa cho khách hàng mua hàng</li>
+                                <li><i class="fa fa-check"></i>Sắp xếp công việc cuối ca,In báo cáo bán hàng cuối ngày</li>
+                                <li><i class="fa fa-check"></i>Vệ sinh quầy thu ngân hàng ngày vào đầu mỗi ca, giữ quầy thu ngân sạch sẽ và ngăn nắp</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 15">
+                        <h1>Bếp</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Chế biến món ăn theo yêu cầu của khách</li>
+                                <li><i class="fa fa-check"></i>Đảm bảo chất lượng món ăn</li>
+                                <li><i class="fa fa-check"></i>Quản lý hàng hóa trong bếp</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 16">
+                        <h1>Phụ bếp</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Sơ chế thực phẩm</li>
+                                <li><i class="fa fa-check"></i>Làm theo yêu cầu của bếp chính</li>
+                                <li><i class="fa fa-check"></i>Dọn dẹp vệ sinh khu bếp</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <!--Khách sạn-->
+
+                    <div ng-show="showme === 21">
+                        <h1>Lễ tân</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Check in, check out cho khách</li>
+                                <li><i class="fa fa-check"></i>Nhận đặt phòng từ khách</li>
+                                <li><i class="fa fa-check"></i>Thanh toán chi phí cho khách</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 22">
+                        <h1>Nhân viên làm phòng</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Dọn dẹp phòng ngủ cho khách</li>
+                                <li><i class="fa fa-check"></i>Cung cấp vật dụng theo yêu cầu của khách</li>
+                                <li><i class="fa fa-check"></i>Hỗ trợ dựa trên yêu cầu của khách hàng</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 23">
+                        <h1>Concierge</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Mở cửa đón khách</li>
+                            <li><i class="fa fa-check"></i>Tiếp nhận hành lý từ khách hàng mang lên phòng</li>
+                            <li><i class="fa fa-check"></i>Cung cấp thông tin và hỗ trợ khách hàng</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 24">
+                        <h1>Bộ phận kỹ thuật</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Phụ trách về việc vận hành và bảo trì toàn bộ cơ sở vật chất của khách sạn, bao gồm: Điện, cơ khí, hệ thống sưởi, máy điều hòa không khí, bơm, thực hiện những sửa chữa nhỏ và tu bổ trang thiết bị.</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <!--Sales-->
+                    <div ng-show="showme === 31">
+                        <h1>Phát triển kinh doanh</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Tìm kiếm nguồn khách hàng tiềm năng</li>
+                            <li><i class="fa fa-check"></i>Liên hệ và chăm sóc khách hàng</li>
+                            <li><i class="fa fa-check"></i>Theo dõi chăm sóc khách hàng tiềm năng</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 32">
+                        <h1>Hỗ trợ bán hàng</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Phụ bán hàng</li>
+                            <li><i class="fa fa-check"></i>Trợ giúp những công việc nhỏ trong cửa hàng</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 33">
+                        <h1>Giới thiệu sản phẩm</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Phát các sản phẩm mẫu ở địa điểm trưng bày</li>
+                            <li><i class="fa fa-check"></i>Báo cáo công việc và hiệu quả cho trưởng nhóm trực tiếp.</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <!--Văn phòng/Hành chính-->
+                    <div ng-show="showme === 41">
+                        <h1>Hỗ trợ khách hàng</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Hỗ trợ dịch vụ cho khách hàng</li>
+                            <li><i class="fa fa-check"></i>Lấy phản hồi từ khách hàng và người dùng</li>
+                            <li><i class="fa fa-check"></i>Cập nhật dữ liệu khách hàng mới</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 42">
+                        <h1>Trợ lý hành chính</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Quản lý đơn từ, hóa đơn</li>
+                            <li><i class="fa fa-check"></i>Thúc giục khách hàng thanh toán chậm</li>
+                            <li><i class="fa fa-check"></i>Nhập liệu excel</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 43">
+                        <h1>Trợ lý nhân sự </h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Lọc cv ứng viên</li>
+                            <li><i class="fa fa-check"></i>Lên lịch phỏng vấn cho ứng viên</li>
+                            <li><i class="fa fa-check"></i>Lên lịch training cho ứng viên</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 44">
+                        <h1>Thu thập thông tin</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Tìm kiếm, thu thập thông tin, ý kiến người tiêu dùng về các sản phẩm họ đang sử dụng</li>
+                            <li><i class="fa fa-check"></i>Theo bảng câu hỏi có sẵn</li>
+                            <li><i class="fa fa-check"></i>Chỉ lấy ý kiến, không tiếp thị bán hàng</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <!--Logistics-->
+                    <div ng-show="showme === 51">
+                        <h1>Gói hàng và vận chuyển</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Gói hàng và gửi đơn hàng đến cho khách</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 52">
+                        <h1>Nhân viên quản lý đơn hàng </h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Tiếp nhận đơn hàng, khách hàng mới, kiểm tra, cập nhật dữ liệu hệ thống</li>
+                            <li><i class="fa fa-check"></i>Quản lý đơn hàng: lập phiếu, theo dõi quá trình giao hàng, báo cáo, đảm bảo đúng số lượng, kịp thời và chính xác</li>
+                            <li><i class="fa fa-check"></i>Phụ trách công tác điều phối & xử lý đơn hàng bằng việc phối hợp với các bộ phận Bán hàng - Kho vận - Giao nhận</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 53">
+                        <h1>Nhân viên quản lý kho</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Thực hiện xuất nhập kho, cân đối tồn kho</li>
+                            <li><i class="fa fa-check"></i>Hoàn thiện các thủ tục, chứng từ nhập kho/ xuất kho</li>
+                            <li><i class="fa fa-check"></i>Kiểm kê kho, đối chiếu số lượng thực tế và số lượng sổ sách</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 54">
+                        <h1>Chuyển đồ</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Chuyển phòng, chuyển đồ, sắp xếp đồ có khối lượng lớn</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+                    <!--Sự kiện-->
+                    <div ng-show="showme === 61">
+                        <h1>Check-in</h1>
+                        <ul>
+                            <li><i class="fa fa-check"></i>Chào khách và checkin khách hàng</li>
+                        </ul>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 62">
+                        <h1>Hỗ trợ sự kiện</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Vận chuyển vật dụng đến nơi tổ chức, chuẩn bị kho vận và bảo hiểm hàng hóa</li>
+                                <li><i class="fa fa-check"></i>Đảm bảo an ninh an toàn cho toàn bộ người tham dự, dọn dẹp sau chương trình</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 63">
+                        <h1>PB/PG</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Đứng booth giới thiệu, tư vấn sản phẩm, gởi quà tặng</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 64">
+                        <h1>MC</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Dẫn dắt các hoạt động của chương trình</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                    <div ng-show="showme === 65">
+                        <h1>Cộng tác viên</h1>
+                        <div>
+                            <ul>
+                                <li><i class="fa fa-check"></i>Lấy ý kiến khách hàng</li>
+                            </ul>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
+                            <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Nhà hàng/Cafe</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=11"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Phục vụ</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=12"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Pha chế</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=13"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Lễ tân</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=14"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Thu ngân</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=15"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Bếp</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=16"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Phụ bếp</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Khánh sạn</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=21"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Lễ tân</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=22"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Nhân viên làm phòng</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=23"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Concierge</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=24"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Bộ phận kỹ thuật</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Sales</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=31"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Phát triển kinh doanh</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=32"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Hỗ trợ bán hàng</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=33"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Giới thiệu sản phẩm</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Văn phòng/Hành chính</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=41"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Hỗ trợ khách hàng</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=42"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Trợ lý hành chính</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=43"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Trợ lý nhân sự </a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=44"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Thu thập thông tin</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Logistics</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=51"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Gói hàng và vận chuyển</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=52"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Nhân viên quản lý đơn hàng </a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=53"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Nhân viên quản lý kho </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Sự kiện</h5>
+                            <ul>
+                                <li>
+                                    <a href="#"  ng-click="showme=61"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Check-in</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=62"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Hỗ trợ sự kiện</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=63"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>PB/PG</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=64"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>MC</a>
+                                </li>
+                                <li>
+                                    <a href="#"  ng-click="showme=65"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Cộng tác viên</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="section-heading text-center">-->
+<!--<h2>Việc làm gấp</h2>-->
+<!--</div>-->
+<!--<div class="text-center job-tab">-->
+<!--<a href="" ng-click="showjob=false">-->
+<!--<button type="button" class="btn btn-gradient"  ng-class="{'active-tab-green' : showjob == false, 'active-tab-white' :showjob == true}" style="border:solid 1px #00a67c">Sài Gòn</button>-->
+<!--</a>-->
+<!--<a href="" ng-click="showjob=true">-->
+<!--<button type="button" class="btn btn-gradient" ng-class="{'active-tab-green' : showjob == true, 'active-tab-white' :showjob == false}" style="border:solid 1px #00a67c">Hà Nội</button>-->
+<!--</a>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;Sai Gon&ndash;&gt;-->
+
+<!--<div class="animated fadeIn" ng-hide="showjob" style="min-height: 500px; margin-top: 40px">-->
+<!--<div class="container">-->
+<!--<div class="testimonials testimonials-raised">-->
+<!--<div class="row">-->
+<!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">-->
+<!--<div class="card-new">-->
+<!--<div class="content_">-->
+<!--<div class="content-top-new">-->
+<!--<div class="row">-->
+<!--<div class="logo-restaurant-new pull-left">-->
+<!--<img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">-->
+<!--</div>-->
+<!--<div class="logo-job-new pull-right">-->
+<!--<img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'-->
+<!--||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'-->
+<!--||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row main-content-new">-->
+<!--<table>-->
+<!--<tr>-->
+<!--<td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td id="descrip">{{card.description}}</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="content-bottom-new text-center">-->
+<!--<div class="jobseeker-new text-left">-->
+<!--<p>{{card.storeName}}-->
+<!--<br> <i>{{card.address}}</i>-->
+<!--</p>-->
+<!--</div>-->
+<!--<button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;Ha noi&ndash;&gt;-->
+
+<!--<div class="animated fadeIn" ng-show="showjob" style="min-height: 500px; margin-top: 40px">-->
+<!--<div class="container">-->
+<!--<div class="testimonials testimonials-raised">-->
+<!--<div class="row">-->
+<!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">-->
+<!--<div class="card-new">-->
+<!--<div class="content_">-->
+<!--<div class="content-top-new">-->
+<!--<div class="row">-->
+<!--<div class="logo-restaurant-new pull-left">-->
+<!--<img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">-->
+<!--</div>-->
+<!--<div class="logo-job-new pull-right">-->
+<!--<img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'-->
+<!--||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'-->
+<!--||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row main-content-new">-->
+<!--<table>-->
+<!--<tr>-->
+<!--<td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td id="descrip">{{card.description}}</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="content-bottom-new text-center">-->
+<!--<div class="jobseeker-new text-left">-->
+<!--<p>{{card.storeName}}-->
+<!--<br> <i>{{card.address}}</i>-->
+<!--</p>-->
+<!--</div>-->
+<!--<button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+
+<!--<div class="animated fadeIn container" >-->
+<!--<div class="wpb_wrapper text-center">-->
+<!--<div class="section-heading">-->
+<!--<h2>Chọn Ứng Viên Phù Hợp</h2>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="spinner" ng-show="!UserCard">-->
+<!--<div class="cube1"></div>-->
+<!--<div class="cube2"></div>-->
+<!--</div>-->
+<!--<div class="list-profile">-->
+<!--<div class="row row-s">-->
+<!--<div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">-->
+<!--&lt;!&ndash; Normal Demo&ndash;&gt;-->
+<!--&lt;!&ndash; Post&ndash;&gt;-->
+
+<!--<div class="post-module" style="margin-bottom: 24px;">-->
+<!--&lt;!&ndash; Thumbnail&ndash;&gt;-->
+<!--<div class="thumbnail" ng-hide="showVid == card.userId">-->
+<!--<div class="date" ng-if="card.videourl">-->
+<!--<i class="fa fa-play-circle play-button" aria-hidden="true"-->
+<!--ng-click="showVideo(card)"></i>-->
+<!--</div>-->
+<!--<img ui-sref="app.viewprofile ({id:card.userId})"-->
+<!--src="{{card.avatar || 'img/macdinh.jpg'}}">-->
+<!--</div>-->
+<!--<div class="videogular-container text-center" ng-show="showVid == card.userId">-->
+<!--<videogular>-->
+<!--<vg-media vg-autoplay="true"-->
+<!--vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"-->
+<!--vg-src="videoTrusted"-->
+<!--vg-native-controls="true">-->
+<!--</vg-media>-->
+<!--</videogular>-->
+<!--</div>-->
+<!--&lt;!&ndash; Post Content&ndash;&gt;-->
+<!--<div class="post-content">-->
+<!--<div class="category" ng-if="card.feature">Hot</div>-->
+<!--<h3 class="title">{{card.name || 'Your Name Here'}}</h3>-->
+
+<!--<div style="display:inline-block;width:313.98px;height:30px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">-->
+<!--<button ng-click="applyThis(card.userId,key)" type="button"-->
+<!--class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"-->
+<!--ng-repeat="(key,value) in card.job">{{dataJob[key]}}-->
+<!--</button>-->
+<!--</div>-->
+
+<!--<div class="post-meta">-->
+<!--<span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"-->
+<!--data-toggle="popover"-->
+<!--data-trigger="hover"-->
+<!--data-content="Mức lương mong muốn (VNĐ/tháng)">{{card.expect_salary? card.expect_salary +' triệu':'Thương lượng'}} </a></span>-->
+<!--<div style=" position: absolute;-->
+<!--right: 0px;bottom: 0px;">-->
+<!--<button ng-disabled="!selectedJob" ng-click="like(card,0,selectedJob)"-->
+<!--type="button"-->
+<!--class="btn btn-primary btn-sm">Tuyển-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="margin: auto; text-align: center;">-->
+<!--<button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem-->
+<!--tiếp-->
+<!--</button>-->
+<!--</div> -->
+<!--</div>-->
+
+<!--<div class="animated fadeIn" style="margin-bottom: 50px">-->
+<!--<div class="container">-->
+<!--<div class="wpb_wrapper text-center">-->
+<!--<div class="section-heading">-->
+<!--<h2>Nhà Tuyển Dụng Nổi Bật</h2>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="spinner" ng-show="!UserCard">-->
+<!--<div class="cube1"></div>-->
+<!--<div class="cube2"></div>-->
+<!--</div>-->
+<!--<div class="list-profile">-->
+<!--<div class="row row-s">-->
+<!--<div class="col-xs-12 col-md-6 col-lg-3 col-s" ng-repeat="card in StoreCard">-->
+<!--&lt;!&ndash; Normal Demo&ndash;&gt;-->
+<!--&lt;!&ndash; Post&ndash;&gt;-->
+<!--<div class="post-module" style="margin-bottom: 24px; height: 250px">-->
+<!--&lt;!&ndash; Thumbnail&ndash;&gt;-->
+<!--<div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})" style="height: 250px;">-->
+<!--<img src="{{card.avatar || 'img/store.png'}}"/>-->
+<!--</div>-->
+<!--&lt;!&ndash; Post Content&ndash;&gt;-->
+<!--<div class="post-content">-->
+<!--<div class="category" ng-if="card.likeMe == 0">Hot</div>-->
+<!--<h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>-->
+<!--<h3 class="sub_title" ng-show="card.distance">-->
+<!--<div> {{card.distance + ' km'}}</div>-->
+<!--</h3>-->
+<!--<button ng-click="applyThis(card.storeId,key)" type="button"-->
+<!--class="btn btn-vm {{selectedJob[card.storeId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"-->
+<!--ng-repeat="(key,value) in card.job">{{dataJob[key]}}-->
+<!--</button>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="margin: auto; text-align: center;">-->
+<!--<button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem tiếp-->
+<!--</button>-->
+<!--</div>-->
+<!--</div> -->
+
+<!--<div class="section-heading text-center" style="margin-top:30px;">-->
+<!--<h2>Về chúng tôi</h2>-->
+<!--</div>-->
+<!--&lt;!&ndash;Award&ndash;&gt;-->
+<!--<div class="award-demo" style="margin-top:30px;">-->
+<!--<div class="container">-->
+<!--<div class="col-md-4">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<img src="img/award3.png" alt="" width="90%">-->
+<!--<p class="text-center">Giải nhì cuộc thi Khởi nghiệp của đại sứ Mỹ</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/vtv.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/vitv.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/baomoi.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-8">-->
+<!--<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F541563406234694%2F&show_text=0&width=560"-->
+<!--width="616" height="346.5" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"-->
+<!--allowFullScreen="true"></iframe>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-heading">
+                    <h2>Nhận việc phù hợp với 3 bước</h2>
+                    <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-user-following text-primary"></i>
+                    <h3>1. Ứng tuyển không cần CV</h3>
+                    <p>Cập nhật các thông tin về bạn để chúng tôi hiểu bạn hơn và đề xuất công việc phù hợp</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-envelope-letter text-primary"></i>
+                    <h3>2. Tư vấn việc làm trực tiếp</h3>
+                    <p>Bạn sẽ gặp tư vấn việc trực tiếp tại văn phòng hoặc online qua mobile để được tư vấn việc làm</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-present text-primary"></i>
+                    <h3>3. Hoàn thiện hồ sơ và nhận việc</h3>
+                    <p>Jobo sẽ trực tiếp hướng dẫn bạn hoàn thiện hồ sơ (bao gồm thông tin cá nhân, mong muốn và video phỏng vấn ngắn)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="full-pitch2 group">
+
+    <div class="full-text">
+        <h3>
+            Chúng tôi tin rằng bạn xứng đáng tìm được công việc phù hợp
+            nhất
+        </h3>
+        <div class="btn-area text-center" style="margin-top: 30px">
+            <button type="button" class="btn btn-primary" ng-click="changefilter()">Tạo hồ sơ của
+                bạn
+            </button>
+
+        </div>
+    </div>
+
+    <div class="full-opacity">
+
+    </div>
+</div>
+
+<footer class="app-footer main-dark" style="line-height: inherit;">
+    <div class="row">
+        <div class="padding col-md-3
+">
+            <img src="img/logo.png" width="100px">
+
+            <p style="margin: 0"><i class="icon-phone text-primary"></i> +84 968 269 860</p>
+            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@joboapp.com</p>
+
+            <div style="padding: 16px 0">
+                <p>
+                    <a href="http://facebook.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-facebook icon"
+                       type="button">
+                        <span>Facebook</span>
+                    </a>
+
+                    <a style="margin-bottom: 4px" class="btn btn-youtube icon" type="button">
+                        <span>YouTube</span>
+                    </a>
+
+                    <a href="http://instagram.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-instagram icon"
+                       type="button">
+                        <span>Instagram</span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+        <div class="padding col-md-3">
+            <h3>Về chúng tôi</h3>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="https://about.joboapp.com">Jobo là gì</a></li>
+                <li><a href="https://joboapp.com/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://about.joboapp.com/contact">Liên hệ</a></li>
+                <li><a href="https://about.joboapp.com/faq#terms">Terms</a></li>
+                <li><a href="http://about.joboapp.com/faq#privacy">Privacy</a></li>
+            </ul>
+
+        </div>
+        <div class="padding col-md-3">
+            <h5>Cho ứng viên</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="/signup/2">Tạo hồ sơ</a></li>
+                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="https://about.joboapp.com/refer">Refer</a></li>
+            </ul>
+            <h5>Cho nhà tuyển dụng</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="https://joboapp.com/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://about.joboapp.com/service">Dịch vụ</a></li>
+                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+
+            </ul>
+        </div>
+        <div class="padding col-md-3">
+            <h5>Tải ứng dụng</h5>
+
+            <div class="badges">
+                <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.ambius.jobo"
+                   style="margin-bottom: 10px"><img src="img/google-play-badge.svg" alt=""></a>
+                <a class="badge-link" href="https://itunes.apple.com/us/app/jobo-tim-viec-nhanh/id1180445871"><img
+                        src="img/app-store-badge.svg" alt=""></a>
+            </div>
+            &copy; Made with <i class="icon icon-heart"></i> in Hanoi .
+
+        </div>
+
+    </div>
+</footer>

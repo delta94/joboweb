@@ -23,7 +23,9 @@
                     $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
                         console.log(res);
                         var user = res.data;
+                        console.log('user', user);
                         $rootScope.userData = user.userData;
+                        console.log('$rootScope.userData', $rootScope.userData);
                         $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
 
                         output = $rootScope.userData;

@@ -3157,6 +3157,9 @@ section.features .feature-item h3 {
         padding-left: 5px;
         margin: 0 auto !important;
     }
+    .award-demo iframe{
+        width: 100%;
+    }
 
 
 }
@@ -3317,5 +3320,7 @@ section.features .feature-item h3 {
     background-color: #00a67c;
     color: #fff;
 }
-
+/*.app-body{*/
+    /*display: block !important;*/
+/*}*/
 
