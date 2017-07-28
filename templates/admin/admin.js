@@ -400,22 +400,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         $scope.getLog()
 
     })
-    .controller('UserRegisterAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
-        $scope.page = 1
-        $scope.getLog = function (page) {
-            $scope.page = page || 1
-
-            $rootScope.service.JoboApi('log/user', {page: $scope.page}).then(function (response) {
-                $scope.response = response.data
-                $scope.log = response.data.data
-            })
-        };
-        $scope.pagin = function (page) {
-            $scope.getLog(page)
-        }
-        $scope.getLog()
-
-    })
     .controller('profileAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
         $scope.page = 1
         $scope.getLog = function (page) {
@@ -1255,5 +1239,8 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             $scope.new.location = selected.geometry.location;
 
         };
+
+
+
     })
 
