@@ -1,5 +1,4 @@
 'use strict'
-var firebase = require("firebase-admin");
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
@@ -15,13 +14,8 @@ var replacePure = require('replace');
 var stripDebug = require('gulp-strip-debug');
 var concat = require('gulp-concat');
 
-firebase.initializeApp({
-    credential: firebase.credential.cert('adminsdk.json'),
-    databaseURL: "https://jobo-b8204.firebaseio.com"
-});
+var name = new Date().getTime() +'.js'
 
-
-var t
 
 gulp.paths = {
     dist: 'dist'
@@ -48,6 +42,17 @@ gulp.task('down-server', function () {
         silent: false,
     });
 })
+
+gulp.task('newjs', function () {
+    return replacePure({
+        regex: '<script src="employer/edash.js"></script><script src="employer/viewprofile.js"></script><script src="employer/store.js"></script><script src="jobseeker/sdash.js"></script><script src="jobseeker/viewstore.js"></script><script src="jobseeker/sprofile.js"></script><script src="templates/intro.js"></script><script src="templates/dashboard.js"></script><script src="templates/setting.js"></script>',
+        replacement: '<script src="js/'+ name +'"></script>',
+        paths: ['./dist/index.html'],
+        recursive: false,
+        silent: false,
+    });
+})
+
 gulp.task('edit', function () {
     return replacePure({
         regex: "'Location': false",
@@ -66,29 +71,7 @@ gulp.task('unedit', function () {
         silent: false
     });
 })
-gulp.task('time', function () {
 
-    t = JSON.stringify(new Date())
-    firebase.database().ref('config').update({updateTime: t})
-
-
-    return replacePure({
-        regex: "'now'",
-        replacement: t,
-        paths: ['./js/config.js'],
-        recursive: false,
-        silent: false
-    });
-})
-gulp.task('untime', function () {
-    return replacePure({
-        regex: t,
-        replacement: "'now'",
-        paths: ['./js/config.js'],
-        recursive: false,
-        silent: false
-    });
-})
 
 gulp.task('edit1', function () {
     return replacePure({
@@ -228,24 +211,10 @@ gulp.task('copy:templates', function () {
 });
 
 gulp.task('copy:html', function () {
-    return gulp.src('index.html')
+    return gulp.src(['index.html','manifest.json','.htaccess','firebase-messaging-sw.js'])
         .pipe(gulp.dest(paths.dist + '/'));
 });
 
-gulp.task('copy:mani', function () {
-    return gulp.src(['manifest.json'])
-        .pipe(gulp.dest(paths.dist + '/'));
-});
-
-gulp.task('copy:ht', function () {
-    return gulp.src(['.htaccess'])
-        .pipe(gulp.dest(paths.dist + '/'));
-});
-
-gulp.task('copy:firebase', function () {
-    return gulp.src(['firebase-messaging-sw.js'])
-        .pipe(gulp.dest(paths.dist + '/'));
-});
 gulp.task('replace:bower', function () {
     return gulp.src([
         './dist/**/*.html',
@@ -256,26 +225,16 @@ gulp.task('replace:bower', function () {
 });
 
 
-gulp.task('strip-1', function () {
-    return gulp.src(paths.dist+ '/templates/*.js')
+gulp.task('strip', function () {
+    return gulp.src([paths.dist+ '/js/services.js',paths.dist+ '/js/app.js',paths.dist+ '/js/'+ name])
         .pipe(stripDebug())
-        .pipe(gulp.dest(paths.dist+ '/templates/'));
-});
-gulp.task('strip-2', function () {
-    return gulp.src(paths.dist+ '/employer/*.js')
-        .pipe(stripDebug())
-        .pipe(gulp.dest(paths.dist+ '/employer/'));
-});
-gulp.task('strip-3', function () {
-    return gulp.src(paths.dist+ '/jobseeker/*.js')
-        .pipe(stripDebug())
-        .pipe(gulp.dest(paths.dist+ '/jobseeker/'));
+        .pipe(gulp.dest(paths.dist+ '/js'));
 });
 
 gulp.task('concat', function() {
-    return gulp.src(paths.dist+ 'jobseeker/*.js')
-        .pipe(concat('all.js'))
-        .pipe(gulp.dest(paths.dist+ '/'));
+    return gulp.src([paths.dist+ '/jobseeker/*.js',paths.dist+ '/employer/*.js',paths.dist+ '/templates/*.js'])
+        .pipe(concat(name))
+        .pipe(gulp.dest(paths.dist+'/js'));
 });
 
 
@@ -284,7 +243,6 @@ gulp.task('build:dist', function (callback) {
         'clean:dist',
         'up-server',
         'edit',
-        'time',
         'edit1',
         'copy:bower',
         'copy:css',
@@ -301,17 +259,14 @@ gulp.task('build:dist', function (callback) {
         'copy:jobseeker',
         'copy:templates',
         'copy:html',
-        'copy:ht',
-        'copy:mani',
-        'copy:firebase',
         'replace:bower',
         'down-server',
         'unedit',
         'unedit1',
-        'untime',
-        'strip-1',
-        'strip-2',
-        'strip-3',
+        'concat',
+        'newjs',
+        'strip',
+
 
         callback);
 });

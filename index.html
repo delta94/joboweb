@@ -52,13 +52,24 @@
 
     <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
     <script>
-        // Initialize Firebase
-        var config = {
+        var secondConfig = {
             apiKey: "AIzaSyAjXzJb9LI2_4hpp9NMwuqFr1CWLavwDPA",
             authDomain: "jobo-b8204.firebaseapp.com",
             databaseURL: "https://jobo-b8204.firebaseio.com",
             storageBucket: "jobo-b8204.appspot.com",
             messagingSenderId: "748631498782"
+        };
+
+        var secondary = firebase.initializeApp(secondConfig, "secondary");
+
+
+        var config = {
+            apiKey: "AIzaSyBmGitstHLBeb5-Y4HzQYkm0OnmyHjLm-4",
+            authDomain: "jobfast-359da.firebaseapp.com",
+            databaseURL: "https://jobfast-359da.firebaseio.com",
+            projectId: "jobfast-359da",
+            storageBucket: "jobfast-359da.appspot.com",
+            messagingSenderId: "1075962129210"
         };
         firebase.initializeApp(config);
 
@@ -157,29 +168,21 @@
 
 <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
 <script src="templates/js/string.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 <!-- AngularJS Clever App scripts -->
 <script src="js/config.js"></script>
 <script src="js/app.js"></script>
 <script src="js/routes.js"></script>
-<script src="templates/intro.js"></script>
-<script src="templates/dashboard.js"></script>
+
 
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>
-<script src="js/translations.js"></script>
 <script src="js/services.js"></script>
 
 <!-- EmployerCtrl -->
-<script src="employer/edash.js"></script>
-<script src="employer/viewprofile.js"></script>
-<script src="employer/store.js"></script>
-
-
-<script src="jobseeker/sdash.js"></script>
-<script src="templates/setting.js"></script>
-<script src="jobseeker/viewstore.js"></script>
-<script src="jobseeker/sprofile.js"></script>
+<script src="employer/edash.js"></script><script src="employer/viewprofile.js"></script><script src="employer/store.js"></script><script src="jobseeker/sdash.js"></script><script src="jobseeker/viewstore.js"></script><script src="jobseeker/sprofile.js"></script><script src="templates/intro.js"></script><script src="templates/dashboard.js"></script><script src="templates/setting.js"></script>
 
 <!--admin-->
 <script src="templates/admin/admin.js"></script>

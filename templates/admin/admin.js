@@ -66,10 +66,13 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         }
         $scope.profileData = {}
         $scope.viewfull = function (userid) {
-            firebase.database().ref('user/' + userid).once('value', function (res) {
+            $rootScope.service.JoboApi('on/user',{userId: userid}).then(function (data) {
+                $scope.profileData[userid] = data.data
+            });
+            /*firebase.database().ref('user/' + userid).once('value', function (res) {
                 $scope.profileData[userid] = res.val()
 
-            })
+            })*/
         }
 
         $scope.mail = {};
@@ -126,15 +129,21 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         $scope.updateProfile = function (index) {
             var card = $scope.jobSeeker[index]
             console.log(card)
-            firebase.database().ref('profile/' + card.userId).update(card).then(function () {
+            $rootScope.service.JoboApi('update/user',{
+                userId: card.userId,
+                profile: card
+            }).then(function (data) {
+                toastr.success('done', card.feature + card.hide)
+            }, function (error) {
+                toastr.error('error', error)
+            });
+            /*firebase.database().ref('profile/' + card.userId).update(card).then(function () {
                 toastr.success('done', card.feature + card.hide)
             }, function (error) {
                 toastr.error('error', error)
 
-            })
+            })*/
         }
-
-
     })
 
 
@@ -207,9 +216,12 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         }
         $scope.profileData = {}
         $scope.viewfull = function (userid) {
-            firebase.database().ref('user/' + userid).once('value', function (res) {
+            $rootScope.service.JoboApi('on/user',{userId: userid}).then(function (data) {
+                $scope.profileData[userid] = data.data;
+            });
+            /*firebase.database().ref('user/' + userid).once('value', function (res) {
                 $scope.profileData[userid] = res.val()
-            })
+            })*/
         }
         $scope.deleteProfile = function (storeId) {
             firebase.database().ref('store/' + storeId).set(null).then(function (data) {
@@ -222,12 +234,17 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         $scope.updateProfile = function (index) {
             var card = $scope.employer[index]
             console.log(card)
-            firebase.database().ref('store/' + card.storeId).update(card).then(function (data) {
+            $rootScope.service.JoboApi('update/user',{userId: $rootScope.userId, storeId: card.storeId, store: card}).then(function (data) {
+                toastr.success('done', card.feature + card.hide)
+            }, function (error) {
+                toastr.error('error', error)
+            });
+            /*firebase.database().ref('store/' + card.storeId).update(card).then(function (data) {
                 toastr.success('done', card.feature + card.hide)
             }, function (error) {
                 toastr.error('error', error)
 
-            })
+            })*/
         }
     })
     .controller("analyticsUserCtrl", function ($scope, $timeout) {
@@ -259,8 +276,8 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
 
         firebase.database().ref('analytics/user').on('value', function (snap) {
+            $scope.data = []
             $scope.dataAnalyticsUser = snap.val()
-
             var Array = []
             for (var i in $scope.dataAnalyticsUser) {
                 Array.push($scope.dataAnalyticsUser[i])
@@ -270,7 +287,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             }
             //push 30 days to chart
             var today = new Date().getTime()
-            var last30days = today - 86400 * 1000 * 360
+            var last30days = today - 86400 * 1000 * 30
             for (var i in $scope.dataAnalyticsUser) {
                 if (last30days < $scope.dataAnalyticsUser[i].dateStart) {
                     $scope.labels.push(toDate($scope.dataAnalyticsUser[i].dateStart))
@@ -308,7 +325,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             }
         };
     })
-
 
     .controller('staticLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
 
@@ -1163,432 +1179,106 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             })
         }
     })
-    .controller('adminprofileCtrl', sprofileCtrl)
-function sprofileCtrl($rootScope, $scope, $stateParams, $window, $timeout, $state, toastr, $http, firebase, CONFIG, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
-    $scope.startSpin = function (spin) {
-        usSpinnerService.spin(spin);
-    }
-    $scope.stopSpin = function (spin) {
-        usSpinnerService.stop(spin);
-    }
-    $scope.init = function (id) {
-        $scope.multiple = {
-            industry: [],
-            languages: [],
-            time: [],
-            job: []
-        };
+    .controller('addJobCtrl', function ($scope, $http, $rootScope, toastr) {
+        $scope.new = {}
+        $scope.addJob = function (card) {
+            console.log(card)
 
-        $scope.progress = 0
-        firebase.database().ref('profile/' + id).once('value', function (snap) {
-            $rootScope.userData = snap.val()
+            secondary.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
 
+                // var usersRef = firebase.database().ref('user/' + user.uid);
+                var userData = {
+                    type: 1,
+                    phone: card.phone || '',
+                    userId: user.uid,
+                    email: card.email,
+                    provider: 'normal',
+                    createdBy: $rootScope.userId || '',
+                    lead: true,
+                    currentStore: user.uid,
+                    createdAt: new Date().getTime()
 
-            $scope.multiple = {
-                industry: [],
-                languages: [],
-                time: [],
-                job: []
-            };
-
-            $scope.picFile = null;
-
-
-            if ($rootScope.userData.school) {
-                $scope.autocompleteSchool = {text: $rootScope.userData.school}
-            }
-            if ($rootScope.userData.address) {
-                $scope.autocompleteAddress = {text: $rootScope.userData.address}
-            }
-
-            if ($rootScope.userData.industry) {
-                for (var i in $rootScope.userData.industry) {
-                    $scope.multiple.industry.push(i)
+                };
+                /*usersRef.update(userData, function (data) {
+                    console.log('user', data)
+                })*/
+                // var storeRef = firebase.database().ref('store/' + user.uid);
+                var storeData = {
+                    storeName: card.storeName,
+                    storeId: user.uid,
+                    industry: card.industry,
+                    address: card.address,
+                    location: card.location,
+                    job: {},
+                    createdBy: user.uid,
+                    createdAt: new Date().getTime()
                 }
-            }
-            if ($rootScope.userData.languages) {
-                for (var i in $rootScope.userData.languages) {
-                    $scope.multiple.languages.push(i)
+                storeData.job[card.job] = true;
+                /*storeRef.update(storeData, function (data) {
+                    console.log('store', data)
+                })*/
+                $rootScope.service.JoboApi('update/user',{
+                    userId: user.uid,
+                    user: userData,
+                    storeId: user.uid,
+                    store: storeData
+                });
+
+                var jobRef = firebase.database().ref('job/' + user.uid + ':' + card.job);
+                var jobData = {
+                    storeId: user.uid,
+                    job: card.job,
+                    createdAt: new Date().getTime()
                 }
-            }
-
-            if ($rootScope.userData.job) {
-                for (var i in $rootScope.userData.job) {
-                    $scope.multiple.job.push(i)
-                }
-            }
-            if ($rootScope.userData.birth) {
-                $rootScope.userData.birth = $rootScope.service.convertDateRes($rootScope.userData.birth)
-            }
-
-            if (!$rootScope.userData.photo) {
-                $rootScope.userData.photo = []
-            }
-
-            $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
-        })
-    }
-
-    $rootScope.userId = $stateParams.id
-    if ($rootScope.userId) {
-        $scope.init($rootScope.userId)
-    }
-
-
-    $scope.rangeFinishCallback = function (sliderObj) {
-        var newValue = sliderObj.from;
-        console.log(newValue)
-
-        if ($scope.userData) {
-            $scope.userData.expect_distance = newValue
-        }
-    }
-
-    $scope.uploadAvatar = function (imageData, errFiles) {
-        $scope.avatarUpload = true
-        $scope.startSpin('avatar');
-
-        var uploadRef = firebase.storage().ref().child('images/' + $rootScope.userId)
-        uploadRef.putString(imageData, 'data_url').then(function (snapshot) {
-            if ($scope.avatarUpload == true) {
-                console.log('Uploaded a base64 string!', snapshot);
-                var downloadAvatar = snapshot.downloadURL;
-                console.log(downloadAvatar);
-                $rootScope.userData.avatar = downloadAvatar;
-                $scope.$apply(function () {
-                    $scope.stopSpin('avatar');
-                    delete $scope.picFile;
-                    downloadAvatar = null;
-                    $scope.avatarUpload = false
+                jobRef.update(jobData, function (data) {
+                    console.log('job', data)
                 })
-            }
+                $rootScope.service.Ana('createLead', {userId: user.uid})
+                toastr.success("Tạo thành công, mật khẩu đăng nhập của bạn là: tuyendungjobo");
 
-        });
+            }, function (error) {
 
+                // An error happened.
+                var errorCode = error.code;
+                console.log(errorCode);
 
-    };
+                if (errorCode === 'auth/weak-password') {
 
+                    toastr.error('Mật khẩu ngắn, hãy chọn mật khẩu khác!');
 
-    $scope.uploadVideo = function (imageData) {
-        $scope.startSpin('video');
-        $scope.videoUpload = true
+                    return false;
+                } else if (errorCode === 'auth/email-already-in-use') {
+                    toastr.error('Email này đã được sử dụng rồi');
 
-        console.log('imageData', imageData)
-        var metadata = {
-            'contentType': imageData.type
-        };
-        var storageRef = firebase.storage().ref();
-        var uploadTask = storageRef.child('video/' + $rootScope.userId).put(imageData, metadata);
-        uploadTask.then(function (snapVideo) {
-            if ($scope.videoUpload == true) {
-                var downloadVideo = snapVideo.downloadURL;
-                console.log(downloadVideo);
-                $timeout(function () {
-                    $rootScope.userData.videourl = downloadVideo;
-                    $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
-                    $scope.$apply(function () {
-                        $scope.stopSpin('video');
-                        downloadVideo = null
-                    })
-
-                })
-
-                $scope.videoUpload = false
-            }
-        })
-        uploadTask.on('state_changed', function (snapVideo) {
-            // Observe state change events such as progress, pause, and resume
-            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-
-            var progress = (snapVideo.bytesTransferred / snapVideo.totalBytes) * 100;
-            $timeout(function () {
-                $scope.progress = Math.round(progress * 10) / 10
-
-            });
-            $scope.progress = progress
-
-            console.log('Upload is ' + progress + '% done');
-
-            switch (snapVideo.state) {
-                case firebase.storage.TaskState.PAUSED: // or 'paused'
-                    console.log('Upload is paused');
-                    break;
-                case firebase.storage.TaskState.RUNNING: // or 'running'
-                    console.log('Upload is running');
-                    break;
-            }
-        }, function (error) {
-            // Handle unsuccessful uploads
-        }, function () {
-            // Handle successful uploads on complete
-
-        });
-    };
-
-//school
-    $scope.autocompleteSchool = {text: ''};
-    $scope.searchSchool = function () {
-        var params = {
-            query: S($scope.autocompleteSchool.text).latinise().s,
-            type: 'university'
-        }
-        $http({
-            method: 'GET',
-            url: CONFIG.APIURL + '/api/places',
-            params: params
-        }).then(function successCallback(response) {
-            $scope.ketquasSchool = response.data.results;
-            console.log($scope.ketquasSchool);
-            $('#list-school').show();
-        })
-    };
-
-    $scope.setSelectedSchool = function (selected) {
-        $scope.school = selected;
-        console.log($scope.school)
-        $scope.autocompleteSchool.text = $scope.school.name
-        $rootScope.userData.school = $scope.school.name
-        $('#list-school').hide();
-
-    };
-
-
-    $scope.eraseSchool = function () {
-        $scope.autocompleteSchool.text = null;
-        $('#list-school').hide();
-    }
-
-
-//address
-    $scope.autocompleteAddress = {text: ''};
-    $scope.ketquasAddress = [];
-    $scope.searchAddress = function () {
-        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + S($scope.autocompleteAddress.text).latinise().s + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
-        $http({
-            method: 'GET',
-            url: $scope.URL
-        }).then(function successCallback(response) {
-            $scope.ketquasAddress = response.data.results;
-            console.log($scope.ketquasAddress);
-            $('#list-add').show();
-
-        })
-    };
-
-    $scope.setSelectedAddress = function (selected) {
-        $scope.autocompleteAddress.text = selected.formatted_address;
-        $scope.address = selected;
-        $rootScope.userData.address = selected.formatted_address;
-        $rootScope.userData.location = selected.geometry.location;
-
-        console.log(selected);
-        $('#list-add').hide();
-        //$rootScope.userData.address = selected.formatted_address;
-        //$rootScope.userData.location = selected.geometry.location;
-
-    };
-
-    $scope.eraseAddress = function () {
-        $scope.autocompleteAddress.text = null;
-        $('#list-add').hide();
-    }
-    $scope.deleteExp = function (id) {
-        delete  $scope.userData.experience[id]
-    }
-    $scope.addMoreExp = function () {
-        $scope.tempoExperience = {}
-    }
-
-    $scope.saveJob = function () {
-        var experienceRef = firebase.database().ref('profile/' + $rootScope.userId + '/experience');
-        var newkey = experienceRef.push().key;
-        $scope.tempoExperience.id = newkey
-        if (!$scope.userData.experience) {
-            $scope.userData.experience = {}
-        }
-        $scope.userData.experience[newkey] = $scope.tempoExperience
-        delete $scope.tempoExperience
-    }
-
-//upload more image
-    $scope.$watch('files', function () {
-        $scope.upload($scope.files);
-    });
-    $scope.$watch('file', function () {
-        if ($scope.file != null) {
-            $scope.files = [$scope.file];
-        }
-    });
-    $scope.log = {};
-    $scope.deleteImage = function (images) {
-        console.log('clicked', images)
-        $scope.userData.photo.splice(images, 1);
-    }
-
-    $scope.upload = function (files) {
-        $scope.uploadPhoto = true
-        $scope.startSpin('photo');
-
-        if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                console.log(i)
-                var file = files[i];
-                console.log(file)
-
-                if (!file.$error) {
-
-                    var metadata = {
-                        'contentType': file.type
-                    };
-                    var storageRef = firebase.storage().ref();
-                    var newkey = firebase.database().ref('profile/' + $rootScope.userId + '/photo').push().key;
-                    var uploadTask = storageRef.child('images/' + newkey).put(file, metadata);
-
-                    uploadTask.then(function (snapshot) {
-                        if ($scope.uploadPhoto == true) {
-                            var downloadPhoto = snapshot.downloadURL;
-                            console.log(downloadPhoto);
-
-                            $rootScope.userData.photo.push(downloadPhoto);
-                            console.log($rootScope.userData.photo)
-                        }
-                    });
-
-                    uploadTask.on('state_changed', function (snapshot) {
-                        $timeout(function () {
-                                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                                $scope.log[i] = progress + '%';
-                                console.log('Upload is ' + progress + '% done');
-                            }
-                        );
-                        // Observe state change events such as progress, pause, and resume
-                    }, function (error) {
-                        // Handle unsuccessful uploads
-                    }, function () {
-                        // Handle successful uploads on complete
-                        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-
-
-                        $scope.stopSpin('photo')
-                    })
-
-                }
-            }
-        }
-    };
-
-
-    $scope.submit = function () {
-        console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birth) {
-            $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
-            $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birth);
-            console.log($rootScope.userData);
-
-            $timeout(function () {
-                console.log($scope.multiple)
-                if ($scope.multiple.industry.length >= 0) {
-                    $rootScope.userData.industry = {};
-                    angular.forEach($scope.multiple.industry, function (card) {
-                        $rootScope.userData.industry[card] = true
-                    })
-                }
-                if ($scope.multiple.job.length >= 0) {
-                    $rootScope.userData.job = {};
-                    angular.forEach($scope.multiple.job, function (card) {
-                        $rootScope.userData.job[card] = true
-                    })
-                }
-
-                if ($scope.multiple.languages.length >= 0) {
-                    $rootScope.userData.languages = {};
-                    angular.forEach($scope.multiple.languages, function (card) {
-                        $rootScope.userData.languages[card] = true
-                    })
-                }
-
-                console.log($rootScope.userData);
-
-                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                profileRef.update($rootScope.userData);
-
-
-                //init profile
-                if ($scope.firsttime) {
-                    $rootScope.service.Ana('createProfile');
-                } else {
-                    $rootScope.service.Ana('updateProfile');
-                }
-                toastr.success('Cập nhật hồ sơ thành công');
-                if ($rootScope.preApply) {
-                    $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
-                }
-
-            }, 1000)
-        } else {
-            console.log($rootScope.userData);
-            $scope.error = {}
-            for (var i in $rootScope.userData) {
-                if ($rootScope.userData[i]) {
-
-                } else {
-                    $scope.error[i] = true;
-
-                    $timeout(function () {
-                        console.log($scope.error)
-
-                    })
-                }
-            }
-            toastr.error('Bạn chưa cập nhật đủ thông tin', 'Lỗi');
-            $scope.gotoAnchor('name')
-        }
-    }
-
-    $scope.gotoAnchor = function (x) {
-        var newHash = 'anchor' + x;
-        if ($location.hash() !== newHash) {
-            // set the $location.hash to `newHash` and
-            // $anchorScroll will automatically scroll to it
-            $location.hash('anchor' + x);
-        } else {
-            // call $anchorScroll() explicitly,
-            // since $location.hash hasn't changed
-            $anchorScroll();
-        }
-    };
-
-
-}
-
-function propsFilter() {
-    return function (items, props) {
-        var out = [];
-
-        if (angular.isArray(items)) {
-            items.forEach(function (item) {
-                var itemMatches = false;
-
-                var keys = Object.keys(props);
-                for (var i = 0; i < keys.length; i++) {
-                    var prop = keys[i];
-                    var text = props[prop].toLowerCase();
-                    if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
-                        itemMatches = true;
-                        break;
-                    }
-                }
-
-                if (itemMatches) {
-                    out.push(item);
+                    return false;
                 }
             });
-        } else {
-            // Let the output be the input untouched
-            out = items;
+
         }
 
-        return out;
-    }
-}
+        $scope.autocompleteAddress = {text: ''};
+        $scope.ketquasAddress = [];
+        $scope.searchAddress = function () {
+            $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true';
+            $http({
+                method: 'GET',
+                url: $scope.URL
+            }).then(function successCallback(response) {
+                $scope.ketquasAddress = response.data.results;
+                console.log($scope.ketquasAddress);
+                $('#list-add').show();
+
+            })
+        };
+
+        $scope.setSelectedAddress = function (selected) {
+            $scope.autocompleteAddress.text = selected.formatted_address;
+            $scope.address = selected;
+            console.log(selected);
+            $('#list-add').hide();
+            $scope.new.address = selected.formatted_address;
+            $scope.new.location = selected.geometry.location;
+
+        };
+    })
+

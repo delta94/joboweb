@@ -5,6 +5,7 @@ angular.module('app').controller('dashboardCtrl', dashboardCtrl);
 function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope) {
     $scope.loading = true
     $rootScope.aside = false
+    $scope.showjob =false;
 
 
     if (!$rootScope.UserCard && !$rootScope.StoreCard) {
@@ -22,11 +23,29 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         })
         $http({
             method: 'GET',
-            url: CONFIG.APIURL + '/api/job?show=hot'
+            url: CONFIG.APIURL + '/dash/job?lat=10.779942&lng=106.704354'
         }).then(function successCallback(response) {
             console.log("respond", response);
             $timeout(function () {
-                $rootScope.JobCard = response.data.data;
+                if(!$rootScope.JobCard){
+                    $rootScope.JobCard = {}
+                }
+                $rootScope.JobCard.sg = response.data;
+            })
+        }, function (error) {
+            console.log(error)
+        })
+
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/dash/job?lat=21.0225499&lng=105.8441781'
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            $timeout(function () {
+                if(!$rootScope.JobCard){
+                    $rootScope.JobCard = {}
+                }
+                $rootScope.JobCard.hn = response.data;
             })
         }, function (error) {
             console.log(error)
@@ -39,23 +58,14 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
     }
 
 
-    $scope.checkuser = function () {
-        $rootScope.$on('auth', function (event, data) {
-            console.log(data)
-            if (data.type == 2) {
-                $state.go('app.sdash')
-            }
-            if (data.type == 1) {
-                $state.go('app.edash')
-            }
-            if (data.type == 0) {
+    $scope.sortFilter = function (param) {
+        $rootScope.newfilter = {
+            show: param
+        }
+        $rootScope.JobCard = {}
+        $scope.getUserFiltered($rootScope.newfilter)
 
-                console.log("Hãy đăng nhập!")
-            }
-        });
-
-    };
-
+    }
     $scope.newfilterFilter = function () {
         toastr.info('Bạn phải đăng nhập để thực hiện tác vụ này!');
         $state.go('intro')

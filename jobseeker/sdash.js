@@ -45,9 +45,13 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                     if (result.location) {
                         $rootScope.userData.location = result.location;
                         $rootScope.userData.address = result.address;
-                        var userRef = firebase.database().ref('profile/' + $rootScope.userId);
                         console.log(result);
-                        userRef.update($rootScope.userData)
+                        $rootScope.service.JoboApi('update/user',{
+                            userId: $rootScope.userId,
+                            profile: $rootScope.userData
+                        });
+                        // var userRef = firebase.database().ref('profile/' + $rootScope.userId);
+                        // userRef.update($rootScope.userData)
                         $scope.initData()
                     }
                 });
@@ -61,7 +65,7 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                 userId: $rootScope.userId,
                 type: 'job',
                 p: 1,
-                job: $rootScope.service.getfirst($rootScope.userData.job),
+                show:'new'
 
             }
             $scope.getUserFiltered($rootScope.newfilter)
@@ -94,6 +98,16 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
         }
 
     }
+
+    $scope.sortFilter = function (param) {
+        $rootScope.newfilter = {
+            show: param
+        }
+        $scope.getUserFiltered($rootScope.newfilter)
+
+    }
+
+
     $scope.selectFilter = function (card) {
         console.log('$rootScope.newfilter',$rootScope.newfilter)
         $rootScope.newfilter = card;
@@ -134,13 +148,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                                 $scope.response.data[i].act = snap.val()
                             })
                         }
-                        firebase.database().ref('presence/store/' + storeData.storeId + 'status').on('value', function (snap) {
-                           if(snap.val()){
-                               $scope.response.data[i].presence = snap.val()
-                               console.log(snap.val())
-
-                           }
-                        })
 
 
                     }
@@ -185,12 +192,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                                 $scope.response.data[i].act = snap.val()
                             })
                         }
-                        firebase.database().ref('presence/store/' + jobData.storeId + '/status').on('value', function (snap) {
-                            if(snap.val()){
-                                $scope.response.data[i].presence = snap.val()
-                                console.log(snap.val())
-                            }
-                        })
                     }
                     $rootScope.jobCard = $rootScope.jobCard.concat($scope.response.data);
                     console.log($rootScope.jobCard)

@@ -11,7 +11,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
 
     $rootScope.$watch('newNoti', function (newNoti) {
         $rootScope.og = {
-            title: '('+ newNoti +') Jobo' || 'Jobo'
+            title: '(' + newNoti + ') Jobo' || 'Jobo'
         }
     });
 
@@ -29,37 +29,27 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
             $scope.initData($rootScope.storeData)
 
         } else {
-            $scope.$on('storeListen', function (event, storeData) {
-                console.log('Init data', storeData);
-                $scope.initData(storeData)
+            $scope.$on('handleBroadcast', function (event, storeData) {
+                $scope.initData($rootScope.storeData)
             });
         }
 
     };
+    $scope.calculateAge = function calculateAge(birthday) { // birthday is a date
+        var ageDifMs = Date.now() - new Date(birthday).getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 
     $scope.initData = function (storeData) {
         if (!storeData) {
-            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
             $state.go('store', {id: null})
+            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
         } else if (!$rootScope.storeData.location) {
-            ModalService.showModal({
-                templateUrl: 'templates/modals/address.html',
-                controller: 'ModalAddressCtrl'
-            }).then(function (modal) {
-                modal.element.modal();
-                modal.close.then(function (result) {
-                    if (result.location) {
-                        $rootScope.storeData.location = result.location;
-                        $rootScope.storeData.address = result.address;
-                        var userRef = firebase.database().ref('store/' + $rootScope.storeId);
-                        console.log(result);
-                        userRef.update($rootScope.storeData)
-                        $scope.initData()
-                    }
-                });
-            });
+            $state.go('store', {id: null})
+            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
         } else if (!$rootScope.storeData.job) {
-            toastr.info('Bạn đang cần tuyển vị trí gì?')
+            toastr.info('Hãy cập nhật địa chỉ cửa hàng?')
             $state.go('store', {id: 'job'})
         } else {
             $rootScope.newfilter = {
@@ -95,7 +85,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
     $scope.loading = false;
     $scope.loadMore = function () {
         console.log('request load')
-        if (!$scope.loading && $rootScope.newfilter) {
+        if (!$scope.loading && $rootScope.newfilter && $rootScope.newfilter.p < $scope.response.total_pages)  {
             $scope.loading = true;
 
             console.log('loading')
@@ -107,7 +97,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         }
     }
     $rootScope.maxMatchUser = 0
-
 
 
     $scope.getUserFiltered = function (newfilter) {
@@ -139,12 +128,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
                             $scope.response.data[i].act = snap.val()
                         })
                     }
-                    firebase.database().ref('presence/profile/' + profileData.userId + 'status').on('value', function (snap) {
-                        if(snap.val()){
-                            $scope.response.data[i].presence = snap.val()
-                        }
-                    })
-
 
                 }
                 $rootScope.usercard = $rootScope.usercard.concat($scope.response.data);

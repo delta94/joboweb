@@ -2,34 +2,16 @@
 
 app.controller('sprofileCtrl', sprofileCtrl).filter('propsFilter', propsFilter);
 
-function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
+function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce, $anchorScroll, $location) {
     $scope.startSpin = function (spin) {
         usSpinnerService.spin(spin);
     };
     $scope.stopSpin = function (spin) {
         usSpinnerService.stop(spin);
     };
-    var staticData = {
-        viewed: 0,
-        liked: 0,
-        shared: 0,
-        rated: 0,
-        rateAverage: 0,
-        matched: 0,
-        chated: 0,
-        like: 0,
-        share: 0,
-        rate: 0,
-        match: 0,
-        chat: 0,
-        timeOnline: 0,
-        login: 1,
-        profile: 0
-    }
     $scope.init = function () {
         $scope.progress = 0
 
-
         $scope.multiple = {
             industry: [],
             languages: [],
@@ -38,146 +20,140 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         };
 
         $scope.picFile = null;
+        $scope.indexToShow = 0;
         AuthUser.user()
             .then(function (userInfo) {
-                    $scope.userInfo = userInfo
-                    var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                    profileRef.once('value', function (snap) {
-                        $rootScope.userData = snap.val();
-                        $timeout(function () {
-                            if (!$rootScope.userData) {
-                                //chưa có hồ sơ
-                                $scope.firsttime = true
-                                $rootScope.userData = {
-                                    userId: $rootScope.userId,
-                                    name: userInfo.name,
-                                    photo: [],
-                                    static: staticData
-                                }
-                            }
-
-                            $rootScope.userData.email = userInfo.email;
-                            $rootScope.userData.phone = userInfo.phone;
-
-                            if ($rootScope.userData.school) {
-                                $scope.autocompleteSchool = {text: $rootScope.userData.school}
-                            }
-                            if ($rootScope.userData.address) {
-                                $scope.autocompleteAddress = {text: $rootScope.userData.address}
-                            }
-
-                            if ($rootScope.userData.industry) {
-                                for (var i in $rootScope.userData.industry) {
-                                    $scope.multiple.industry.push(i)
-                                }
-                            }
-                            if ($rootScope.userData.languages) {
-                                for (var i in $rootScope.userData.languages) {
-                                    $scope.multiple.languages.push(i)
-                                }
-                            }
-
-                            if ($rootScope.userData.job) {
-                                for (var i in $rootScope.userData.job) {
-                                    $scope.multiple.job.push(i)
-                                }
-                            }
-                            if ($rootScope.userData.birth) {
-                                $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
-                                console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
-                            }
-
-                            if (!$rootScope.userData.photo) {
-                                $rootScope.userData.photo = []
-                            }
-
-                            $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
-                        })
-
-
-                    })
-                }, function (error) {
-                    console.log(error)
-                    // error
-                }
-            );
-    }
-    var admin = $stateParams.admin
-    if (admin) {
-        $rootScope.userId = admin
-
-
-        $scope.progress = 0
-
-
-        $scope.multiple = {
-            industry: [],
-            languages: [],
-            time: [],
-            job: []
-        };
-
-        $scope.picFile = null;
-
-        var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-        profileRef.once('value', function (snap) {
-            $rootScope.userData = snap.val();
-            $timeout(function () {
-                if (!$rootScope.userData) {
-                    //chưa có hồ sơ
-                    $scope.firsttime = true
-                    $rootScope.userData = {
-                        userId: $rootScope.userId,
-                        photo: [],
-                        static: staticData
+                $scope.userInfo = userInfo
+                $timeout(function () {
+                    if (!$rootScope.userData) {
+                        //chưa có hồ sơ
+                        $scope.firsttime = true
+                        $rootScope.userData = {
+                            userId: $rootScope.userId,
+                            name: userInfo.name,
+                            photo: [],
+                        }
                     }
-                }
+                    if ($rootScope.userData.email && $rootScope.userData.phone) {
+                        $scope.indexToShow = 1;
+                        if ($rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.address && $rootScope.userData.job) {
+                            $scope.indexToShow = 2;
+                        }
+                    }
 
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.once('value', function (snap) {
-                    $timeout(function () {
-                        $rootScope.userData.email = snap.val().email;
-                        $rootScope.userData.phone = snap.val().phone;
-                    })
+                    if ($rootScope.userData.school) {
+                        $scope.autocompleteSchool = {text: $rootScope.userData.school}
+                    }
+                    if ($rootScope.userData.address) {
+                        $scope.autocompleteAddress = {text: $rootScope.userData.address}
+                    }
+
+                    if ($rootScope.userData.industry) {
+                        for (var i in $rootScope.userData.industry) {
+                            $scope.multiple.industry.push(i)
+                        }
+                    }
+                    if ($rootScope.userData.languages) {
+                        for (var i in $rootScope.userData.languages) {
+                            $scope.multiple.languages.push(i)
+                        }
+                    }
+
+                    if ($rootScope.userData.job) {
+                        for (var i in $rootScope.userData.job) {
+                            $scope.multiple.job.push(i)
+                        }
+                    }
+                    if ($rootScope.userData.birth) {
+                        $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+                        console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
+                    }
+
+                    if (!$rootScope.userData.photo) {
+                        $rootScope.userData.photo = []
+                    }
+
+                    $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
                 })
 
+            }, function (error) {
+                console.log(error)
+                // error
+            });
+    }
+    var admin = $stateParams.admin
+    $scope.admin = $stateParams.admin;
+    if (admin && $rootScope.type !== 0) {
+        $scope.indexToShow = 2;
+        AuthUser.user().then(function (adminInfo) {
+            $scope.adminData = adminInfo;
+            console.log('adminData ', $scope.adminData);
+            if ($scope.adminData.admin) {
+                $rootScope.userId = admin;
 
-                if ($rootScope.userData.school) {
-                    $scope.autocompleteSchool = {text: $rootScope.userData.school}
-                }
-                if ($rootScope.userData.address) {
-                    $scope.autocompleteAddress = {text: $rootScope.userData.address}
-                }
+                $scope.progress = 0;
 
-                if ($rootScope.userData.industry) {
-                    for (var i in $rootScope.userData.industry) {
-                        $scope.multiple.industry.push(i)
-                    }
-                }
-                if ($rootScope.userData.languages) {
-                    for (var i in $rootScope.userData.languages) {
-                        $scope.multiple.languages.push(i)
-                    }
-                }
+                $scope.multiple = {
+                    industry: [],
+                    languages: [],
+                    time: [],
+                    job: []
+                };
 
-                if ($rootScope.userData.job) {
-                    for (var i in $rootScope.userData.job) {
-                        $scope.multiple.job.push(i)
-                    }
-                }
-                if ($rootScope.userData.birth) {
-                    $rootScope.userData.birth = $rootScope.service.convertDateRes($rootScope.userData.birth)
-                }
+                $scope.picFile = null;
 
-                if (!$rootScope.userData.photo) {
-                    $rootScope.userData.photo = []
-                }
+                $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (data) {
+                    $rootScope.userData = data.data.userData;
+                    console.log('$rootScope.userData: ', $rootScope.userData);
+                    $timeout(function () {
+                        if (!$rootScope.userData) {
+                            //chưa có hồ sơ
+                            $scope.firsttime = true
+                            $rootScope.userData = {
+                                userId: $rootScope.userId,
+                                name: userInfo.name,
+                                photo: [],
+                            }
+                        }
 
-                $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
-            })
+                        if ($rootScope.userData.school) {
+                            $scope.autocompleteSchool = {text: $rootScope.userData.school}
+                        }
+                        if ($rootScope.userData.address) {
+                            $scope.autocompleteAddress = {text: $rootScope.userData.address}
+                        }
 
+                        if ($rootScope.userData.industry) {
+                            for (var i in $rootScope.userData.industry) {
+                                $scope.multiple.industry.push(i)
+                            }
+                        }
+                        if ($rootScope.userData.languages) {
+                            for (var i in $rootScope.userData.languages) {
+                                $scope.multiple.languages.push(i)
+                            }
+                        }
 
-        })
+                        if ($rootScope.userData.job) {
+                            for (var i in $rootScope.userData.job) {
+                                $scope.multiple.job.push(i)
+                            }
+                        }
+                        if ($rootScope.userData.birth) {
+                            $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+                            console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
+                        }
+
+                        if (!$rootScope.userData.photo) {
+                            $rootScope.userData.photo = []
+                        }
+
+                        $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
+                    })
+
+                })
+            }
+        });
     } else {
         $scope.init()
     }
@@ -296,34 +272,39 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
     };
 
-
     $scope.eraseSchool = function () {
         $scope.autocompleteSchool.text = null;
         $('#list-school').hide();
     }
-
-
     //address
+    // var delay = false;
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
-    var delay = false
     $scope.searchAddress = function (textfull) {
         var text = S(textfull).latinise().s
         $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + text;
-        if (delay == false) {
-            delay = true
-            $http({
-                method: 'GET',
-                url: $scope.URL
-            }).then(function successCallback(response) {
-                $scope.ketquasAddress = response.data.results;
-                console.log($scope.ketquasAddress);
-                $('#list-add').show();
-            })
-            $timeout(function () {
-                delay = false
-            }, 1000)
-        }
+        /*if (delay == false) {
+         delay = true
+         $http({
+         method: 'GET',
+         url: $scope.URL
+         }).then(function successCallback(response) {
+         $scope.ketquasAddress = response.data.results;
+         console.log($scope.ketquasAddress);
+         $('#list-add').show();
+         })
+         $timeout(function () {
+         delay = false
+         }, 1000)
+         }*/
+        $http({
+            method: 'GET',
+            url: $scope.URL
+        }).then(function successCallback(response) {
+            $scope.ketquasAddress = response.data.results;
+            console.log($scope.ketquasAddress);
+            $('#list-add').show();
+        })
     };
     $scope.setSelectedAddress = function (selected) {
         $scope.autocompleteAddress.text = selected.formatted_address;
@@ -340,16 +321,18 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
     $scope.eraseAddress = function () {
         $scope.autocompleteAddress.text = null;
         $('#list-add').hide();
-    }
+    };
     $scope.deleteExp = function (id) {
         delete  $scope.userData.experience[id]
-    }
+    };
+
     $scope.addMoreExp = function () {
         $scope.tempoExperience = {}
-    }
+    };
     $scope.saveJob = function () {
-        var experienceRef = firebase.database().ref('profile/' + $rootScope.userId + '/experience');
-        var newkey = experienceRef.push().key;
+        // var experienceRef = firebase.database().ref('profile/' + $rootScope.userId + '/experience');
+        // var newkey = experienceRef.push().key;
+        var newkey = 'p' + Math.round(100000000000000 * Math.random());
         $scope.tempoExperience.id = newkey
         if (!$scope.userData.experience) {
             $scope.userData.experience = {}
@@ -357,6 +340,135 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         $scope.userData.experience[newkey] = $scope.tempoExperience
         delete $scope.tempoExperience
     }
+    //admin note
+    $scope.addMoreNote = function () {
+        $scope.tempoAdminNote = {};
+        $scope.tempoAdminNote.date = new Date();
+        $scope.tempoAdminNote.adminId = $scope.adminData.userId;
+    };
+    $scope.deleteNote = function (id) {
+        delete $scope.userData.adminNote[id]
+    };
+    $scope.deleteTempNote = function () {
+        delete $scope.tempoAdminNote
+    }
+    $scope.saveNote = function () {
+        // var adminNoteRef = firebase.database().ref('profile/' + $rootScope.userId + '/note');
+        // var newkey = adminNoteRef.push().key;
+        var newkey = 'p' + Math.round(100000000000000 * Math.random());
+        $scope.tempoAdminNote.id = newkey;
+        if (!$scope.userData.adminNote) {
+            $scope.userData.adminNote = {}
+        }
+        $scope.userData.adminNote[newkey] = $scope.tempoAdminNote;
+        delete $scope.tempoAdminNote
+    };
+    //update data
+    $scope.updateData = function () {
+        $scope.error = {};
+        var dataUser = {};
+        if ($scope.indexToShow === 0) {
+            console.log('Update phone and email');
+            if ($rootScope.userData && $rootScope.userData.email && $rootScope.userData.phone) {
+                console.log($rootScope.userData.phone);
+                console.log($rootScope.userData.email);
+
+                dataUser.user = {
+                    phone: $rootScope.userData.phone,
+                    email: $rootScope.userData.email
+                };
+                $rootScope.service.JoboApi('update/user', {
+                    userId: $rootScope.userId,
+                    user: dataUser.user,
+                });
+                $scope.indexToShow++;
+                console.log($scope.indexToShow);
+                $rootScope.service.Ana('Update phone and email');
+                $scope.gotoAnchor('name');
+            } else {
+                if (!$rootScope.userData.email) {
+                    $scope.error.email = true;
+                }
+                if (!$rootScope.userData.phone) {
+                    $scope.error.phone = true;
+                }
+            }
+        } else if ($scope.indexToShow === 1) {
+            console.log('Update User Profile');
+            if ($rootScope.userData.email
+                && $rootScope.userData.phone
+                && $rootScope.userData.address
+                && $rootScope.userData.name
+                && $rootScope.userData.birthArray
+                && $scope.multiple.job.length > 0) {
+
+                $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
+                $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
+                $rootScope.userData.createdAt = new Date().getTime()
+
+                console.log($rootScope.userData);
+                $timeout(function () {
+                    // console.log($scope.multiple);
+                    if ($scope.multiple.job.length >= 0) {
+                        $rootScope.userData.job = {};
+                        angular.forEach($scope.multiple.job, function (card) {
+                            $rootScope.userData.job[card] = true
+                        })
+                    }
+                    console.log($rootScope.userData);
+
+                    dataUser.user = {
+                        phone: $rootScope.userData.phone,
+                        email: $rootScope.userData.email,
+                        name: $rootScope.userData.name
+                    };
+                    dataUser.profile = {
+                        userId: $rootScope.userData.userId,
+                        name: $rootScope.userData.name,
+                        birth: $rootScope.userData.birth,
+                        birthArray: $rootScope.userData.birthArray,
+                        address: $rootScope.userData.address,
+                        location: $rootScope.userData.location,
+                        job: $rootScope.userData.job,
+                        avatar: $rootScope.userData.avatar,
+                        createAt: $rootScope.userData.createAt,
+
+                    };
+                    $rootScope.service.JoboApi('update/user', {
+                        userId: $rootScope.userId,
+                        user: dataUser.user,
+                        profile: dataUser.profile
+                    });
+
+                    console.log('Update User Profile Complete');
+
+                }, 1000);
+                $rootScope.service.Ana('Update user profile');
+                $scope.indexToShow++;
+                console.log($scope.indexToShow);
+                $scope.gotoAnchor('info');
+            } else {
+                if (!$rootScope.userData.name) {
+                    $scope.error.name = true;
+                }
+                if (!$rootScope.userData.birthArray) {
+                    $scope.error.birth = true;
+                }
+                if (!$rootScope.userData.email) {
+                    $scope.error.email = true;
+                }
+                if (!$rootScope.userData.phone) {
+                    $scope.error.phone = true;
+                }
+                if (!$rootScope.userData.address) {
+                    $scope.error.address = true;
+                }
+                if ($scope.multiple.job.length === 0) {
+                    $scope.error.job = true;
+                }
+            }
+        }
+    };
     //upload more image
     $scope.$watch('files', function () {
         $scope.upload($scope.files);
@@ -370,7 +482,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
     $scope.deleteImage = function (images) {
         console.log('clicked', images)
         $scope.userData.photo.splice(images, 1);
-    }
+    };
 
     $scope.upload = function (files) {
         $scope.uploadPhoto = true
@@ -388,7 +500,8 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                         'contentType': file.type
                     };
                     var storageRef = firebase.storage().ref();
-                    var newkey = firebase.database().ref('profile/' + $rootScope.userId + '/photo').push().key;
+                    // var newkey = firebase.database().ref('profile/' + $rootScope.userId + '/photo').push().key;
+                    var newkey = 'p' + Math.round(100000000000000 * Math.random());
                     var uploadTask = storageRef.child('images/' + newkey).put(file, metadata);
 
                     uploadTask.then(function (snapshot) {
@@ -425,12 +538,15 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
         }
     };
 
-
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if ($rootScope.userData.email && $rootScope.userData.phone && $rootScope.userData.address && $rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.avatar && $scope.multiple.job.length > 0) {
+        if (($rootScope.userData.email
+            && $rootScope.userData.phone
+            && $rootScope.userData.address
+            && $rootScope.userData.name
+            && $rootScope.userData.birthArray
+            && $scope.multiple.job.length > 0) || ($stateParams.admin)) {
             $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name)
-
             $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
             console.log($rootScope.userData);
 
@@ -458,14 +574,30 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
 
                 console.log($rootScope.userData);
 
-                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                profileRef.update($rootScope.userData);
-
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                userRef.update({
+                var dataUser = {
                     name: $rootScope.userData.name,
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
+                };
+                if ($rootScope.userData.wrongEmail) {
+                    dataUser.wrongEmail = $rootScope.userData.wrongEmail
+                }
+                var dataProfile = $rootScope.userData
+                delete dataProfile.phone
+                delete dataProfile.email
+                delete dataProfile.webToken
+                delete dataProfile.ref
+                delete dataProfile.provider
+                delete dataProfile.type
+                delete dataProfile.mobileToken
+                delete dataProfile.wrongEmail
+
+                console.log(dataProfile)
+
+                $rootScope.service.JoboApi('update/user', {
+                    userId: $rootScope.userId,
+                    user: dataUser,
+                    profile: dataProfile
                 });
 
                 //init profile
@@ -473,6 +605,11 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     $rootScope.service.Ana('createProfile');
                 } else {
                     $rootScope.service.Ana('updateProfile');
+                }
+
+                if (!$rootScope.userData.avatar) {
+                    toastr.info('Bạn cần cập nhật avatar thì thông tin của bạn mới được hiện thị cho nhà tuyển dụng, hãy cập nhật ngay!');
+
                 }
                 toastr.success('Cập nhật hồ sơ thành công');
                 if ($rootScope.preApply) {
@@ -482,7 +619,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
             }, 1000)
         } else {
             console.log($rootScope.userData);
-            $scope.error = {}
+            $scope.error = {};
             if ($rootScope.userData.name) {
 
             } else {
@@ -491,7 +628,7 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.birth) {
+            if ($rootScope.userData.birthArray) {
 
             } else {
                 $scope.error.birth = true;
@@ -524,7 +661,6 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
                 })
             }
             if ($scope.multiple.job.length > 0) {
-
             } else {
                 $scope.error.job = true;
                 $timeout(function () {
@@ -557,7 +693,6 @@ function sprofileCtrl($rootScope, $scope, AuthUser, $stateParams, $timeout, $sta
             $anchorScroll();
         }
     };
-
 
 }
 

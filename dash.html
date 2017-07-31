@@ -1,16 +1,13 @@
-﻿<div class="section section-header"
+<div class="section section-header"
      style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
      background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
     <div class="info" style="margin-top: 0px; float: left">
         <div style="margin-top: 50px">
-            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
                 <h1>Tìm việc nhanh xung quanh bạn</h1>
                 <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search"
-                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
-                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length"
-                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
+                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;">
                         <li ng-repeat="result in searchResults" style="display: block; text-align: left">
                             <div class="message p-h">
                                 <div class="py-h mr-1 float-left">
@@ -19,10 +16,8 @@
                                              alt="admin@bootstrapmaster.com">
                                     </div>
                                 </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}"
-                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
-                                       ng-show="result.job">
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}" class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job" ng-show="result.job">
                                     {{Lang[key] || 'Xem thêm'}}
                                 </small>
                             </div>
@@ -51,6 +46,8 @@
 
                         <h3>Hàng nghìn công việc bán thời gian và thời vụ đang được nhận mỗi ngày trên Jobo</h3>
                         <div style="margin-top:30px;">
+                            <a class="typeform-share button" href="https://thynguyen3.typeform.com/to/jc8O5W" data-mode="popup" style="display:inline-block;text-decoration:none;background-color:#267DDD;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:20px;line-height:50px;text-align:center;margin:0;height:50px;padding:0px 33px;border-radius:25px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;" data-hide-headers=true data-hide-footer=true target="_blank">Launch me </a> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm_share", b="https://embed.typeform.com/"; if(!gi.call(d,id)){ js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script>
+
                             <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo" style="margin-bottom: 10px;"></a>
                             <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc" style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
                         </div>
@@ -539,301 +536,274 @@
 </div>
 
 
+<!--<div class="section-heading text-center">-->
+<!--<h2>Việc làm gấp</h2>-->
+<!--</div>-->
+<!--<div class="text-center job-tab">-->
+<!--<a href="" ng-click="showjob=false">-->
+<!--<button type="button" class="btn btn-gradient"  ng-class="{'active-tab-green' : showjob == false, 'active-tab-white' :showjob == true}" style="border:solid 1px #00a67c">Sài Gòn</button>-->
+<!--</a>-->
+<!--<a href="" ng-click="showjob=true">-->
+<!--<button type="button" class="btn btn-gradient" ng-class="{'active-tab-green' : showjob == true, 'active-tab-white' :showjob == false}" style="border:solid 1px #00a67c">Hà Nội</button>-->
+<!--</a>-->
+<!--</div>-->
 
-<div class="section-heading text-center">
-    <h2>Việc làm gấp</h2>
-</div>
-<div class="text-center job-tab">
-    <a href="" ng-click="showjob=false">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == false, 'active-tab-white' :showjob == true}"
-                style="border:solid 1px #00a67c">Sài Gòn
-        </button>
-    </a>
-    <a href="" ng-click="showjob=true">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == true, 'active-tab-white' :showjob == false}"
-                style="border:solid 1px #00a67c">Hà Nội
-        </button>
-    </a>
-</div>
+<!--&lt;!&ndash;Sai Gon&ndash;&gt;-->
 
-<!--Sai Gon-->
+<!--<div class="animated fadeIn" ng-hide="showjob" style="min-height: 500px; margin-top: 40px">-->
+<!--<div class="container">-->
+<!--<div class="testimonials testimonials-raised">-->
+<!--<div class="row">-->
+<!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">-->
+<!--<div class="card-new">-->
+<!--<div class="content_">-->
+<!--<div class="content-top-new">-->
+<!--<div class="row">-->
+<!--<div class="logo-restaurant-new pull-left">-->
+<!--<img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">-->
+<!--</div>-->
+<!--<div class="logo-job-new pull-right">-->
+<!--<img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'-->
+<!--||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'-->
+<!--||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row main-content-new">-->
+<!--<table>-->
+<!--<tr>-->
+<!--<td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td id="descrip">{{card.description}}</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="content-bottom-new text-center">-->
+<!--<div class="jobseeker-new text-left">-->
+<!--<p>{{card.storeName}}-->
+<!--<br> <i>{{card.address}}</i>-->
+<!--</p>-->
+<!--</div>-->
+<!--<button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;Ha noi&ndash;&gt;-->
 
-<div class="animated fadeIn" ng-hide="showjob" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">
-                    <div class="card-new">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.job}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td id="descrip">{{card.description}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
-                                    </p>
-                                </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Ha noi-->
-
-<div class="animated fadeIn" ng-show="showjob" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">
-                    <div class="card-new">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.job}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td id="descrip">{{card.description}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
-                                    </p>
-                                </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="animated fadeIn" ng-show="showjob" style="min-height: 500px; margin-top: 40px">-->
+<!--<div class="container">-->
+<!--<div class="testimonials testimonials-raised">-->
+<!--<div class="row">-->
+<!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">-->
+<!--<div class="card-new">-->
+<!--<div class="content_">-->
+<!--<div class="content-top-new">-->
+<!--<div class="row">-->
+<!--<div class="logo-restaurant-new pull-left">-->
+<!--<img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">-->
+<!--</div>-->
+<!--<div class="logo-job-new pull-right">-->
+<!--<img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'-->
+<!--||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'-->
+<!--||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row main-content-new">-->
+<!--<table>-->
+<!--<tr>-->
+<!--<td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{dataJob[card.job] || card.job}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="time-new"  itemprop="description">{{CONFIG.data.working_type[card.working_type]}}</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td id="descrip">{{card.description}}</td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="content-bottom-new text-center">-->
+<!--<div class="jobseeker-new text-left">-->
+<!--<p>{{card.storeName}}-->
+<!--<br> <i>{{card.address}}</i>-->
+<!--</p>-->
+<!--</div>-->
+<!--<button ng-click="service.userLike(card,0,card.job)" type="button" class="btn btn-default apply-new">Ứng tuyển</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 
 
-<div class="animated fadeIn container">
-    <div class="wpb_wrapper text-center">
-        <div class="section-heading">
-            <h2>Chọn Ứng Viên Phù Hợp</h2>
-        </div>
-    </div>
-    <div class="spinner" ng-show="!UserCard">
-        <div class="cube1"></div>
-        <div class="cube2"></div>
-    </div>
-    <div class="list-profile">
-        <div class="row row-s">
-            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">
-                <!-- Normal Demo-->
-                <!-- Post-->
 
-                <div class="post-module" style="margin-bottom: 24px;">
-                    <!-- Thumbnail-->
-                    <div class="thumbnail" ng-hide="showVid == card.userId">
-                        <div class="date" ng-if="card.videourl">
-                            <i class="fa fa-play-circle play-button" aria-hidden="true"
-                               ng-click="showVideo(card)"></i>
-                        </div>
-                        <img ui-sref="app.viewprofile ({id:card.userId})"
-                             src="{{card.avatar || 'img/macdinh.jpg'}}">
-                    </div>
-                    <div class="videogular-container text-center" ng-show="showVid == card.userId">
-                        <videogular>
-                            <vg-media vg-autoplay="true"
-                                      vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"
-                                      vg-src="videoTrusted"
-                                      vg-native-controls="true">
-                            </vg-media>
-                        </videogular>
-                    </div>
-                    <!-- Post Content-->
-                    <div class="post-content">
-                        <div class="category" ng-if="card.feature">Hot</div>
-                        <h3 class="title">{{card.name || 'Your Name Here'}}</h3>
+<!--<div class="animated fadeIn container" >-->
+<!--<div class="wpb_wrapper text-center">-->
+<!--<div class="section-heading">-->
+<!--<h2>Chọn Ứng Viên Phù Hợp</h2>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="spinner" ng-show="!UserCard">-->
+<!--<div class="cube1"></div>-->
+<!--<div class="cube2"></div>-->
+<!--</div>-->
+<!--<div class="list-profile">-->
+<!--<div class="row row-s">-->
+<!--<div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">-->
+<!--&lt;!&ndash; Normal Demo&ndash;&gt;-->
+<!--&lt;!&ndash; Post&ndash;&gt;-->
 
-                        <div style="display:inline-block;width:313.98px;height:30px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
-                            <button ng-click="applyThis(card.userId,key)" type="button"
-                                    class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
-                                    ng-repeat="(key,value) in card.job">{{dataJob[key]}}
-                            </button>
-                        </div>
+<!--<div class="post-module" style="margin-bottom: 24px;">-->
+<!--&lt;!&ndash; Thumbnail&ndash;&gt;-->
+<!--<div class="thumbnail" ng-hide="showVid == card.userId">-->
+<!--<div class="date" ng-if="card.videourl">-->
+<!--<i class="fa fa-play-circle play-button" aria-hidden="true"-->
+<!--ng-click="showVideo(card)"></i>-->
+<!--</div>-->
+<!--<img ui-sref="app.viewprofile ({id:card.userId})"-->
+<!--src="{{card.avatar || 'img/macdinh.jpg'}}">-->
+<!--</div>-->
+<!--<div class="videogular-container text-center" ng-show="showVid == card.userId">-->
+<!--<videogular>-->
+<!--<vg-media vg-autoplay="true"-->
+<!--vg-theme="http://www.videogular.com/styles/themes/default/latest/videogular.css"-->
+<!--vg-src="videoTrusted"-->
+<!--vg-native-controls="true">-->
+<!--</vg-media>-->
+<!--</videogular>-->
+<!--</div>-->
+<!--&lt;!&ndash; Post Content&ndash;&gt;-->
+<!--<div class="post-content">-->
+<!--<div class="category" ng-if="card.feature">Hot</div>-->
+<!--<h3 class="title">{{card.name || 'Your Name Here'}}</h3>-->
 
-                        <div class="post-meta">
-<span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"
-                                                                        data-toggle="popover"
-                                                                        data-trigger="hover"
-                                                                        data-content="Mức lương mong muốn (VNĐ/tháng)">{{card.expect_salary? card.expect_salary +' triệu':'Thương lượng'}} </a></span>
-                            <div style=" position: absolute;
-right: 0px;bottom: 0px;">
-                                <button ng-disabled="!selectedJob" ng-click="like(card,0,selectedJob)"
-                                        type="button"
-                                        class="btn btn-primary btn-sm">Tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div style="margin: auto; text-align: center;">
-        <button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem
-            tiếp
-        </button>
-    </div>
-     
-</div>
+<!--<div style="display:inline-block;width:313.98px;height:30px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">-->
+<!--<button ng-click="applyThis(card.userId,key)" type="button"-->
+<!--class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"-->
+<!--ng-repeat="(key,value) in card.job">{{dataJob[key]}}-->
+<!--</button>-->
+<!--</div>-->
 
-<div class="animated fadeIn" style="margin-bottom: 50px">
-    <div class="container">
-        <div class="wpb_wrapper text-center">
-            <div class="section-heading">
-                <h2>Nhà Tuyển Dụng Nổi Bật</h2>
-            </div>
-        </div>
-        <div class="spinner" ng-show="!UserCard">
-            <div class="cube1"></div>
-            <div class="cube2"></div>
-        </div>
-        <div class="list-profile">
-            <div class="row row-s">
-                <div class="col-xs-12 col-md-6 col-lg-3 col-s" ng-repeat="card in StoreCard">
-                    <!-- Normal Demo-->
-                    <!-- Post-->
-                    <div class="post-module" style="margin-bottom: 24px; height: 250px">
-                        <!-- Thumbnail-->
-                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})" style="height: 250px;">
-                            <img src="{{card.avatar || 'img/store.png'}}"/>
-                        </div>
-                        <!-- Post Content-->
-                        <div class="post-content">
-                            <div class="category" ng-if="card.likeMe == 0">Hot</div>
-                            <h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>
-                            <h3 class="sub_title" ng-show="card.distance">
-                                <div> {{card.distance + ' km'}}</div>
-                            </h3>
-                            <button ng-click="applyThis(card.storeId,key)" type="button"
-                                    class="btn btn-vm {{selectedJob[card.storeId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
-                                    ng-repeat="(key,value) in card.job">{{dataJob[key]}}
-                            </button>
-                        </div>
+<!--<div class="post-meta">-->
+<!--<span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"-->
+<!--data-toggle="popover"-->
+<!--data-trigger="hover"-->
+<!--data-content="Mức lương mong muốn (VNĐ/tháng)">{{card.expect_salary? card.expect_salary +' triệu':'Thương lượng'}} </a></span>-->
+<!--<div style=" position: absolute;-->
+<!--right: 0px;bottom: 0px;">-->
+<!--<button ng-disabled="!selectedJob" ng-click="like(card,0,selectedJob)"-->
+<!--type="button"-->
+<!--class="btn btn-primary btn-sm">Tuyển-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="margin: auto; text-align: center;">-->
+<!--<button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem-->
+<!--tiếp-->
+<!--</button>-->
+<!--</div> -->
+<!--</div>-->
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div style="margin: auto; text-align: center;">
-        <button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem tiếp
-        </button>
-    </div>
-</div> 
+<!--<div class="animated fadeIn" style="margin-bottom: 50px">-->
+<!--<div class="container">-->
+<!--<div class="wpb_wrapper text-center">-->
+<!--<div class="section-heading">-->
+<!--<h2>Nhà Tuyển Dụng Nổi Bật</h2>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="spinner" ng-show="!UserCard">-->
+<!--<div class="cube1"></div>-->
+<!--<div class="cube2"></div>-->
+<!--</div>-->
+<!--<div class="list-profile">-->
+<!--<div class="row row-s">-->
+<!--<div class="col-xs-12 col-md-6 col-lg-3 col-s" ng-repeat="card in StoreCard">-->
+<!--&lt;!&ndash; Normal Demo&ndash;&gt;-->
+<!--&lt;!&ndash; Post&ndash;&gt;-->
+<!--<div class="post-module" style="margin-bottom: 24px; height: 250px">-->
+<!--&lt;!&ndash; Thumbnail&ndash;&gt;-->
+<!--<div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})" style="height: 250px;">-->
+<!--<img src="{{card.avatar || 'img/store.png'}}"/>-->
+<!--</div>-->
+<!--&lt;!&ndash; Post Content&ndash;&gt;-->
+<!--<div class="post-content">-->
+<!--<div class="category" ng-if="card.likeMe == 0">Hot</div>-->
+<!--<h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>-->
+<!--<h3 class="sub_title" ng-show="card.distance">-->
+<!--<div> {{card.distance + ' km'}}</div>-->
+<!--</h3>-->
+<!--<button ng-click="applyThis(card.storeId,key)" type="button"-->
+<!--class="btn btn-vm {{selectedJob[card.storeId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"-->
+<!--ng-repeat="(key,value) in card.job">{{dataJob[key]}}-->
+<!--</button>-->
+<!--</div>-->
 
-<div class="section-heading text-center" style="margin-top:30px;">
-    <h2>Về chúng tôi</h2>
-</div>
-<!--Award-->
-<div class="award-demo" style="margin-top:30px;">
-    <div class="container">
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <img src="img/award3.png" alt="" width="90%">
-                    <p class="text-center">Giải nhì cuộc thi Khởi nghiệp của đại sứ Mỹ</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <img src="img/vtv.png" alt="" width="100%"
-                         style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
-                </div>
-                <div class="col-4">
-                    <img src="img/vitv.png" alt="" width="100%"
-                         style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
-                </div>
-                <div class="col-4">
-                    <img src="img/baomoi.png" alt="" width="100%"
-                         style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F541563406234694%2F&show_text=0&width=560"
-                    width="616" height="346.5" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
-                    allowTransparency="true"
-                    allowFullScreen="true"></iframe>
-        </div>
-    </div>
-</div>
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div style="margin: auto; text-align: center;">-->
+<!--<button type="button" class="btn btn-primary btn-lg" ng-show="UserCard" ng-click="newfilterFilter()">Xem tiếp-->
+<!--</button>-->
+<!--</div>-->
+<!--</div> -->
+
+<!--<div class="section-heading text-center" style="margin-top:30px;">-->
+<!--<h2>Về chúng tôi</h2>-->
+<!--</div>-->
+<!--&lt;!&ndash;Award&ndash;&gt;-->
+<!--<div class="award-demo" style="margin-top:30px;">-->
+<!--<div class="container">-->
+<!--<div class="col-md-4">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<img src="img/award3.png" alt="" width="90%">-->
+<!--<p class="text-center">Giải nhì cuộc thi Khởi nghiệp của đại sứ Mỹ</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/vtv.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/vitv.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--<div class="col-md-4">-->
+<!--<img src="img/baomoi.png" alt="" width="100%" style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-md-8">-->
+<!--<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F541563406234694%2F&show_text=0&width=560"-->
+<!--width="616" height="346.5" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"-->
+<!--allowFullScreen="true"></iframe>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 
 <section id="features" class="features">
     <div class="container">
@@ -864,8 +834,7 @@ right: 0px;bottom: 0px;">
                 <div class="feature-item">
                     <i class="icon-present text-primary"></i>
                     <h3>3. Hoàn thiện hồ sơ và nhận việc</h3>
-                    <p>Jobo sẽ trực tiếp hướng dẫn bạn hoàn thiện hồ sơ (bao gồm thông tin cá nhân, mong muốn và video
-                        phỏng vấn ngắn)</p>
+                    <p>Jobo sẽ trực tiếp hướng dẫn bạn hoàn thiện hồ sơ (bao gồm thông tin cá nhân, mong muốn và video phỏng vấn ngắn)</p>
                 </div>
             </div>
         </div>
@@ -880,8 +849,10 @@ right: 0px;bottom: 0px;">
             nhất
         </h3>
         <div class="btn-area text-center" style="margin-top: 30px">
-            <a class="typeform-share button" href="/signup/2#s=industry"
-               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Nhận việc với Jobo </a>
+            <button type="button" class="btn btn-primary" ng-click="changefilter()">Tạo hồ sơ của
+                bạn
+            </button>
+
         </div>
     </div>
 

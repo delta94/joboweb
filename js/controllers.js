@@ -10,6 +10,7 @@ angular
         };
 
     })
+
     .controller('ModalPermitCtrl', function ($scope, close) {
 
         $scope.close = function (result) {
@@ -20,7 +21,13 @@ angular
     })
     .controller('ModalMatchCtrl', function ($scope, close, userId, storeId) {
 
-        var storeRef = firebase.database().ref('/store/' + storeId);
+        $rootScope.service.JoboApi('on/store',{storeId: storeId}).then(function (data) {
+            $scope.store = data.data;
+        });
+        $rootScope.service.JoboApi('on/profile',{userId: userId}).then(function (data) {
+            $scope.user = data.data;
+        });
+        /*var storeRef = firebase.database().ref('/store/' + storeId);
         storeRef.once('value', function (snap) {
             $scope.store = snap.val()
         });
@@ -28,7 +35,7 @@ angular
         var userRef = firebase.database().ref('/profile/' + userId);
         userRef.once('value', function (snap) {
             $scope.user = snap.val()
-        });
+        });*/
 
 
         $scope.close = function (result) {

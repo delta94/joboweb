@@ -3,7 +3,7 @@
 
 app.controller('introController', function ($state, $scope, $rootScope, $timeout, CONFIG, toastr, ModalService) {
 
-    firebase.auth().getRedirectResult().then(function (result) {
+    secondary.auth().getRedirectResult().then(function (result) {
         if (result.credential) {
             toastr.info('Đang đăng nhập bằng Facebook...');
 
@@ -31,13 +31,13 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
     $scope.facebookLogin = function () {
 
         var provider = new firebase.auth.FacebookAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
+        secondary.auth().signInWithRedirect(provider);
     }
 
 
     function SignInWithCredential(credential) {
-        firebase.auth().signInWithCredential(credential).then(function (result) {
-            var user = firebase.auth().currentUser || result;
+        secondary.auth().signInWithCredential(credential).then(function (result) {
+            var user = secondary.auth().currentUser || result;
             var userData = {
                 userId: user.uid,
                 name: user.displayName,
@@ -55,7 +55,48 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
 
     function checkSignupOrSignIn(userData) {
-        var userRef = firebase.database().ref("user/" + userData.userId);
+        $rootScope.service.JoboApi('on/user',{userId: userData.userId}).then(function (data) {
+            console.log('checkSignupOrSignIn', data.data);
+            var userDataLoad = data.data;
+            if (userDataLoad) {
+                toastr.success('Đăng nhập thành công');
+                var type = userDataLoad.type;
+                if (type == 1) {
+                    console.log('employer go to');
+
+                    $state.go('app.edash')
+                }
+                if (type == 2) {
+                    $state.go('app.sdash')
+                }
+            } else {
+
+                console.log('Đăng ký');
+
+                if (!type) {
+
+                    ModalService.showModal({
+                        templateUrl: 'templates/modals/choosetype.html',
+                        controller: 'ModalController'
+                    }).then(function (modal) {
+                        modal.element.modal();
+                        modal.close.then(function (result) {
+                            if (result == 1 || 2) {
+                                createDataUser(userData.userId, userData, result)
+                            }
+                        });
+                    });
+                    // A confirm dialog
+                }
+                if (type) {
+                    console.log('has type');
+
+                    createDataUser(userData.userId, userData, type)
+                }
+
+            }
+        });
+        /*var userRef = firebase.database().ref("user/" + userData.userId);
         userRef.once('value', function (snap) {
             console.log('checkSignupOrSignIn', JSON.stringify(snap.val()));
             var userDataLoad = snap.val();
@@ -97,13 +138,16 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
 
             }
-        })
-
+        })*/
     }
 
-    function createDataUser(userRef, userData, type) {
+    function createDataUser(userId, userData, type) {
         userData.type = type;
-        userRef.update(userData);
+        $rootScope.service.JoboApi('update/user',{
+            userId: userId,
+            user: userData
+        });
+        // userRef.update(userData);
         toastr.success('Đăng ký thành công')
         if (userData.type == 1) {
             $state.go('store', {id: null})
@@ -119,10 +163,24 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $scope.button = "Đang đăng nhập...";
 
         console.log(userLogin);
-        firebase.auth().signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function () {
+        secondary.auth().signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function () {
 
-            $rootScope.userId = firebase.auth().currentUser.uid;
-            firebase.database().ref('user/' + $rootScope.userId + '/type').once('value', function (snap) {
+            $rootScope.userId = secondary.auth().currentUser.uid;
+            $rootScope.service.JoboApi('on/user',{
+                userId: $rootScope.userId
+            }).then(function (data) {
+                $rootScope.type = data.data.type;
+                console.log($rootScope.type);
+                toastr.success('Đăng nhập thành công...')
+
+                if ($rootScope.type == 1) {
+                    $state.go('app.edash')
+                }
+                if ($rootScope.type == 2) {
+                    $state.go('app.sdash')
+                }
+            });
+            /*firebase.database().ref('user/' + $rootScope.userId + '/type').once('value', function (snap) {
                 $rootScope.type = snap.val()
                 console.log($rootScope.type);
                 toastr.success('Đăng nhập thành công...')
@@ -134,7 +192,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                     $state.go('app.sdash')
                 }
 
-            })
+            })*/
         }, function (error) {
 
             $scope.button = "Đăng nhập...";
@@ -183,7 +241,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
             if (userReset != "") {
 
 
-                firebase.auth().sendPasswordResetEmail(userReset).then(function () {
+                secondary.auth().sendPasswordResetEmail(userReset).then(function () {
                     // Sign-In successful.
                     toastr.success("Reset email sent successful");
 
@@ -224,7 +282,18 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         var type = $stateParams.id;
         if ($stateParams.apply) {
             if (type == 2) {
-                firebase.database().ref('store/' + $stateParams.apply).once('value', function (snap) {
+                $rootScope.service.JoboApi('on/store',{
+                    storeId: $stateParams.apply
+                }).then(function(data){
+                    $timeout(function () {
+                        $rootScope.preApply = {
+                            card: data.data,
+                            jobOffer: $stateParams.job
+                        }
+                        console.log('$rootScope.preApply', $rootScope.preApply)
+                    })
+                });
+                /*firebase.database().ref('store/' + $stateParams.apply).once('value', function (snap) {
                     $timeout(function () {
                         $rootScope.preApply = {
                             card: snap.val(),
@@ -233,7 +302,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                         console.log('$rootScope.preApply', $rootScope.preApply)
                     })
 
-                })
+                })*/
 
             }
         }
@@ -241,7 +310,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         $scope.type = type;
 
-        firebase.auth().getRedirectResult().then(function (result) {
+        secondary.auth().getRedirectResult().then(function (result) {
             if (result.credential) {
                 toastr.info('Đang đăng nhập bằng Facebook...');
 
@@ -266,13 +335,13 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         $scope.facebookLogin = function () {
             var provider = new firebase.auth.FacebookAuthProvider();
-            firebase.auth().signInWithRedirect(provider);
+            secondary.auth().signInWithRedirect(provider);
         };
 
 
         function SignInWithCredential(credential) {
-            firebase.auth().signInWithCredential(credential).then(function (result) {
-                var user = firebase.auth().currentUser || result;
+            secondary.auth().signInWithCredential(credential).then(function (result) {
+                var user = secondary.auth().currentUser || result;
                 var userData = {
                     userId: user.uid,
                     name: user.displayName,
@@ -290,7 +359,49 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
 
         function checkSignupOrSignIn(userData) {
-            var userRef = firebase.database().ref("user/" + userData.userId);
+            $rootScope.services.JoboApi('on/user', {userId: userData.userId}).then(function (data) {
+                console.log('checkSignupOrSignIn', JSON.stringify(data.data));
+                var userDataLoad = data.data;
+                if (userDataLoad) {
+                    toastr.success('Đăng nhập')
+                    var type = userDataLoad.type
+                    if (type == 1) {
+                        console.log('employer go to');
+
+                        $state.go('app.edash')
+                    }
+                    if (type == 2) {
+                        $state.go('app.sdash')
+                    }
+                } else {
+
+                    toastr.success('Đăng ký')
+
+                    if (!$scope.type) {
+
+                        ModalService.showModal({
+                            templateUrl: 'templates/modals/address.html',
+                            controller: 'ModalController'
+                        }).then(function (modal) {
+                            modal.element.modal();
+                            modal.close.then(function (result) {
+                                if (result == 1 || 2) {
+                                    createDataUser(userData.userId, userData, result)
+                                }
+                            });
+                        });
+                        // A confirm dialog
+                    }
+                    if ($scope.type) {
+                        console.log('has type');
+
+                        createDataUser(userData.userId, userData, $scope.type)
+                    }
+
+
+                }
+            });
+            /*var userRef = firebase.database().ref("user/" + userData.userId);
             userRef.once('value', function (snap) {
                 console.log('checkSignupOrSignIn', JSON.stringify(snap.val()));
                 var userDataLoad = snap.val();
@@ -318,7 +429,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                             modal.element.modal();
                             modal.close.then(function (result) {
                                 if (result == 1 || 2) {
-                                    createDataUser(userRef, userData, result)
+                                    createDataUser(userData.userId, userData, result)
                                 }
                             });
                         });
@@ -327,23 +438,27 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                     if ($scope.type) {
                         console.log('has type');
 
-                        createDataUser(userRef, userData, $scope.type)
+                        createDataUser(userData.userId, userData, $scope.type)
                     }
 
 
                 }
-            })
+            })*/
 
         }
 
-        function createDataUser(userRef, userData, type) {
+        function createDataUser(userId, userData, type) {
             userData.type = type;
             userData.createdAt = new Date().getTime();
             var refer = window.localStorage.getItem('ref')
             if(refer){
                 userData.ref = refer;
             }
-            userRef.update(userData);
+            $rootScope.service.JoboApi('update/user',{
+                userId: userId,
+                user: JSON.stringify(userData)
+            });
+            // userRef.update(userData);
             if (userData.type == 1) {
                 $state.go('store', {id: null})
             }
@@ -356,10 +471,10 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $scope.doSignup = function (userSignup) {
 
             $rootScope.registering = true;
-            firebase.auth().createUserWithEmailAndPassword(userSignup.username, 'tuyendungjobo').then(function (user) {
+            secondary.auth().createUserWithEmailAndPassword(userSignup.username, 'tuyendungjobo').then(function (user) {
 
                 $rootScope.userId = user.uid;
-                $scope.usersRef = firebase.database().ref('user/' + user.uid);
+                // $scope.usersRef = firebase.database().ref('user/' + user.uid);
                 var userData = {
                     type: $scope.type,
                     phone: '',
@@ -367,7 +482,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                     email: userSignup.username,
                     provider: 'normal'
                 };
-                createDataUser($scope.usersRef, userData, $scope.type)
+                createDataUser(user.uid, userData, $scope.type)
 
                 toastr.success("Đăng ký thành công, mật khẩu đăng nhập của bạn là: tuyendungjobo");
                 if ($scope.type == 1) {

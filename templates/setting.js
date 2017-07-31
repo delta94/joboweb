@@ -10,29 +10,33 @@ app.controller("settingCtrl", function ($scope, $rootScope, $http, $state, toast
         })
     };
     function init() {
-        var settingRef = firebase.database().ref('setting/' + $rootScope.userId);
-        settingRef.on('value', function (snap) {
+        $rootScope.service.JoboApi('on/setting',{
+            userId: $rootScope.userId
+        }).then(function (data) {
             $timeout(function () {
-                $scope.setting = snap.val()
+                $scope.setting = data.data;
                 console.log($scope.setting)
-
             })
-        })
-        var userRef = firebase.database().ref('user/' + $rootScope.userId);
-        userRef.on('value', function (snap) {
-            $scope.userData = snap.val()
-        })
+        });
+
+        $rootScope.service.JoboApi('on/user',{
+            userId: $rootScope.userId
+        }). then(function (data) {
+            $scope.userData = data.data;
+        });
+
     }
 
     $scope.submit = function (noti) {
-        var settingRef = firebase.database().ref('setting/' + $rootScope.userId);
-        settingRef.update(noti).then(function () {
+        $rootScope.service.JoboApi('update/setting',{
+            userId: $rootScope.userId,
+            setting: noti
+        }).then(function () {
             toastr.success('Cập nhật thành công')
-
-        }, function (error) {
+        },function (error) {
             toastr.error(error)
+        });
 
-        })
 
 
     }

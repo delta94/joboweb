@@ -59,8 +59,9 @@
                                     <strong>Thông tin chi tiết</strong>
                                 </div>
                                 <div class="card-block">
-                                    <fieldset class="form-group">
-                                        <label>Tên thương hiệu *</label>
+                                    <fieldset class="form-group {{error.storeName ? 'has-danger':''}}"
+                                              ng-class="{'has-danger': signupForm.storeName.$invalid && !signupForm.storeName.$pristine, 'has-success': signupForm.storeName.$valid}">
+                                        <label>Tên thương hiệu *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.storeName.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-directions"></i>
@@ -70,8 +71,9 @@
                                         </div>
                                     </fieldset>
 
-                                    <div class="form-group">
-                                        <label class="form-control-label">Lĩnh vực *</label>
+                                    <div class="form-group {{error.industry ? 'has-danger':''}}"
+                                         ng-class="{'has-success': storeData.industry.length > 0}">
+                                        <label class="form-control-label">Lĩnh vực *</label><i class="fa fa-check" style="color: #00ff00" ng-show="storeData.industry.length > 0"></i>
                                         <ui-select class="form-control" ng-model="storeData.industry" theme="select2">
                                             <ui-select-match placeholder="Chọn lĩnh vực">
                                                 {{Lang[$select.selected]}}
@@ -82,8 +84,9 @@
                                         </ui-select>
                                     </div>
 
-                                    <fieldset class="form-group">
-                                        <label>Địa chỉ *</label>
+                                    <fieldset class="form-group {{error.location ? 'has-danger' : ''}}"
+                                              ng-class="{'has-danger': signupForm.storeAddress.$invalid && !signupForm.storeAddress.$pristine, 'has-success': signupForm.storeAddress.$valid}">
+                                        <label>Địa chỉ *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.storeAddress.$valid"></i>
                                         <div class="pop-add">
                                             <input ng-keydown="searchAddress()" id="address" ui-items="names"
                                                    ng-model="autocompleteAddress.text" class="form-control">
@@ -208,8 +211,9 @@
                                 </div>
                                 <div class="card-block">
 
-                                    <fieldset class="form-group">
-                                        <label>Họ tên *</label>
+                                    <fieldset class="form-group {{error.name ? 'has-danger' : ''}}"
+                                              ng-class="{'has-danger': signupForm.name.$invalid && !signupForm.name.$pristine, 'has-success': signupForm.name.$valid}">
+                                        <label>Họ tên *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.name.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-user"></i>
@@ -220,8 +224,9 @@
                                         </div>
                                     </fieldset>
 
-                                    <fieldset class="form-group">
-                                        <label>Email *</label>
+                                    <fieldset class="form-group {{error.email ? 'has-danger' : ''}}"
+                                              ng-class="{'has-danger': signupForm.email.$invalid && !signupForm.email.$pristine, 'has-success': signupForm.email.$valid}">
+                                        <label>Email *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.email.$valid"></i>
                                         <div class="input-group mb-1">
                                             <span class="input-group-addon">@</span>
                                             <input ng-disabled="contact.email" type="text" class="form-control"
@@ -230,8 +235,9 @@
                                         </div>
                                     </fieldset>
 
-                                    <fieldset class="form-group">
-                                        <label>Số điện thoại *</label>
+                                    <fieldset class="form-group {{error.phone ? 'has-danger' : ''}}"
+                                              ng-class="{'has-danger': signupForm.phone.$invalid && !signupForm.phone.$pristine, 'has-success': signupForm.phone.$valid}">
+                                        <label>Số điện thoại *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.phone.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-phone"></i>
@@ -350,14 +356,17 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-5 form-control-label">Mô tả thêm</label>
-                                        <div class="col-md-7">
-                                        <textarea class="form-control" ng-model="card.description"
-                                                  placeholder="..."
-                                                  style="height: 100px;"></textarea>
+                                    <fieldset class="form-group">
+                                        <label>Mô tả thêm</label>
+                                        <div class="input-group mb-1">
+
+                                            <textarea class="form-control" ng-model="card.description"
+                                                      placeholder="..."
+                                                      style="height: 300px;"></textarea>
                                         </div>
-                                    </div>
+                                    </fieldset>
+
+                                    <button class="btn btn-danger" ng-click="deleteJob($index)" type="button">Xóa</button>
 
                                 </div>
 
@@ -485,14 +494,16 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Mô tả thêm</label>
-                                            <div class="col-md-7">
-                                        <textarea class="form-control" ng-model="newJob.description"
-                                                  placeholder="..."
-                                                  style="height: 100px;"></textarea>
+                                        <fieldset class="form-group">
+                                            <label>Mô tả thêm</label>
+                                            <div class="input-group mb-1">
+
+                                                <textarea class="form-control" ng-model="newJob.description"
+                                                          placeholder="..."
+                                                          style="height: 300px;"></textarea>
                                             </div>
-                                        </div>
+                                        </fieldset>
+
 
                                     </div>
                                     <div class="card-footer">
@@ -500,6 +511,7 @@
                                                 class="btn btn-primary main-backgroud">
                                             Lưu
                                         </button>
+                                        <button ng-click="deleteNewJob()" type="button" class="btn btn-danger">Hủy</button>
                                     </div>
                                 </div>
 
@@ -508,6 +520,136 @@
                         </div>
                     </form>
                 </div>
+
+                <!--admin note-->
+                <div class="card" ng-show="admin">
+                    <div class="card-header">
+                        <strong>Admin ghi chú</strong>
+                    </div>
+                    <fieldset class="form-group {{error.name ? 'has-danger':''}}">
+                        <label>Ref</label>
+                        <div class="input-group mb-1">
+                            <input type="text" name="name" class="form-control" placeholder="Họ tên"
+                                   ng-model="storeData.ref" id="ref">
+                        </div>
+                    </fieldset>
+                    <div class="card-block ex-em">
+                        <ul>
+                            <li ng-repeat="card in storeData.adminNote">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-3">
+                                        <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6">
+                                        <h4 style="margin-top: 0px">{{card.admin}}</h4>
+                                        <p>{{card.note}}</p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <button ng-click="deleteNote(card.id)" type="button"
+                                                class="btn btn-outline-danger">
+                                            <i class="fa fa-times"></i>Xóa
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-block" ng-if="tempoAdminNote">
+                        <fieldset class="form-group">
+                            <label>Date note</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <!--<input type="datetime-local" class="date-control" ng-model="tempoAdminNote.date" ng-disabled="tempoAdminNote.date">-->
+                                <div class="date-control">{{tempoAdminNote.date | date: 'dd/MM/yyyy -
+                                    HH:mm:ss'}}
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Admin ID</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="icon-user"></i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Admin ID"
+                                       ng-model="tempoAdminNote.adminId" ng-disabled="tempoAdminNote.adminId">
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Note</label>
+                            <div class="input-group mb-1">
+                                <textarea class="form-control"
+                                          ng-model="tempoAdminNote.note"
+                                          placeholder="..."
+                                          style="height: 150px;"></textarea>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="saveNote(tempoAdminNote)">
+                                <i class="fa fa-plus"></i>&nbsp;
+                                Lưu
+                            </button>
+                            <button type="button" class="btn btn-danger"
+                                    ng-click="deleteTempNote(tempoAdminNote)">
+                                <i class="fa fa-times"></i>
+                                Hủy
+                            </button>
+                        </fieldset>
+                    </div>
+                    <div class="card-block ex-em">
+                        <fieldset class="form-group">
+                            <label>Verify</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.verify">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Feature</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.feature">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Hide</label>
+                            <label class="switch switch-default switch-pill switch-danger"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.hide" checked="storeData.hide">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Wrong Email</label>
+                            <label class="switch switch-default switch-pill switch-danger"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.wrongEmail" checked="storeData.wrongEmail">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                    </div>
+                    <div class="card-footer" ng-hide="tempoAdminNote">
+                        <button type="button" class="btn btn-outline-primary"
+                                ng-click="addMoreNote(storeData.adminNote)">
+                            <i class="fa fa-plus"></i>
+                            Thêm ghi chú
+                        </button>
+                    </div>
+                </div>
+
                 <button ng-hide="newJob" ng-click="submit()" type="submit" class="btn btn-block btn-success main-backgroud">
                     Cập nhật
                 </button>

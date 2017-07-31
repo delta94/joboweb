@@ -40,18 +40,29 @@
 
             $scope.customer = {package: $scope.package}
             if ($rootScope.userId) {
-                firebase.database().ref('user/'+ $rootScope.userId).once('value',function (snap) {
+                $rootScope.service.JoboApi('on/user',{userId: $rootScope.userId}).then(function (data) {
+                    $timeout(function () {
+                        $scope.customer = Object.assign($scope.customer,data.data)
+                    })
+                });
+                /*firebase.database().ref('user/'+ $rootScope.userId).once('value',function (snap) {
                     $timeout(function () {
                         $scope.customer = Object.assign($scope.customer,snap.val())
                     })
-                })
+                })*/
             }
 
             $scope.submit = function () {
                 console.log($scope.customer)
 
-                var newkey = firebase.database().ref('cart').push().key;
-                firebase.database().ref('cart/' + newkey).update($scope.customer)
+                var newkey = Math.round(100000000000000 * Math.random());
+                $rootScope.service.JoboApi('update/cart', {
+                    userId: $rootScope.userId,
+                    newkey: newkey,
+                    cart: $scope.customer
+                })
+                /*var newkey = firebase.database().ref('cart').push().key;
+                firebase.database().ref('cart/' + newkey).update($scope.customer)*/
 
             }
         }

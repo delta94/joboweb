@@ -191,9 +191,9 @@
                                 <span ng-if="card.matchedAt">matchedAt:{{card.matchedAt | date: 'HH:mm dd/MM/yyyy'}}</span>
                             </td>
                             <td>{{card.type}}</td>
-                            <td>{{card.storeName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.storeId}}</a>
+                            <td>{{card.storeName}}<br><a href="{{CONFIG.WEBURL + '/view/store/'+ card.storeId}}">{{card.storeId}}</a>
                             </td>
-                            <td>{{card.userName}}<br><a href="{{CONFIG.WEBURL + 'view/store/'+ card.storeId}}">{{card.userId}}</a>
+                            <td>{{card.userName}}<br><a href="{{CONFIG.WEBURL + '/view/profile/'+ card.userId}}">{{card.userId}}</a>
                             </td>
                         </tr>
                         </tbody>
@@ -332,7 +332,7 @@
                                 {{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}
                             </td>
                             <td>{{card.type}}</td>
-                            <td>{{card.name}}<br>{{card.userId}}</td>
+                            <td>{{card.name}}<br><a href="{{CONFIG.WEBURL + '/profile?admin='+ card.userId}}">{{card.userId}}</a><a href="{{CONFIG.WEBURL + '/view/store/'+ card.currentStore}}">{{card.currentStore}}</a></td>
                             <td>{{card.email}}</td>
                             <td>{{card.phone}}</td>
                             <td>{{card.verifyEmail}}</td>
