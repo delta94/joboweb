@@ -1168,15 +1168,9 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         $scope.addJob = function (card) {
             console.log(card)
 
-<<<<<<< HEAD
             secondary.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
 
                 // var usersRef = firebase.database().ref('user/' + user.uid);
-=======
-            firebase.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
-
-                var usersRef = firebase.database().ref('user/' + user.uid);
->>>>>>> origin/master
                 var userData = {
                     type: 1,
                     phone: card.phone || '',
@@ -1189,17 +1183,10 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     createdAt: new Date().getTime()
 
                 };
-<<<<<<< HEAD
                 /*usersRef.update(userData, function (data) {
                     console.log('user', data)
                 })*/
                 // var storeRef = firebase.database().ref('store/' + user.uid);
-=======
-                usersRef.update(userData, function (data) {
-                    console.log('user', data)
-                })
-                var storeRef = firebase.database().ref('store/' + user.uid);
->>>>>>> origin/master
                 var storeData = {
                     storeName: card.storeName,
                     storeId: user.uid,
@@ -1211,7 +1198,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     createdAt: new Date().getTime()
                 }
                 storeData.job[card.job] = true;
-<<<<<<< HEAD
                 /*storeRef.update(storeData, function (data) {
                     console.log('store', data)
                 })*/
@@ -1221,11 +1207,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     storeId: user.uid,
                     store: storeData
                 });
-=======
-                storeRef.update(storeData, function (data) {
-                    console.log('store', data)
-                })
->>>>>>> origin/master
 
                 var jobRef = firebase.database().ref('job/' + user.uid + ':' + card.job);
                 var jobData = {
@@ -1246,7 +1227,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 console.log(errorCode);
 
                 if (errorCode === 'auth/weak-password') {
-<<<<<<< HEAD
 
                     toastr.error('Mật khẩu ngắn, hãy chọn mật khẩu khác!');
 
@@ -1284,47 +1264,5 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             $scope.new.location = selected.geometry.location;
 
         };
-=======
-
-                    toastr.error('Mật khẩu ngắn, hãy chọn mật khẩu khác!');
-
-                    return false;
-                } else if (errorCode === 'auth/email-already-in-use') {
-                    toastr.error('Email này đã được sử dụng rồi');
-
-                    return false;
-                }
-            });
-
-        }
-
-        $scope.autocompleteAddress = {text: ''};
-        $scope.ketquasAddress = [];
-        $scope.searchAddress = function () {
-            $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true';
-            $http({
-                method: 'GET',
-                url: $scope.URL
-            }).then(function successCallback(response) {
-                $scope.ketquasAddress = response.data.results;
-                console.log($scope.ketquasAddress);
-                $('#list-add').show();
-
-            })
-        };
-
-        $scope.setSelectedAddress = function (selected) {
-            $scope.autocompleteAddress.text = selected.formatted_address;
-            $scope.address = selected;
-            console.log(selected);
-            $('#list-add').hide();
-            $scope.new.address = selected.formatted_address;
-            $scope.new.location = selected.geometry.location;
-
-        };
-
-
-
->>>>>>> origin/master
     })
 

@@ -11,49 +11,12 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
         $rootScope.aside = false
         $scope.profileId = $stateParams.id;
         $scope.admin = $stateParams.admin;
-<<<<<<< HEAD
-=======
 
         if ($scope.profileId) {
             $http({
                 method: 'GET',
                 url: CONFIG.APIURL + '/view/profile',
-                params: {profileId : $scope.profileId , userId: $rootScope.userId}
-            }).then(function successCallback(response) {
-                console.log("respond", response);
-                $scope.profileData = response.data
-                $scope.adminData = $scope.profileData.adminData
-                $scope.listReact = $scope.profileData.actData
-                $scope.limit = {like: 10, liked: 10, match: 10}
-                $scope.incrementLimit = function (type) {
-                    $scope.limit[type] = $scope.listReact[type].length
-                }
-                var profileJob = $rootScope.service.getStringJob($scope.profileData.job);
-                console.log(profileJob);
-                $scope.share = {
-                    Url: "web.joboapp.com/view/profile/" + $scope.profileId,
-                    Text: 'Ứng viên ' + $scope.profileData.name,
-                    Title: "Ứng viên" + $scope.profileData.name,
-                    Description: 'Xem thông tin ứng viên ' + $scope.profileData.name + " cho vị trí " + profileJob,
-                    Type: 'feed',
-                    Media: $scope.profileData.avatar,
-                    Via: '295208480879128',
-                    Hashtags: 'jobo,timviecnhanh,pg,sale,model',
-                    Caption: 'Có ai đang cần tuyển ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy ứng viên này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
-                }
-                $rootScope.og = {
-                    title: 'Ứng viên ' + $scope.profileData.name,
-                    description: 'Xem thông tin ứng viên ' + $scope.profileData.name + " cho vị trí " + profileJob,
-                    image: $scope.profileData.avatar
-                }
-            })
->>>>>>> origin/master
-
-        if ($scope.profileId) {
-            $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/view/profile',
-                params: {profileId : $scope.profileId , userId: $rootScope.userId}
+                params: {profileId: $scope.profileId, userId: $rootScope.userId}
             }).then(function successCallback(response) {
                 console.log("respond", response);
                 $scope.profileData = response.data
@@ -67,7 +30,6 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
                     })
                 }
 
-<<<<<<< HEAD
 
                 $scope.limit = {like: 10, liked: 10, match: 10}
 
@@ -99,11 +61,7 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
 
         }
 
-=======
-        }
-
->>>>>>> origin/master
-        if (!$rootScope.userId){
+        if (!$rootScope.userId) {
             $rootScope.$on('handleBroadcast', function (event, userData) {
                 $scope.init()
             });
@@ -143,11 +101,11 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
         console.log('Rating selected: ' + rating);
     };
     $scope.review = function (reviews) {
-        $rootScope.service.JoboApi('update/review',{
+        $rootScope.service.JoboApi('update/review', {
             reviews: reviews
         })
         /*var reviewAct = firebase.database().ref('activity/review/' + profileId + '/' + reviews.userId)
-        reviewAct.update(reviews)*/
+         reviewAct.update(reviews)*/
     }
 
     $scope.showVideo = function (user) {

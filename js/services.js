@@ -25,26 +25,13 @@
                         var user = res.data;
                         console.log('user', user);
                         $rootScope.userData = user.userData;
-<<<<<<< HEAD
-
                         output = $rootScope.userData;
-=======
-                        console.log('$rootScope.userData', $rootScope.userData);
-                        $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
-
-                        output = $rootScope.userData;
-                        console.log(output)
->>>>>>> origin/master
                         deferred.resolve(output);
                         if (!$rootScope.userData.webToken) {
                             $rootScope.service.saveWebToken();
                         }
                         $rootScope.type = $rootScope.userData.type;
-<<<<<<< HEAD
                         if ($rootScope.userData.currentStore) {
-=======
-                        if($rootScope.userData.currentStore){
->>>>>>> origin/master
                             $rootScope.storeId = $rootScope.userData.currentStore
                         }
                         $rootScope.storeList = user.storeList;
@@ -52,11 +39,8 @@
                         $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
                         $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
                         $rootScope.reactList = user.reactList;
-<<<<<<< HEAD
                         $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
 
-=======
->>>>>>> origin/master
                     })
                     // User is signed in.
                 } else {
@@ -150,15 +134,9 @@
             }
         };
         this.deg2rad = function (deg) {
-<<<<<<< HEAD
             return deg * (Math.PI / 180)
-        }
+        };
         this.getDistanceFromLatLonInKm = function (lat1, lon1, lat2, lon2) {
-=======
-            return deg * (Math.PI/180)
-        }
-        this.getDistanceFromLatLonInKm = function(lat1, lon1, lat2, lon2) {
->>>>>>> origin/master
             var R = 6371; // Radius of the earth in km
             var dLat = $rootScope.service.deg2rad(lat2 - lat1);  // deg2rad below
             var dLon = $rootScope.service.deg2rad(lon2 - lon1);
@@ -211,25 +189,12 @@
                     if (card.act && card.act.jobUser) {
                         selectedJob = Object.assign(selectedJob, card.act.jobUser)
                     }
-<<<<<<< HEAD
                     console.log($rootScope.userData);
                     var storeLocation = card.location;
                     var distance = $rootScope.service.getDistanceFromLatLonInKm($rootScope.userData.location.lat, $rootScope.userData.location.lng, storeLocation.lat, storeLocation.lng);
                     console.log(distance + 'km');
                     if ($rootScope.userData.avatar && $rootScope.userData.name) {
                         if (distance <= 50) {
-=======
-                    var store = firebase.database().ref('store/' + card.storeId +'/location');
-                    var storeLocation;
-                    store.once('value',function (snap) {
-                        storeLocation = snap.val();
-                    });
-                    console.log($rootScope.userData);
-                    var distance = $rootScope.service.getDistanceFromLatLonInKm($rootScope.userData.location.lat,$rootScope.userData.location.lng,storeLocation.lat,storeLocation.lng);
-                    console.log(distance + 'km');
-                    if ($rootScope.userData.avatar && $rootScope.userData.name){
-                        if (distance <= 50){
->>>>>>> origin/master
                             likeActivity.update({
                                 likeAt: new Date().getTime(),
                                 type: 2,
@@ -253,21 +218,13 @@
                             $rootScope.service.Ana('like', {storeId: card.storeId, job: jobOffer})
                         } else {
                             $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
-<<<<<<< HEAD
                             toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km', 'Bạn ở quá xa nhà tuyển dụng, không thể apply');
-=======
-                            toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km','Bạn ở quá xa nhà tuyển dụng, không thể apply');
->>>>>>> origin/master
                         }
                     } else {
                         $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
                         toastr.error('Bạn cần cập nhật ảnh đại diện và tên để ứng tuyển');
                         $state.go('profile')
                     }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
                 }
                 deferred.resolve(output);
                 return deferred.promise;
@@ -1395,30 +1352,18 @@
         this.searchProfile = function (textfull) {
             $rootScope.searchResults = []
             var text = S(textfull).latinise().s
-<<<<<<< HEAD
             var URL = $rootScope.CONFIG.APIURL + '/query?q=' + text;
-=======
-            var URL = $rootScope.CONFIG.APIURL +'/query?q=' + text;
->>>>>>> origin/master
 
             $http({
                 method: 'GET',
                 url: URL
             }).then(function successCallback(response) {
                 var i = 0;
-<<<<<<< HEAD
                 for (var j = 0; j < response.data.store.length; j++) {
                     $rootScope.searchResults[i] = response.data.store[j];
                     i++;
                 }
                 for (var j = 0; j < response.data.profile.length; j++) {
-=======
-                for (var j = 0; j < response.data.store.length; j++){
-                    $rootScope.searchResults[i] = response.data.store[j];
-                    i++;
-                }
-                for (var j = 0; j < response.data.profile.length; j++){
->>>>>>> origin/master
                     $rootScope.searchResults[i] = response.data.profile[j];
                     i++;
                 }
@@ -1426,60 +1371,6 @@
             })
 
         };
-<<<<<<< HEAD
-=======
-        this.getListReact = function (pros, type) {
-            var totalReactList = {like: [], liked: [], match: []}
-            var reactRef = firebase.database().ref('activity/like').orderByChild(type).equalTo(pros);
-            reactRef.on('value', function (snap) {
-                var reactList = snap.val();
-                if (type == 'storeId') {
-                    angular.forEach(reactList, function (card) {
-                        firebase.database().ref('presence/profile/' + card.userId).on('value', function (snap) {
-                            if (snap.val()) {
-                                card.presence = snap.val().status
-                                card.at = snap.val().at
-                            }
-                        })
-                        if (card.status == 1) {
-                            totalReactList.match.push(card)
-                        } else if (card.status == 0 && card.type == 1) {
-                            totalReactList.like.push(card)
-
-                        } else if (card.status == 0 && card.type == 2) {
-                            totalReactList.liked.push(card)
-                        }
-                    })
-                }
-                if (type == 'userId') {
-                    angular.forEach(reactList, function (card) {
-                        firebase.database().ref('presence/store/' + card.storeId).on('value', function (snap) {
-                            if (snap.val()) {
-                                card.presence = snap.val().status
-                                card.at = snap.val().at
-                            }
-
-
-                        })
-                        if (card.status == 1) {
-                            totalReactList.match.push(card)
-                        } else if (card.status == 0 && card.type == 2) {
-                            totalReactList.like.push(card)
-
-                        } else if (card.status == 0 && card.type == 1) {
-                            totalReactList.liked.push(card)
-
-                        }
-                    })
-                }
-
-
-            })
-            return new Promise(function(res,rej){
-                res(totalReactList)
-            })
-        }
->>>>>>> origin/master
 
     })
     .service('ngCopy', ['$window', function ($window) {

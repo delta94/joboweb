@@ -128,15 +128,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
                             $scope.response.data[i].act = snap.val()
                         })
                     }
-<<<<<<< HEAD
-=======
-                    firebase.database().ref('presence/profile/' + profileData.userId + 'status').on('value', function (snap) {
-                        if (snap.val()) {
-                            $scope.response.data[i].presence = snap.val()
-                        }
-                    })
-
->>>>>>> origin/master
 
                 }
                 $rootScope.usercard = $rootScope.usercard.concat($scope.response.data);

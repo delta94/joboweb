@@ -31,21 +31,12 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                         $rootScope.userData = {
                             userId: $rootScope.userId,
                             name: userInfo.name,
-                            photo: [],
-<<<<<<< HEAD
-                        }
-                    }
-                    if ($rootScope.userData.email && $rootScope.userData.phone) {
-                        $scope.indexToShow = 1;
-                        if ($rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.address && $rootScope.userData.job) {
-=======
-                            static: staticData
+                            photo: []
                         }
                     }
                     if ($rootScope.userData.email && $rootScope.userData.phone){
                         $scope.indexToShow = 1;
                         if ($rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.address && $rootScope.userData.job){
->>>>>>> origin/master
                             $scope.indexToShow = 2;
                         }
                     }
@@ -97,11 +88,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         AuthUser.user().then(function (adminInfo) {
             $scope.adminData = adminInfo;
             console.log('adminData ', $scope.adminData);
-<<<<<<< HEAD
             if ($scope.adminData.admin) {
-=======
-            if ($scope.adminData.admin){
->>>>>>> origin/master
                 $rootScope.userId = admin;
 
                 $scope.progress = 0;
@@ -115,11 +102,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
                 $scope.picFile = null;
 
-<<<<<<< HEAD
-                $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (data) {
-=======
                 $rootScope.service.JoboApi('initData',{userId: $rootScope.userId}).then(function (data) {
->>>>>>> origin/master
                     $rootScope.userData = data.data.userData;
                     console.log('$rootScope.userData: ', $rootScope.userData);
                     $timeout(function () {
@@ -129,11 +112,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                             $rootScope.userData = {
                                 userId: $rootScope.userId,
                                 name: userInfo.name,
-                                photo: [],
-<<<<<<< HEAD
-=======
-                                static: staticData
->>>>>>> origin/master
+                                photo: []
                             }
                         }
 
@@ -387,51 +366,25 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
     //update data
     $scope.updateData = function () {
         $scope.error = {};
-<<<<<<< HEAD
         var dataUser = {};
-=======
-        var dataUser;
->>>>>>> origin/master
         if ($scope.indexToShow === 0) {
             console.log('Update phone and email');
             if ($rootScope.userData && $rootScope.userData.email && $rootScope.userData.phone) {
                 console.log($rootScope.userData.phone);
                 console.log($rootScope.userData.email);
-<<<<<<< HEAD
-
-=======
-                /*var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                 userRef.update({
-                 phone: $rootScope.userData.phone,
-                 email: $rootScope.userData.email
-                 });*/
->>>>>>> origin/master
                 dataUser.user = {
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
                 };
-<<<<<<< HEAD
                 $rootScope.service.JoboApi('update/user', {
                     userId: $rootScope.userId,
-                    user: dataUser.user,
-=======
-                dataUser.profile = $rootScope.userData;
-                $rootScope.service.JoboApi('update/user',{
-                    userId: $rootScope.userId,
-                    user: dataUser.user,
-                    profile: dataUser.profile
->>>>>>> origin/master
+                    user: dataUser.user
                 });
                 $scope.indexToShow++;
                 console.log($scope.indexToShow);
                 $rootScope.service.Ana('Update phone and email');
                 $scope.gotoAnchor('name');
-<<<<<<< HEAD
             } else {
-=======
-            }
-            else {
->>>>>>> origin/master
                 if (!$rootScope.userData.email) {
                     $scope.error.email = true;
                 }
@@ -447,16 +400,11 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 && $rootScope.userData.name
                 && $rootScope.userData.birthArray
                 && $scope.multiple.job.length > 0) {
-<<<<<<< HEAD
 
                 $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
                 $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
                 $rootScope.userData.createdAt = new Date().getTime()
 
-=======
-                $rootScope.userData.name = $rootScope.service.upperName($rootScope.userData.name);
-                $rootScope.userData.birth = $rootScope.service.convertDate($rootScope.userData.birthArray);
->>>>>>> origin/master
                 console.log($rootScope.userData);
                 $timeout(function () {
                     // console.log($scope.multiple);
@@ -468,23 +416,11 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     }
                     console.log($rootScope.userData);
 
-<<<<<<< HEAD
-=======
-                    /*var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                     profileRef.update($rootScope.userData);
-                     var userRef = firebase.database().ref('user/' + $rootScope.userId);
-                     userRef.update({
-                     name: $rootScope.userData.name,
-                     phone: $rootScope.userData.phone,
-                     email: $rootScope.userData.email
-                     });*/
->>>>>>> origin/master
                     dataUser.user = {
                         phone: $rootScope.userData.phone,
                         email: $rootScope.userData.email,
                         name: $rootScope.userData.name
                     };
-<<<<<<< HEAD
                     dataUser.profile = {
                         userId: $rootScope.userData.userId,
                         name: $rootScope.userData.name,
@@ -498,10 +434,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
                     };
                     $rootScope.service.JoboApi('update/user', {
-=======
-                    dataUser.profile = $rootScope.userData;
-                    $rootScope.service.JoboApi('update/user',{
->>>>>>> origin/master
+
                         userId: $rootScope.userId,
                         user: dataUser.user,
                         profile: dataUser.profile
@@ -641,19 +574,11 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
                 console.log($rootScope.userData);
 
-<<<<<<< HEAD
-=======
-                var profileRef = firebase.database().ref('profile/' + $rootScope.userId);
-                profileRef.update($rootScope.userData);
-
-                var userRef = firebase.database().ref('user/' + $rootScope.userId);
->>>>>>> origin/master
                 var dataUser = {
                     name: $rootScope.userData.name,
                     phone: $rootScope.userData.phone,
                     email: $rootScope.userData.email
                 };
-<<<<<<< HEAD
                 if ($rootScope.userData.wrongEmail) {
                     dataUser.wrongEmail = $rootScope.userData.wrongEmail
                 }
@@ -674,21 +599,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     user: dataUser,
                     profile: dataProfile
                 });
-=======
 
-                var dataUpload = {
-                    user: dataUser,
-                    profile: $rootScope.userData
-                }
-                $rootScope.service.JoboApi('update/user', {
-                    userId: $rootScope.userId,
-                    data: dataUpload
-                })
-                if ($rootScope.userData.wrongEmail) {
-                    dataUser.wrongEmail = $rootScope.userData.wrongEmail
-                }
-                userRef.update(dataUser);
->>>>>>> origin/master
 
                 //init profile
                 if ($scope.firsttime) {
