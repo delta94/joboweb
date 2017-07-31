@@ -6,10 +6,28 @@
         <a class="navbar-brand" ui-sref="app.dash"></a>
 
         <ul class="nav navbar-nav ml-auto">
+<<<<<<< HEAD
             <button ui-sref="signup ({id: 2})" type="button" class="btn btn-primary hidden-md-down">Tôi muốn tìm việc
             </button>
             <button ui-sref="signup ({id: 1})" class="btn btn-secondary hidden-md-down">Tôi muốn tuyển dụng</button>
             <button ui-sref="intro" class="btn button-gradient" style="margin-left: 10px">Đăng nhập</button>
+=======
+            <a class="typeform-share button" href="https://thynguyen3.typeform.com/to/jc8O5W"
+               data-mode="popup"
+               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;"
+               data-hide-headers=true data-hide-footer=true target="_blank">Nhận việc với Jobo </a>
+            <script> (function () {
+                var qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName, id = "typef_orm_share", b = "https://embed.typeform.com/";
+                if (!gi.call(d, id)) {
+                    js = ce.call(d, "script");
+                    js.id = id;
+                    js.src = b + "embed.js";
+                    q = gt.call(d, "script")[0];
+                    q.parentNode.insertBefore(js, q)
+                }
+            })() </script>
+
+>>>>>>> origin/master
         </ul>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -22,6 +40,7 @@
 
 </div>
 
+<<<<<<< HEAD
 <div ng-show="type == 1">
     <header class="app-header navbar">
 
@@ -206,8 +225,194 @@
             <a ui-sref="intro" title="" onclick="closeNav()">Đăng nhập</a>
         </div>
     </header>
+=======
+<!--<div ng-show="type == 1">-->
+    <!--<header class="app-header navbar">-->
 
-</div>
+        <!--<a class="navbar-brand" ui-sref="app.edash"></a>-->
+
+        <!--<ul class="nav navbar-nav ml-auto">-->
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"-->
+                   <!--aria-expanded="false">-->
+                    <!--<i class="icon-bell"></i>-->
+                    <!--<span class="badge badge-pill badge-danger" ng-if="newNoti != 0">{{newNoti}}</span>-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;-->
+    <!--max-height: 325px;-->
+    <!--overflow-x: hidden;">-->
+                    <!--<div class="dropdown-header text-center">-->
+                        <!--<strong>Thông báo</strong>-->
+                    <!--</div>-->
+                    <!--<div class="text-center padding" ng-hide="notification">-->
+                        <!--<p>Bạn chưa có thông báo nào</p>-->
+                    <!--</div>-->
+                    <!--<a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"-->
+                       <!--href="{{card.linktoaction}}">-->
+                        <!--<div class="message" style="padding: 5px">-->
+                            <!--<div class="py-1 mr-1 float-left">-->
+                                <!--<div class="avatar">-->
+                                    <!--<img src="{{card.avatar || 'img/macdinh.jpg'}}" class="img-avatar"-->
+                                         <!--alt="admin@bootstrapmaster.com">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<small class="text-muted">{{service.timeAgo(card.createdAt)}}</small>-->
+                                <!--<small class="text-muted float-right mt-q"><span ng-hide="card.update"-->
+                                                                                 <!--class="badge badge-info">NEW</span>-->
+                                <!--</small>-->
+                            <!--</div>-->
+                            <!--<div class="text-truncate font-weight-bold" ng-if="card.title"-->
+                                 <!--style="color: #0a0a0a!important;">{{card.title}}-->
+                            <!--</div>-->
+                            <!--<small class="text-muted">{{card.body}}</small>-->
+                        <!--</div>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+            <!--</li>-->
+
+            <!--<li class="nav-item hidden-md-up">-->
+                <!--<a class="nav-link nav-pill" href="/employer/chats"><i class="icon-bubbles"></i></a>-->
+            <!--</li>-->
+            <!--&lt;!&ndash;<a href="https://about.joboapp.com/services"&ndash;&gt;-->
+            <!--&lt;!&ndash;class="btn button-vip " style="color: white;">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i&ndash;&gt;-->
+            <!--&lt;!&ndash;class="fa fa-diamond"></i> Đăng việc&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"-->
+                   <!--aria-expanded="false">-->
+                    <!--<img src="{{storeData.avatar || 'img/store.png'}}" class="img-avatar">-->
+                    <!--&lt;!&ndash;<span class="badge badge-pill badge-danger">9</span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right">-->
+
+                    <!--<div class="dropdown-header text-center">-->
+                        <!--<strong>Số dư của bạn: <b>{{userData.credit || 0}} .000đ</b></strong>-->
+                    <!--</div>-->
+
+                    <!--<a class="dropdown-item" href="/store/update"><i class="fa fa-edit"></i>Cập nhật thông tin-->
+                        <!--&lt;!&ndash;<span class="badge badge-info">42</span>&ndash;&gt;-->
+                    <!--</a>-->
+                    <!--<a class="dropdown-item" href="/view/store/{{storeId}}"><i class="fa fa-user"></i> Trang cá nhân</a>-->
+                    <!--<a class="dropdown-item" href="/setting"><i class="fa fa-lock"></i> Tài khoản</a>-->
+
+                    <!--<div class="dropdown-header text-center">-->
+                        <!--<strong>Danh sách cửa hàng</strong>-->
+                    <!--</div>-->
+
+                    <!--<a class="dropdown-item avatar" style="padding-left: 5px" href="/view/store/{{card.storeId}}"-->
+                       <!--ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img-->
+                            <!--src="{{card.avatar || 'img/store.png'}}"-->
+                            <!--class="img-avatar ">-->
+                        <!--<span class="text-truncate">{{ card.storeName }}</span>-->
+
+                        <!--<i class="fa fa-check pull-right" ng-if="card.storeId == storeId"></i>-->
+                        <!--<span class="badge badge-success" ng-show="card.storeId != storeId && card.newNoti">{{card.newNoti}}</span>-->
+                    <!--</a>-->
+
+                    <!--<div class="divider"></div>-->
+                    <!--<a class="dropdown-item" href="/store/new"><i class="fa fa-plus"></i> Thêm cửa hàng</a>-->
+
+
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="nav-item hidden-md-down">-->
+                <!--<a class="nav-link navbar-toggler aside-menu-toggler" href="#">&#9776;</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</header>-->
+
+
+<!--</div>-->
+
+<!--<div ng-show="type == 2">-->
+
+    <!--<header class="app-header navbar">-->
+        <!--&lt;!&ndash;<button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>&ndash;&gt;-->
+        <!--<a class="navbar-brand" ui-sref="app.sdash"></a>-->
+
+        <!--<ul class="nav navbar-nav ml-auto">-->
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"-->
+                   <!--aria-expanded="false">-->
+                    <!--<i class="icon-bell"></i>-->
+                    <!--<span class="badge badge-pill badge-danger" ng-if="newNoti != 0">{{newNoti}}</span>-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;-->
+    <!--max-height: 325px;-->
+    <!--overflow-x: hidden;">-->
+                    <!--<div class="dropdown-header text-center">-->
+                        <!--<strong>Thông báo</strong>-->
+                    <!--</div>-->
+                    <!--<div class="text-center padding" ng-hide="notification">-->
+                        <!--<p>Bạn chưa có thông báo nào</p>-->
+                    <!--</div>-->
+                    <!--<a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"-->
+                       <!--href="{{card.linktoaction}}">-->
+                        <!--<div class="message" style="padding: 5px">-->
+                            <!--<div class="py-1 mr-1 float-left">-->
+                                <!--<div class="avatar">-->
+                                    <!--<img src="{{card.avatar || 'img/macdinh.jpg'}}" class="img-avatar"-->
+                                         <!--alt="admin@bootstrapmaster.com">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<small class="text-muted">{{service.timeAgo(card.createdAt)}}</small>-->
+                                <!--<small class="text-muted float-right mt-q"><span ng-hide="card.update"-->
+                                                                                 <!--class="badge badge-info">NEW</span>-->
+                                <!--</small>-->
+                            <!--</div>-->
+                            <!--<div class="text-truncate font-weight-bold" ng-if="card.title"-->
+                                 <!--style="color: #0a0a0a!important;">{{card.title}}-->
+                            <!--</div>-->
+                            <!--<small class="text-muted">{{card.body}}</small>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="nav-item hidden-md-up">-->
+                <!--<a class="nav-link nav-pill" href="/jobseeker/chats/"><i class="icon-bubbles"></i></a>-->
+            <!--</li>-->
+
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"-->
+                   <!--aria-expanded="false">-->
+                    <!--<img src="{{userData.avatar || 'img/macdinh.jpg'}}" class="img-avatar">-->
+                    <!--&lt;!&ndash;<span class="badge badge-pill badge-danger">9</span>&ndash;&gt;-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right">-->
+
+                    <!--<div class="dropdown-header text-center">-->
+                        <!--<strong>Tài khoản</strong>-->
+                    <!--</div>-->
+
+                    <!--<a class="dropdown-item" ui-sref="profile"><i class="fa fa-edit"></i>Cập nhật hồ sơ-->
+                        <!--&lt;!&ndash;<span class="badge badge-info">42</span>&ndash;&gt;-->
+                    <!--</a>-->
+                    <!--<a class="dropdown-item" href="/view/profile/{{userId}}"><i class="fa fa-user"></i> Trang cá-->
+                        <!--nhân</a>-->
+                    <!--<a class="dropdown-item" href="/setting"><i class="fa fa-lock"></i> Tài khoản</a>-->
+
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="nav-item hidden-md-down">-->
+                <!--<a class="nav-link  navbar-toggler aside-menu-toggler" href="#">&#9776;</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <!--<div id="mySidenav" class="sidenav">-->
+            <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
+            <!--<a ui-sref="signup ({id: 1})" title="" onclick="closeNav()">Tuyển dụng</a>-->
+            <!--<a ui-sref="signup ({id: 2})" title="" onclick="closeNav()">Tìm việc</a>-->
+            <!--<a ui-sref="intro" title="" onclick="closeNav()">Đăng nhập</a>-->
+        <!--</div>-->
+    <!--</header>-->
+>>>>>>> origin/master
+
+<!--</div>-->
 
 
 <div class="app-body">

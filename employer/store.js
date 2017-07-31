@@ -104,7 +104,33 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                         //Đã có, vào để update
                         $scope.autocompleteAddress.text = $rootScope.storeData.address
                     })
+<<<<<<< HEAD
 
+=======
+                    // firebase.database().ref('store/' + result.currentStore).once('value', function (snap) {
+                    //     $timeout(function () {
+                    //         $rootScope.storeData = snap.val();
+                    //         console.log($rootScope.storeData);
+                    //         if ($rootScope.storeData && $rootScope.storeData.job) {
+                    //             $rootScope.service.loadJob($rootScope.storeData)
+                    //                 .then(function (data) {
+                    //                     $timeout(function () {
+                    //                         $scope.jobData = data
+                    //                         console.log($scope.jobData)
+                    //
+                    //                     })
+                    //                 })
+                    //         } else {
+                    //             //chưa có job
+                    //             $rootScope.storeData.job = {}
+                    //             $scope.jobData = []
+                    //         }
+                    //
+                    //         //Đã có, vào để update
+                    //         $scope.autocompleteAddress.text = $rootScope.storeData.address
+                    //     })
+                    // })
+>>>>>>> origin/master
                 } else {
 
                     $scope.firsttime = true;
@@ -425,6 +451,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 }
                 delete $scope.jobData[i].$$hashKey
 
+<<<<<<< HEAD
                 if ($scope.jobData[i].other) {
                     var jobkey = $rootScope.service.latinese($scope.jobData[i].job);
                     $rootScope.storeData.job[jobkey] = $scope.jobData[i].job;
@@ -432,6 +459,15 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     // firebase.database().ref('job/' + $rootScope.storeId + ":" + jobkey).update(job)
                 } else {
                     $rootScope.storeData.job[$scope.jobData[i].job] = true;
+=======
+                if (job.other) {
+                    var jobkey = $rootScope.service.latinese(job.job);
+                    $rootScope.storeData.job[jobkey] = job.job;
+                    job.job = jobkey;
+                    // firebase.database().ref('job/' + $rootScope.storeId + ":" + jobkey).update(job)
+                } else {
+                    $rootScope.storeData.job[job.job] = true;
+>>>>>>> origin/master
                     // firebase.database().ref('job/' + $rootScope.storeId + ":" + job.job).update(job)
                 }
 
@@ -439,7 +475,11 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             }
             $rootScope.service.JoboApi('update/job', {
                 userId: $rootScope.userId,
+<<<<<<< HEAD
                 job: $scope.jobData
+=======
+                job: job
+>>>>>>> origin/master
             });
             $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,

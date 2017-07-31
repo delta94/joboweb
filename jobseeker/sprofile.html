@@ -50,7 +50,11 @@
                                              <i class="icon-phone"></i>
                                          </span>
                                         <input type="number" name="phonenum" class="form-control" placeholder=""
+<<<<<<< HEAD
                                                ng-model="userData.phone" required>
+=======
+                                               ng-model="userData.phone" ng-disabled="userInfo.phone" required>
+>>>>>>> origin/master
 
                                     </div>
                                 </fieldset>
@@ -267,9 +271,15 @@
                                           ng-class="{'has-success' : userData.school.length > 0 }">
                                     <label>Trường </label> <i class="fa fa-check" style="color: #00ff00"
                                                               ng-show="userData.school.length > 0"></i>
+<<<<<<< HEAD
 
                                     <div class="input-group mb-1">
 
+=======
+
+                                    <div class="input-group mb-1">
+
+>>>>>>> origin/master
                                         <input type="text" class="form-control"
                                                placeholder="Bạn đã/đang học trường nào?"
                                                ng-model="userData.school">
@@ -602,9 +612,15 @@
                             </div>
                             <fieldset class="form-group {{error.name ? 'has-danger':''}}">
                                 <label>Ref</label>
+<<<<<<< HEAD
 
                                 <div class="input-group mb-1">
 
+=======
+
+                                <div class="input-group mb-1">
+
+>>>>>>> origin/master
                                     <input type="text" name="name" class="form-control" placeholder="Họ tên"
                                            ng-model="userData.ref" id="ref">
                                 </div>

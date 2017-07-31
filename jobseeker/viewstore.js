@@ -42,6 +42,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                     $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
                 })
             }
+<<<<<<< HEAD
 
             $scope.adminData = $scope.profileData.adminData
             $scope.listReact = $scope.profileData.actData
@@ -54,6 +55,14 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                     console.log($scope.ratingModel)
                 })
             }
+=======
+
+            $scope.adminData = $scope.profileData.adminData
+            $scope.listReact = $scope.profileData.actData
+            $scope.staticData = $scope.profileData.static
+            $scope.limit = {like: 10, liked: 10, match: 10}
+
+>>>>>>> origin/master
             if ($scope.profileData.storeList) {
                 $scope.storeList = $scope.profileData.storeList
                 $scope.numberStore = Object.keys($scope.storeList).length
@@ -70,7 +79,30 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
                 }
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
+
+            var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
+            console.log(profileJob);
+            $scope.share = {
+                Url: "web.joboapp.com/view/profile/" + profileId,
+                Text: $scope.profileData.storeName + ' tuyển dụng',
+                Title: $scope.profileData.industry + ' ' + $scope.profileData.name,
+                Description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
+                Type: 'feed',
+                Media: $scope.profileData.avatar,
+                Via: '295208480879128',
+                Hashtags: 'jobo,timviecnhanh,pg,sale,model',
+                Caption: 'Có ai muốn làm ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy tin tuyển dụng này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
+            }
+            $rootScope.og = {
+                title: $scope.profileData.storeName + ' tuyển dụng',
+                description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
+                image: $scope.profileData.avatar
+            }
+        })
 
             var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
             console.log(profileJob);
@@ -93,8 +125,11 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         })
 
 
+<<<<<<< HEAD
+=======
     }
 
+>>>>>>> origin/master
 
     function init(profileId, userId) {
         if (profileId == $rootScope.storeId) {

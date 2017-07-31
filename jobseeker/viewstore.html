@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div id="productPage" class="parallax parallax-product"
      style="background: url({{profileData.background}})no-repeat;background-size: cover; ">
 
@@ -718,3 +719,701 @@
         ng-show="storeCard">
     <span class="fa fa-chevron-right"></span>
 </button>
+=======
+<div class="typeform-widget" data-url="https://thynguyen3.typeform.com/to/jc8O5W" style="width: 100%; height: 500px;" > </div> <script> (function() { var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/"; if(!gi.call(d,id)) { js=ce.call(d,"script"); js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) } })() </script> <div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5; padding-top: 5px;" > powered by <a href="https://www.typeform.com/examples/forms/?utm_campaign=jc8O5W&amp;utm_source=typeform.com-9302452-Basic&amp;utm_medium=typeform&amp;utm_content=typeform-embedded-onlineform&amp;utm_term=EN" style="color: #999" target="_blank">Typeform</a> </div>
+
+
+<!--<div id="productPage" class="parallax parallax-product"-->
+     <!--style="background: url({{profileData.background}})no-repeat;background-size: cover; ">-->
+
+    <!--<div class="container" style="max-width: 100%">-->
+        <!--<div class="row">-->
+            <!--<div class="col-sm-6 col-md-6">-->
+                <!--<div class="product-image">-->
+                    <!--<img src="{{profileData.avatar || '/img/ava-background/ava_'+ profileData.industry +'.png'}}"-->
+                         <!--alt="Hinh anh cua hang" style="width: 100%">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-sm-6 col-md-5 col-md-offset-1">-->
+                <!--<div class="pay-area">a-->
+
+                    <!--<div class="text-center">-->
+                        <!--<h1 itemprop="name" class="product-name">{{profileData.storeName}}</h1>-->
+                        <!--<h6 class="tagline">{{service.shortAddress(profileData.address)}}</h6>-->
+
+
+                        <!--<div class="rating-stars" ng-show="reviewData">-->
+                            <!--<div class="rating-input">-->
+<!--<span class="fa fa-star fa-full" data-value="1"-->
+      <!--ng-repeat="card in ratingModel.obj"></span>-->
+                            <!--</div>-->
+                            <!--<div class="aggregate-rating">-->
+                                <!--<span>{{ratingModel.average}}</span>/5-->
+                                <!--(<span>{{ratingModel.total}}</span> Reviews)-->
+                            <!--</div>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                        <!--<div class="choose-license" style="color: white">-->
+                            <!--<p class="text-center"><i class="fa fa-industry"></i>-->
+                                <!--{{dataIndustry[profileData.industry]}}-->
+                                <!--</a>-->
+                            <!--</p>-->
+                            <!--<p ng-if="adminData" class="text-center"><i class="fa fa-industry"></i>-->
+                                <!--{{adminData.phone + ' '+ adminData.email}}-->
+                                <!--</a>-->
+                            <!--</p>-->
+                        <!--</div>-->
+
+
+                        <!--<button ng-click="service.chatToStore(profileData.storeId)"-->
+                                <!--type="button" ng-if="profileData.act.status == 1"-->
+                                <!--class="btn button-vip">Liên hệ-->
+                        <!--</button>-->
+
+                        <!--<button-->
+                                <!--type="button" ng-if="profileData.act.status == 0 && profileData.act.type == 2"-->
+                                <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                        <!--</button>-->
+
+                        <!--<button ui-sref="store ({id:'update'})"-->
+                                <!--type="button" ng-if="myself"-->
+                                <!--class="btn btn-primary">Sửa thông tin-->
+                        <!--</button>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="section-product-description section-white-gradient section-scaled" data-no-turbolink="">-->
+    <!--<div class="container product" style="max-width: 100%">-->
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-10 col-md-offset-1">-->
+                <!--<div ng-if="profileData.description" class="description">-->
+                    <!--<h4 class="legend text-center">Mô tả</h4>-->
+                    <!--<p ng-if="profileData.description"-->
+                       <!--ng-repeat="text in service.nextLine(profileData.description) track by $index">-->
+                        <!--{{text}}</p>-->
+                <!--</div>-->
+                <!--<div class="summary" id="jobposition">-->
+
+                    <!--<div class="content-container layout-wrap col-md-12" ng-if="currentJob == card.job"-->
+                         <!--ng-repeat="card in profileData.job">-->
+                        <!--<div class="card content content-main js-job-container">-->
+                            <!--<div class="row content-section job-header">-->
+                                <!--<div class="col-md-6 job-header-details job-header-truncate">-->
+                                    <!--<span class="job-title">{{Lang[card.job] || card.job}}</span>-->
+                                    <!--<h2 class="beicons-pre beicons-pre-location job-location">-->
+                                        <!--{{Lang[card.working_type]}}-->
+                                    <!--</h2>-->
+                                <!--</div>-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<div class="pull-right">-->
+                                        <!--<div ng-hide="card.deadline < today || card.static.going >= card.unit">-->
+                                            <!--<button ng-click="service.chatToStore[profileData.storeId]"-->
+                                                    <!--type="button" ng-if="profileData.act.status == 1"-->
+                                                    <!--class="btn button-vip">Liên hệ-->
+                                            <!--</button>-->
+                                            <!--<button ng-disabled="!card" ng-click="like(profileData,0,card.job)"-->
+                                                    <!--type="button"-->
+                                                    <!--ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"-->
+                                                    <!--class="btn btn-success">Chấp nhận công việc-->
+                                            <!--</button>-->
+                                            <!--<button type="button"-->
+                                                    <!--ng-if="profileData.act.status == 0 && profileData.act.jobUser[card.job]"-->
+                                                    <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                                            <!--</button>-->
+                                            <!--<button ng-click="like(profileData,0,card.job)"-->
+                                                    <!--ng-hide="profileData.act.jobUser[card.job] || myself"-->
+                                                    <!--type="button"-->
+                                                    <!--class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV' :'Ứng-->
+                                                <!--tuyển nhanh'}}-->
+                                            <!--</button>-->
+                                        <!--</div>-->
+                                        <!--<div ng-if="card.deadline < today || card.static.going >= card.unit">-->
+                                            <!--<button type="button"-->
+                                                    <!--ng-if="card.deadline < today"-->
+                                                    <!--class="btn btn-danger">Hết hạn ứng tuyển-->
+                                            <!--</button>-->
+                                            <!--<button type="button"-->
+                                                    <!--ng-if="card.static.going >= card.unit"-->
+                                                    <!--class="btn btn-danger">Đã tuyển đủ-->
+                                            <!--</button>-->
+                                        <!--</div>-->
+                                        <!--<button ui-sref="store ({id:'job'})"-->
+                                                <!--ng-show="myself"-->
+                                                <!--type="button"-->
+                                                <!--class="btn btn-primary btn-sm">Sửa thông tin-->
+                                        <!--</button>-->
+                                        <!--<div class="avatars-stack mt-h">-->
+                                            <!--<div class="avatar avatar-xs" ng-repeat="app in card.applied">-->
+                                                <!--<img src="{{app.pic_small}}" class="img-avatar"-->
+                                                     <!--alt="admin@bootstrapmaster.com">-->
+                                            <!--</div>-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
+                                <!--&lt;!&ndash; .apply-container &ndash;&gt;-->
+
+                            <!--</div> &lt;!&ndash; .content-section &ndash;&gt;-->
+                            <!--<div class="content-section job-description-container">-->
+                                <!--<div class="js-job-description">-->
+                                    <!--<div class="job-description">-->
+                                        <!--<div><p ng-if="card.description"-->
+                                                <!--ng-repeat="text in service.nextLine(card.description) track by $index">-->
+                                            <!--{{text}}</p>-->
+                                            <!--<p><em>Mô tả</em></p>-->
+                                            <!--<p>• Mức lương: {{card.salary ? card.salary + ' triệu đồng' : ' thỏa-->
+                                                <!--thuận'}}</p>-->
+                                            <!--<p ng-if="card.createdAt">• Ngày đăng: {{card.createdAt | date}}</p>-->
+                                            <!--<p ng-if="card.unit">• Số lượng: {{card.unit}}</p>-->
+                                            <!--<p ng-if="card.apply">• Đã ứng tuyển: {{card.apply}}</p>-->
+                                            <!--<p ng-if="card.viewed">• Lượt xem: {{card.viewed ? card.viewed :-->
+                                                <!--"0"}}</p>-->
+
+                                            <!--<p ng-if="card.deadline">• Hạn chót: {{card.deadline |-->
+                                                <!--date}}({{service.timeAgo(card.deadline)}}) </p>-->
+                                            <!--<p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu-->
+                                                <!--khác:</em></p>-->
+                                            <!--<p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>-->
+                                            <!--<p ng-if="card.experience">• Đã có kinh nghiệm</p>-->
+                                            <!--<p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>-->
+                                            <!--<button class="btn btn-secondary btn-sm"-->
+                                                    <!--ng-click-copy="https://joboapp.com/view/store/{{profileData.storeId}}?job={{card.job}}">-->
+                                                <!--Copy link-->
+                                            <!--</button>-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div> &lt;!&ndash; .content-section &ndash;&gt;-->
+                            <!--</div> &lt;!&ndash; .content-main &ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <!--<h4 class="legend text-center" ng-hide="profileData.job">Hiện tại chúng tôi đang không-->
+                        <!--tuyển</h4>-->
+                    <!--<h4 class="legend text-center" ng-if="profileData.job && !currentJob">Vị trí đang tuyển</h4>-->
+                    <!--<h4 class="legend text-center" ng-if="profileData.job && currentJob && profileData.job.length > 1">-->
+                        <!--Các vị trí khác</h4>-->
+
+                    <!--<div class="row row-s">-->
+                        <!--<div class="content-container layout-wrap col-md-12" ng-hide="currentJob == card.job"-->
+                             <!--ng-repeat="card in profileData.job">-->
+                            <!--<div class="card content content-main js-job-container">-->
+                                <!--<div class="row content-section job-header">-->
+                                    <!--<div class="col-md-6 job-header-details job-header-truncate">-->
+                                        <!--<span class="job-title">{{Lang[card.job] || card.job}}</span>-->
+                                        <!--<h2 class="beicons-pre beicons-pre-location job-location">-->
+                                            <!--{{Lang[card.working_type]}}-->
+                                        <!--</h2>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-6">-->
+                                        <!--<div class="pull-right">-->
+                                            <!--<div ng-hide="card.deadline < today || card.static.going >= card.unit || myself">-->
+                                                <!--<button ng-click="service.chatToStore[profileData.storeId]"-->
+                                                        <!--type="button" ng-if="profileData.act.status == 1"-->
+                                                        <!--class="btn button-vip">Liên hệ-->
+                                                <!--</button>-->
+                                                <!--<button ng-disabled="!card" ng-click="like(profileData,0,card.job)"-->
+                                                        <!--type="button"-->
+                                                        <!--ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"-->
+                                                        <!--class="btn btn-success">Chấp nhận công việc-->
+                                                <!--</button>-->
+                                                <!--<button type="button"-->
+                                                        <!--ng-if="profileData.act.status == 0 && profileData.act.jobUser[card.job]"-->
+                                                        <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                                                <!--</button>-->
+                                                <!--<button ng-click="like(profileData,0,card.job)"-->
+                                                        <!--ng-hide="profileData.act.jobUser[card.job] || myself"-->
+                                                        <!--type="button"-->
+                                                        <!--class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV'-->
+                                                    <!--:'Ứng-->
+                                                    <!--tuyển nhanh'}}-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                            <!--<div ng-if="card.deadline < today || card.static.going >= card.unit">-->
+                                                <!--<button type="button"-->
+                                                        <!--ng-if="card.deadline < today"-->
+                                                        <!--class="btn btn-danger">Hết hạn ứng tuyển-->
+                                                <!--</button>-->
+                                                <!--<button type="button"-->
+                                                        <!--ng-if="card.static.going >= card.unit"-->
+                                                        <!--class="btn btn-danger">Đã tuyển đủ-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                            <!--<button ui-sref="store ({id:'job'})"-->
+                                                    <!--ng-show="myself"-->
+                                                    <!--type="button"-->
+                                                    <!--class="btn btn-primary btn-sm">Sửa thông tin-->
+                                            <!--</button>-->
+                                            <!--<div class="avatars-stack mt-h">-->
+                                                <!--<div class="avatar avatar-xs" ng-repeat="app in card.applied">-->
+                                                    <!--<img src="{{app.pic_small}}" class="img-avatar"-->
+                                                         <!--alt="admin@bootstrapmaster.com">-->
+                                                <!--</div>-->
+
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash; .apply-container &ndash;&gt;-->
+
+                                <!--</div> &lt;!&ndash; .content-section &ndash;&gt;-->
+                                <!--<div class="content-section job-description-container">-->
+                                    <!--<div class="js-job-description">-->
+                                        <!--<div class="job-description">-->
+                                            <!--<div><p ng-if="card.description"-->
+                                                    <!--ng-repeat="text in service.nextLine(card.description) track by $index">-->
+                                                <!--{{text}}</p>-->
+                                                <!--<p><em>Mô tả</em></p>-->
+                                                <!--<p>• Mức lương: {{card.salary ? card.salary + ' triệu đồng' : ' thỏa-->
+                                                    <!--thuận'}}</p>-->
+                                                <!--<p ng-if="card.createdAt">• Ngày đăng: {{card.createdAt | date}}</p>-->
+                                                <!--<p ng-if="card.unit">• Số lượng: {{card.unit}}</p>-->
+                                                <!--<p ng-if="card.apply">• Đã ứng tuyển: {{card.apply}}</p>-->
+                                                <!--<p ng-if="card.viewed">• Lượt xem: {{card.viewed ? card.viewed :-->
+                                                    <!--"0"}}</p>-->
+
+                                                <!--<p ng-if="card.deadline">• Hạn chót: {{card.deadline |-->
+                                                    <!--date}}({{service.timeAgo(card.deadline)}}) </p>-->
+                                                <!--<p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu-->
+                                                    <!--khác:</em></p>-->
+                                                <!--<p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>-->
+                                                <!--<p ng-if="card.experience">• Đã có kinh nghiệm</p>-->
+                                                <!--<p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>-->
+                                                <!--<button class="btn btn-secondary btn-sm"-->
+                                                        <!--ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">-->
+                                                    <!--Copy link-->
+                                                <!--</button>-->
+
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+                                    <!--</div> &lt;!&ndash; .content-section &ndash;&gt;-->
+                                <!--</div> &lt;!&ndash; .content-main &ndash;&gt;-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="row" ng-if="staticData">-->
+
+            <!--<div class="col-md-12">-->
+                <!--<h4 class="legend text-center">Thống kê</h4>-->
+
+                <!--<div class="card">-->
+                    <!--<div class="card-block">-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12 col-lg-4">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout callout-info">-->
+                                            <!--<small class="text-muted">Tương hợp</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.matched +-->
+                                                <!--staticData.match}}</strong>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout callout-danger">-->
+                                            <!--<small class="text-muted">Đánh giá</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash;/.row&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                            <!--<div class="col-sm-6 col-lg-4">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout callout-warning">-->
+                                            <!--<small class="text-muted">Xin ứng tuyển</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.liked}}</strong>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout callout-success">-->
+                                            <!--<small class="text-muted">Mời ứng tuyển</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.like}}</strong>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash;/.row&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                            <!--<div class="col-sm-6 col-lg-4">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout">-->
+                                            <!--<small class="text-muted">Lượt xem</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.viewed}}</strong>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                    <!--<div class="col-sm-6">-->
+                                        <!--<div class="callout callout-primary">-->
+                                            <!--<small class="text-muted">Lượt chia sẻ</small>-->
+                                            <!--<br>-->
+                                            <!--<strong class="h4">{{staticData.shared}}</strong>-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash;/.row&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;/.row&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;/.col&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12">-->
+                <!--<h4 class="legend text-center">Tình trạng tuyển dụng</h4>-->
+                <!--<div class="tab-content">-->
+                    <!--<div class="tab-pane active" id="eMessages" role="tabpanel">-->
+                        <!--<div>-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-sm-4" style="float:right">-->
+                                    <!--<div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">-->
+                                        <!--<small><b>Đã tương hợp: {{listReact.match.length}}</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<div class="callout text-muted text-center" ng-show="listReact.match.length == 0">-->
+                                        <!--<small><b>Chưa tương hợp với ứng viên nào</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">-->
+                                        <!--<div class="message p-h" ng-click="service.chatToUser(card.userId)">-->
+                                            <!--<div class="py-h mr-1 float-left">-->
+                                                <!--<div class="avatar">-->
+                                                    <!--<img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"-->
+                                                         <!--alt="admin@bootstrapmaster.com">-->
+                                                    <!--<span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>-->
+                                                    <!--<span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<small class="text-muted float-right mt-q">{{service.timeAgo(card.matchedAt ||-->
+                                                    <!--card.createdAt)}}-->
+                                                <!--</small>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-truncate font-weight-bold">{{card.userName}}</div>-->
+                                            <!--<small class="text-muted" ng-repeat="(key,value) in card.jobUser" ng-show="card.jobUser">-->
+                                                <!--{{Lang[key] || '&nbsp'}}-->
+                                            <!--</small>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('match')" role="button" ng-if="listReact.match.length > limit.match">Xem tất cả</a></div>-->
+
+                                <!--</div>-->
+
+                                <!--<div class="col-sm-4" style="float:right">-->
+                                    <!--<div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">-->
+                                        <!--<small><b>Ứng viên ứng tuyển vào: {{listReact.liked.length}}</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<hr class="transparent mx-1 my-0">-->
+                                    <!--<div class="callout text-muted text-center" ng-show="listReact.liked.length == 0">-->
+                                        <!--<small><b>Chưa có ứng viên nào ứng tuyển</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<div ng-repeat="card in listReact.liked| orderBy:'-likeAt' | limitTo:limit.liked">-->
+
+                                        <!--<div class="message p-h" ng-click="service.chatToUser(card.userId)">-->
+                                            <!--<div class="py-h mr-1 float-left">-->
+                                                <!--<div class="avatar">-->
+                                                    <!--<img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"-->
+                                                         <!--alt="admin@bootstrapmaster.com">-->
+                                                    <!--<span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>-->
+                                                    <!--<span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt ||-->
+                                                    <!--card.createdAt)}}-->
+                                                <!--</small>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-truncate font-weight-bold">{{card.userName}}</div>-->
+                                            <!--<small ng-hide="card.jobUser" class="text-muted">Đang tìm công việc bất kỳ</small>-->
+                                            <!--<small class="text-muted" ng-repeat="(key,value) in card.jobUser" ng-show="card.jobUser">-->
+                                                <!--{{Lang[key] || '&nbsp'}}-->
+                                            <!--</small>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('liked')" role="button" ng-if="listReact.liked.length > limit.liked">Xem tất cả</a></div>-->
+                                <!--</div>-->
+                                <!--<div class="col-sm-4" style="float:right">-->
+                                    <!--<div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">-->
+                                        <!--<small><b>Đã gửi yêu cầu cho ứng viên: {{listReact.like.length}}</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<div class="callout text-muted text-center" ng-show="listReact.like.length == 0">-->
+                                        <!--<small><b>Chưa gửi yêu cầu cho ứng viên nào</b>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                    <!--<div ng-repeat="card in listReact.like| orderBy:'-likeAt'| limitTo:limit.like">-->
+
+                                        <!--<div class="message p-h" ng-click="service.chatToUser(card.userId)">-->
+                                            <!--<div class="py-h mr-1 float-left">-->
+                                                <!--<div class="avatar">-->
+                                                    <!--<img src="{{card.userAvatar || '/img/macdinh.jpg'}}" class="img-avatar"-->
+                                                         <!--alt="admin@bootstrapmaster.com">-->
+                                                    <!--<span class="avatar-status badge-success" ng-if="card.presence == 'online'"></span>-->
+                                                    <!--<span class="avatar-status badge-default" ng-if="card.presence == 'offline'"></span>-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt ||-->
+                                                    <!--card.createdAt)}}-->
+                                                <!--</small>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-truncate font-weight-bold">{{card.userName}}</div>-->
+                                            <!--<small ng-hide="card.jobStore" class="text-muted">Đang tìm công việc bất kỳ</small>-->
+                                            <!--<small class="text-muted" ng-repeat="(key,value) in card.jobStore" ng-show="card.jobStore">-->
+                                                <!--{{Lang[key] || '&nbsp'}}-->
+                                            <!--</small>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div align="right" style="color:#42a1f4";><a ng-click="incrementLimit('like')" role="button" ng-if="listReact.like.length > limit.like">Xem tất cả</a></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="main main-dark section-creators">-->
+    <!--<div class="container" style="max-width: 100%">-->
+        <!--<div class="testimonials testimonials-raised">-->
+            <!--<div class="row" style="padding: 60px;">-->
+                <!--<div class="col-xs-6 col-sm-6 col-md-4" style="padding: 5px"-->
+                     <!--ng-repeat="card in profileData.photo">-->
+                    <!--<img src="{{card}}" style="width:100%"/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row" ng-show="!reviewData[userId] && type == 2">-->
+                <!--<div class="col-md-8 col-md-offset-2 text-center" style="margin-bottom: 80px; margin-top: 40px; ">-->
+                    <!--<h1 itemprop="name" class="product-name">Đánh giá của bạn về </h1>-->
+                    <!--<h5 class="tagline">{{profileData.storeName}}</h5>-->
+
+                    <!--<div class="rating-just-view">-->
+                        <!--<div class="rating-stars">-->
+                            <!--<div star-rating ng-model="rating" max="5"-->
+                                 <!--on-rating-select="rateFunction(rating)"></div>-->
+
+                            <!--<div><strong>{{rating.rating1}}</strong></div>-->
+                            <!--&lt;!&ndash;<star-rating ng-model="rating.rating1" readonly="rating.isReadonly"></star-rating>&ndash;&gt;-->
+
+
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                        <!--<button ng-disabled="!reviews" ng-click="review(reviews,profileId)"-->
+                                <!--class="btn button-gradient"-->
+                                <!--style="margin-left: 10px">Đánh giá-->
+                        <!--</button>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-6 col-md-offset-3" ng-repeat="card in reviewData" style="margin-top: 20px">-->
+                    <!--<div class="carde" itemprop="review" itemscope="" itemtype="http://schema.org/Review">-->
+                        <!--<div class="content">-->
+                            <!--<star-rating ng-model="card.rate" readonly="true"></star-rating>-->
+
+                            <!--<h4 class="message" itemprop="description"> {{CONFIG.review[card.rate]}}</h4>-->
+
+
+                            <!--<div class="footer" style="color: #888888">-->
+                                <!--<div class="author">-->
+                                    <!--<a class="card-link">-->
+                                        <!--<img class="avatar"-->
+                                             <!--src="{{card.avatar || '/img/macdinh.jpg'}}"-->
+                                             <!--alt="Anonymous thumb">-->
+                                        <!--<span itemprop="author">{{card.name}}</span>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<div class="stats pull-right">-->
+                                    <!--{{service.timeAgo(card.createdAt)}}-->
+                                <!--</div>-->
+                                <!--<div class="clearfix"></div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-8 col-md-offset-2 text-center">-->
+                <!--<div class="sharing-area">-->
+                    <!--<div class="big-icon">-->
+                        <!--<i class="icon-comments"></i>-->
+                    <!--</div>-->
+                    <!--<h2 class="legend text-center">Chia sẻ cho bạn bè!</h2>-->
+
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="facebook"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-facebookshare">-->
+                        <!--<i class="fa fa-facebook-square"></i> Facebook-->
+                    <!--</a>-->
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="skype"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Caption}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-skype"></i> Skype-->
+                    <!--</a>-->
+
+
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="sms"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-commenting-o"></i> SMS-->
+                    <!--</a>-->
+                    <!--<a href="{{share.Url}}"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="email"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-subject="{{share.Title}}"-->
+                       <!--socialshare-body="{{share.Description +'. Xem tại đây '+ share.Url}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-envelope-o"></i> Email-->
+                    <!--</a>-->
+                    <!--<a href="#"-->
+                       <!--socialshare-->
+                       <!--socialshare-provider="facebook-messenger"-->
+                       <!--socialshare-url="{{share.Url}}"-->
+                       <!--socialshare-text="{{share.Text}}"-->
+                       <!--socialshare-title="{{share.Title}}"-->
+                       <!--socialshare-description="{{share.Description}}"-->
+                       <!--socialshare-type="{{share.Type}}"-->
+                       <!--socialshare-via="{{share.Via}}"-->
+                       <!--socialshare-hashtags="{{share.Hashtags}}"-->
+                       <!--socialshare-quote="{{share.Caption}}"-->
+                       <!--socialshare-media="{{share.Media}}"-->
+                       <!--class="btn btn-skypeshare">-->
+                        <!--<i class="fa fa-commenting-o"></i> Facebook messenger-->
+                    <!--</a>-->
+                <!--</div>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" ng-if="numberStore > 1">-->
+    <!--<div class="container">-->
+        <!--<div class="wpb_wrapper">-->
+            <!--<div class="section-heading">-->
+                <!--<h2>Chi nhánh khác</h2>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="list-profile">-->
+            <!--<div class="row row-s">-->
+                <!--<div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in storeList"-->
+                     <!--ng-if="card.storeId != profileData.storeId">-->
+                    <!--&lt;!&ndash; Normal Demo&ndash;&gt;-->
+                    <!--&lt;!&ndash; Post&ndash;&gt;-->
+                    <!--<div class="post-module" style="margin-bottom: 24px">-->
+                        <!--&lt;!&ndash; Thumbnail&ndash;&gt;-->
+                        <!--<div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">-->
+                            <!--<img src="{{card.avatar || 'img/store.png'}}"/>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; Post Content&ndash;&gt;-->
+                        <!--<div class="post-content">-->
+                            <!--<div class="category" ng-if="card.feature">Hot</div>-->
+                            <!--<h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>-->
+                            <!--<p>{{card.address}}</p>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<button class="job-ordinal job-prev js-job-prev btn btn-secondary" type="button" ng-click="backProfile()"-->
+        <!--ng-show="storeCard">-->
+    <!--<span class="fa fa-chevron-left"></span>-->
+<!--</button>-->
+<!--<button class="job-ordinal job-next js-job-next btn btn-secondary" type="button" ng-click="nextProfile()"-->
+        <!--ng-show="storeCard">-->
+    <!--<span class="fa fa-chevron-right"></span>-->
+<!--</button>-->
+>>>>>>> origin/master

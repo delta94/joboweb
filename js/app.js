@@ -177,6 +177,7 @@ var app = angular
             console.log(data);
             $rootScope.$broadcast('auth', data);
             $rootScope.$broadcast('handleBroadcast', data);
+<<<<<<< HEAD
 
 
         })
@@ -191,6 +192,16 @@ var app = angular
             });
             /*var setCurrent = firebase.database().ref('user/' + $rootScope.userId)
             setCurrent.update({currentStore: storeId});*/
+=======
+
+
+        })
+
+        $scope.setCurrentStore = function (storeId) {
+            $rootScope.storeId = storeId;
+            var setCurrent = firebase.database().ref('user/' + $rootScope.userId)
+            setCurrent.update({currentStore: storeId});
+>>>>>>> origin/master
             window.location.reload();
         };
     })
