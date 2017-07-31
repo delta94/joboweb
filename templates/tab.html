@@ -1,6 +1,4 @@
-<!--&lt;!&ndash; Navbar &ndash;&gt;-->
-<div >
-
+<div>
 
     <header class="app-header navbar ">
         <a class="navbar-brand" ui-sref="app.dash"></a>
@@ -32,7 +30,7 @@
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     <i class="icon-bell"></i>
-                    <span class="badge badge-pill badge-danger" ng-if="newNoti != 0">{{newNoti}}</span>
+                    <span class="badge badge-pill badge-danger" ng-if="newNoti[storeId] != 0">{{newNoti[storeId]}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;
     max-height: 325px;
@@ -43,7 +41,7 @@
                     <div class="text-center padding" ng-hide="notification">
                         <p>Bạn chưa có thông báo nào</p>
                     </div>
-                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"
+                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)" ng-if="card.storeId == storeId"
                        href="{{card.linktoaction}}">
                         <div class="message" style="padding: 5px">
                             <div class="py-1 mr-1 float-left">
@@ -97,17 +95,18 @@
                     <div class="dropdown-header text-center">
                         <strong>Danh sách cửa hàng</strong>
                     </div>
+                    <div class="scrollable-menu" role="menu"
+                         style="height: auto;max-height: 300px;overflow-x: hidden;">
+                        <a class="dropdown-item avatar" style="padding-left: 5px" href="/view/store/{{card.storeId}}"
+                           ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
+                                src="{{card.avatar || 'img/store.png'}}"
+                                class="img-avatar ">
+                            <span class="text-truncate">{{ card.storeName }}</span>
 
-                    <a class="dropdown-item avatar" style="padding-left: 5px" href="/view/store/{{card.storeId}}"
-                       ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
-                            src="{{card.avatar || 'img/store.png'}}"
-                            class="img-avatar ">
-                        <span class="text-truncate">{{ card.storeName }}</span>
-
-                        <i class="fa fa-check pull-right" ng-if="card.storeId == storeId"></i>
-                        <span class="badge badge-success" ng-show="card.storeId != storeId && card.newNoti">{{card.newNoti}}</span>
-                    </a>
-
+                            <i class="fa fa-check pull-right" ng-if="card.storeId == storeId"></i>
+                            <span class="badge badge-danger" ng-show="newNoti[card.storeId] > 0">{{newNoti[card.storeId]}}</span>
+                        </a>
+                    </div>
                     <div class="divider"></div>
                     <a class="dropdown-item" href="/store/new"><i class="fa fa-plus"></i> Thêm cửa hàng</a>
 
@@ -207,7 +206,7 @@
         </div>
     </header>
 
-<!--</div>-->
+</div>
 
 
 <div class="app-body">

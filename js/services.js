@@ -618,14 +618,18 @@
                 db.ref('notification/' + $rootScope.userId).child(id).update({update: new Date().getTime()})
             }
         }
-        this.calNoti = function (noti) {
-            var i = 0
-            angular.forEach(noti, function (card) {
+        this.calNoti = function (notification) {
+            var noti = {}
+            angular.forEach(notification, function (card) {
                 if (!card.update) {
-                    i++
+                    if(!noti[card.storeId]){
+                        noti[card.storeId] = 0
+                    } else {
+                        noti[card.storeId]++
+                    }
                 }
             })
-            return i
+            return noti
         }
         $rootScope.pressArrow = function ($event, textmessage) {
             console.log($event.keyCode);

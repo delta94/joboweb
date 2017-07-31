@@ -65,12 +65,11 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             // for share
             var profileJobtake = "";
             for (var i in $scope.profileData.job) {
-                if (i != 'other') {
-                    profileJobtake += CONFIG.data.job[i] + ", "
-
+                var job = $scope.profileData.job[i]
+                if (job.job != 'other') {
+                    profileJobtake += job.job + ", "
                 }
             }
-
             var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
             console.log(profileJob);
             $scope.share = {
@@ -91,25 +90,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             }
         })
 
-            var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
-            console.log(profileJob);
-            $scope.share = {
-                Url: "web.joboapp.com/view/profile/" + profileId,
-                Text: $scope.profileData.storeName + ' tuyển dụng',
-                Title: $scope.profileData.industry + ' ' + $scope.profileData.name,
-                Description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
-                Type: 'feed',
-                Media: $scope.profileData.avatar,
-                Via: '295208480879128',
-                Hashtags: 'jobo,timviecnhanh,pg,sale,model',
-                Caption: 'Có ai muốn làm ' + profileJob + ' không nhỉ? Mình vừa mới tìm thấy tin tuyển dụng này, thử vào Jobo xem thông tin chi tiết rồi cho mình biết bạn nghĩ sao nhé ;) #jobo #timviecnhanh #pg #sale #model'
-            }
-            $rootScope.og = {
-                title: $scope.profileData.storeName + ' tuyển dụng',
-                description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
-                image: $scope.profileData.avatar
-            }
-        }
+    }
 
 
     function init(profileId, userId) {
@@ -147,7 +128,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         console.log('Rating selected: ' + rating);
     };
     $scope.review = function (reviews) {
-        $rootScope.service.JoboApi('update/review',{
+        $rootScope.service.JoboApi('update/review', {
             reviews: reviews
         });
     }

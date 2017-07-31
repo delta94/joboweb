@@ -80,7 +80,7 @@
                 <div class="summary" id="jobposition">
 
                     <div class="content-container layout-wrap col-md-12" ng-if="currentJob == card.job"
-                         ng-repeat="card in profileData.job">
+                         ng-repeat="card in profileData.job | orderBy: 'deadline' ">
                         <div class="card content content-main js-job-container">
                             <div class="row content-section job-header">
                                 <div class="col-md-6 job-header-details job-header-truncate">
