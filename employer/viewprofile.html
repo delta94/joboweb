@@ -154,10 +154,10 @@
 
                         </div>
                     </div>
-                    <div class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;" ng-show="adminData.adminNote">
+                    <div class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;" ng-show="adminData">
                         <h4><i class="fa fa-sticky-note"></i>Admin Note</h4>
                         <ul>
-                            <li ng-repeat="card in adminData.adminNote">
+                            <li ng-repeat="card in profileData.adminNote">
                                 <div class="row">
                                     <div class="col-4">
                                         <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
@@ -219,9 +219,9 @@
                                     class="btn button-gradient btn-block " style="color: white;">
                                 Tuyển và liên hệ
                             </button>
-                            <a href="/profile?admin={{profileData.userId}}"
-                                    ng-if="admin" type="button"
-                                    class="btn btn-primary btn-block " style="color: white;">
+                            <a href="/profile?admin={{profileData.userId}}" type="button"
+                                    ng-if="userData.admin"
+                                    class="btn-primary btn-block " style="color: white;">
                                 Admin: Sửa hồ sơ
                             </a>
                         </div>

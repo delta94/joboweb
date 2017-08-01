@@ -55,7 +55,11 @@
                                 type="button" ng-if="myself"
                                 class="btn btn-primary">Sửa thông tin
                         </button>
-
+                        <a href="/store/?admin={{profileData.userId}}" type="button"
+                           ng-if="userData.admin"
+                           class="button btn-primary btn-block " style="color: white;">
+                            Admin: Sửa hồ sơ
+                        </a>
 
                     </div>
                 </div>
@@ -284,6 +288,22 @@
                 </div>
 
             </div>
+        </div>
+        <div class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;" ng-show="adminData">
+            <h4><i class="fa fa-sticky-note"></i>Admin Note</h4>
+            <ul>
+                <li ng-repeat="card in profileData.adminNote">
+                    <div class="row">
+                        <div class="col-4">
+                            <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
+                        </div>
+                        <div class="col-8">
+                            <h4 style="margin-top: 0px">{{card.adminId}}</h4>
+                            <p>{{card.note}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
 
         <div class="row" ng-if="staticData">

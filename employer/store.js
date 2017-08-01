@@ -162,13 +162,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
     var admin = $stateParams.admin;
     $scope.admin = $stateParams.admin;
     if (admin) {
-        $rootScope.storeId = admin
         console.log($rootScope.storeId)
         $scope.ByHand = true
 
         AuthUser.user().then(function (adminInfo) {
             $scope.adminData = adminInfo;
             if ($scope.adminData.admin) {
+                $rootScope.storeId = admin;
                 $rootScope.service.JoboApi('on/store', {
                     storeId: $rootScope.storeId
                 }).then(function (data) {
@@ -183,14 +183,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                             })
                         })
                         if ($rootScope.storeData && $rootScope.storeData.job) {
-                            $rootScope.service.loadJob($rootScope.storeData)
-                                .then(function (data) {
-                                    $timeout(function () {
-                                        $scope.jobData = data
-                                        console.log($scope.jobData)
-
-                                    })
-                                })
+                            $scope.jobData = $rootScope.storeData.job
                         } else {
                             //chưa có job
                             $rootScope.storeData.job = {}
@@ -437,7 +430,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             }
             $rootScope.service.JoboApi('update/job', {
                 userId: $rootScope.userId,
-                job: $scope.jobData
+                job: JSON.stringify($scope.jobData)
             });
             $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,

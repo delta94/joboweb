@@ -67,7 +67,7 @@
                                             <i class="icon-directions"></i>
                                         </span>
                                             <input type="text" class="form-control" placeholder=""
-                                                   ng-model="storeData.storeName" id="name">
+                                                   ng-model="storeData.storeName" id="name" name="storeName">
                                         </div>
                                     </fieldset>
 
@@ -89,7 +89,7 @@
                                         <label>Địa chỉ *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.storeAddress.$valid"></i>
                                         <div class="pop-add">
                                             <input ng-keydown="searchAddress()" id="address" ui-items="names"
-                                                   ng-model="autocompleteAddress.text" class="form-control">
+                                                   ng-model="autocompleteAddress.text" class="form-control" name="storeAddress">
                                             <i class="icon-close" id="delete-address"
                                                ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
                                             <ul id="list-add" ng-show="autocompleteAddress.text.length">
@@ -104,7 +104,7 @@
 
 
                                     <fieldset class="form-group">
-                                        <label>Avatar/Logo cửa hàng</label>
+                                        <label>Avatar/Logo cửa hàng</label><i class="fa fa-check" style="color: #00ff00" ng-show="storeData.avatar"></i>
 
                                         <div class="card" ng-hide="picFile">
                                             <div class="card-block" style="padding: 0px">
@@ -220,7 +220,7 @@
                                         </span>
                                             <input ng-disabled="contact.name" type="text" class="form-control"
                                                    placeholder="Họ tên"
-                                                   ng-model="userData.name" id="name">
+                                                   ng-model="userData.name" id="name" name="name">
                                         </div>
                                     </fieldset>
 
@@ -231,7 +231,7 @@
                                             <span class="input-group-addon">@</span>
                                             <input ng-disabled="contact.email" type="text" class="form-control"
                                                    placeholder="Email" id="email"
-                                                   ng-model="userData.email">
+                                                   ng-model="userData.email" name="email">
                                         </div>
                                     </fieldset>
 
@@ -244,7 +244,7 @@
                                         </span>
                                             <input ng-disabled="contact.phone" type="number" class="form-control"
                                                    placeholder="{{userData.phone}}"
-                                                   ng-model="userData.phone">
+                                                   ng-model="userData.phone" name="phone">
                                         </div>
                                     </fieldset>
                                 </div>
