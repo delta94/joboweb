@@ -403,14 +403,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             console.log($rootScope.storeData);
             console.log($scope.jobData);
         }
-        /*console.log($scope.jobData[id]);
-        delete $rootScope.storeData.job[$scope.jobData[id].job];
-        $rootScope.service.JoboApi('delete/job',{
-            jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
-        });
-        $scope.jobData.splice(id,1);
-        console.log($rootScope.storeData);
-        console.log($scope.jobData);*/
+
     };
     $scope.deleteNewJob = function () {
         delete $scope.newJob;

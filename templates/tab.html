@@ -97,8 +97,7 @@
                     </div>
                     <div class="scrollable-menu" role="menu"
                          style="height: auto;max-height: 300px;overflow-x: hidden;">
-                        <a class="dropdown-item avatar" style="padding-left: 5px" href="/view/store/{{card.storeId}}"
-                           ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
+                        <a class="dropdown-item avatar" style="padding-left: 5px" ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
                                 src="{{card.avatar || 'img/store.png'}}"
                                 class="img-avatar ">
                             <span class="text-truncate">{{ card.storeName }}</span>

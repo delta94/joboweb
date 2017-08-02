@@ -249,7 +249,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
     })
     .controller("analyticsUserCtrl", function ($scope, $timeout) {
         $scope.labels = []
-        $scope.series = ['Total', 'Jobseeker', 'Employer']
+        $scope.series = ['Total', 'Employer']
         $scope.TotalArray = []
         $scope.JobseekerArray = []
         $scope.EmployerArray = []
@@ -283,7 +283,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 Array.push($scope.dataAnalyticsUser[i])
             }
             for (var i = 0; i < Array.length; i++) {
-                Array[i].dateEnd = toDate(Array[i].dateEnd);
+                Array[i].dateEnd = toDate(Array[i].dateStart);
             }
             //push 30 days to chart
             var today = new Date().getTime()
@@ -301,7 +301,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             }).then(function () {
                 $timeout(function () {
                     $scope.today = Array[Array.length - 2]
-                    $scope.data = [$scope.TotalArray, $scope.JobseekerArray, $scope.EmployerArray]
+                    $scope.data = [$scope.TotalArray, $scope.EmployerArray]
                 });
             })
         })
@@ -326,33 +326,12 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         };
     })
 
-    .controller('staticLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
 
-
-        firebase.database().ref('analytics/user').once('value', function (snap) {
-            $scope.dataAnalyticsUser = snap.val()
-
-            $scope.labels = []
-            $scope.series = ['Total', 'Jobseeker', 'Employer']
-            $scope.TotalArray = []
-            $scope.JobseekerArray = []
-            $scope.EmployerArray = []
-
-            for (var i in $scope.dataAnalyticsUser) {
-                $scope.labels.push($scope.dataAnalyticsUser[i].dateStart)
-                $scope.TotalArray.push($scope.dataAnalyticsUser[i].total)
-                $scope.JobseekerArray.push($scope.dataAnalyticsUser[i].jobseeker)
-                $scope.EmployerArray.push($scope.dataAnalyticsUser[i].employer)
-            }
-            return new Promise(function (res, rej) {
-                res($scope.labels)
-            }).then(function () {
-                $scope.data = [$scope.TotalArray, $scope.JobseekerArray, $scope.EmployerArray]
-            })
-
+    .controller("analyticsCtrl",function($scope,$rootScope,$timeout){
+        $rootScope.service.JoboApi('admin/analytics',{
+        }).then(function (dataAnalytics) {
+            $scope.dataAnalytics = dataAnalytics.data
         })
-
-
     })
     .controller('adminLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
         $scope.page = 1
