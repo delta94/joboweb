@@ -189,6 +189,10 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
 
     };
+
+    $scope.options = ['FBMessenger', 'Skype', 'Zalo', 'Facetime'];
+
+
     $scope.uploadVideo = function (imageData) {
         $scope.startSpin('video');
         $scope.videoUpload = true

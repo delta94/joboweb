@@ -646,7 +646,6 @@
                 $rootScope.chatUser = {chatedId: chatedId}
                 likeAct = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
                 messageRef = firebase.database().ref('chat/' + $rootScope.storeId + ':' + chatedId);
-                // newPostRef = firebase.database().ref().child('activity/interview/' + $rootScope.storeId + ":" + chatedId)
 
                 //có user cụ thể
                 loadMessage($rootScope.storeId, chatedId);
@@ -671,6 +670,7 @@
                 console.log(date)
                 setInterview(date)
             });
+
 
             function setInterview(timeInterview) {
                 console.log(timeInterview);
@@ -706,29 +706,24 @@
 
                         likeAct.on('value', function (snap) {
                             $timeout(function () {
-                                $rootScope.chatUser.act = data.data;
+                                $rootScope.chatUser.act = snap.val();
                                 console.log('$rootScope.profileData.act', $rootScope.chatUser.act)
-                                $rootScope.phoneShow(chatedId)
+                                if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
+                                    $rootScope.service.JoboApi('on/user', {userId: chatedId}).then(function (data) {
+                                        $timeout(function () {
+                                            if (!$rootScope.contact) {
+                                                $rootScope.contact = {}
+                                            }
+                                            $rootScope.contact[chatedId] = data.data
+                                        })
+                                    });
+
+                                }
                             })
                         });
                     })
                 });
-                /*var ProfileRef = firebase.database().ref('profile/' + chatedId);
-                 ProfileRef.once('value', function (snap) {
-                 $timeout(function () {
-                 $rootScope.chatUser.data = snap.val();
-                 console.log('$rootScope.chatUser.data', $rootScope.chatUser.data)
 
-                 likeAct.on('value', function (snap) {
-                 $timeout(function () {
-                 $rootScope.chatUser.act = snap.val();
-                 console.log('$rootScope.profileData.act', $rootScope.chatUser.act)
-                 $rootScope.phoneShow(chatedId)
-
-                 })
-                 });
-                 })
-                 })*/
 
                 messageRef.on('value', function (snap) {
                     $timeout(function () {
@@ -767,68 +762,10 @@
                         text: message.text
                     })
                 } else {
-                    $rootScope.showphone()
+                    $rootScope.service.showphone()
                 }
 
             };
-            $rootScope.phoneShow = function (chatedId) {
-                if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
-                    $rootScope.service.JoboApi('on/user', {userId: chatedId}).then(function (data) {
-                        $timeout(function () {
-                            if (!$rootScope.contact) {
-                                $rootScope.contact = {}
-                            }
-                            $rootScope.contact[chatedId] = data.data
-                        })
-                    });
-                    /*var contactRef = firebase.database().ref('user/' + chatedId)
-                     contactRef.once('value', function (snap) {
-                     $timeout(function () {
-                     if (!$rootScope.contact) {
-                     $rootScope.contact = {}
-                     }
-                     $rootScope.contact[chatedId] = snap.val()
-                     })
-                     })*/
-                }
-            }
-            $rootScope.showphone = function () {
-                $rootScope.service.Ana('showPhone', {chatedId: $rootScope.chatUser.chatedId})
-                ModalService.showModal({
-                    templateUrl: 'templates/modals/permit.html',
-                    controller: 'ModalPermitCtrl'
-                }).then(function (modal) {
-                    modal.element.modal();
-                    modal.close.then(function (result) {
-                        console.log(result)
-                        if (result == 1) {
-                            $rootScope.service.Ana('confirmShowPhone', {chatedId: $rootScope.chatUser.chatedId})
-                            if ($rootScope.userData.credit >= 30) {
-                                likeAct.update({
-                                    showContact: new Date().getTime()
-                                })
-                                $rootScope.service.JoboApi('update/user', {
-                                    userId: $rootScope.userId,
-                                    user: {credit: $rootScope.userData.credit - 30}
-                                });
-                                /*var userRef = firebase.database().ref('user/' + $rootScope.userId)
-                                 userRef.update({
-                                 credit: $rootScope.userData.credit - 30
-                                 })*/
-                                $rootScope.phoneShow(chatedId)
-                            } else {
-                                $rootScope.service.Ana('confirmShowPhone', {
-                                    chatedId: $rootScope.chatUser.chatedId,
-                                    result: 'not enough'
-                                })
-                                toastr.info('Bạn không đủ credit để mở khóa liên hệ ứng viên, hãy nạp thêm')
-                            }
-
-
-                        }
-                    });
-                });
-            }
 
             $rootScope.input = {
                 message: localStorage['userMessage-' + chatedId] || ''
@@ -910,21 +847,7 @@
                         })
                     });
                 });
-                /*var ProfileRef = firebase.database().ref('store/' + storeId);
-                 ProfileRef.once('value', function (snap) {
-                 $timeout(function () {
-                 $rootScope.chatUser.data = snap.val();
-                 console.log('$rootScope.chatUser.data', $rootScope.chatUser.data)
 
-                 var likeAct = firebase.database().ref('activity/like/' + storeId + ':' + chatedId);
-                 likeAct.on('value', function (snap) {
-                 $timeout(function () {
-                 $rootScope.chatUser.act = snap.val();
-                 console.log('$rootScope.profileData.act', $rootScope.chatUser.act)
-                 })
-                 });
-                 })
-                 })*/
 
                 var messageRef = firebase.database().ref('chat/' + storeId + ':' + chatedId);
                 messageRef.on('value', function (snap) {
@@ -973,39 +896,11 @@
                     })
 
                 } else {
-                    $rootScope.showphone()
+                    $rootScope.service.showphone()
                 }
             };
 
-            $rootScope.showphone = function (chatedId) {
-                var employerId = $rootScope.chatUser.data.createdBy
-                if ($rootScope.chatUser.act && $rootScope.chatUser.act.status == 1) {
-                    $rootScope.service.JoboApi('on/user', {
-                        userId: employerId
-                    }).then(function (data) {
-                        $timeout(function () {
-                            $rootScope.contact = data.data;
-                            if (!$rootScope.showContact) {
-                                $rootScope.showContact = {}
-                            }
-                            $rootScope.showContact[chatedId] = $rootScope.contact.phone + ' | ' + $rootScope.contact.email
-                        })
-                    });
-                    /*var contactRef = firebase.database().ref('user/' + employerId)
-                     contactRef.once('value', function (snap) {
-                     $timeout(function () {
-                     $rootScope.contact = snap.val()
-                     if (!$rootScope.showContact) {
-                     $rootScope.showContact = {}
-                     }
-                     $rootScope.showContact[chatedId] = $rootScope.contact.phone + ' | ' + $rootScope.contact.email
-                     })
-                     })*/
-                } else {
-                    toastr.info('Bạn chưa tương hợp với nhà tuyển dụng này!')
-                }
 
-            }
             $rootScope.mustPermit = function () {
                 ModalService.showModal({
                     templateUrl: 'templates/modals/permit.html',
@@ -1031,6 +926,53 @@
             var txtInput; // ^^^
 
         }
+
+        this.showphone = function (chatedId) {
+            $rootScope.service.Ana('showPhone', {chatedId: chatedId})
+            ModalService.showModal({
+                templateUrl: 'templates/modals/permit.html',
+                controller: 'ModalPermitCtrl'
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    console.log(result)
+                    if (result == 1) {
+                        $rootScope.service.Ana('confirmShowPhone', {chatedId: chatedId})
+                        if ($rootScope.userData.credit >= 30) {
+                            var likeAct = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
+                            likeAct.update({
+                                showContact: new Date().getTime()
+                            })
+                            $rootScope.service.JoboApi('update/user', {
+                                userId: $rootScope.userId,
+                                user: {credit: $rootScope.userData.credit - 30}
+                            });
+                            if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
+                                $rootScope.service.JoboApi('on/user', {userId: chatedId}).then(function (data) {
+                                    $timeout(function () {
+                                        if (!$rootScope.contact) {
+                                            $rootScope.contact = {}
+                                        }
+                                        $rootScope.contact[chatedId] = data.data
+                                    })
+                                });
+
+                            }
+
+                        } else {
+                            $rootScope.service.Ana('confirmShowPhone', {
+                                chatedId: chatedId,
+                                result: 'not enough'
+                            })
+                            toastr.info('Bạn không đủ credit để mở khóa liên hệ ứng viên, hãy nạp thêm')
+                        }
+
+
+                    }
+                });
+            });
+        }
+
 
         this.getFreeCredit = function () {
 
@@ -1098,13 +1040,12 @@
                 // Sign-out successful.
                 toastr.info("Bạn đã đăng xuất thành công!");
                 $rootScope.type = 0
-                delete  $rootScope.userId
-                delete  $rootScope.userData
+                delete  $rootScope.userId;
+                delete  $rootScope.userData;
+                delete  $rootScope.storeData;
+                delete  $rootScope.jobData;
 
                 $state.go("app.dash");
-
-                window.location.reload()
-                $rootScope = undefined
 
             }, function (error) {
                 // An error happened.
@@ -1351,6 +1292,10 @@
         };
         this.increasedBy = function (type) {
             $rootScope.numberDisplay[type] = $rootScope.reactList[type].length
+        };
+
+        this.increasedBy2 = function (type) {
+            $rootScope.numberDisplay2[type] = $rootScope.JobCard[type].length
         };
 
         this.searchProfile = function (textfull) {

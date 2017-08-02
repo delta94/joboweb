@@ -259,7 +259,7 @@
                             </div>
                             <div class="card" ng-repeat="card in jobData" ng-hide="newJob">
                                 <div class="card-header">
-                                    <strong>Vị trí: {{Lang[card.job] || card.job}}</strong><br>
+                                    <strong>Vị trí: {{Lang[card.job] || card.other}}</strong><br>
                                     <span ng-if="card.createdAt">Đăng ngày: {{card.createdAt | date}} ({{service.timeAgo(card.createdAt)}})</span>
                                 </div>
                                 <div class="card-block">

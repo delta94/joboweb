@@ -55,9 +55,9 @@
                                 type="button" ng-if="myself"
                                 class="btn btn-primary">Sửa thông tin
                         </button>
-                        <a href="/store/?admin={{profileData.userId}}" type="button"
+                        <a href="/store/?admin={{profileData.storeId}}" type="button"
                            ng-if="userData.admin"
-                           class="button btn-primary btn-block " style="color: white;">
+                           class="btn btn-primary btn-block " style="color: white;">
                             Admin: Sửa hồ sơ
                         </a>
 
@@ -84,7 +84,7 @@
                 <div class="summary" id="jobposition">
 
                     <div class="content-container layout-wrap col-md-12" ng-if="currentJob == card.job"
-                         ng-repeat="card in profileData.job | orderBy: 'deadline' ">
+                         ng-repeat="card in profileData.jobData">
                         <div class="card content content-main js-job-container">
                             <div class="row content-section job-header">
                                 <div class="col-md-6 job-header-details job-header-truncate">
@@ -180,19 +180,19 @@
                     </div>
 
 
-                    <h4 class="legend text-center" ng-hide="profileData.job">Hiện tại chúng tôi đang không
+                    <h4 class="legend text-center" ng-hide="profileData.jobData">Hiện tại chúng tôi đang không
                         tuyển</h4>
-                    <h4 class="legend text-center" ng-if="profileData.job && !currentJob">Vị trí đang tuyển</h4>
-                    <h4 class="legend text-center" ng-if="profileData.job && currentJob && profileData.job.length > 1">
+                    <h4 class="legend text-center" ng-if="profileData.jobData && !currentJob">Vị trí đang tuyển</h4>
+                    <h4 class="legend text-center" ng-if="profileData.jobData && currentJob && profileData.jobData.length > 1">
                         Các vị trí khác</h4>
 
                     <div class="row row-s">
                         <div class="content-container layout-wrap col-md-12" ng-hide="currentJob == card.job"
-                             ng-repeat="card in profileData.job">
+                             ng-repeat="card in profileData.jobData | orderBy: '-deadline' ">
                             <div class="card content content-main js-job-container">
                                 <div class="row content-section job-header">
                                     <div class="col-md-6 job-header-details job-header-truncate">
-                                        <span class="job-title">{{Lang[card.job] || card.job}}</span>
+                                        <span class="job-title">{{Lang[card.job] || card.other}}</span>
                                         <h2 class="beicons-pre beicons-pre-location job-location">
                                             {{Lang[card.working_type]}}
                                         </h2>

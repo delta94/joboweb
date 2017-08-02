@@ -94,7 +94,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     }).then(function (data) {
                         $rootScope.storeData = data.data
                         if ($rootScope.storeData && $rootScope.storeData.job) {
-                            $scope.jobData = $rootScope.storeData.job
+                            $scope.jobData = $rootScope.storeData.jobData
                         } else {
                             //chưa có job
                             $rootScope.storeData.job = {}
@@ -361,7 +361,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
     };
 
     $scope.addJob = function () {
-        $scope.newJob = {}
+        $scope.newJob = {
+            createdBy: $rootScope.userId,
+            storeId: $rootScope.storeId,
+            address: $rootScope.storeData.address,
+            location: $rootScope.storeData.location,
+            storeName: $rootScope.storeData.storeName
+        }
     };
     $scope.saveJob = function () {
         if (!$scope.jobData) {
@@ -387,11 +393,24 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     };
     $scope.deleteJob = function (id) {
-        console.log($scope.jobData[id]);
+        if (confirm("Bạn muốn xoá job " + [$rootScope.Lang[$scope.jobData[id].job] || $scope.jobData[id].other] + "?") === true){
+            console.log($scope.jobData[id]);
+            delete $rootScope.storeData.job[$scope.jobData[id].job];
+            $rootScope.service.JoboApi('delete/job',{
+                jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
+            });
+            $scope.jobData.splice(id,1);
+            console.log($rootScope.storeData);
+            console.log($scope.jobData);
+        }
+        /*console.log($scope.jobData[id]);
         delete $rootScope.storeData.job[$scope.jobData[id].job];
-        delete $scope.jobData[id];
+        $rootScope.service.JoboApi('delete/job',{
+            jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
+        });
+        $scope.jobData.splice(id,1);
         console.log($rootScope.storeData);
-        console.log($scope.jobData);
+        console.log($scope.jobData);*/
     };
     $scope.deleteNewJob = function () {
         delete $scope.newJob;

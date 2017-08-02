@@ -19,7 +19,7 @@
                                              alt="admin@bootstrapmaster.com">
                                     </div>
                                 </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}"
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
                                    class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
                                 <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
                                        ng-show="result.job">
@@ -47,9 +47,9 @@
  background: -webkit-linear-gradient(#38DEA8 , #20BEEF );
  -webkit-background-clip: text;
  -webkit-text-fill-color: transparent;
- ">Kiếm thêm thu nhập, đăng ký Jobo</h1>
+ ">Đăng ký Jobo, <br>kiếm thêm thu nhập</h1>
 
-                        <h3>Hàng nghìn công việc bán thời gian và thời vụ đang được nhận mỗi ngày trên Jobo</h3>
+                        <h3 style="font-size: 22px;">Hàng nghìn công việc <br>bán thời gian và thời vụ <br>đang được nhận mỗi ngày trên Jobo</h3>
                         <div style="margin-top:30px;">
                             <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo"
                                                                   style="margin-bottom: 10px;"></a>
@@ -666,8 +666,8 @@
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">
-                    <div class="card-new">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg | limitTo : numberDisplay2.sg">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
                         <div class="content_">
                             <div class="content-top-new">
                                 <div class="row">
@@ -686,7 +686,7 @@
                                         <tr>
                                             <td class="job-new"
                                                 ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.job}}
+                                                {{dataJob[card.job] || card.other}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -696,9 +696,6 @@
                                         </tr>
                                         <tr>
                                             <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td id="descrip">{{card.description}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -718,6 +715,11 @@
                 </div>
             </div>
         </div>
+        <div align="center" style="margin-top: 20px;">
+            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
+               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
+            Xem tất cả</a>
+        </div>
     </div>
 </div>
 <!--Ha noi-->
@@ -726,7 +728,7 @@
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn | limitTo : numberDisplay2.hn">
                     <div class="card-new">
                         <div class="content_">
                             <div class="content-top-new">
@@ -746,7 +748,7 @@
                                         <tr>
                                             <td class="job-new"
                                                 ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.job}}
+                                                {{dataJob[card.job] || card.other}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -756,9 +758,6 @@
                                         </tr>
                                         <tr>
                                             <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td id="descrip">{{card.description}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -777,6 +776,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div align="center" style="margin-top: 20px;">
+            <a ng-click="service.increasedBy2('hn')" role="button" ng-if="JobCard.hn.length > numberDisplay2.hn"
+               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
+                Xem tất cả</a>
         </div>
     </div>
 </div>
@@ -1118,6 +1122,40 @@ right: 0px;bottom: 0px;">
                     width="616" height="346.5" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
                     allowTransparency="true"
                     allowFullScreen="true"></iframe>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Why should jobo web-->
+<div class="section-heading text-center" style="margin-top:30px;">
+    <h2>Tại sao 900+ nhà tuyển dụng sử dụng Jobo</h2>
+</div>
+<div class="why-use">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-why text-center">
+                    <img src="img/iMoney2.png" alt="">
+                    <h4>Không mất phí trả trước</h4>
+                    <p>Hoàn toàn miễn phí khi yêu cầu ứng viên từ Jobo, và bạn chỉ cần trả phí cho những ứng viên được chọn và không phải trả phí cho những ứng viên bị loại</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/24h2.png" alt="" width="75px">
+                    <h4>Tuyển nhân viên trong 24h</h4>
+                    <p>Gửi yêu cầu đến toàn bộ ứng viên phù hợp trong nháy mắt. 70% nhà tuyển dụng nhận ngay nhân viên trong vòng 24h</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/star2.png" alt="" width="70px">
+                    <h4>Chất lượng ứng viên</h4>
+                    <p>Chỉ 15% ứng viên vượt qua vòng kiểm tra khắt khe của chúng tôi, bạn sẽ hài lòng với chất lượng ứng viên của chúng tôi</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

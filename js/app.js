@@ -70,7 +70,8 @@ var app = angular
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
             $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
-            $rootScope.numberDisplay = {like: 10, liked: 10, match: 10}
+            $rootScope.numberDisplay = {like: 10, liked: 10, match: 10};
+            $rootScope.numberDisplay2 = {sg: 9, hn: 9}
 
             //Industry
             $rootScope.arrayIndustry = [];
@@ -96,18 +97,19 @@ var app = angular
                 $rootScope.arrayTime.push(i);
             }
         });
+        $rootScope.service.loadLang($rootScope.lang)
 
-        if (!$rootScope.Lang) {
-            $rootScope.lang = window.localStorage.getItem('lang')
-            if (!$rootScope.lang) {
-                $rootScope.lang = 'vi'
-                window.localStorage.setItem('lang', 'vi')
-                $rootScope.service.loadLang($rootScope.lang)
-            } else {
-                console.log('we have,' + $rootScope.lang)
-                $rootScope.service.loadLang($rootScope.lang)
-            }
-        }
+        // if (!$rootScope.Lang) {
+        //     $rootScope.lang = window.localStorage.getItem('lang')
+        //     if (!$rootScope.lang) {
+        //         $rootScope.lang = 'vi'
+        //         window.localStorage.setItem('lang', 'vi')
+        //         $rootScope.service.loadLang($rootScope.lang)
+        //     } else {
+        //         console.log('we have,' + $rootScope.lang)
+        //         $rootScope.service.loadLang($rootScope.lang)
+        //     }
+        // }
 
 
         function checkPlatform() {

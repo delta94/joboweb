@@ -209,6 +209,34 @@
                                 class="btn btn-block btn-outline-primary main-backgroud">
                             Tiếp theo
                         </button>
+
+                        <div class="card" ng-show="indexToShow > 1">
+                            <div class="card-header">
+                                <strong>Chúng tôi có thể phỏng vấn online bạn qua ứng dụng nào</strong>
+                            </div>
+                            <!--<div class="card-block">-->
+                            <!--<label ng-repeat="option in ['FBMessenger', 'Skype', 'Zalo', 'Facetime']" style="margin-right: 10px">-->
+                            <!--<input  type="checkbox" ng-model="userData.interview[option]" value="true">   {{option}}-->
+                            <!--<input  type="text" ng-show="userData.interview[option]">-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <div class="card-block">
+                                <table>
+                                    <tr ng-repeat="option in options">
+                                        <td>
+                                            <label style="margin-right: 10px">
+                                                <input type="checkbox" ng-click="showInput=!showInput">{{option}}
+                                            </label>
+                                        </td>
+                                        <td >
+                                            <input type="text" ng-show="showInput" style="margin-left: 20px" width="280px" placeholder="Link {{option}}"
+                                                   ng-model="userData.interview[option]">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
                         <div class="card" ng-show="indexToShow > 1" id="anchorinfo">
                             <div class="card-header">
                                 <strong>Thông tin cá nhân</strong>

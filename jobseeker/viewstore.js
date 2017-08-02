@@ -12,8 +12,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
     console.log('admin', $scope.admin)
 
     $rootScope.service.Ana('viewStore', {storeId: $scope.profileId})
-
-
     if ($scope.profileId) {
         loadStore($scope.profileId)
         init($scope.profileId, $rootScope.userId)
@@ -22,7 +20,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             $rootScope.$on('handleBroadcast', function (event, userData) {
                 init($scope.profileId, userData.userId)
                 loadStore($scope.profileId)
-
             });
         }
     }
@@ -35,7 +32,9 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             params: {storeId: $scope.profileId, userId: $rootScope.userId}
         }).then(function successCallback(response) {
             console.log("respond", response);
-            $scope.profileData = response.data
+            $scope.profileData = response.data;
+            $scope.jobData = $scope.profileData.jobData;
+
             $scope.profileData.background = '/img/ava-background/background_' + $scope.profileData.industry + '.png';
             if ($scope.currentJob) {
                 $timeout(function () {

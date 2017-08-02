@@ -395,7 +395,7 @@
         <div class="testimonials testimonials-raised">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in jobCard">
-                    <div class="card-new">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
                         <div class="progress progress-sm" data-toggle="popover"
                              data-trigger="hover"
                              data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">
@@ -429,7 +429,7 @@
                                 <div class="row main-content-new">
                                     <table>
                                         <tr>
-                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{Lang[card.job] || card.job}}</td>
+                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{Lang[card.job] || card.other}}</td>
                                         </tr>
                                         <tr>
                                             <td class="time-new"  itemprop="description">{{Lang[card.working_type]}}</td>
@@ -437,9 +437,7 @@
                                         <tr>
                                             <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
                                         </tr>
-                                        <tr>
-                                            <td id="descrip">{{card.description}}</td>
-                                        </tr>
+
                                     </table>
                                 </div>
                             </div>
