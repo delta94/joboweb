@@ -434,7 +434,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                         location: $rootScope.userData.location,
                         job: $rootScope.userData.job,
                         avatar: $rootScope.userData.avatar,
-                        createAt: $rootScope.userData.createAt,
+                        createAt: $rootScope.userData.createAt
 
                     };
                     $rootScope.service.JoboApi('update/user', {
@@ -487,7 +487,18 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         console.log('clicked', images)
         $scope.userData.photo.splice(images, 1);
     };
-
+    //delete video
+    $scope.deleteVideo = function (){
+        if (confirm("Bạn muốn xoá video?") === true){
+            console.log('videoURL undelete', $rootScope.userData.videourl);
+            $rootScope.service.JoboApi('delete/video',{
+                userId: $rootScope.userId,
+                videoURL: $rootScope.userData.videourl
+        });
+            delete $rootScope.userData.videourl;
+            console.log('videoURL deleted', $rootScope.userData.videourl);
+        }
+    };
     $scope.upload = function (files) {
         $scope.uploadPhoto = true
         $scope.startSpin('photo');
@@ -576,6 +587,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     })
                 }
 
+                $rootScope.userData.userId = $rootScope.userId;
                 console.log($rootScope.userData);
 
                 var dataUser = {
@@ -625,7 +637,16 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 if ($rootScope.preApply) {
                     $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
                 }
-                $state.go('app.sdash', {}, {reload: true})
+                if ($scope.adminData.admin){
+                    console.log('adminData.admin');
+                    // $state.go('app.viewprofile', {id: $rootScope.userId}, {reload: true})
+                        $timeout(function () {
+                            window.location.href="/view/profile/" + $rootScope.userId;
+                        });
+                } else {
+                    $state.go('app.sdash', {}, {reload: true})
+                }
+                // $state.go('app.sdash', {}, {reload: true})
             }, 1000)
         } else {
             console.log($rootScope.userData);

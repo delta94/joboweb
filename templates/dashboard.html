@@ -49,7 +49,8 @@
  -webkit-text-fill-color: transparent;
  ">Đăng ký Jobo, <br>kiếm thêm thu nhập</h1>
 
-                        <h3 style="font-size: 22px;">Hàng nghìn công việc <br>bán thời gian và thời vụ <br>đang được nhận mỗi ngày trên Jobo</h3>
+                        <h3 style="font-size: 22px;">Hàng nghìn công việc <br>bán thời gian và thời vụ <br>đang được
+                            nhận mỗi ngày trên Jobo</h3>
                         <div style="margin-top:30px;">
                             <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo"
                                                                   style="margin-bottom: 10px;"></a>
@@ -646,23 +647,90 @@
     <h2>Việc làm gấp</h2>
 </div>
 <div class="text-center job-tab">
-    <a href="" ng-click="showjob=false">
+    <a href="" ng-click="showjob=1">
         <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == false, 'active-tab-white' :showjob == true}"
+                ng-class="{'active-tab-green' : showjob == 1, 'active-tab-white' :showjob != 1}"
+                style="border:solid 1px #00a67c">Thời vụ
+        </button>
+    </a>
+    <a href="" ng-click="showjob=2">
+        <button type="button" class="btn btn-gradient"
+                ng-class="{'active-tab-green' : showjob == 2, 'active-tab-white' :showjob != 2}"
                 style="border:solid 1px #00a67c">Sài Gòn
         </button>
     </a>
-    <a href="" ng-click="showjob=true">
+    <a href="" ng-click="showjob=3">
         <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == true, 'active-tab-white' :showjob == false}"
+                ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
                 style="border:solid 1px #00a67c">Hà Nội
         </button>
     </a>
 </div>
+<div class="animated fadeIn" ng-show="showjob == 1" style="min-height: 500px; margin-top: 40px">
+    <div class="container">
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.ss">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                        <div class="content_">
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
+                                             height="80px">
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new"
+                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                                                {{dataJob[card.job] || card.other}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new" itemprop="description">
+                                                {{CONFIG.data.working_type[card.working_type]}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="content-bottom-new text-center">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}}
+                                        <br> <i>{{card.address}}</i>
+                                    </p>
+                                </div>
+                                <button ng-click="service.userLike(card,0,card.job)" type="button"
+                                        class="btn btn-default apply-new">Ứng tuyển
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div align="center" style="margin-top: 20px;">
+            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
+               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
+                Xem tất cả</a>
+        </div>
+    </div>
+</div>
+
 
 <!--Sai Gon-->
 
-<div class="animated fadeIn" ng-hide="showjob" style="min-height: 500px; margin-top: 40px">
+<div class="animated fadeIn" ng-show="showjob == 2" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
@@ -718,13 +786,13 @@
         <div align="center" style="margin-top: 20px;">
             <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
                style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-            Xem tất cả</a>
+                Xem tất cả</a>
         </div>
     </div>
 </div>
 <!--Ha noi-->
 
-<div class="animated fadeIn" ng-show="showjob" style="min-height: 500px; margin-top: 40px">
+<div class="animated fadeIn" ng-show="showjob == 3" style="min-height: 500px; margin-top: 40px">
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
@@ -1127,7 +1195,6 @@ right: 0px;bottom: 0px;">
 </div>
 
 
-
 <!--Why should jobo web-->
 <div class="section-heading text-center" style="margin-top:30px;">
     <h2>Tại sao 900+ nhà tuyển dụng sử dụng Jobo</h2>
@@ -1139,21 +1206,24 @@ right: 0px;bottom: 0px;">
                 <div class="card-why text-center">
                     <img src="img/iMoney2.png" alt="">
                     <h4>Không mất phí trả trước</h4>
-                    <p>Hoàn toàn miễn phí khi yêu cầu ứng viên từ Jobo, và bạn chỉ cần trả phí cho những ứng viên được chọn và không phải trả phí cho những ứng viên bị loại</p>
+                    <p>Hoàn toàn miễn phí khi yêu cầu ứng viên từ Jobo, và bạn chỉ cần trả phí cho những ứng viên được
+                        chọn và không phải trả phí cho những ứng viên bị loại</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card-why  text-center">
                     <img src="img/24h2.png" alt="" width="75px">
                     <h4>Tuyển nhân viên trong 24h</h4>
-                    <p>Gửi yêu cầu đến toàn bộ ứng viên phù hợp trong nháy mắt. 70% nhà tuyển dụng nhận ngay nhân viên trong vòng 24h</p>
+                    <p>Gửi yêu cầu đến toàn bộ ứng viên phù hợp trong nháy mắt. 70% nhà tuyển dụng nhận ngay nhân viên
+                        trong vòng 24h</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card-why  text-center">
                     <img src="img/star2.png" alt="" width="70px">
                     <h4>Chất lượng ứng viên</h4>
-                    <p>Chỉ 15% ứng viên vượt qua vòng kiểm tra khắt khe của chúng tôi, bạn sẽ hài lòng với chất lượng ứng viên của chúng tôi</p>
+                    <p>Chỉ 15% ứng viên vượt qua vòng kiểm tra khắt khe của chúng tôi, bạn sẽ hài lòng với chất lượng
+                        ứng viên của chúng tôi</p>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ angular.module('app').controller('dashboardCtrl', dashboardCtrl);
 function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope) {
     $scope.loading = true
     $rootScope.aside = false
-    $scope.showjob =false;
+    $scope.showjob = 1;
 
 
     if (!$rootScope.UserCard && !$rootScope.StoreCard) {
@@ -27,7 +27,7 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         }).then(function successCallback(response) {
             console.log("respond", response);
             $timeout(function () {
-                if(!$rootScope.JobCard){
+                if (!$rootScope.JobCard) {
                     $rootScope.JobCard = {}
                 }
                 $rootScope.JobCard.sg = response.data;
@@ -42,10 +42,24 @@ function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $r
         }).then(function successCallback(response) {
             console.log("respond", response);
             $timeout(function () {
-                if(!$rootScope.JobCard){
+                if (!$rootScope.JobCard) {
                     $rootScope.JobCard = {}
                 }
                 $rootScope.JobCard.hn = response.data;
+            })
+        }, function (error) {
+            console.log(error)
+        })
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/api/job?working_type=seasonal'
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            $timeout(function () {
+                if (!$rootScope.JobCard) {
+                    $rootScope.JobCard = {}
+                }
+                $rootScope.JobCard.ss = response.data.data;
             })
         }, function (error) {
             console.log(error)

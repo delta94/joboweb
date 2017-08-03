@@ -1,155 +1,257 @@
 <div class="container">
 
-    <div ng-controller="analyticsUserCtrl">
-        <div class="row" >
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Date</p>
-                    <p>All</p>
+    <div class="row" ng-controller="analyticsUserCtrl">
+        <!--<div class="row" >-->
+        <!--<div class="col-sm-3 col-lg-3">-->
+        <!--<div class="card" style="text-align: center">-->
+        <!--<p>Date</p>-->
+        <!--<p>All</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;end button&ndash;&gt;-->
+        <!--<div class="col-sm-3 col-lg-3">-->
+        <!--<div class="card" style="text-align: center">-->
+        <!--<p>Total</p>-->
+        <!--<p>{{allUser.total}}</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;end button&ndash;&gt;-->
+        <!--<div class="col-sm-3 col-lg-3">-->
+        <!--<div class="card" style="text-align: center">-->
+        <!--<p>Employer</p>-->
+        <!--<p>{{allUser.employer}}</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;end button&ndash;&gt;-->
+        <!--<div class="col-sm-3 col-lg-3">-->
+        <!--<div class="card" style="text-align: center">-->
+        <!--<p>Jobseeker</p>-->
+        <!--<p>{{allUser.jobseeker}}</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;end button&ndash;&gt;-->
+        <!--</div>-->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">All</h5>
                 </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Total</p>
-                    <p>{{allUser.total}}</p>
-                </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Employer</p>
-                    <p>{{allUser.employer}}</p>
-                </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Jobseeker</p>
-                    <p>{{allUser.jobseeker}}</p>
-                </div>
-            </div>
-            <!--end button-->
-        </div>
-        <div class="row" >
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Date</p>
-                    <p>{{today.dateEnd}}</p>
-                </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Total</p>
-                    <p>{{today.total}}</p>
-                </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Employer</p>
-                    <p>{{today.employer}}</p>
-                </div>
-            </div>
-            <!--end button-->
-            <div class="col-sm-3 col-lg-3">
-                <div class="card" style="text-align: center">
-                    <p>Jobseeker</p>
-                    <p>{{today.jobseeker}}</p>
-                </div>
-            </div>
-            <!--end button-->
-        </div>
-        <div class="card ng-scope">
-            <div class="card-header">
-                <h5 class="card-title">30 Days Ago</h5>
-            </div>
-            <div class="card-block" >
-                <div class="row">
+                <div class="card-block" style="margin-top:-35px;">
                     <div class="col-sm-12">
-                        <div class="chart-wrapper" style="height:315px;margin-top:20px;">
-                            <iframe class="chartjs-hidden-iframe" tabindex="-1"
-                                    style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%;position: absolute; pointer-events: none; z-index: -1;"></iframe>
-                            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
-                                    chart-series="series" chart-options="options"
-                                    chart-dataset-override="datasetOverride"
-                                    chart-click="onClick">
-                            </canvas>
-                            <div style="clear: both"></div>
+                        <h4>Total : {{allUser.total}}</h4>
+                    </div>
+                    <div class="col-sm-6" style="float:left">
+                        <h4>Employer</h4>
+                        <div>Employer</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.employer.employer}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.employer.employer}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.employer}}</div>
+                        </div>
+                        <div>Store</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.employer.store}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.employer.store}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.store}}</div>
+                        </div>
+                        <div>Premium</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.employer.premium}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.employer.premium}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.premium}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="float:left">
+                        <h4>Jobseeker</h4>
+                        <div>Ha Noi</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.hn}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.hn}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.hn}}</div>
+                        </div>
+                        <div>Sai Gon</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.sg}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.sg}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.sg}}</div>
+                        </div>
+                        <div>Other</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.other}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.other}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.other}}</div>
+                        </div>
+                        <div>hn_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.hn_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.hn_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.hn_ve}}</div>
+                        </div>
+                        <div>sg_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.sg_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.sg_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.sg_ve}}</div>
+                        </div>
+                        <div>other_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{allUser.jobseeker.other_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{allUser.jobseeker.other_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.jobseeker.other_ve}}</div>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Date : {{today.dateEnd}}</h5>
+                </div>
+                <div class="card-block">
+                    <div class="col-sm-12">
+                        <h4>Total : {{today.total}}</h4>
+                    </div>
+                    <div class="col-sm-3" style="float:left;padding-top:58px;">
+                        <div>noEmail</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.noEmail}}"  style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.noEmail}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noEmail}}</div>
                         </div>
 
-                        <div class="col-sm-12" style="margin-top:144px;">
-                            <div class="card-header">
-                                <h5 class="card-title">Today</h5>
-                            </div>
-                            <div class="col-sm-4" style="float:left;padding-top: 59px;">
-                                <div>noEmail</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.noEmail}}"  style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.noEmail}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noEmail}}</div>
-                                </div>
+                        <div>noPhone</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.noPhone}}"  style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.noPhone}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noPhone}}</div>
+                        </div>
 
-                                <div>noPhone</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.noPhone}}"  style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.noPhone}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noPhone}}</div>
-                                </div>
-
-                                <div>noProfile</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.noProfile}}"  style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.noProfile}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noProfile}}</div>
-                                </div>
+                        <div>noProfile</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.noProfile}}"  style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.noProfile}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.noProfile}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="float:left">
+                        <h4>Employer</h4>
+                        <div>Employer</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.employer.employer}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.employer.employer}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.employer.employer}}</div>
+                        </div>
+                        <div>Store</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.employer.store}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.employer.store}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.employer.store}}</div>
+                        </div>
+                        <div>Premium</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.employer.premium}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.employer.premium}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.employer.premium}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="float:left">
+                        <h4>Jobseeker</h4>
+                        <div>Ha Noi</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.hn}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.hn}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.hn}}</div>
+                        </div>
+                        <div>Sai Gon</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.sg}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.sg}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.sg}}</div>
+                        </div>
+                        <div>Other</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.other}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.other}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.other}}</div>
+                        </div>
+                        <div>hn_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.hn_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.hn_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.hn_ve}}</div>
+                        </div>
+                        <div>sg_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.sg_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.sg_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.sg_ve}}</div>
+                        </div>
+                        <div>other_ve</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.jobseeker.other_ve}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.jobseeker.other_ve}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.other_ve}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="float:right">
+                        <h4>Provider</h4>
+                        <div>Facebook</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.provider.facebook}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.provider.facebook}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.provider.facebook}}</div>
+                        </div>
+                        <div>Normal</div>
+                        <div class="progress progress-sm mt-h mb-1"
+                             data-toggle="popover"
+                             data-trigger="hover"
+                             data-content="{{today.provider.normal}}" style="height:16px;">
+                            <div class="progress-bar" style="width: {{today.provider.normal}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.provider.normal}}</div>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">30 Days Ago</h5>
+                </div>
+                <div class="card-block" style="padding-bottom: 150px;" >
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="chart-wrapper" style="height:315px;">
+                                <iframe class="chartjs-hidden-iframe" tabindex="-1"
+                                        style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%;position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                                <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
+                                        chart-series="series" chart-options="options"
+                                        chart-dataset-override="datasetOverride"
+                                        chart-click="onClick">
+                                </canvas>
                             </div>
-                            <div class="col-sm-4" style="float:left">
-                                <h4>Jobseeker</h4>
-                                <div>Ha Noi</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.jobseeker.hn}}" style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.jobseeker.hn}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.hn}}</div>
-                                </div>
-                                <div>Sai Gon</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.jobseeker.sg}}" style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.jobseeker.sg}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.sg}}</div>
-                                </div>
-                                <div>Other</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.jobseeker.other}}" style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.jobseeker.other}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.jobseeker.other}}</div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4" style="float:right">
-                                <h4>Provider</h4>
-                                <div>Facebook</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.provider.facebook}}" style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.provider.facebook}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.provider.facebook}}</div>
-                                </div>
-                                <div>Normal</div>
-                                <div class="progress progress-sm mt-h mb-1"
-                                     data-toggle="popover"
-                                     data-trigger="hover"
-                                     data-content="{{today.provider.normal}}" style="height:16px;">
-                                    <div class="progress-bar" style="width: {{today.provider.normal}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{today.provider.normal}}</div>
-                                </div>
-                            </div>
-                            <div style="clear: both"></div>
                         </div>
                     </div>
                 </div>

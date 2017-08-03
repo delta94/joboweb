@@ -300,13 +300,13 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 $timeout(function () {
                     $scope.today = Array[Array.length - 2]
                     $scope.data = [$scope.TotalArray, $scope.EmployerArray]
-                });
+                },[10]);
             })
         })
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
-        $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
+        $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
         $scope.options = {
             scales: {
                 yAxes: [{
@@ -314,17 +314,10 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     type: 'linear',
                     display: true,
                     position: 'left'
-                }, {
-                    id: 'y-axis-2',
-                    type: 'linear',
-                    display: true,
-                    position: 'right'
                 }]
             }
         };
     })
-
-
     .controller("analyticsCtrl",function($scope,$rootScope,$timeout){
         $rootScope.service.JoboApi('admin/analytics',{
         }).then(function (dataAnalytics) {
@@ -338,7 +331,9 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
             $rootScope.service.JoboApi('log/act', {page: $scope.page}).then(function (response) {
                 $scope.response = response.data
-                $scope.log = response.data.data
+                if($scope.response){
+                    $scope.log = $scope.response.data
+                }
             })
         }
         $scope.pagin = function (page) {

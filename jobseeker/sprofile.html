@@ -364,8 +364,8 @@
                                                                                                      ng-show="userData.expect_salary > 0"></i></label>
                                     <div class=" col-md-8 controls">
                                         <div class="input-group">
-                                            <input ng-model="userData.expect_salary" class="form-control" type="number"
-                                                   step="any">
+                                            <input ng-model="userData.expect_salary" class="form-control" type="tel"
+                                                   size="4" maxlength="4" >
                                             <span class="input-group-addon">triệu đồng/tháng</span>
                                         </div>
                                         <small class="text-muted">
@@ -565,6 +565,7 @@
                                     <button type="file" ngf-select="uploadVideo($file, $invalidFiles)"
                                             accept="video/*" class="btn btn-outline-success">Tải lên Video
                                     </button>
+                                    <button type="button" class="btn btn-outline-danger" ng-click="deleteVideo()" ng-show="userData.videourl">Xoá</button>
                                 </div>
                             </div>
                             <div class="card-block">

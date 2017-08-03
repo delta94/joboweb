@@ -443,6 +443,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 userId: $rootScope.userId,
                 job: JSON.stringify($scope.jobData)
             });
+            $rootScope.storeData.storeId = $rootScope.storeId;
             $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,
                 storeId: $rootScope.storeId,
@@ -457,7 +458,14 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                 toastr.success('Cập nhật thành công')
             }
-            $state.go('app.edash')
+            if ($scope.adminData.admin){
+                $timeout(function () {
+                    window.location.href="/view/store/" + $rootScope.storeId;
+                });
+            } else {
+                $state.go('app.edash')
+            }
+            // $state.go('app.edash')
 
         } else {
             $scope.error = {};
