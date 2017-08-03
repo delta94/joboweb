@@ -595,6 +595,11 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 delete dataProfile.type
                 delete dataProfile.mobileToken
                 delete dataProfile.wrongEmail
+                delete dataProfile.adminData
+                delete dataProfile.act
+                delete dataProfile.distance
+
+
 
                 console.log(dataProfile)
 

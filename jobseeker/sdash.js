@@ -36,29 +36,9 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
             toastr.info('Bạn cần cập nhật hồ sơ trước!')
             $state.go('profile')
         } else if (!$rootScope.userData.location) {
-            ModalService.showModal({
-                templateUrl: 'templates/modals/address.html',
-                controller: 'ModalAddressCtrl'
-            }).then(function (modal) {
-                modal.element.modal();
-                modal.close.then(function (result) {
-                    if (result.location) {
-                        $rootScope.userData.location = result.location;
-                        $rootScope.userData.address = result.address;
-                        console.log(result);
-                        $rootScope.service.JoboApi('update/user',{
-                            userId: $rootScope.userId,
-                            profile: $rootScope.userData
-                        });
-                        // var userRef = firebase.database().ref('profile/' + $rootScope.userId);
-                        // userRef.update($rootScope.userData)
-                        $scope.initData()
-                    }
-                });
-            });
-
+            toastr.info('Bạn hãy cập nhật địa chỉ để tìm việc xung quanh!')
+            $state.go('profile')
             //init filter
-
 
         } else if (!$rootScope.newfilter) {
             $rootScope.newfilter = {
@@ -66,7 +46,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
                 type: 'job',
                 p: 1,
                 show:'new'
-
             }
             $scope.getUserFiltered($rootScope.newfilter)
         }
@@ -82,7 +61,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http,$stateParams
     }
     $scope.setSalary = function () {
         $scope.salary = true
-
     }
 
     $scope.salary = false

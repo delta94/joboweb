@@ -148,8 +148,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         delete $scope.tempoAdminNote
     }
     $scope.saveNote = function () {
-        // var adminNoteRef = firebase.database().ref('profile/' + $rootScope.userId + '/note');
-        // var newkey = adminNoteRef.push().key;
+
         var newkey = 'p' + Math.round(100000000000000 * Math.random());
         $scope.tempoAdminNote.id = newkey;
         if (!$scope.storeData.adminNote) {
@@ -182,8 +181,8 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                                 $rootScope.userData = datauser.data
                             })
                         })
-                        if ($rootScope.storeData && $rootScope.storeData.job) {
-                            $scope.jobData = $rootScope.storeData.job
+                        if ($rootScope.storeData && $rootScope.storeData.jobData) {
+                            $scope.jobData = $rootScope.storeData.jobData
                         } else {
                             //chưa có job
                             $rootScope.storeData.job = {}

@@ -145,8 +145,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             })*/
         }
     })
-
-
     .controller('employerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
         $scope.newfilter = {}
@@ -247,7 +245,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             })*/
         }
     })
-    .controller("analyticsUserCtrl", function ($scope, $timeout) {
+    .controller("analyticsUserCtrl", function ($scope, $timeout)    {
         $scope.labels = []
         $scope.series = ['Total', 'Employer']
         $scope.TotalArray = []
@@ -760,7 +758,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
             $rootScope.accessToken = ''
             $scope.groupId = '316500605097124'
-//316500605097124
             $scope.getFeedGroup = function (groupId) {
                 console.log('click')
                 FB.api(
