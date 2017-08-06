@@ -103,6 +103,12 @@
                                           ng-class="{'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine, 'has-success' : signupForm.address.$valid}">
                                     <label>Địa chỉ *</label> <i class="fa fa-check" style="color: #00ff00"
                                                                 ng-show="signupForm.address.$valid"></i>
+                                    <small class="text-muted">- Các công việc sẽ hiển thị xung quanh địa chỉ của bạn
+                                    </small>
+                                    <br>
+                                    <small class="text-muted">- Hãy nhập từ khóa để tìm kiếm địa chỉ</small>
+                                    <br>
+                                    <small class="text-muted">- Lựa chọn những địa chỉ được gợi ý</small>
                                     <div class="pop-add"
                                          ng-class="{ 'has-danger' : signupForm.address.$invalid && !signupForm.address.$pristine }">
                                         <input name="address" ng-change="searchAddress(autocompleteAddress.text)"
@@ -119,12 +125,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <small class="text-muted">- Các công việc sẽ hiển thị xung quanh địa chỉ của bạn
-                                    </small>
-                                    <br>
-                                    <small class="text-muted">- Hãy nhập từ khóa để tìm kiếm địa chỉ</small>
-                                    <br>
-                                    <small class="text-muted">- Lựa chọn những địa chỉ được gợi ý</small>
+
 
                                 </fieldset>
 
@@ -147,6 +148,9 @@
                                 <fieldset class="form-group" ng-class="{'has-success' : userData.avatar != null}">
                                     <label>Avatar</label> <i class="fa fa-check" style="color: #00ff00"
                                                              ng-show="userData.avatar != null"></i>
+                                    <small class="text-muted">- Hãy chụp ảnh rõ mặt và chuyên nghiệp
+                                    </small>
+
                                     <div class="avatar-img">
                                         <div class="card">
                                             <!--<a ng-hide="picFile" class="btn card-block" style="padding: 0px" href="#">

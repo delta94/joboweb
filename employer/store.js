@@ -434,11 +434,20 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     $rootScope.storeData.job[jobkey] = $scope.jobData[i].job;
                     $scope.jobData[i].job = jobkey;
                 } else {
+                    if(!$rootScope.storeData.job){
+                        $rootScope.storeData.job = {}
+
+                    }
+
                     $rootScope.storeData.job[$scope.jobData[i].job] = true;
                 }
 
 
             }
+
+            delete $rootScope.storeData.adminData;
+            delete $rootScope.storeData.jobData;
+
             $rootScope.service.JoboApi('update/job', {
                 userId: $rootScope.userId,
                 job: JSON.stringify($scope.jobData)
@@ -458,14 +467,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                 toastr.success('Cập nhật thành công')
             }
-            if ($scope.adminData.admin){
+            if ($scope.adminData && $scope.adminData.admin){
                 $timeout(function () {
-                    window.location.href="/view/store/" + $rootScope.storeId;
+                    window.location.href= "/view/store/" + $rootScope.storeId;
                 });
             } else {
                 $state.go('app.edash')
             }
-            // $state.go('app.edash')
 
         } else {
             $scope.error = {};

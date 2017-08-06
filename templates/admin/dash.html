@@ -1,36 +1,7 @@
 <div class="container">
 
     <div class="row" ng-controller="analyticsUserCtrl">
-        <!--<div class="row" >-->
-        <!--<div class="col-sm-3 col-lg-3">-->
-        <!--<div class="card" style="text-align: center">-->
-        <!--<p>Date</p>-->
-        <!--<p>All</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;end button&ndash;&gt;-->
-        <!--<div class="col-sm-3 col-lg-3">-->
-        <!--<div class="card" style="text-align: center">-->
-        <!--<p>Total</p>-->
-        <!--<p>{{allUser.total}}</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;end button&ndash;&gt;-->
-        <!--<div class="col-sm-3 col-lg-3">-->
-        <!--<div class="card" style="text-align: center">-->
-        <!--<p>Employer</p>-->
-        <!--<p>{{allUser.employer}}</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;end button&ndash;&gt;-->
-        <!--<div class="col-sm-3 col-lg-3">-->
-        <!--<div class="card" style="text-align: center">-->
-        <!--<p>Jobseeker</p>-->
-        <!--<p>{{allUser.jobseeker}}</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;end button&ndash;&gt;-->
-        <!--</div>-->
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -38,7 +9,7 @@
                 </div>
                 <div class="card-block" style="margin-top:-35px;">
                     <div class="col-sm-12">
-                        <h4>Total : {{allUser.total}}</h4>
+                        <h4>Total : {{dataAnalyticsUser.all.total}}</h4>
                     </div>
                     <div class="col-sm-6" style="float:left">
                         <h4>Employer</h4>
@@ -46,21 +17,21 @@
                         <div class="progress progress-sm mt-h mb-1"
                              data-toggle="popover"
                              data-trigger="hover"
-                             data-content="{{allUser.employer.employer}}" style="height:16px;">
+                             data-content="{{dataAnalyticsUser.all.employer.employer}}" style="height:16px;">
                             <div class="progress-bar" style="width: {{allUser.employer.employer}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.employer}}</div>
                         </div>
                         <div>Store</div>
                         <div class="progress progress-sm mt-h mb-1"
                              data-toggle="popover"
                              data-trigger="hover"
-                             data-content="{{allUser.employer.store}}" style="height:16px;">
+                             data-content="{{dataAnalyticsUser.all.employer.store}}" style="height:16px;">
                             <div class="progress-bar" style="width: {{allUser.employer.store}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.store}}</div>
                         </div>
                         <div>Premium</div>
                         <div class="progress progress-sm mt-h mb-1"
                              data-toggle="popover"
                              data-trigger="hover"
-                             data-content="{{allUser.employer.premium}}" style="height:16px;">
+                             data-content="{{dataAnalyticsUser.all.employer.premium}}" style="height:16px;">
                             <div class="progress-bar" style="width: {{allUser.employer.premium}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{allUser.employer.premium}}</div>
                         </div>
                     </div>

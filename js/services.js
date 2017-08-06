@@ -419,8 +419,13 @@
         this.shortAddress = function (fullAddress) {
             if (fullAddress) {
                 var mixAddress = fullAddress.split(",")
-                var address = mixAddress[0] + ', ' + mixAddress[1] + ', ' + mixAddress[2]
-                return address
+                if(mixAddress.length == 1){
+                    return fullAddress
+                } else {
+                    var address = mixAddress[0] + ', ' + mixAddress[1]
+                    return address
+                }
+
             }
         };
 
@@ -1257,7 +1262,31 @@
                 return ''
             }
 
+        }
+        this.createKey = function (fullname) {
+            var keyname = $rootScope.service.latinese(fullname)
+            db.ref('keyList').child(keyname).once('value', function (a) {
+                if(a.val()){
 
+                    var newname = keyname + Math.round(1000 * Math.random())
+                    var obj = {}
+                    obj[newname] = true
+                    db.ref('keyList').update(obj,function (suc) {
+                        console.log('done',suc)
+                        return newname
+                    })
+                } else {
+                    var obj = {}
+                    obj[keyname] = true
+                    db.ref('keyList').update(obj,function (suc) {
+                        console.log('done',suc)
+                        return keyname
+                    })
+                }
+            },function (err) {
+                var keyname = Math.round(10000 * Math.random())
+                return keyname
+            })
         }
         this.ObjectToArray = function (Object) {
             var array = []

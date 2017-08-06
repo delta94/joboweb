@@ -245,7 +245,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             })*/
         }
     })
-    .controller("analyticsUserCtrl", function ($scope, $timeout)    {
+    .controller("analyticsUserCtrl", function ($scope, $timeout,$rootScope)    {
         $scope.labels = []
         $scope.series = ['Total', 'Employer']
         $scope.TotalArray = []
@@ -266,16 +266,12 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             return day;
         }
 
-        firebase.database().ref('analytics/user/all').on('value', function (snap) {
-            $timeout(function () {
-                $scope.allUser = snap.val()
-            })
-        })
 
 
-        firebase.database().ref('analytics/user').on('value', function (snap) {
-            $scope.data = []
-            $scope.dataAnalyticsUser = snap.val()
+        $scope.data = []
+        $rootScope.service.JoboApi('admin/analyticsUser',{
+        }).then(function (dataAnalytics) {
+            $scope.dataAnalyticsUser = dataAnalytics.data
             var Array = []
             for (var i in $scope.dataAnalyticsUser) {
                 Array.push($scope.dataAnalyticsUser[i])
@@ -303,6 +299,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 },[10]);
             })
         })
+
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
@@ -325,21 +322,21 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         })
     })
     .controller('adminLogCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
-        $scope.page = 1
-        $scope.getLog = function (page) {
-            $scope.page = page || 1
-
-            $rootScope.service.JoboApi('log/act', {page: $scope.page}).then(function (response) {
-                $scope.response = response.data
-                if($scope.response){
-                    $scope.log = $scope.response.data
-                }
-            })
-        }
-        $scope.pagin = function (page) {
-            $scope.getLog(page)
-        }
-        $scope.getLog()
+        // $scope.page = 1
+        // $scope.getLog = function (page) {
+        //     $scope.page = page || 1
+        //
+        //     $rootScope.service.JoboApi('log/activity', {page: $scope.page}).then(function (response) {
+        //         $scope.response = response.data
+        //         if($scope.response){
+        //             $scope.log = $scope.response.data
+        //         }
+        //     })
+        // }
+        // $scope.pagin = function (page) {
+        //     $scope.getLog(page)
+        // }
+        // $scope.getLog()
 
     })
 
@@ -408,73 +405,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
     })
     .controller('functionAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, $q, toastr) {
-            var dataUser;
-            var db = firebase.database()
-
-            db.ref('user').once('value', function (snap) {
-                dataUser = snap.val()
-            })
-            var dateStart = new Date()
-            var dateEnd
-            dateStart.setHours(0, 0, 0, 0)
-            dateStart = dateStart.getTime()
-            console.log(dateStart);
-            var ObjectData = {}
-            var day = 30
-            for (i = 0; i < day; i++) {
-                dateStart = dateStart - 86400 * 1000 * i
-                dateEnd = dateStart + 86400 * 1000
-                StaticCountingNewUser(dateStart, dateEnd).then(function (data) {
-                    db.ref('analytics/user/').update(ObjectData)
-                    ObjectData[dateStart] = data
-
-                })
-
-            }
-            function StaticCountingNewUser(dateStart, dateEnd) {
-                if (!dateEnd) {
-                    dateEnd = new Date().getTime()
-
-                }
-
-                if (!dateStart) {
-                    dateStart = dateEnd - 86400 * 1000
-
-                }
-                var total = 0
-                var employer = 0
-                var jobseeker = 0
-
-
-                for (var i in dataUser) {
-                    var userData = dataUser[i]
-                    if (userData.createdAt) {
-                        if (userData.createdAt > dateStart && userData.createdAt < dateEnd) {
-                            total++
-                            if (userData.type == 1) {
-                                employer++
-                            } else if (userData.type == 2) {
-                                jobseeker++
-                            }
-
-                        }
-                    } else {
-                        console.log('StaticCountingNewUser', i)
-                    }
-                }
-                return new Promise(function (resolve, reject) {
-                    var data = {
-                        dateStart: dateStart,
-                        dateEnd: dateEnd,
-                        total: total,
-                        employer: employer,
-                        jobseeker: jobseeker
-                    }
-                    console.log(data)
-                    resolve(data)
-                })
-
-            }
 
             $scope.data = {employer: {}, store: {}, job: {}}
 
@@ -751,7 +681,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 });
             };
 
-            $rootScope.accessToken = ''
+            $rootScope.accessToken = 'EAAEMfZASjMhgBAD60T6ytMYX2ZBdbZCkgxoZA2XpXLKattHNquxWgPjGqlCMWDX3CE28rx6NRuDbxhVITTUM6AqQW9UcZA3LrMvnsIAWjwl4a1BZAOQjbBagcbyTSyIB8fjgzZBA05ZAl7Ih8ElCGe0jZCf8ZA0i7IxQOCfAYZBe0pmGsjr1wtqc4Hm'
             $scope.groupId = '316500605097124'
             $scope.getFeedGroup = function (groupId) {
                 console.log('click')
@@ -986,14 +916,14 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             }
             var postId = '137192719958155_189234488087311'
 
-            $rootScope.resObject = []
+
             $scope.collectComment = function (postId, refer) {
                 if (!$scope.refer) {
                     $scope.refer = refer
                 }
                 $scope.postId = postId;
                 var newfilter = {
-                    access_token: $rootScope.accessToken,
+                    access_token: 'EAAEMfZASjMhgBAD60T6ytMYX2ZBdbZCkgxoZA2XpXLKattHNquxWgPjGqlCMWDX3CE28rx6NRuDbxhVITTUM6AqQW9UcZA3LrMvnsIAWjwl4a1BZAOQjbBagcbyTSyIB8fjgzZBA05ZAl7Ih8ElCGe0jZCf8ZA0i7IxQOCfAYZBe0pmGsjr1wtqc4Hm',
                     pretty: 0,
                     limit: 1000
                 };
@@ -1005,6 +935,9 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     url: 'https://graph.facebook.com/v2.8/' + $scope.postId + '/comments',
                     params: newfilter
                 }).then(function (res) {
+                    if(!$rootScope.resObject){
+                        $rootScope.resObject = []
+                    }
                     $rootScope.resObject = $rootScope.resObject.concat(res.data.data);
                     console.log($rootScope.resObject.length)
                     if (res.data.paging && res.data.paging.cursors && res.data.paging.cursors.after) {

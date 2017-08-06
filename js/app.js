@@ -98,7 +98,7 @@ var app = angular
             }
         });
         $rootScope.service.loadLang('vi')
-
+$rootScope.service.createKey('thong thong')
 
         function checkPlatform() {
             var ua = navigator.userAgent.toLowerCase();
