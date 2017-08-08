@@ -359,13 +359,51 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     };
 
+    $scope.workTime = [
+        '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+        '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
+        '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00',
+        '21:00', '22:00', '23:00'];
+    $scope.addWorkTime = function (start, end, type) {
+        if ((start !== undefined && end !== undefined)  && (start !== null && end !== null)){
+            if (type === 'new') {
+                $scope.newJob.work_time.push({
+                    start: start,
+                    end: end
+                });
+
+            } else {
+                if(!$scope.jobData[type].work_time){
+                    $scope.jobData[type].work_time = [];
+                }
+                console.log(type);
+                $scope.jobData[type].work_time.push({
+                    start: start,
+                    end: end
+                });
+                console.log($scope.jobData[type])
+            }
+        }
+
+    };
+    $scope.deleteWorkTime = function (id, type) {
+        if (type === 'new') {
+            $scope.newJob.work_time.splice(id, 1);
+        } else {
+            console.log(type);
+            $scope.jobData[type].work_time.splice(id,1);
+        }
+
+    };
     $scope.addJob = function () {
         $scope.newJob = {
             createdBy: $rootScope.userId,
             storeId: $rootScope.storeId,
             address: $rootScope.storeData.address,
             location: $rootScope.storeData.location,
-            storeName: $rootScope.storeData.storeName
+            storeName: $rootScope.storeData.storeName,
+            createdAt: new Date(),
+            work_time: []
         }
     };
     $scope.saveJob = function () {
@@ -392,13 +430,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     };
     $scope.deleteJob = function (id) {
-        if (confirm("Bạn muốn xoá job " + [$rootScope.Lang[$scope.jobData[id].job] || $scope.jobData[id].other] + "?") === true){
+        if (confirm("Bạn muốn xoá job " + [$rootScope.Lang[$scope.jobData[id].job] || $scope.jobData[id].other] + "?") === true) {
             console.log($scope.jobData[id]);
             delete $rootScope.storeData.job[$scope.jobData[id].job];
-            $rootScope.service.JoboApi('delete/job',{
+            $rootScope.service.JoboApi('delete/job', {
                 jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
             });
-            $scope.jobData.splice(id,1);
+            $scope.jobData.splice(id, 1);
             console.log($rootScope.storeData);
             console.log($scope.jobData);
         }
@@ -434,7 +472,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     $rootScope.storeData.job[jobkey] = $scope.jobData[i].job;
                     $scope.jobData[i].job = jobkey;
                 } else {
-                    if(!$rootScope.storeData.job){
+                    if (!$rootScope.storeData.job) {
                         $rootScope.storeData.job = {}
 
                     }
@@ -467,9 +505,9 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                 toastr.success('Cập nhật thành công')
             }
-            if ($scope.adminData && $scope.adminData.admin){
+            if ($scope.adminData && $scope.adminData.admin) {
                 $timeout(function () {
-                    window.location.href= "/view/store/" + $rootScope.storeId;
+                    window.location.href = "/view/store/" + $rootScope.storeId;
                 });
             } else {
                 $state.go('app.edash')

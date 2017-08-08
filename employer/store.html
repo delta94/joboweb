@@ -257,7 +257,7 @@
                                     Thêm
                                 </button>
                             </div>
-                            <div class="card" ng-repeat="card in jobData" ng-hide="newJob">
+                            <div class="card" ng-repeat="card in jobData track by $index" ng-hide="newJob">
                                 <div class="card-header">
                                     <strong>Vị trí: {{Lang[card.job] || card.other}}</strong><br>
                                     <span ng-if="card.createdAt">Đăng ngày: {{card.createdAt | date}} ({{service.timeAgo(card.createdAt)}})</span>
@@ -278,6 +278,27 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Ca làm</label>
+                                        <div class="col-md-7">
+                                            <ul>
+                                                <li ng-repeat="work in card.work_time">{{work.start}} - {{work.end}}    <button class="btn btn-outline-danger btn-round" ng-click="deleteWorkTime($index, $parent.$index)"><i class="fa fa-close"></i></button></li>
+                                            </ul>
+                                            <div class="input-group">
+                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.start" type="time">-->
+                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.end" type="time">-->
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.start" ng-options="n for n in workTime">
+                                                    <option value=''>Từ</option>
+                                                </select>
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.end" ng-options="n for n in workTime">
+                                                    <option value=''>Đến</option>
+                                                </select>
+                                                <button type="button" class="btn btn-outline-primary col-md-1 " ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, $index)"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label">Lương</label>
                                         <div class="col-md-7">
@@ -285,6 +306,17 @@
                                                 <input ng-model="card.salary" class="form-control"
                                                        type="number" step="any">
                                                 <span class="input-group-addon">{{card.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label">Lương theo giờ</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input ng-model="card.hourly_wages" class="form-control"
+                                                       type="number" step="any">
+                                                <span class="input-group-addon">nghìn đồng/giờ</span>
                                             </div>
                                         </div>
                                     </div>
@@ -414,6 +446,27 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label" for="select">Ca làm</label>
+                                            <div class="col-md-7">
+                                                <ul>
+                                                    <li ng-repeat="work in newJob.work_time">{{work.start}} - {{work.end}}    <button class="btn btn-outline-danger btn-round" ng-click="deleteWorkTime($index, 'new')"><i class="fa fa-close"></i></button></li>
+                                                </ul>
+                                                <div class="input-group">
+                                                    <!--<input class="col-md-5 form-control" ng-model="newWorkTime.start" type="time">-->
+                                                    <!--<input class="col-md-5 form-control" ng-model="newWorkTime.end" type="time">-->
+                                                    <select class="form-control col-md-5" ng-model="newWorkTime.start" ng-options="n for n in workTime">
+                                                        <option value=''>Từ</option>
+                                                    </select>
+                                                    <select class="form-control col-md-5" ng-model="newWorkTime.end" ng-options="n for n in workTime">
+                                                        <option value=''>Đến</option>
+                                                    </select>
+                                                    <button type="button" class="btn btn-outline-primary col-md-1" ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, 'new')"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group row">
                                             <label class="col-md-5 form-control-label">Lương</label>
                                             <div class="col-md-7">
@@ -421,6 +474,17 @@
                                                     <input ng-model="newJob.salary" class="form-control"
                                                            type="number" step="any">
                                                     <span class="input-group-addon">{{newJob.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-md-5 form-control-label">Lương theo giờ</label>
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                    <input ng-model="newJob.hourly_wages" class="form-control"
+                                                           type="number" step="any">
+                                                    <span class="input-group-addon">nghìn đồng/giờ</span>
                                                 </div>
                                             </div>
                                         </div>
