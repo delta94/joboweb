@@ -66,6 +66,7 @@ var app = angular
 
         firebase.database().ref('config').once('value', function (snap) {
             $rootScope.CONFIG = snap.val();
+            $rootScope.CONFIG.APIURL = 'https://joboapp-hvd.herokuapp.com'
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;

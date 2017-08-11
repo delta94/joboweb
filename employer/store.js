@@ -465,7 +465,10 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 if (!$scope.jobData[i].createdAt) {
                     $scope.jobData[i].createdAt = new Date().getTime()
                 }
-                delete $scope.jobData[i].$$hashKey
+                delete $scope.jobData[i].$$hashKey;
+                for (var j in $scope.jobData[i].work_time){
+                    delete $scope.jobData[i].work_time[j].$$hashKey;
+                }
 
                 if ($scope.jobData[i].other) {
                     var jobkey = $rootScope.service.latinese($scope.jobData[i].job);

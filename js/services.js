@@ -25,6 +25,7 @@
                         var user = res.data;
                         console.log('user', user);
                         $rootScope.userData = user.userData;
+                        $rootScope.profileData = user.profileData;
                         output = $rootScope.userData;
                         deferred.resolve(output);
                         if (!$rootScope.userData.webToken) {
@@ -498,7 +499,8 @@
         }
         this.convertDate = function (array) {
 
-            return new Date(array.year, array.month, array.day).getTime()
+            // return new Date(array.year, array.month, array.day).getTime()
+            return new Date(array.year, array.month, array.day).toISOString()
         }
         this.convertDateArray = function (date) {
             var dateAr = new Date(date)

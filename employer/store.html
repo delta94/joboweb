@@ -346,6 +346,7 @@
                                         <div class="col-md-7">
                                             <select id="select" name="select" class="form-control" size="1"
                                                     ng-model="card.sex">
+                                                <option value="">- Giới tính -</option>
                                                 <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
                                                     {{value}}
                                                 </option>
@@ -515,6 +516,7 @@
                                             <div class="col-md-7">
                                                 <select id="select" name="select" class="form-control" size="1"
                                                         ng-model="newJob.sex">
+                                                    <option value="">- Giới tính -</option>
                                                     <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
                                                         {{value}}
                                                     </option>
