@@ -58,7 +58,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $rootScope.service.JoboApi('on/user', {userId: userData.userId}).then(function (data) {
             console.log('checkSignupOrSignIn', data.data);
             var userDataLoad = data.data;
-            if (userDataLoad) {
+            if (userDataLoad && userDataLoad.type) {
                 toastr.success('Đăng nhập thành công');
                 var type = userDataLoad.type;
                 if (type == 1) {

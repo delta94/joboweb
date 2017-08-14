@@ -54,7 +54,15 @@
                 <div class="card-block" style="padding: 0px">
 
                     <div class="em-info">
-                        <h4>{{profileData.name}}</h4>
+
+                        <h4 style="position: relative;margin-bottom: 15px;">{{profileData.name}}
+                            <i style="margin-left: 5px; color:#00bf8f;font-size:20px;" class="fa fa-check-square-o" aria-hidden="true"
+                               data-toggle="popover" data-placement="top" data-content="Đã phỏng vấn" data-trigger="hover" ng-if="profileData.verify == true"></i>
+                            <i  style="position: absolute; bottom: 3px; right: 0;font-size:23px;" class="fa fa-mobile fa-lg mt-2"
+                                data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên điện thoại" data-trigger="hover"></i>
+                            <i  style="position: absolute; bottom: 3px; right: 24px; font-size:20px;" class="fa fa-globe fa-lg mt-2"
+                                data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên máy tính" data-trigger="hover"></i>
+                        </h4>
                         <span class="badge badge-danger pull-right" ng-if="profileData.urgent == -1">Đã có việc</span>
                         <span class="badge badge-info pull-right" ng-if="profileData.urgent == 1">Tìm việc gấp</span>
                         <div class="rating-stars" ng-show="reviewData">
@@ -349,7 +357,7 @@
             </div>
             <!--/.col-->
         </div>
-        <div class="row">
+        <div class="row" ng-show="userData.admin == true">
             <div class="col-md-12">
                 <h4 class="legend text-center">Tình trạng tuyển dụng</h4>
                 <div class="tab-content">

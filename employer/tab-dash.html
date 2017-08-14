@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div class="popup dropdown">
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
@@ -136,7 +136,7 @@
                 </label>
             </fieldset>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div class="popup dropdown">
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
@@ -165,6 +165,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2" ng-hide="newfilter.type == 'store'">
+             <div ng-hide="age == true">
+                <a class="text-truncate nav-link nav-pill" ng-click="setAge()" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    {{(newfilter.age1 && newfilter.age2)? newfilter.age1 +' đến ' + newfilter.age2 + " tuổi":'Tuổi'}} <i
+                        class="fa fa-chevron-down"
+                        aria-hidden="true"
+                        style="color: #999"></i>
+                </a>
+            </div>
+                <div class="input-group" ng-if="age == true">
+                    <input type="number" step="any" ng-model="expect_age1" name="input3-group2" class="form-control"
+                           placeholder="Tuổi từ">
+                    <input type="number" step="any" ng-model="expect_age2" name="input3-group3" class="form-control"
+                           placeholder="đến">
+                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                                ng-click="newAgeFilter('expect_age',expect_age1,expect_age2 )">OK
+                                        </button>
+                                    </span>
+                </div>
         </div>
     </div>
 

@@ -359,13 +359,48 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     };
 
+    $scope.workTime = [
+        '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00',
+        '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
+        '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00',
+        '21:00', '22:00', '23:00'];
+    $scope.addWorkTime = function (start, end, type) {
+        if ((start !== undefined && end !== undefined) && (start !== null && end !== null)) {
+            if (type === 'new') {
+                $scope.newJob.work_time.push({
+                    start: start,
+                    end: end
+                });
+            } else {
+                if (!$scope.jobData[type].work_time) {
+                    $scope.jobData[type].work_time = [];
+                }
+                console.log(type);
+                $scope.jobData[type].work_time.push({
+                    start: start,
+                    end: end
+                });
+                console.log($scope.jobData[type])
+            }
+        }
+    };
+    $scope.deleteWorkTime = function (id, type) {
+        if (type === 'new') {
+            $scope.newJob.work_time.splice(id, 1);
+        } else {
+            console.log(type);
+            $scope.jobData[type].work_time.splice(id, 1);
+        }
+    };
+
     $scope.addJob = function () {
         $scope.newJob = {
             createdBy: $rootScope.userId,
             storeId: $rootScope.storeId,
             address: $rootScope.storeData.address,
             location: $rootScope.storeData.location,
-            storeName: $rootScope.storeData.storeName
+            storeName: $rootScope.storeData.storeName,
+            work_time: []
         }
     };
     $scope.saveJob = function () {
@@ -392,13 +427,13 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     };
     $scope.deleteJob = function (id) {
-        if (confirm("Bạn muốn xoá job " + [$rootScope.Lang[$scope.jobData[id].job] || $scope.jobData[id].other] + "?") === true){
+        if (confirm("Bạn muốn xoá job " + [$rootScope.Lang[$scope.jobData[id].job] || $scope.jobData[id].other] + "?") === true) {
             console.log($scope.jobData[id]);
             delete $rootScope.storeData.job[$scope.jobData[id].job];
-            $rootScope.service.JoboApi('delete/job',{
+            $rootScope.service.JoboApi('delete/job', {
                 jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
             });
-            $scope.jobData.splice(id,1);
+            $scope.jobData.splice(id, 1);
             console.log($rootScope.storeData);
             console.log($scope.jobData);
         }
@@ -428,13 +463,16 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     $scope.jobData[i].createdAt = new Date().getTime()
                 }
                 delete $scope.jobData[i].$$hashKey
+                for (var j in $scope.jobData[i].work_time) {
+                    delete $scope.jobData[i].work_time[j].$$hashKey;
+                }
 
                 if ($scope.jobData[i].other) {
                     var jobkey = $rootScope.service.latinese($scope.jobData[i].job);
                     $rootScope.storeData.job[jobkey] = $scope.jobData[i].job;
                     $scope.jobData[i].job = jobkey;
                 } else {
-                    if(!$rootScope.storeData.job){
+                    if (!$rootScope.storeData.job) {
                         $rootScope.storeData.job = {}
 
                     }
@@ -448,32 +486,41 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             delete $rootScope.storeData.adminData;
             delete $rootScope.storeData.jobData;
 
-            $rootScope.service.JoboApi('update/job', {
-                userId: $rootScope.userId,
-                job: JSON.stringify($scope.jobData)
-            });
+
             $rootScope.storeData.storeId = $rootScope.storeId;
             $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,
                 storeId: $rootScope.storeId,
                 user: $rootScope.userData,
                 store: $rootScope.storeData
+            }).then(function (res) {
+                toastr.success('Cập nhật thông tin thành công')
+                $rootScope.service.JoboApi('update/job', {
+                    userId: $rootScope.userId,
+                    job: JSON.stringify($scope.jobData)
+                }).then(function (res) {
+                    toastr.success('Cập nhật vị trí thành công')
+                    if ($scope.firsttime) {
+                        $rootScope.service.Ana('createStore');
+                        toastr.success('Tạo cửa hàng thành công')
+                    } else {
+                        $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
+                        toastr.success('Cập nhật thành công')
+                    }
+                    if ($scope.adminData && $scope.adminData.admin) {
+                        $timeout(function () {
+                            window.location.href = "/view/store/" + $rootScope.storeId;
+                        });
+                    } else {
+                        $state.go('app.edash')
+                    }
+                });
+
+            }).catch(function (err) {
+                toastr.error('Lỗi')
+
             });
 
-            if ($scope.firsttime) {
-                $rootScope.service.Ana('createStore');
-                toastr.success('Tạo cửa hàng thành công')
-            } else {
-                $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
-                toastr.success('Cập nhật thành công')
-            }
-            if ($scope.adminData && $scope.adminData.admin){
-                $timeout(function () {
-                    window.location.href= "/view/store/" + $rootScope.storeId;
-                });
-            } else {
-                $state.go('app.edash')
-            }
 
         } else {
             $scope.error = {};

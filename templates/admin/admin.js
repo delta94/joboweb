@@ -266,12 +266,11 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             return day;
         }
 
-
-
         $scope.data = []
         $rootScope.service.JoboApi('admin/analyticsUser',{
         }).then(function (dataAnalytics) {
             $scope.dataAnalyticsUser = dataAnalytics.data
+            //Today
             var Array = []
             for (var i in $scope.dataAnalyticsUser) {
                 Array.push($scope.dataAnalyticsUser[i])
@@ -279,6 +278,41 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             for (var i = 0; i < Array.length; i++) {
                 Array[i].dateEnd = toDate(Array[i].dateStart);
             }
+
+            //sum7days
+            var sum7total = 0 ;
+            var sum7noEmail = 0;
+            var sum7noPhone = 0 ;
+            var sum7noProfile = 0 ;
+            var sum7employeremployer = 0 ;
+            var sum7employerstore = 0 ;
+            var sum7employerpremium = 0 ;
+            var sum7jobseekerhn = 0 ;
+            var sum7jobseekersg = 0 ;
+            var sum7jobseekerother = 0 ;
+            var sum7jobseekerhnve = 0 ;
+            var sum7jobseekersgve = 0 ;
+            var sum7jobseekerotherve = 0 ;
+            var sum7providerfb = 0 ;
+            var sum7providernm = 0 ;
+            for (var j = 1; j < 8 ;j++ ){
+                sum7total += Array[j].total;
+                sum7noEmail += Array[j].noEmail;
+                sum7noPhone += Array[j].noPhone;
+                sum7noProfile += Array[j].noProfile;
+                sum7employeremployer += Array[j].employer.employer;
+                sum7employerstore += Array[j].employer.store;
+                sum7employerpremium += Array[j].employer.premium;
+                sum7jobseekerhn += Array[j].jobseeker.hn;
+                sum7jobseekersg += Array[j].jobseeker.sg;
+                sum7jobseekerother += Array[j].jobseeker.other;
+                sum7jobseekerhnve += Array[j].jobseeker.hn_ve;
+                sum7jobseekersgve += Array[j].jobseeker.sg_ve;
+                sum7jobseekerotherve += Array[j].jobseeker.other_ve;
+                sum7providerfb += Array[j].provider.facebook;
+                sum7providernm += Array[j].provider.normal;
+            }
+
             //push 30 days to chart
             var today = new Date().getTime()
             var last30days = today - 86400 * 1000 * 30
@@ -294,9 +328,27 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 res($scope.labels)
             }).then(function () {
                 $timeout(function () {
-                    $scope.today = Array[Array.length - 2]
+                    $scope.today1 = Array[1];//hôm nay
+                    $scope.today2 = Array[7];//7 ngày trước
+                    //7 days
+                    $scope.day7total = sum7total;
+                    $scope.day7noEmail = sum7noEmail;
+                    $scope.day7noPhone = sum7noPhone;
+                    $scope.day7noProfile = sum7noProfile ;
+                    $scope.day7employeremployer = sum7employeremployer;
+                    $scope.day7employerstore = sum7employerstore ;
+                    $scope.day7employerpremium = sum7employerpremium;
+                    $scope.day7jobseekerhn = sum7jobseekerhn ;
+                    $scope.day7jobseekersg = sum7jobseekersg ;
+                    $scope.day7jobseekerother = sum7jobseekerother ;
+                    $scope.day7jobseekerhnve = sum7jobseekerhnve ;
+                    $scope.day7jobseekersgve = sum7jobseekersgve ;
+                    $scope.day7jobseekerotherve = sum7jobseekerotherve ;
+                    $scope.day7providerfb = sum7providerfb ;
+                    $scope.day7providernm  = sum7providernm ;
+                    // end 7days
                     $scope.data = [$scope.TotalArray, $scope.EmployerArray]
-                },[10]);
+                });
             })
         })
 

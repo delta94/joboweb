@@ -255,7 +255,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         var params = {
             query: S($scope.autocompleteSchool.text).latinise().s,
             type: 'university'
-        }
+        };
         $http({
             method: 'GET',
             url: $rootScope.CONFIG.APIURL + '/api/places',
@@ -343,7 +343,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         }
         $scope.userData.experience[newkey] = $scope.tempoExperience
         delete $scope.tempoExperience
-    }
+    };
     //admin note
     $scope.addMoreNote = function () {
         $scope.tempoAdminNote = {};
@@ -357,15 +357,13 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         delete $scope.tempoAdminNote
     }
     $scope.saveNote = function () {
-        // var adminNoteRef = firebase.database().ref('profile/' + $rootScope.userId + '/note');
-        // var newkey = adminNoteRef.push().key;
+
         var newkey = 'p' + Math.round(100000000000000 * Math.random());
         $scope.tempoAdminNote.id = newkey;
         if (!$scope.userData.adminNote) {
             $scope.userData.adminNote = {}
         }
         $scope.userData.adminNote[newkey] = $scope.tempoAdminNote;
-        delete $scope.tempoAdminNote
     };
     //update data
     $scope.updateData = function () {
@@ -618,32 +616,34 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     userId: $rootScope.userId,
                     user: dataUser,
                     profile: dataProfile
+                }).then(function (res) {
+                    if ($scope.firsttime) {
+                        $rootScope.service.Ana('createProfile');
+                    } else {
+                        $rootScope.service.Ana('updateProfile');
+                    }
+
+                    if (!$rootScope.userData.avatar) {
+                        toastr.info('Bạn cần cập nhật avatar thì thông tin của bạn mới được hiện thị cho nhà tuyển dụng, hãy cập nhật ngay!');
+
+                    }
+                    toastr.success('Cập nhật hồ sơ thành công');
+                    if ($rootScope.preApply) {
+                        $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
+                    }
+                    if ($scope.adminData && $scope.adminData.admin) {
+                        console.log('adminData.admin');
+                        $timeout(function () {
+                            window.location.href = "/view/profile/" + $rootScope.userId;
+                        });
+                    } else {
+                        $state.go('app.sdash', {}, {reload: true})
+                    }
                 });
 
 
                 //init profile
-                if ($scope.firsttime) {
-                    $rootScope.service.Ana('createProfile');
-                } else {
-                    $rootScope.service.Ana('updateProfile');
-                }
 
-                if (!$rootScope.userData.avatar) {
-                    toastr.info('Bạn cần cập nhật avatar thì thông tin của bạn mới được hiện thị cho nhà tuyển dụng, hãy cập nhật ngay!');
-
-                }
-                toastr.success('Cập nhật hồ sơ thành công');
-                if ($rootScope.preApply) {
-                    $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
-                }
-                if ($scope.adminData && $scope.adminData.admin) {
-                    console.log('adminData.admin');
-                    $timeout(function () {
-                        window.location.href = "/view/profile/" + $rootScope.userId;
-                    });
-                } else {
-                    $state.go('app.sdash', {}, {reload: true})
-                }
                 // $state.go('app.sdash', {}, {reload: true})
             }, 1000)
         } else {

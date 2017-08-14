@@ -164,6 +164,8 @@
                                             <p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu
                                                 khác:</em></p>
                                             <p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>
+                                            <p ng-if="card.sex">• Giới tính: {{Lang[card.sex]}}</p>
+
                                             <p ng-if="card.experience">• Đã có kinh nghiệm</p>
                                             <p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
                                             <button class="btn btn-secondary btn-sm"

@@ -419,10 +419,10 @@
         this.shortAddress = function (fullAddress) {
             if (fullAddress) {
                 var mixAddress = fullAddress.split(",")
-                if(mixAddress.length == 1){
+                if(mixAddress.length < 3){
                     return fullAddress
                 } else {
-                    var address = mixAddress[0] + ', ' + mixAddress[1]
+                    var address = mixAddress[0] + ', ' + mixAddress[1] +', ' + mixAddress[2]
                     return address
                 }
 

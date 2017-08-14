@@ -75,6 +75,21 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         $rootScope.usercard = []
         $scope.getUserFiltered($rootScope.newfilter)
     }
+    $scope.setAge = function () {
+        $scope.age = true
+    }
+    $scope.age = false;
+    $rootScope.newAgeFilter = function (type, key1, key2) {
+        $rootScope.jobCard = []
+        $rootScope.storeCard = []
+        $rootScope.newfilter.p = 1
+        $rootScope.newfilter.age1 = key1
+        $rootScope.newfilter.age2 = key2
+        console.log($rootScope.newfilter)
+        $rootScope.usercard = []
+        $scope.getUserFiltered($rootScope.newfilter)
+        $scope.age = false
+    }
 
 
     $scope.showVideo = function (user) {
