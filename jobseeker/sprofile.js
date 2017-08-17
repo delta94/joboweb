@@ -596,7 +596,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                 if ($rootScope.userData.wrongEmail) {
                     dataUser.wrongEmail = $rootScope.userData.wrongEmail
                 }
-                var dataProfile = $rootScope.userData
+                var dataProfile = Object.assign({},$rootScope.userData);
                 delete dataProfile.phone
                 delete dataProfile.email
                 delete dataProfile.webToken

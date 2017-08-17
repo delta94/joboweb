@@ -4,7 +4,8 @@ angular.module('starter.configs', [])
         'UpdateAt': "2017-04-10T04:44:21.253Z",
         'Location': false,
         'WEBURL': 'https://joboapp.com',
-        "APIURL": 'http://localhost:8080',
+        "APIURL": 'https://jobohihi.herokuapp.com',
+        // "APIURL": 'htpps://jobo-hvd.herokuapp.com',
         'FCM_KEY': "AAAArk3qIB4:APA91bEWFyuKiFqLt4UIrjUxLbduQCWJB4ACptTtgAovz4CKrMdonsS3jt06cfD9gGOQr3qtymBmKrsHSzGhqyJ_UWrrEbA4YheznlqYjsCBp_12bNPFSBepqg_qrxwdYxX_IcT9ne5z6s02I2mu2boy3VTN3lGPYg",
         "APIKey": 'AIzaSyATOX9rL_ULV-Q_e2kImu9wYgK2AToOteQ',
         "StatusChat": {
