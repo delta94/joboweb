@@ -5,7 +5,7 @@ angular.module('app').controller('dashboardCtrl', dashboardCtrl);
 function dashboardCtrl($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope) {
     $scope.loading = true
     $rootScope.aside = false
-    $scope.showjob = 1;
+    $scope.showjob = 2;
 
 
     if (!$rootScope.UserCard && !$rootScope.StoreCard) {

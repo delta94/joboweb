@@ -265,7 +265,7 @@ gulp.task('build:dist', function (callback) {
         'unedit1',
         'concat',
         'newjs',
-        // 'strip',
+        'strip',
 
 
         callback);

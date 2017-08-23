@@ -3,23 +3,7 @@
 app.controller('storeCtrl', storeCtrl)
 
 function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $state, toastr, $http, firebase, Upload, usSpinnerService, $sce) {
-    var staticData = {
-        viewed: 0,
-        liked: 0,
-        shared: 0,
-        rated: 0,
-        rateAverage: 0,
-        matched: 0,
-        chated: 0,
-        like: 0,
-        share: 0,
-        rate: 0,
-        match: 0,
-        chat: 0,
-        timeOnline: 0,
-        login: 1,
-        profile: 0
-    }
+
     $scope.init = function () {
         $timeout(function () {
             $scope.ByHand = true
@@ -482,18 +466,20 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
 
             }
+            var storeD = Object.assign({},$rootScope.storeData)
+            delete storeD.adminData;
+            delete storeD.jobData;
+            delete storeD.actData;
 
-            delete $rootScope.storeData.adminData;
-            delete $rootScope.storeData.jobData;
+            storeD.storeId = $rootScope.storeId;
 
-
-            $rootScope.storeData.storeId = $rootScope.storeId;
             $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,
                 storeId: $rootScope.storeId,
                 user: $rootScope.userData,
-                store: $rootScope.storeData
+                store: storeD
             }).then(function (res) {
+                console.log(res)
                 toastr.success('Cập nhật thông tin thành công')
                 $rootScope.service.JoboApi('update/job', {
                     userId: $rootScope.userId,
@@ -502,10 +488,8 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     toastr.success('Cập nhật vị trí thành công')
                     if ($scope.firsttime) {
                         $rootScope.service.Ana('createStore');
-                        toastr.success('Tạo cửa hàng thành công')
                     } else {
                         $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
-                        toastr.success('Cập nhật thành công')
                     }
                     if ($scope.adminData && $scope.adminData.admin) {
                         $timeout(function () {
@@ -514,6 +498,8 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     } else {
                         $state.go('app.edash')
                     }
+                }).catch(function (err) {
+                    toastr.error('Lỗi cập nhật tin tuyển dụng')
                 });
 
             }).catch(function (err) {

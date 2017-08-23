@@ -371,8 +371,6 @@
             }
 
             data.agent = $rootScope.checkAgent.platform + ':' + $rootScope.checkAgent.device;
-            // var logRef = firebase.database().ref('log')
-            // var actRef = firebase.database().ref('act')
 
             var analyticKey = Math.round(100000000000000 * Math.random());
 

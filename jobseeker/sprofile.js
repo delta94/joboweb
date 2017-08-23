@@ -641,10 +641,6 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     }
                 });
 
-
-                //init profile
-
-                // $state.go('app.sdash', {}, {reload: true})
             }, 1000)
         } else {
             console.log($rootScope.userData);
@@ -708,7 +704,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
             toastr.error('Bạn chưa cập nhật đủ thông tin', 'Lỗi');
             $scope.gotoAnchor('name')
         }
-    }
+    };
 
     $scope.gotoAnchor = function (x) {
         var newHash = 'anchor' + x;
