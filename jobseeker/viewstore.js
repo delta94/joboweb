@@ -7,6 +7,14 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
     $scope.currentJob = $stateParams.job;
 
 
+    $scope.swInter = function(storeId,userId,working){
+        console.log(storeId,userId,working)
+
+        firebase.database().ref('activity/like').child(storeId+':'+userId).update({success: working})
+
+
+    }
+
     $scope.admin = $stateParams.admin;
 
     console.log('admin', $scope.admin)

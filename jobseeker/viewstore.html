@@ -419,13 +419,14 @@
                                         <small><b>Chưa tương hợp với ứng viên nào</b>
                                         </small>
                                     </div>
-                                    <div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">
-                                        <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                                    <div ng-repeat="(key ,card) in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">
+                                        <div class="message p-h" >
                                             <div class="py-h mr-1 float-left">
                                                 <div class="avatar">
                                                     <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
                                                          class="img-avatar"
-                                                         alt="admin@bootstrapmaster.com">
+                                                         alt="admin@bootstrapmaster.com"
+                                                         ng-click="service.chatToUser(card.userId)">
                                                     <span class="avatar-status badge-success"
                                                           ng-if="card.presence == 'online'"></span>
                                                     <span class="avatar-status badge-default"
@@ -439,11 +440,18 @@
                                                     card.createdAt)}}
                                                 </small>
                                             </div>
-                                            <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                                            <div ng-click="service.chatToUser(card.userId)" class="text-truncate font-weight-bold">{{card.userName}}</div>
                                             <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
                                                    ng-show="card.jobUser">
                                                 {{Lang[key] || '&nbsp'}}
                                             </small>
+                                            <span style="float:right">
+                                                <label class="switch-sm switch switch-3d switch-primary">
+                                                    <input type="checkbox" class="switch-input"  ng-model="card.success" ng-change="swInter(card.storeId,card.userId,card.success)">
+                                                    <span class="switch-label"></span>
+                                                    <span class="switch-handle"></span>
+                                                </label>
+                                            </span>
                                         </div>
                                     </div>
                                     <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('match')"
