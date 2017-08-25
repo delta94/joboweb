@@ -391,7 +391,6 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
         // $scope.getLog()
 
     })
-
     .controller('userActivityAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http) {
         $scope.page = 1
         $scope.getLog = function (page) {
@@ -457,6 +456,14 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
     })
     .controller('functionAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, $q, toastr) {
+
+            $scope.PostToGroup = function (text,where,poster) {
+                console.log('text',text, where, poster)
+                $rootScope.service.JoboApi('PostToGroup',{text:text,where:where,poster:poster}).then(function(res){
+                    console.log(res)
+                })
+            }
+
 
             $scope.data = {employer: {}, store: {}, job: {}}
 
@@ -1054,6 +1061,9 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                     return emailsArray[0]
                 }
             }
+
+
+
         }
     )
     .controller('workingAdminCtrl', function ($scope, $timeout, $rootScope, toastr) {

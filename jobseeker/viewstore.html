@@ -74,11 +74,15 @@
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div ng-if="profileData.description" class="description">
-                    <h4 class="legend text-center">Mô tả</h4>
-                    <p ng-if="profileData.description"
-                       ng-repeat="text in service.nextLine(profileData.description) track by $index">
-                        {{text}}</p>
+                <div class="card" ng-if="profileData.description">
+                    <div class="card-header"><h3 class="card-title clearfix mb-0">Về chúng tôi</h3></div>
+                    <div class="card-block" style="padding: 50px">
+
+                        <p ng-if="profileData.description"
+                           ng-repeat="text in service.nextLine(profileData.description) track by $index">
+                            {{text}}</p>
+
+                    </div>
                 </div>
                 <div class="summary" id="jobposition">
 
@@ -192,7 +196,7 @@
                     </div>
 
 
-                    <h4 class="legend text-center" ng-hide="profileData.jobData">Hiện tại chúng tôi đang không
+                    <h4 class="legend text-center" ng-if="!profileData.jobData">Hiện tại chúng tôi đang không
                         tuyển</h4>
                     <h4 class="legend text-center" ng-if="profileData.jobData && !currentJob">Vị trí đang tuyển</h4>
                     <h4 class="legend text-center"
@@ -230,8 +234,7 @@
                                                         ng-hide="profileData.act.jobUser[card.job] || myself"
                                                         type="button"
                                                         class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV'
-                                                    :'Ứng
-                                                    tuyển nhanh'}}
+                                                    :'Ứng tuyển nhanh'}}
                                                 </button>
                                             </div>
                                             <div ng-if="card.deadline < today || card.static.going >= card.unit">
@@ -265,9 +268,7 @@
                                 <div class="content-section job-description-container">
                                     <div class="js-job-description">
                                         <div class="job-description">
-                                            <div><p ng-if="card.description"
-                                                    ng-repeat="text in service.nextLine(card.description) track by $index">
-                                                {{text}}</p>
+                                            <div>
                                                 <p><em>Mô tả</em></p>
                                                 <p>• Mức lương: {{card.salary ? card.salary + ' triệu đồng' : ' thỏa
                                                     thuận'}}</p>
@@ -284,6 +285,12 @@
                                                 <p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>
                                                 <p ng-if="card.experience">• Đã có kinh nghiệm</p>
                                                 <p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
+
+
+                                                <p ng-if="card.description"
+                                                   ng-repeat="text in service.nextLine(card.description) track by $index">
+                                                    {{text}}</p>
+
                                                 <button class="btn btn-secondary btn-sm"
                                                         ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">
                                                     Copy link
@@ -320,7 +327,7 @@
             </ul>
         </div>
 
-        <div class="row" ng-if="staticData">
+        <div class="row" ng-if="myself">
 
             <div class="col-md-12">
                 <h4 class="legend text-center">Thống kê</h4>
@@ -438,12 +445,20 @@
                                                     {{service.timeAgo(card.matchedAt ||
                                                     card.createdAt)}}
                                                 </small>
+
                                             </div>
                                             <div class="text-truncate font-weight-bold">{{card.userName}}</div>
                                             <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
                                                    ng-show="card.jobUser">
                                                 {{Lang[key] || '&nbsp'}}
                                             </small>
+                                            <span style="float:right" ng-show="myself || admin">
+                                                <label class="switch-sm switch switch-3d switch-primary">
+                                                    <input type="checkbox" class="switch-input"  ng-model="card.success" ng-change="service.setSuccess(card.storeId,card.userId,card.success)">
+                                                    <span class="switch-label"></span>
+                                                    <span class="switch-handle"></span>
+                                                </label>
+                                            </span>
                                         </div>
                                     </div>
                                     <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('match')"
@@ -551,7 +566,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="main main-dark section-creators">
     <div class="container" style="max-width: 100%">

@@ -37,7 +37,6 @@
                                         <input type="text" name="email" class="form-control" placeholder="Email"
                                                id="email"
                                                ng-model="userData.email" ng-disabled="userInfo.email" required>
-
                                     </div>
                                 </fieldset>
 
@@ -153,10 +152,7 @@
 
                                     <div class="avatar-img">
                                         <div class="card">
-                                            <!--<a ng-hide="picFile" class="btn card-block" style="padding: 0px" href="#">
-                                                <img ngf-drop ng-src="{{userData.avatar || 'img/macdinh.jpg'}}"
-                                                     style="width: 100%" ngf-select ng-model="picFile" accept="image/*"/>
-                                            </a>-->
+
                                             <div>
                                                 <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
                                                      class="cropArea" style="height: 400px">
@@ -184,27 +180,14 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <!--<span us-spinner spinner-key="avatar"></span>
-                                        <form name="myForm">
-                                            <div ng-show="picFile">
-                                                <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-                                                     class="cropArea" style="height: 500px;">
-                                                    <img-crop image="picFile  | ngfDataUrl" area-type="square"
-                                                              result-image-size="800" result-image-format="image/jpeg"
-                                                              result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
-                                                    </img-crop>
-                                                </div>
-                                                <button class="btn btn-success" ng-click="uploadAvatar(croppedDataUrl)">
-                                                    Tải lên
-                                                </button>
-                                            </div>
-                                        </form>-->
 
                                     </div>
                                     <small class="text-muted" ng-hide="userData.avatar">
                                         - Thay hình đại diện bằng ảnh của bạn để nhà tuyển dụng biết bạn là ai<br>
                                         - Chọn ảnh bán thân rõ mặt, đủ ánh sáng và chuyên nghiệp<br>
                                     </small>
+
+
                                 </fieldset>
 
                             </div>
@@ -218,12 +201,7 @@
                             <div class="card-header">
                                 <strong>Chúng tôi có thể phỏng vấn online bạn qua ứng dụng nào</strong>
                             </div>
-                            <!--<div class="card-block">-->
-                            <!--<label ng-repeat="option in ['FBMessenger', 'Skype', 'Zalo', 'Facetime']" style="margin-right: 10px">-->
-                            <!--<input  type="checkbox" ng-model="userData.interview[option]" value="true">   {{option}}-->
-                            <!--<input  type="text" ng-show="userData.interview[option]">-->
-                            <!--</label>-->
-                            <!--</div>-->
+
                             <div class="card-block">
                                 <table>
                                     <tr ng-repeat="option in options">

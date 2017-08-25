@@ -56,7 +56,13 @@
 
             return deferred.promise;
         };
+        this.setSuccess = function(storeId,userId,working){
+            console.log(storeId,userId,working)
 
+            firebase.database().ref('activity/like').child(storeId+':'+userId).update({success: working})
+
+
+        }
         this.sendVerifyEmail = function (userId) {
             console.log('sendVerifyEmail')
             $rootScope.service.JoboApi('sendverify', {id: userId})
