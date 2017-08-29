@@ -1,42 +1,102 @@
-﻿<div class="section section-header hidden-md-up"
+﻿<div class="section section-header"
      style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
      background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
     <div class="info" style="margin-top: 0px; float: left">
-        <div style="margin-top: 50px">
-            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
-                <h1>Tìm việc nhanh xung quanh bạn</h1>
-                <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search"
-                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
-                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length"
-                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-                                </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
-                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
-                                       ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+        <div style="margin-top: 100px">
+            <form ng-hide="newfilter.job" accept-charset="UTF-8" autocomplete="off">
+                <h1>Giải pháp tuyển gấp nhân sự trong vòng 24h</h1>
+                <h4>Đăng tin miễn phí, hồ sơ ứng viên minh hoạ rõ ràng, dễ dàng tuyển chọn trong vài giờ </h4>
             </form>
+            <form ng-if="newfilter.job == 'server'" accept-charset="UTF-8" autocomplete="off">
+                <h1>Bạn đang cần tuyển thêm nhân viên phục vụ?</h1>
+                <h4>Đăng tin miễn phí, hồ sơ ứng viên minh hoạ rõ ràng, dễ dàng tuyển chọn trong vài giờ </h4>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="why-use">
+    <div class="container">
+        <div class="section-heading text-center" style="margin-top:30px;">
+            <h2>Tại sao 900+ nhà tuyển dụng sử dụng Jobo</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-why text-center">
+                    <img src="img/iMoney2.png" alt="">
+                    <h4>Không mất phí trả trước</h4>
+                    <p>Hoàn toàn miễn phí khi yêu cầu ứng viên từ Jobo, và bạn chỉ cần trả phí cho những ứng viên được
+                        chọn và không phải trả phí cho những ứng viên bị loại</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/24h2.png" alt="" width="75px">
+                    <h4>Tuyển nhân viên trong 24h</h4>
+                    <p>Gửi yêu cầu đến toàn bộ ứng viên phù hợp trong nháy mắt. 70% nhà tuyển dụng nhận ngay nhân viên
+                        trong vòng 24h</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/star2.png" alt="" width="70px">
+                    <h4>Chất lượng ứng viên</h4>
+                    <p>Chỉ 15% ứng viên vượt qua vòng kiểm tra khắt khe của chúng tôi, bạn sẽ hài lòng với chất lượng
+                        ứng viên của chúng tôi</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
-<!--Industry-->
-<div class="industry" style="margin:50px auto">
+
+
+
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-heading">
+                    <h2>Hướng dẫn sử dụng</h2>
+                    <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-user-following text-primary"></i>
+                    <h3>1. Gửi yêu cầu công việc</h3>
+                    <p>Chọn vị trí bạn cần tuyển và nhập mô tả cụ thể. Hệ thống của chúng tôi sẽ lọc thông minh ra các ứng viên phù hợp và gửi đề xuất đến cho họ.</p>
+                    <small>2 phút</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-envelope-letter text-primary"></i>
+                    <h3>2. Chọn ứng viên phù hợp</h3>
+                    <p>Jobo sẽ gửi danh sách các ứng viên phù hợp với yêu cầu của bạn. Hãy chọn những ứng viên bạn thích trong danh sách đó, hoặc nếu bạn không có thời gian, Jobo sẽ chọn thay bạn.</p>
+                    <small>Tuỳ thuộc vào deadline</small>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-present text-primary"></i>
+                    <h3>3. Gặp mặt và nhận việc</h3>
+
+
+                    <p>Xác nhận lại thời gian và địa điểm để bạn gặp ứng viên và bắt đầu công việc! Trong quá trình ứng viên nhận việc, bạn có thể gửi đánh giá về từng ứng viên để đảm bảo công việc của bạn được hoàn thành tốt nhất</p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-area text-center">
+            <a class="typeform-share button" href="/signup/1#ref=howitwork"
+               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Đăng tin miễn phí </a>
+        </div>
+    </div>
+</section>
+<div class="industry" style="margin:50px auto" ng-hide="newfilter.job">
     <div class="container" style="margin:0 auto; max-width: 100% !important">
         <div class="row" style="margin-top: 40px">
             <div class="col-md-4">
@@ -47,13 +107,12 @@
  background: -webkit-linear-gradient(#38DEA8 , #20BEEF );
  -webkit-background-clip: text;
  -webkit-text-fill-color: transparent;
- ">Đăng ký Jobo, <br>kiếm thêm thu nhập</h1>
+ ">Sử dụng Jobo <br>tiết kiệm lên đến 50% thời gian</h1>
 
                         <h3 style="font-size: 22px;">Hàng nghìn công việc <br>bán thời gian và thời vụ <br>đang được
                             nhận mỗi ngày trên Jobo</h3>
                         <div style="margin-top:30px;">
-                            <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo"
-                                                                  style="margin-bottom: 10px;"></a>
+
                             <a href="/signup/1#s=industry"><input type="button" value="Đăng công việc"
                                                                   style="background-color: #fff; color:#000;padding: 7px 55px;"></a>
                         </div>
@@ -642,262 +701,12 @@
     </div>
 </div>
 
-
-<div class="text-center section-heading">
-    <h2>Việc làm gấp</h2>
-</div>
-
-<div class="text-center job-tab">
-    <a href="" ng-click="showjob=2">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == 2, 'active-tab-white' :showjob != 2}"
-                style="border:solid 1px #00a67c">Sài Gòn
-        </button>
-    </a>
-    <a href="" ng-click="showjob=3">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
-                style="border:solid 1px #00a67c">Hà Nội
-        </button>
-    </a>
-    <br>
-    <button ng-if="showjob==2" ng-repeat="(key,value) in catalog.sg" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
-    <button ng-if="showjob==3" ng-repeat="(key,value) in catalog.hn" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
-
-</div>
-<div class="animated fadeIn" ng-show="showjob == 1" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.ss">
-                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.other}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
-                                    </p>
-                                </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
-               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
-        </div>
-    </div>
-</div>
-
-
-<!--Sai Gon-->
-
-<div class="animated fadeIn" ng-show="showjob == 2" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg | limitTo : numberDisplay2.sg">
-                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.other}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
-                                    </p>
-                                </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
-               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
-        </div>
-    </div>
-</div>
-<!--Ha noi-->
-
-<div class="animated fadeIn" ng-show="showjob == 3" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn | limitTo : numberDisplay2.hn">
-                    <div class="card-new">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.other}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
-                                    </p>
-                                </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('hn')" role="button" ng-if="JobCard.hn.length > numberDisplay2.hn"
-               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
-        </div>
-
-    </div>
-</div>
-<section id="features" class="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="section-heading">
-                    <h2>Nhận việc phù hợp với 3 bước</h2>
-                    <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="feature-item">
-                    <i class="icon-user-following text-primary"></i>
-                    <h3>1. Ứng tuyển không cần CV</h3>
-                    <p>Cập nhật các thông tin về bạn để chúng tôi hiểu bạn hơn và đề xuất công việc phù hợp</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-item">
-                    <i class="icon-envelope-letter text-primary"></i>
-                    <h3>2. Tư vấn việc làm trực tiếp</h3>
-                    <p>Bạn sẽ gặp tư vấn việc trực tiếp tại văn phòng hoặc online qua mobile để được tư vấn việc làm</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-item">
-                    <i class="icon-present text-primary"></i>
-                    <h3>3. Hoàn thiện hồ sơ và nhận việc</h3>
-                    <p>Jobo sẽ trực tiếp hướng dẫn bạn hoàn thiện hồ sơ (bao gồm thông tin cá nhân, mong muốn và video
-                        phỏng vấn ngắn)</p>
-                </div>
-            </div>
-        </div>
-        <div class="btn-area text-center">
-            <a class="typeform-share button" href="/signup/2#s=industry"
-               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Nhận
-                việc với Jobo </a>
-        </div>
-    </div>
-</section>
-
 <div class="animated fadeIn container">
     <div class="wpb_wrapper text-center">
         <div class="section-heading">
             <h2>Chọn Ứng Viên Phù Hợp</h2>
+            <p class="text-muted">Tất cả ứng viên đều đã được kiểm tra kĩ năng và phỏng vấn trực tiếp bởi chúng tôi!</p>
+
         </div>
     </div>
     <div class="spinner" ng-show="!UserCard">
@@ -906,7 +715,7 @@
     </div>
     <div class="list-profile">
         <div class="row row-s">
-            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">
+            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard" ng-if="card.job[newfilter.job]">
                 <!-- Normal Demo-->
                 <!-- Post-->
 
@@ -962,43 +771,29 @@ right: 0px;bottom: 0px;">
 </div>
 
 
-
-
-
-<!--Why should jobo web-->
-<div class="section-heading text-center" style="margin-top:30px;">
-    <h2>Tại sao 900+ nhà tuyển dụng sử dụng Jobo</h2>
-</div>
-<div class="why-use">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card-why text-center">
-                    <img src="img/iMoney2.png" alt="">
-                    <h4>Không mất phí trả trước</h4>
-                    <p>Hoàn toàn miễn phí khi yêu cầu ứng viên từ Jobo, và bạn chỉ cần trả phí cho những ứng viên được
-                        chọn và không phải trả phí cho những ứng viên bị loại</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-why  text-center">
-                    <img src="img/24h2.png" alt="" width="75px">
-                    <h4>Tuyển nhân viên trong 24h</h4>
-                    <p>Gửi yêu cầu đến toàn bộ ứng viên phù hợp trong nháy mắt. 70% nhà tuyển dụng nhận ngay nhân viên
-                        trong vòng 24h</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card-why  text-center">
-                    <img src="img/star2.png" alt="" width="70px">
-                    <h4>Chất lượng ứng viên</h4>
-                    <p>Chỉ 15% ứng viên vượt qua vòng kiểm tra khắt khe của chúng tôi, bạn sẽ hài lòng với chất lượng
-                        ứng viên của chúng tôi</p>
-                </div>
+<div class="animated fadeIn container">
+    <div class="wpb_wrapper text-center">
+        <div class="section-heading">
+            <h2>Hơn {{StoreCard.length}}++ đối tác đã tin tưởng Jobo </h2>
+        </div>
+    </div>
+    <div class="spinner" ng-show="!UserCard">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+    </div>
+    <div class="list-profile">
+        <div class="row row-s">
+            <div class="col-xs-3 col-md-2 col-lg-2" ng-repeat="card in StoreCard" ng-if="card.job[newfilter.job]">
+                <img src="{{card.avatar || 'img/macdinh.jpg'}}" width="100%" style="margin-bottom: 30px">
             </div>
         </div>
     </div>
 </div>
+
+
+
+<!--Why should jobo web-->
+
 
 
 

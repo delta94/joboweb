@@ -326,13 +326,14 @@
                                       style="height: 300px;"></textarea>
 
                             <div class="input-group">
-
+                                <input type="text" ng-model="job" name="input2-group2"
+                                       class="form-control" placeholder="job">
                                 <input type="text" ng-model="where" name="input2-group2"
                                        class="form-control" placeholder="where">
                                 <input type="text" ng-model="poster" name="input2-group2"
                                        class="form-control" placeholder="poster">
                                 <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary" ng-click="PostToGroup(text,where,poster)">PostToStore</button>
+                                        <button type="button" class="btn btn-primary" ng-click="PostToGroup(text,where,poster,job)">PostToGroup</button>
                                     </span>
                             </div>
                         </div>

@@ -2,66 +2,64 @@
     <div class="cube1"></div>
     <div class="cube2"></div>
 </div>
+<div class="col-md-6" ng-hide="ByHand == true">
+    <div class="card">
+        <div class="card-header">
+            <h2>Thông tin cửa hàng</h2>
+        </div>
+        <div class="card-block">
+            <fieldset class="form-group">
+                <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
 
-<div class="app flex-row align-items-center animated fadeIn" ng-show="storeData">
-    <div class="container">
-
-        <div class="row justify-content-center" style="margin-top: 100px;">
-            <div class="col-md-6" ng-hide="ByHand == true">
-                <div class="card" >
-                    <div class="card-header">
-                        <h2>Thông tin cửa hàng</h2>
-                    </div>
-                    <div class="card-block">
-                        <fieldset class="form-group">
-                            <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
-
-                            <div class="pop-add">
-                                <input ng-keydown="searchStore()" id="Store" ui-items="names"
-                                       ng-model="autocompleteStore.text" class="form-control">
-                                <i class="icon-close" id="delete-store"
-                                   ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
-                                <ul id="list-store" ng-show="autocompleteStore.text.length">
-                                    <li ng-repeat="ketqua in ketquasStore"
-                                        ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
-                                        ketqua.formatted_address}}
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </fieldset>
-
-                        <div class="row">
-                            <div class="col-6 text-left">
-                                <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
-                                    tìm thấy? Tự tạo
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                    <button ng-click="createByHand()" type="submit"
-                            class="btn btn-block btn-success main-backgroud">Đăng
-                        ký
-                    </button>
+                <div class="pop-add">
+                    <input ng-keydown="searchStore()" id="Store" ui-items="names"
+                           ng-model="autocompleteStore.text" class="form-control">
+                    <i class="icon-close" id="delete-store"
+                       ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
+                    <ul id="list-store" ng-show="autocompleteStore.text.length">
+                        <li ng-repeat="ketqua in ketquasStore"
+                            ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
+                            ketqua.formatted_address}}
+                        </li>
+                    </ul>
                 </div>
 
+            </fieldset>
+
+            <div class="row">
+                <div class="col-6 text-left">
+                    <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
+                        tìm thấy? Tự tạo
+                    </button>
+                </div>
             </div>
 
+        </div>
+        <button ng-click="createByHand()" type="submit"
+                class="btn btn-block btn-success main-backgroud">Đăng
+            ký
+        </button>
+    </div>
+
+</div>
+
+<div class="container" style="margin-top: 30px">
+
+    <div class="animated fadeIn ng-scope justify-content-center">
+        <div class="row">
             <div class="col-md-6" ng-show="ByHand == true">
                 <div class="card card-border">
-
                     <form name="signupForm" class="form-update" autocomplete="off">
-                        <div >
-
+                        <div>
                             <div class="card" ng-hide="type == 'job'">
-                                <div class="card-header">
-                                    <strong>Thông tin chi tiết</strong>
+                                <div class="card-block p-2" style="text-align: left">
+                                    <h1>Về thương hiệu</h1>
                                 </div>
                                 <div class="card-block">
                                     <fieldset class="form-group {{error.storeName ? 'has-danger':''}}"
                                               ng-class="{'has-danger': signupForm.storeName.$invalid && !signupForm.storeName.$pristine, 'has-success': signupForm.storeName.$valid}">
-                                        <label>Tên thương hiệu *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.storeName.$valid"></i>
+                                        <label>Tên thương hiệu *</label><i class="fa fa-check" style="color: #00ff00"
+                                                                           ng-show="signupForm.storeName.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-directions"></i>
@@ -73,23 +71,27 @@
 
                                     <div class="form-group {{error.industry ? 'has-danger':''}}"
                                          ng-class="{'has-success': storeData.industry.length > 0}">
-                                        <label class="form-control-label">Lĩnh vực *</label><i class="fa fa-check" style="color: #00ff00" ng-show="storeData.industry.length > 0"></i>
+                                        <label class="form-control-label">Lĩnh vực *</label><i class="fa fa-check"
+                                                                                               style="color: #00ff00"
+                                                                                               ng-show="storeData.industry.length > 0"></i>
                                         <ui-select class="form-control" ng-model="storeData.industry" theme="select2">
                                             <ui-select-match placeholder="Chọn lĩnh vực">
                                                 {{Lang[$select.selected]}}
                                             </ui-select-match>
                                             <ui-select-choices repeat="ins in arrayIndustry | filter:$select.search">
-                                                {{Lang[ins]}}
+                                                {{Lang[ins]}} {{ins}}
                                             </ui-select-choices>
                                         </ui-select>
                                     </div>
 
                                     <fieldset class="form-group {{error.location ? 'has-danger' : ''}}"
                                               ng-class="{'has-danger': signupForm.storeAddress.$invalid && !signupForm.storeAddress.$pristine, 'has-success': signupForm.storeAddress.$valid}">
-                                        <label>Địa chỉ *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.storeAddress.$valid"></i>
+                                        <label>Địa chỉ *</label><i class="fa fa-check" style="color: #00ff00"
+                                                                   ng-show="signupForm.storeAddress.$valid"></i>
                                         <div class="pop-add">
                                             <input ng-keydown="searchAddress()" id="address" ui-items="names"
-                                                   ng-model="autocompleteAddress.text" class="form-control" name="storeAddress">
+                                                   ng-model="autocompleteAddress.text" class="form-control"
+                                                   name="storeAddress">
                                             <i class="icon-close" id="delete-address"
                                                ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>
                                             <ul id="list-add" ng-show="autocompleteAddress.text.length">
@@ -104,7 +106,8 @@
 
 
                                     <fieldset class="form-group">
-                                        <label>Avatar/Logo cửa hàng</label><i class="fa fa-check" style="color: #00ff00" ng-show="storeData.avatar"></i>
+                                        <label>Avatar/Logo cửa hàng</label><i class="fa fa-check" style="color: #00ff00"
+                                                                              ng-show="storeData.avatar"></i>
 
                                         <div class="card" ng-hide="picFile">
                                             <div class="card-block" style="padding: 0px">
@@ -188,7 +191,8 @@
 
                                     <div class="radio">
                                         <label for="radio2">
-                                            <input type="radio" id="radio2" ng-model="userData.package" name="radios" value="basic"> Basic:
+                                            <input type="radio" id="radio2" ng-model="userData.package" name="radios"
+                                                   value="basic"> Basic:
                                         </label>
                                         <small class="text-muted">Tự chọn ứng viên, liên hệ và phỏng vấn</small>
 
@@ -196,9 +200,12 @@
 
                                     <div class="radio">
                                         <label for="radio3">
-                                            <input type="radio" id="radio3" ng-model="userData.package" name="radios" value="premium"> Premium:
+                                            <input type="radio" id="radio3" ng-model="userData.package" name="radios"
+                                                   value="premium"> Premium:
                                         </label>
-                                        <small class="text-muted">Chúng tôi sẽ cung cấp nhân sự theo yêu cầu của bạn, bảo hành 7 ngày</small>
+                                        <small class="text-muted">Chúng tôi sẽ cung cấp nhân sự theo yêu cầu của bạn,
+                                            bảo hành 7 ngày
+                                        </small>
 
                                     </div>
 
@@ -213,7 +220,8 @@
 
                                     <fieldset class="form-group {{error.name ? 'has-danger' : ''}}"
                                               ng-class="{'has-danger': signupForm.name.$invalid && !signupForm.name.$pristine, 'has-success': signupForm.name.$valid}">
-                                        <label>Họ tên *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.name.$valid"></i>
+                                        <label>Họ tên *</label><i class="fa fa-check" style="color: #00ff00"
+                                                                  ng-show="signupForm.name.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-user"></i>
@@ -226,7 +234,8 @@
 
                                     <fieldset class="form-group {{error.email ? 'has-danger' : ''}}"
                                               ng-class="{'has-danger': signupForm.email.$invalid && !signupForm.email.$pristine, 'has-success': signupForm.email.$valid}">
-                                        <label>Email *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.email.$valid"></i>
+                                        <label>Email *</label><i class="fa fa-check" style="color: #00ff00"
+                                                                 ng-show="signupForm.email.$valid"></i>
                                         <div class="input-group mb-1">
                                             <span class="input-group-addon">@</span>
                                             <input ng-disabled="contact.email" type="text" class="form-control"
@@ -237,7 +246,8 @@
 
                                     <fieldset class="form-group {{error.phone ? 'has-danger' : ''}}"
                                               ng-class="{'has-danger': signupForm.phone.$invalid && !signupForm.phone.$pristine, 'has-success': signupForm.phone.$valid}">
-                                        <label>Số điện thoại *</label><i class="fa fa-check" style="color: #00ff00" ng-show="signupForm.phone.$valid"></i>
+                                        <label>Số điện thoại *</label><i class="fa fa-check" style="color: #00ff00"
+                                                                         ng-show="signupForm.phone.$valid"></i>
                                         <div class="input-group mb-1">
                                         <span class="input-group-addon">
                                             <i class="icon-phone"></i>
@@ -249,31 +259,374 @@
                                     </fieldset>
                                 </div>
                             </div>
-                            <div class="card-block p-2" style="text-align: left">
-                                <h1>Vị trí cần tuyển</h1>
+                        </div>
+                    </form>
+                </div>
 
-                                <button ng-click="addJob()" type="submit" ng-hide="newJob"
-                                        class="btn btn-outline-primary main-backgroud">
-                                    Thêm
-                                </button>
+                <!--admin note-->
+                <div class="card" ng-show="admin">
+                    <div class="card-header">
+                        <strong>Admin ghi chú</strong>
+                    </div>
+                    <fieldset class="form-group {{error.name ? 'has-danger':''}}">
+                        <label>Ref</label>
+                        <div class="input-group mb-1">
+                            <input type="text" name="name" class="form-control" placeholder="Reference"
+                                   ng-model="storeData.ref" ng-disabled="storeData.ref" id="ref">
+                        </div>
+                    </fieldset>
+                    <div class="card-block ex-em">
+                        <ul>
+                            <li ng-repeat="card in storeData.adminNote">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-3">
+                                        <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6">
+                                        <h4 style="margin-top: 0px">{{card.admin}}</h4>
+                                        <p>{{card.note}}</p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <button ng-click="deleteNote(card.id)" type="button"
+                                                class="btn btn-outline-danger">
+                                            <i class="fa fa-times"></i>Xóa
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-block" ng-if="tempoAdminNote">
+                        <fieldset class="form-group">
+                            <label>Date note</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                <!--<input type="datetime-local" class="date-control" ng-model="tempoAdminNote.date" ng-disabled="tempoAdminNote.date">-->
+                                <div class="date-control">{{tempoAdminNote.date | date: 'dd/MM/yyyy -
+                                    HH:mm:ss'}}
+                                </div>
                             </div>
-                            <div class="card" ng-repeat="card in jobData" ng-hide="newJob">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Admin ID</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="icon-user"></i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Admin ID"
+                                       ng-model="tempoAdminNote.adminId" ng-disabled="tempoAdminNote.adminId">
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Note</label>
+                            <div class="input-group mb-1">
+                                <textarea class="form-control"
+                                          ng-model="tempoAdminNote.note"
+                                          placeholder="..."
+                                          style="height: 150px;"></textarea>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="saveNote(tempoAdminNote)">
+                                <i class="fa fa-plus"></i>&nbsp;
+                                Lưu
+                            </button>
+                            <button type="button" class="btn btn-danger"
+                                    ng-click="deleteTempNote(tempoAdminNote)">
+                                <i class="fa fa-times"></i>
+                                Hủy
+                            </button>
+                        </fieldset>
+                    </div>
+                    <div class="card-block ex-em">
+                        <fieldset class="form-group">
+                            <label>Verify</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.verify">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Feature</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.feature">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Hide</label>
+                            <label class="switch switch-default switch-pill switch-danger"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.hide" checked="storeData.hide">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Wrong Email</label>
+                            <label class="switch switch-default switch-pill switch-danger"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input" class="switch-input"
+                                       ng-model="storeData.wrongEmail" checked="storeData.wrongEmail">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+                    </div>
+                    <div class="card-footer" ng-hide="tempoAdminNote">
+                        <button type="button" class="btn btn-outline-primary"
+                                ng-click="addMoreNote(storeData.adminNote)">
+                            <i class="fa fa-plus"></i>
+                            Thêm ghi chú
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+
+            <div class="col-md-6" ng-show="ByHand == true">
+                <div class="card card-border">
+
+                    <form name="signupForm" class="form-update" autocomplete="off">
+                        <div class="card-block p-2" style="text-align: left">
+                            <h1>Vị trí cần tuyển</h1>
+
+                            <button ng-click="addJob()" type="submit" ng-hide="newJob"
+                                    class="btn btn-outline-primary main-backgroud">
+                                Thêm
+                            </button>
+                        </div>
+                        <div class="card" ng-repeat="card in jobData" ng-hide="newJob">
+                            <div class="card-header">
+                                <strong>Vị trí:</strong> <input type="text" class="form-control"
+                                                                ng-model="card.jobName"
+                                                                name="jobName"><br>
+                                <span ng-if="card.createdAt">Đăng ngày: {{card.createdAt | date}} ({{service.timeAgo(card.createdAt)}})</span>
+                            </div>
+                            <div class="card-block">
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Ngành nghề</label>
+                                    <div class="col-md-7">
+                                        <select id="select" name="select" class="form-control" size="1"
+                                                ng-model="card.job" >
+                                            <option ng-repeat="(key,value) in CONFIG.data.job" value="{{key}}">
+                                                {{ Lang[key]}}
+                                            </option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Hình thức</label>
+                                    <div class="col-md-7">
+                                        <select id="select" name="select" class="form-control" size="1"
+                                                ng-model="card.working_type">
+                                            <option ng-repeat="(key,value) in CONFIG.data.working_type"
+                                                    value="{{key}}">
+                                                {{ Lang[key]}}
+                                            </option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Ca làm</label>
+                                    <div class="col-md-7">
+                                        <ul>
+                                            <li ng-repeat="work in card.work_time">{{work.start}} - {{work.end}}
+                                                <button class="btn btn-outline-danger btn-round"
+                                                        ng-click="deleteWorkTime($index, $parent.$index)"><i
+                                                        class="fa fa-close"></i></button>
+                                            </li>
+                                        </ul>
+                                        <div class="input-group">
+                                            <select class="form-control col-md-5" ng-model="newWorkTime.start"
+                                                    ng-options="n for n in workTime">
+                                                <option value=''>Từ</option>
+                                            </select>
+                                            <select class="form-control col-md-5" ng-model="newWorkTime.end"
+                                                    ng-options="n for n in workTime">
+                                                <option value=''>Đến</option>
+                                            </select>
+                                            <button type="button" class="btn btn-outline-primary col-md-2 "
+                                                    ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, $index)">
+                                                <i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Lương</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">{{card.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
+                                            <input ng-model="card.salary" class="form-control"
+                                                   type="number" step="any">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Lương theo giờ</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">nghìn đồng/giờ</span>
+                                            <input ng-model="card.hourly_wages" class="form-control"
+                                                   type="number" step="any">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Số lượng</label>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input ng-model="card.unit" class="form-control"
+                                                   type="number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Hạn chót</label>
+                                    <div class="col-md-7">
+
+                                        <div>
+                                            <input ng-if="showdate" type="date" class="date-control"
+                                                   ng-model="card.deadline">
+                                            <div class="form-control" ng-click="showdate = true" ng-hide="showdate">
+                                                {{card.deadline | date}}{{!card.deadline? 'Thêm':''}}
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">- Nhấn để sửa mới</small>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Giới tính</label>
+                                    <div class="col-md-7">
+                                        <select id="select" name="select" class="form-control" size="1"
+                                                ng-model="card.sex">
+                                            <option value="">- Giới tính -</option>
+                                            <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
+                                                {{value}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại
+                                        ngữ</label>
+                                    <div class="col-md-7">
+                                        <select id="select" name="select" class="form-control" size="1"
+                                                ng-model="card.languages">
+                                            <option ng-repeat="(key,value) in CONFIG.data.languages"
+                                                    value="{{key}}">
+                                                {{value}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
+                                    <div class="col-md-7">
+                                        <label class="switch switch-3d switch-primary">
+                                            <input ng-model="card.figure" type="checkbox"
+                                                   class="switch-input" checked="">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label">Đã có kinh nghiệm</label>
+                                    <div class="col-md-7">
+                                        <label class="switch switch-3d switch-primary">
+                                            <input ng-model="card.experience" type="checkbox"
+                                                   class="switch-input" checked="">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <fieldset class="form-group">
+                                    <label>Mô tả thêm</label>
+                                    <div class="input-group mb-1">
+
+                                            <textarea class="form-control" ng-model="card.description"
+                                                      placeholder="..."
+                                                      style="height: 300px;"></textarea>
+                                    </div>
+                                </fieldset>
+
+                                <button class="btn btn-danger" ng-click="deleteJob($index)" type="button">Xóa
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div ng-if="newJob">
+                            <div class="card">
                                 <div class="card-header">
-                                    <strong>Vị trí: {{Lang[card.job] || card.other}}</strong><br>
-                                    <span ng-if="card.createdAt">Đăng ngày: {{card.createdAt | date}} ({{service.timeAgo(card.createdAt)}})</span>
+                                    <h3>Thêm vị trí mới</h3>
                                 </div>
                                 <div class="card-block">
 
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Ngành nghề</label>
+                                        <div class="col-md-7">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="newJob.job">
+                                                <option ng-repeat="job in arrayJob" value="{{job}}">
+                                                    {{Lang[job]}}
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-5 form-control-label" for="select">Tên công việc</label>
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control"
+                                                   ng-model="newJob.jobName"
+                                                   name="jobName">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" ng-if="newJob.job == 'other'">
+                                        <label class="col-md-5 form-control-label" for="select">Vị trí</label>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input ng-model="newJob.other" class="form-control"
+                                                       type="text" placeholder="Điền vị trí bạn cần tuyển">
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label" for="select">Hình thức</label>
                                         <div class="col-md-7">
                                             <select id="select" name="select" class="form-control" size="1"
-                                                    ng-model="card.working_type">
-                                                <option ng-repeat="(key,value) in CONFIG.data.working_type" value="{{key}}">
-                                                    {{ Lang[key]}}
+                                                    ng-model="newJob.working_type">
+                                                <option ng-repeat="(key,value) in CONFIG.data.working_type"
+                                                        value="{{key}}">
+                                                    {{Lang[key]}}
                                                 </option>
-
 
                                             </select>
                                         </div>
@@ -282,16 +635,27 @@
                                         <label class="col-md-5 form-control-label" for="select">Ca làm</label>
                                         <div class="col-md-7">
                                             <ul>
-                                                <li ng-repeat="work in card.work_time">{{work.start}} - {{work.end}}    <button class="btn btn-outline-danger btn-round" ng-click="deleteWorkTime($index, $parent.$index)"><i class="fa fa-close"></i></button></li>
+                                                <li ng-repeat="work in newJob.work_time">{{work.start}} -
+                                                    {{work.end}}
+                                                    <button class="btn btn-outline-danger btn-round"
+                                                            ng-click="deleteWorkTime($index, 'new')"><i
+                                                            class="fa fa-close"></i></button>
+                                                </li>
                                             </ul>
                                             <div class="input-group">
-                                                <select class="form-control col-md-5" ng-model="newWorkTime.start" ng-options="n for n in workTime">
+                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.start" type="time">-->
+                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.end" type="time">-->
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.start"
+                                                        ng-options="n for n in workTime">
                                                     <option value=''>Từ</option>
                                                 </select>
-                                                <select class="form-control col-md-5" ng-model="newWorkTime.end" ng-options="n for n in workTime">
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.end"
+                                                        ng-options="n for n in workTime">
                                                     <option value=''>Đến</option>
                                                 </select>
-                                                <button type="button" class="btn btn-outline-primary col-md-2 " ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, $index)"><i class="fa fa-plus"></i></button>
+                                                <button type="button" class="btn btn-outline-primary col-md-2"
+                                                        ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, 'new')">
+                                                    <i class="fa fa-plus"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -299,9 +663,9 @@
                                         <label class="col-md-5 form-control-label">Lương</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <span class="input-group-addon">{{card.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
-                                                <input ng-model="card.salary" class="form-control"
+                                                <input ng-model="newJob.salary" class="form-control"
                                                        type="number" step="any">
+                                                <span class="input-group-addon">{{newJob.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -310,38 +674,39 @@
                                         <label class="col-md-5 form-control-label">Lương theo giờ</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <span class="input-group-addon">nghìn đồng/giờ</span>
-                                                <input ng-model="card.hourly_wages" class="form-control"
+                                                <input ng-model="newJob.hourly_wages" class="form-control"
                                                        type="number" step="any">
+                                                <span class="input-group-addon">nghìn đồng/giờ</span>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label">Số lượng</label>
                                         <div class="col-md-7">
                                             <div class="input-group">
-                                                <input ng-model="card.unit" class="form-control"
+                                                <input ng-model="newJob.unit" class="form-control"
                                                        type="number">
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label">Hạn chót</label>
                                         <div class="col-md-7">
 
-                                            <div>
-                                                <input ng-if="showdate" type="date" class="date-control" ng-model="card.deadline">
-                                                <div class="form-control" ng-click="showdate = true" ng-hide="showdate">{{card.deadline | date}}{{!card.deadline? 'Thêm':''}}</div>
+                                            <div class="input-group"><span class="input-group-addon"><i
+                                                    class="fa fa-calendar"></i></span>
+
+                                                <input type="date" class="date-control" ng-model="newJob.deadline">
                                             </div>
-                                            <small class="text-muted">- Nhấn để sửa mới</small>
+                                            <small class="text-muted">ex. 99/99/9999</small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label" for="select">Giới tính</label>
                                         <div class="col-md-7">
                                             <select id="select" name="select" class="form-control" size="1"
-                                                    ng-model="card.sex">
+                                                    ng-model="newJob.sex">
                                                 <option value="">- Giới tính -</option>
                                                 <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
                                                     {{value}}
@@ -351,11 +716,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại ngữ</label>
+                                        <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại
+                                            ngữ</label>
                                         <div class="col-md-7">
                                             <select id="select" name="select" class="form-control" size="1"
-                                                    ng-model="card.languages">
-                                                <option ng-repeat="(key,value) in CONFIG.data.languages" value="{{key}}">
+                                                    ng-model="newJob.languages">
+                                                <option ng-repeat="(key,value) in CONFIG.data.languages"
+                                                        value="{{key}}">
                                                     {{value}}
                                                 </option>
 
@@ -363,11 +730,12 @@
                                         </div>
                                     </div>
 
+
                                     <div class="form-group row">
                                         <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
                                         <div class="col-md-7">
                                             <label class="switch switch-3d switch-primary">
-                                                <input ng-model="card.figure" type="checkbox"
+                                                <input ng-model="newJob.figure" type="checkbox"
                                                        class="switch-input" checked="">
                                                 <span class="switch-label"></span>
                                                 <span class="switch-handle"></span>
@@ -378,7 +746,7 @@
                                         <label class="col-md-5 form-control-label">Đã có kinh nghiệm</label>
                                         <div class="col-md-7">
                                             <label class="switch switch-3d switch-primary">
-                                                <input ng-model="card.experience" type="checkbox"
+                                                <input ng-model="newJob.experience" type="checkbox"
                                                        class="switch-input" checked="">
                                                 <span class="switch-label"></span>
                                                 <span class="switch-handle"></span>
@@ -389,191 +757,22 @@
                                         <label>Mô tả thêm</label>
                                         <div class="input-group mb-1">
 
-                                            <textarea class="form-control" ng-model="card.description"
-                                                      placeholder="..."
-                                                      style="height: 300px;"></textarea>
-                                        </div>
-                                    </fieldset>
-
-                                    <button class="btn btn-danger" ng-click="deleteJob($index)" type="button">Xóa</button>
-
-                                </div>
-
-                            </div>
-
-
-                            <div ng-if="newJob">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3>Thêm vị trí mới</h3>
-                                    </div>
-                                    <div class="card-block">
-                                        <div class="form-group row" ng-hide="newJob.job == 'other'">
-                                            <label class="col-md-5 form-control-label" for="select">Vị trí</label>
-                                            <div class="col-md-7">
-                                                <select id="select" name="select" class="form-control" size="1"
-                                                        ng-model="newJob.job">
-                                                    <option ng-repeat="job in arrayJob" value="{{job}}">
-                                                        {{Lang[job]}}
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row" ng-if="newJob.job == 'other'">
-                                            <label class="col-md-5 form-control-label" for="select">Vị trí</label>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input ng-model="newJob.other" class="form-control"
-                                                           type="text" placeholder="Điền vị trí bạn cần tuyển">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label" for="select">Hình thức</label>
-                                            <div class="col-md-7">
-                                                <select id="select" name="select" class="form-control" size="1"
-                                                        ng-model="newJob.working_type">
-                                                    <option ng-repeat="(key,value) in CONFIG.data.working_type" value="{{key}}">
-                                                        {{Lang[key]}}
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label" for="select">Ca làm</label>
-                                            <div class="col-md-7">
-                                                <ul>
-                                                    <li ng-repeat="work in newJob.work_time">{{work.start}} - {{work.end}}    <button class="btn btn-outline-danger btn-round" ng-click="deleteWorkTime($index, 'new')"><i class="fa fa-close"></i></button></li>
-                                                </ul>
-                                                <div class="input-group">
-                                                    <!--<input class="col-md-5 form-control" ng-model="newWorkTime.start" type="time">-->
-                                                    <!--<input class="col-md-5 form-control" ng-model="newWorkTime.end" type="time">-->
-                                                    <select class="form-control col-md-5" ng-model="newWorkTime.start" ng-options="n for n in workTime">
-                                                        <option value=''>Từ</option>
-                                                    </select>
-                                                    <select class="form-control col-md-5" ng-model="newWorkTime.end" ng-options="n for n in workTime">
-                                                        <option value=''>Đến</option>
-                                                    </select>
-                                                    <button type="button" class="btn btn-outline-primary col-md-2" ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, 'new')"><i class="fa fa-plus"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Lương</label>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input ng-model="newJob.salary" class="form-control"
-                                                           type="number" step="any">
-                                                    <span class="input-group-addon">{{newJob.working_type == 'seasonal'?'triệu đồng': 'triệu đồng/tháng'}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Lương theo giờ</label>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input ng-model="newJob.hourly_wages" class="form-control"
-                                                           type="number" step="any">
-                                                    <span class="input-group-addon">nghìn đồng/giờ</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Số lượng</label>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input ng-model="newJob.unit" class="form-control"
-                                                           type="number">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Hạn chót</label>
-                                            <div class="col-md-7">
-
-                                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-
-                                                    <input type="date" class="date-control" ng-model="newJob.deadline">
-                                                </div>
-                                                <small class="text-muted">ex. 99/99/9999</small>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label" for="select">Giới tính</label>
-                                            <div class="col-md-7">
-                                                <select id="select" name="select" class="form-control" size="1"
-                                                        ng-model="newJob.sex">
-                                                    <option value="">- Giới tính -</option>
-                                                    <option ng-repeat="(key,value) in CONFIG.data.sex" value="{{key}}">
-                                                        {{value}}
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label" for="select">Yêu cầu ngoại ngữ</label>
-                                            <div class="col-md-7">
-                                                <select id="select" name="select" class="form-control" size="1"
-                                                        ng-model="newJob.languages">
-                                                    <option ng-repeat="(key,value) in CONFIG.data.languages" value="{{key}}">
-                                                        {{value}}
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
-                                            <div class="col-md-7">
-                                                <label class="switch switch-3d switch-primary">
-                                                    <input ng-model="newJob.figure" type="checkbox"
-                                                           class="switch-input" checked="">
-                                                    <span class="switch-label"></span>
-                                                    <span class="switch-handle"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-5 form-control-label">Đã có kinh nghiệm</label>
-                                            <div class="col-md-7">
-                                                <label class="switch switch-3d switch-primary">
-                                                    <input ng-model="newJob.experience" type="checkbox"
-                                                           class="switch-input" checked="">
-                                                    <span class="switch-label"></span>
-                                                    <span class="switch-handle"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <fieldset class="form-group">
-                                            <label>Mô tả thêm</label>
-                                            <div class="input-group mb-1">
-
                                                 <textarea class="form-control" ng-model="newJob.description"
                                                           placeholder="..."
                                                           style="height: 300px;"></textarea>
-                                            </div>
-                                        </fieldset>
+                                        </div>
+                                    </fieldset>
 
 
-                                    </div>
-                                    <div class="card-footer">
-                                        <button ng-click="saveJob()" type="submit"
-                                                class="btn btn-primary main-backgroud">
-                                            Lưu
-                                        </button>
-                                        <button ng-click="deleteNewJob()" type="button" class="btn btn-danger">Hủy</button>
-                                    </div>
                                 </div>
-
+                                <div class="card-footer">
+                                    <button ng-click="saveJob()" type="submit"
+                                            class="btn btn-primary main-backgroud">
+                                        Lưu
+                                    </button>
+                                    <button ng-click="deleteNewJob()" type="button" class="btn btn-danger">Hủy
+                                    </button>
+                                </div>
                             </div>
 
                         </div>
@@ -709,10 +908,13 @@
                     </div>
                 </div>
 
-                <button ng-hide="newJob" ng-click="submit()" type="submit" class="btn btn-block btn-success main-backgroud">
+                <button ng-hide="newJob" ng-click="submit()" type="submit"
+                        class="btn btn-block btn-success main-backgroud">
                     Cập nhật
                 </button>
             </div>
+            <!--/.col-->
         </div>
+        <!--/.row-->
     </div>
 </div>

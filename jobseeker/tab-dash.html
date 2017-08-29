@@ -1,33 +1,4 @@
-<div class="section section-header"
-     style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
-     background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
-    <div class="info" style="margin-top: 0px; float: left">
-        <div style="margin-top: 50px">
-            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
-                <h1>Tìm việc nhanh xung quanh bạn</h1>
-                <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-                                </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}" class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job" ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <div class="card filter-tab" ng-init="init()" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
     <div class="container-fluid container" style="width: 60%;">
         <div class="row" style="margin: 0 auto; ">
@@ -320,19 +291,19 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in jobCard">
                     <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                        <div class="progress progress-sm" data-toggle="popover"
-                             data-trigger="hover"
-                             data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">
-                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
+                        <!--<div class="progress progress-sm" data-toggle="popover"-->
+                             <!--data-trigger="hover"-->
+                             <!--data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">-->
+                            <!--<div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"-->
+                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                                 <!--aria-valuemax="100"></div>-->
+                            <!--<div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"-->
+                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                                 <!--aria-valuemax="100"></div>-->
+                            <!--<div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"-->
+                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                                 <!--aria-valuemax="100"></div>-->
+                        <!--</div>-->
                         <div class="content_">
 
                             <div class="content-top-new">
@@ -353,7 +324,7 @@
                                 <div class="row main-content-new">
                                     <table>
                                         <tr>
-                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{Lang[card.job] || card.other}}</td>
+                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{card.jobName}}</td>
                                         </tr>
                                         <tr>
                                             <td class="time-new"  itemprop="description">{{Lang[card.working_type]}}</td>

@@ -20,6 +20,10 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
             }).then(function successCallback(response) {
                 console.log("respond", response);
                 $scope.profileData = response.data
+                var likeActivity = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + $scope.profileId);
+                likeActivity.on('value',function (data) {
+                    $scope.profileData.act = data.val()
+                })
                 $scope.adminData = $scope.profileData.adminData
                 $scope.listReact = $scope.profileData.actData
                 $scope.reviewData = $scope.profileData.review;

@@ -20,6 +20,10 @@
                     <h4> {{profileData.act.userName}} và bạn đã tương hợp
                         {{service.timeAgo(profileData.act.matchedAt)}}</h4>
                 </div>
+                <div class="noti" ng-show="profileData.act.status == -1">
+                    <h4>Bạn đã từ chối {{profileData.act.userName}} lúc
+                        {{service.timeAgo(profileData.act.declineAt)}}</h4>
+                </div>
 
             </div>
             <hr class="mx-1 my-0">
@@ -190,20 +194,26 @@
                         <div style="padding: 10px">
 
                             <button ng-click="service.chatToUser(profileData.userId)"
-                                    ng-show="!jobOffer[profileData.userId]"
+                                    ng-hide="jobOffer[profileData.userId] || profileData.act.status == 0"
                                     type="button"
                                     class="btn btn-block"
                                     style="background-color: #fff; color: #41c7f4; border-radius: 5px; border: solid 2px #41c7f4;cursor: pointer;"
                                     >Liên hệ
                             </button>
-
-                            <button ng-click="jobOffer[profileData.userId] = true"
+                            <button ng-click="service.reviewing(profileData,1)"
                                     ng-if="profileData.act.status == 0 && profileData.act.type == 2"
                                     ng-hide="jobOffer[profileData.userId]"
                                     type="button"
-                                    class="btn btn-block"
-                                    style="background-color: #41c7f4 !important; color: #fff; border-radius: 5px !important; cursor: pointer;"
+                                    class="btn btn-success btn-block"
                             >Chọn ứng viên này
+
+                            </button>
+                            <button type="button" ng-click="service.reviewing(profileData,-1)"
+                                    ng-if="profileData.act.status == 0 && profileData.act.type == 2"
+                                    ng-hide="jobOffer[profileData.userId]"
+                                    class="btn btn-outline-danger btn-block">Từ chối</button>
+
+
                             </button>
 
 

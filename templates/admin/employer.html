@@ -9,6 +9,16 @@
                         Lọc
                     </div>
                     <div class="card-block">
+                        <label class="col-md-5 form-control-label" for="select">Vị trí</label>
+                        <div class="col-md-7">
+                            <select id="select" name="select" class="form-control" size="1"
+                                    ng-model="newfilter.job">
+                                <option ng-repeat="(key,value) in dataJob" value="{{key}}">
+                                    {{dataJob[key]}}
+                                </option>
+
+                            </select>
+                        </div>
                         <fieldset class="form-group {{error.address ? 'has-danger':''}}">
                             <label>Địa chỉ</label>
                             <div class="pop-add">

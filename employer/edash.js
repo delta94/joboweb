@@ -7,7 +7,43 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
     , $log
     , $rootScope
     , $timeout
+    , $stateParams
     , ModalService) {
+
+
+    $scope.autocompleteAddress = {text: ''};
+    $scope.ketquasAddress = [];
+    $scope.searchAddress = function () {
+        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
+        $http({
+            method: 'GET',
+            url: $scope.URL
+        }).then(function successCallback(response) {
+            $scope.ketquasAddress = response.data.results;
+            console.log($scope.ketquasAddress);
+            $('#list-add').show();
+
+        })
+    };
+
+    $scope.setSelectedAddress = function (selected) {
+        $scope.autocompleteAddress.text = selected.formatted_address;
+        $scope.address = selected;
+        if (!$rootScope.newfilter) {
+            $rootScope.newfilter = {}
+        }
+        $rootScope.newfilter.lat = selected.geometry.location.lat;
+        $rootScope.newfilter.lng = selected.geometry.location.lng;
+        $rootScope.usercard = []
+
+        $scope.getUserFiltered($rootScope.newfilter)
+
+        console.log(selected);
+        $('#list-add').hide();
+        //$rootScope.userData.address = selected.formatted_address;
+        //$rootScope.userData.location = selected.geometry.location;
+
+    };
 
     $rootScope.$watch('newNoti', function (newNoti) {
         $rootScope.og = {
@@ -27,12 +63,32 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
 
         if ($rootScope.storeData) {
             $scope.initData($rootScope.storeData)
-
-        } else {
-            $scope.$on('handleBroadcast', function (event, storeData) {
-                $scope.initData($rootScope.storeData)
-            });
         }
+        if (!$rootScope.newfilter) {
+            $rootScope.newfilter = {
+                p: 1
+            }
+        }
+        if ($rootScope.storeId) {
+            $rootScope.newfilter.userId = $rootScope.storeId
+        }
+        if ($stateParams.lat && $stateParams.lng) {
+            $rootScope.newfilter.lat = $stateParams.lat
+            $rootScope.newfilter.lng = $stateParams.lng
+        } else if ($rootScope.storeData && $rootScope.storeData.location) {
+            $rootScope.newfilter.lat = $rootScope.storeData.location.lat
+            $rootScope.newfilter.lng = $rootScope.storeData.location.lng
+
+            $scope.autocompleteAddress = {text: $rootScope.storeData.address}
+
+        }
+        if ($stateParams.job) {
+            $rootScope.newfilter.job = $stateParams.job
+        }
+        $rootScope.usercard = []
+
+        $scope.getUserFiltered($rootScope.newfilter)
+
 
     };
     $scope.calculateAge = function calculateAge(birthday) { // birthday is a date
@@ -51,13 +107,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         } else if (!$rootScope.storeData.job) {
             toastr.info('Hãy cập nhật địa chỉ cửa hàng?')
             $state.go('store', {id: 'job'})
-        } else {
-            $rootScope.newfilter = {
-                job: $rootScope.service.getfirst($rootScope.storeData.job),
-                userId: $rootScope.storeId,
-                p: 1
-            }
-            $scope.getUserFiltered($rootScope.newfilter)
         }
     }
 
@@ -100,7 +149,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
     $scope.loading = false;
     $scope.loadMore = function () {
         console.log('request load')
-        if (!$scope.loading && $rootScope.newfilter && $rootScope.newfilter.p < $scope.response.total_pages)  {
+        if (!$scope.loading && $rootScope.newfilter && $rootScope.newfilter.p < $scope.response.total_pages) {
             $scope.loading = true;
 
             console.log('loading')

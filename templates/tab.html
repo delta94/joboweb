@@ -1,8 +1,36 @@
 <div>
-
     <header class="app-header navbar ">
         <a class="navbar-brand" ui-sref="app.dash"></a>
-
+        <span class="hidden-md-down">
+            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
+                <div class="form-group form-search" style="margin:12px auto !important;">
+                    <input style="font-size: 15px; height: 35px;"
+                           type="text" name="q" id="q" class="form-control form-control-search"
+                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
+                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length"
+                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
+                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
+                            <div class="message p-h">
+                                <div class="py-h mr-1 float-left">
+                                    <div class="avatar">
+                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                             alt="admin@bootstrapmaster.com">
+                                    </div>
+                                </div>
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
+                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
+                                       ng-show="result.job">
+                                    {{Lang[key] || 'Xem thêm'}}
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </span>
         <ul class="nav navbar-nav ml-auto">
             <button ui-sref="signup ({id: 2})" type="button" class="btn btn-primary hidden-md-down">Tôi muốn tìm việc
             </button>
@@ -24,7 +52,36 @@
     <header class="app-header navbar">
 
         <a class="navbar-brand" ui-sref="app.edash"></a>
-
+        <span class="hidden-md-down">
+            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
+                <div class="form-group form-search" style="margin:12px auto !important;">
+                    <input style="font-size: 15px; height: 35px;"
+                           type="text" name="q" id="q" class="form-control form-control-search"
+                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
+                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length"
+                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
+                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
+                            <div class="message p-h">
+                                <div class="py-h mr-1 float-left">
+                                    <div class="avatar">
+                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                             alt="admin@bootstrapmaster.com">
+                                    </div>
+                                </div>
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
+                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
+                                       ng-show="result.job">
+                                    {{Lang[key] || 'Xem thêm'}}
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </span>
         <ul class="nav navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -69,11 +126,7 @@
             <li class="nav-item hidden-md-up">
                 <a class="nav-link nav-pill" href="/employer/chats"><i class="icon-bubbles"></i></a>
             </li>
-            <!--<a href="https://about.joboapp.com/services"-->
-            <!--class="btn button-vip " style="color: white;">-->
-            <!--<i-->
-            <!--class="fa fa-diamond"></i> Đăng việc-->
-            <!--</a>-->
+
             <li class="nav-item dropdown">
                 <a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
@@ -127,7 +180,36 @@
     <header class="app-header navbar">
         <!--<button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>-->
         <a class="navbar-brand" ui-sref="app.sdash"></a>
-
+        <span class="hidden-md-down">
+            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
+                <div class="form-group form-search" style="margin:12px auto !important;">
+                    <input style="font-size: 15px; height: 35px;"
+                           type="text" name="q" id="q" class="form-control form-control-search"
+                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
+                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
+                    <ul ng-show="searchName.length"
+                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
+                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
+                            <div class="message p-h">
+                                <div class="py-h mr-1 float-left">
+                                    <div class="avatar">
+                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                             alt="admin@bootstrapmaster.com">
+                                    </div>
+                                </div>
+                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
+                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
+                                       ng-show="result.job">
+                                    {{Lang[key] || 'Xem thêm'}}
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </span>
         <ul class="nav navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"

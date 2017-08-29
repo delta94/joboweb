@@ -60,12 +60,12 @@ var app = angular
     })
 
     .run(function ($rootScope, AuthUser, $stateParams, $state) {
-        $rootScope.width = window.innerWidth
-        $rootScope.service = AuthUser
-
+        $rootScope.width = window.innerWidth;
+        $rootScope.service = AuthUser;
 
         firebase.database().ref('config').once('value', function (snap) {
             $rootScope.CONFIG = snap.val();
+            $rootScope.service.loadLang('vi')
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
@@ -97,8 +97,6 @@ var app = angular
                 $rootScope.arrayTime.push(i);
             }
         });
-        $rootScope.service.loadLang('vi')
-$rootScope.service.createKey('thong thong')
 
         function checkPlatform() {
             var ua = navigator.userAgent.toLowerCase();
@@ -173,13 +171,13 @@ $rootScope.service.createKey('thong thong')
 
         $scope.setCurrentStore = function (storeId) {
             $rootScope.storeId = storeId;
-            $rootScope.service.JoboApi('update/user',{
+            $rootScope.service.JoboApi('update/user', {
                 userId: $rootScope.userId,
                 user: {
                     currentStore: storeId
                 }
             });
-            window.location = '/view/store/'+ storeId
+            window.location = '/view/store/' + storeId
             AuthUser.user()
         };
     });

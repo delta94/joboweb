@@ -6,21 +6,11 @@
             <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
                 <h1>Tìm việc nhanh xung quanh bạn</h1>
                 <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName" ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length" style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-                                </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.userId||result.storeId}}" class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job" ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
-                            </div>
+                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text" ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
+                    <ul id="list-add" ng-show="autocompleteAddress.text.length">
+                        <li ng-repeat="ketqua in ketquasAddress"
+                            ng-click="setSelectedAddress(ketqua)">
+                            {{ketqua.formatted_address}}
                         </li>
                     </ul>
                 </div>
@@ -35,7 +25,7 @@
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     {{Lang[newfilter.job] || 'Vị trí'}} <i class="fa fa-chevron-down" aria-hidden="true"
-                                                               style="color: #999"></i>
+                                                           style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">
@@ -62,7 +52,7 @@
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     {{Lang[newfilter.working_type] || 'Hình thức'}} <i class="fa fa-chevron-down" aria-hidden="true"
-                                                               style="color: #999"></i>
+                                                                       style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu">
@@ -136,12 +126,35 @@
                 </label>
             </fieldset>
         </div>
+
+        <div class="col-md-2 col-sm-2 col-xs-2" ng-hide="newfilter.type == 'store'">
+            <div ng-hide="age == true">
+                <a class="text-truncate nav-link nav-pill" ng-click="setAge()" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    {{(newfilter.age1 && newfilter.age2)? newfilter.age1 +' đến ' + newfilter.age2 + " tuổi":'Tuổi'}} <i
+                        class="fa fa-chevron-down"
+                        aria-hidden="true"
+                        style="color: #999"></i>
+                </a>
+            </div>
+            <div class="input-group" ng-if="age == true">
+                <input type="number" step="any" ng-model="expect_age1" name="input3-group2" class="form-control"
+                       placeholder="Tuổi từ">
+                <input type="number" step="any" ng-model="expect_age2" name="input3-group3" class="form-control"
+                       placeholder="đến">
+                <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                                ng-click="newAgeFilter('expect_age',expect_age1,expect_age2 )">OK
+                                        </button>
+                                    </span>
+            </div>
+        </div>
         <div class="col-md-1">
             <div class="popup dropdown">
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     {{Lang[newfilter.sort] || 'Sắp xếp'}} <i class="fa fa-chevron-down" aria-hidden="true"
-                                                               style="color: #999"></i>
+                                                             style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu">
@@ -166,31 +179,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-2" ng-hide="newfilter.type == 'store'">
-             <div ng-hide="age == true">
-                <a class="text-truncate nav-link nav-pill" ng-click="setAge()" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    {{(newfilter.age1 && newfilter.age2)? newfilter.age1 +' đến ' + newfilter.age2 + " tuổi":'Tuổi'}} <i
-                        class="fa fa-chevron-down"
-                        aria-hidden="true"
-                        style="color: #999"></i>
-                </a>
-            </div>
-                <div class="input-group" ng-if="age == true">
-                    <input type="number" step="any" ng-model="expect_age1" name="input3-group2" class="form-control"
-                           placeholder="Tuổi từ">
-                    <input type="number" step="any" ng-model="expect_age2" name="input3-group3" class="form-control"
-                           placeholder="đến">
-                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary btn-sm"
-                                                ng-click="newAgeFilter('expect_age',expect_age1,expect_age2 )">OK
-                                        </button>
-                                    </span>
-                </div>
-        </div>
     </div>
 
 </div>
+
 
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="verifyEmail">
     <div class="card-block" style="padding: 0.25rem 1.25rem">
@@ -214,14 +206,14 @@
     </div>
 </div>
 <!--<div class="card card-inverse card-success" style="margin: 0" ng-if="!userData.firstFreeCredit">-->
-    <!--<div class="card-block" style="padding: 0.25rem 1.25rem">-->
-        <!--<button ng-click="service.getFreeCredit()" class="btn btn-secondary pull-right" style="border-radius: 30px">-->
-            <!--<i-->
+<!--<div class="card-block" style="padding: 0.25rem 1.25rem">-->
+<!--<button ng-click="service.getFreeCredit()" class="btn btn-secondary pull-right" style="border-radius: 30px">-->
+<!--<i-->
 
-                    <!--aria-hidden="true"></i> Nhận 500,000đ ngay!-->
-        <!--</button>-->
-        <!--<h5>Nhận 500.000đ credit miễn phí và bắt đầu tuyển nhân viên</h5>-->
-    <!--</div>-->
+<!--aria-hidden="true"></i> Nhận 500,000đ ngay!-->
+<!--</button>-->
+<!--<h5>Nhận 500.000đ credit miễn phí và bắt đầu tuyển nhân viên</h5>-->
+<!--</div>-->
 <!--</div>-->
 <div class="animated fadeIn" infinite-scroll="loadMore()" infinite-scroll-distance="0" style="min-height: 500px">
 
@@ -266,7 +258,8 @@
                         <div class="post-content">
                             <div class="category" ng-if="card.urgent == 1">Tìm việc gấp</div>
                             <span class="sub_title pull-right"> {{card.distance}} km</span>
-                            <h3 class="title"><a href="/view/profile/{{card.userId}}">{{card.name || 'Your Name Here'}}, {{calculateAge(card.birth)}}</a></h3>
+                            <h3 class="title"><a href="/view/profile/{{card.userId}}">{{card.name || 'Your Name Here'}},
+                                {{calculateAge(card.birth)}}</a></h3>
                             <div style="display:inline-block;width:150px;height:20px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
                                 <span ng-repeat="(key,value) in card.job">{{Lang[key]}}, </span></div>
                             <div class="post-meta" ng-hide="jobOffer[card.userId]">

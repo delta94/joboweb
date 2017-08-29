@@ -245,7 +245,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
             })*/
         }
     })
-    .controller("analyticsUserCtrl", function ($scope, $timeout,$rootScope)    {
+    .controller('analyticsUserCtrl', function ($scope, $timeout,$rootScope)    {
         $scope.labels = []
         $scope.series = ['Total', 'Employer']
         $scope.TotalArray = []
@@ -462,9 +462,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
                 $rootScope.service.JoboApi('PostToGroup',{text:text,where:where,poster:poster}).then(function(res){
                     console.log(res)
                 })
-            }
-
-
+            };
             $scope.data = {employer: {}, store: {}, job: {}}
 
             $scope.getJob = function () {
@@ -1064,8 +1062,7 @@ app.controller('dashAdminCtrl', function ($state, $scope, $rootScope, $timeout, 
 
 
 
-        }
-    )
+        })
     .controller('workingAdminCtrl', function ($scope, $timeout, $rootScope, toastr) {
         var workingRef = firebase.database().ref('working/job')
         workingRef.on('value', function (snap) {

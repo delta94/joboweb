@@ -394,10 +394,6 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         if (!$scope.anaJob) {
             $scope.anaJob = []
         }
-        if ($scope.newJob.job == 'other') {
-            $scope.newJob.job = $scope.newJob.other
-        }
-
         console.log($scope.newJob)
 
         if ($scope.newJob.job) {
@@ -415,7 +411,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
             console.log($scope.jobData[id]);
             delete $rootScope.storeData.job[$scope.jobData[id].job];
             $rootScope.service.JoboApi('delete/job', {
-                jobId: $scope.jobData[id].storeId + ':' + $scope.jobData[id].job
+                jobId: $scope.jobData[id].jobId
             });
             $scope.jobData.splice(id, 1);
             console.log($rootScope.storeData);
@@ -450,21 +446,12 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 for (var j in $scope.jobData[i].work_time) {
                     delete $scope.jobData[i].work_time[j].$$hashKey;
                 }
-
-                if ($scope.jobData[i].other) {
-                    var jobkey = $rootScope.service.latinese($scope.jobData[i].job);
-                    $rootScope.storeData.job[jobkey] = $scope.jobData[i].job;
-                    $scope.jobData[i].job = jobkey;
-                } else {
-                    if (!$rootScope.storeData.job) {
-                        $rootScope.storeData.job = {}
-
-                    }
-
-                    $rootScope.storeData.job[$scope.jobData[i].job] = true;
+                if(!$scope.jobData[i].jobId){
+                    $scope.jobData[i].jobId = 'j' + Math.round(100000000000000 * Math.random());
                 }
 
-
+                $rootScope.storeData.job[$scope.jobData[i].job] = $scope.jobData[i].jobName;
+                console.log($scope.jobData)
             }
             var storeD = Object.assign({},$rootScope.storeData)
             delete storeD.adminData;

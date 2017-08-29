@@ -1,6 +1,6 @@
 angular
     .module('app')
-    .config(['CONFIG','$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function (CONFIG,$stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider, $locationProvider) {
+    .config(['CONFIG', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function (CONFIG, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider, $locationProvider) {
         $urlRouterProvider.otherwise('/');
 
         $locationProvider.html5Mode(CONFIG.Location)
@@ -147,6 +147,16 @@ angular
                     }]
                 }
             })
+            .state('app.hiring', {
+                url: '/hiring?job',
+                templateUrl: 'templates/hiring.html',
+                controller: 'hiringCtrl'
+            })
+            .state('app.findjob', {
+                url: '/',
+                templateUrl: 'templates/dashboard.html',
+                controller: 'dashboardCtrl'
+            })
             .state('app.viewprofile', {
                 url: '/view/profile/:id?admin',
                 templateUrl: 'employer/viewprofile.html',
@@ -217,7 +227,7 @@ angular
             //employer seeker dash
 
             .state('app.edash', {
-                url: '/employer/dash',
+                url: '/employer/dash?lat&lng&job',
                 templateUrl: 'employer/tab-dash.html',
                 controller: 'eDashCtrl'
             })
@@ -318,13 +328,7 @@ angular
                 templateUrl: 'templates/admin/addjobemail.html',
                 controller: 'addJobCtrl'
             })
-            // static
-
-
-
-
-
-
+        // static
 
 
     }]);
