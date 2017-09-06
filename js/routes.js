@@ -267,6 +267,8 @@ angular
             .state('admin', {
                 abstract: true,
                 templateUrl: 'templates/admin/full.html',
+                controller: 'dashAdminCtrl',
+
                 //page title goes here
                 ncyBreadcrumb: {
                     label: 'Root',
@@ -323,11 +325,17 @@ angular
                 templateUrl: 'templates/admin/working.html',
                 controller: 'workingAdminCtrl'
             })
-            .state('admin.addjob', {
-                url: '/admin/addjob',
-                templateUrl: 'templates/admin/addjobemail.html',
-                controller: 'addJobCtrl'
+            .state('admin.email', {
+                url: '/admin/email',
+                templateUrl: 'templates/admin/email.html',
+                controller: 'emailCtrl'
             })
+            .state('admin.lead', {
+                url: '/admin/lead',
+                templateUrl: 'templates/admin/lead.html',
+                controller: 'leadCtrl'
+            })
+
         // static
 
 

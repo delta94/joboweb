@@ -1662,7 +1662,7 @@ section.cta .overlay {
     box-shadow: 0 29px 32px -20px rgba(0, 0, 0, 0.5);
     margin: 9vh auto 30px;
     position: relative;
-    z-index: 2;
+    z-index: 100;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -1674,7 +1674,6 @@ section.cta .overlay {
 .pay-area .product-name {
     margin-bottom: 0px;
     padding-bottom: 15px;
-    color: #FFFFFF;
     font-size: 42px;
     font-weight: 300;
 }
@@ -1722,12 +1721,11 @@ section.cta .overlay {
 .section-product-description {
     position: relative;
     z-index: 3;
-    padding: 20px 0 70px;
     transition: all .5s ease;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
-    margin-top: -100px;
 }
+
 
 .section-white-gradient {
     background: linear-gradient(0deg, #e5e5e5 0%, #fff 100%);
@@ -3378,3 +3376,18 @@ section.features .feature-item h3 {
     color: #25363a;
     line-height: 21px;
 }
+.page-header-small {
+    height: 60vh;
+    max-height: 440px;
+}
+.content-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #FFFFFF;
+    width: 100%;
+    max-width: 880px; }

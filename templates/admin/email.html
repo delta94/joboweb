@@ -10,6 +10,15 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-3">
+                            <fieldset class="form-group">
+                                <label>Email *</label>
+                                <div class="input-group mb-1">
+                                    <input  type="text" class="form-control"
+                                           placeholder="Email"
+                                           ng-model="newfilter.email" id="email" name="email">
+                                </div>
+                            </fieldset>
+
                             <fieldset class="form-group {{error.address ? 'has-danger':''}}">
                                 <label>Địa chỉ</label>
                                 <div class="pop-add">
@@ -28,6 +37,7 @@
                             <fieldset class="form-group {{error.birth ? 'has-danger':''}}">
                                 <label>Khoảng cách</label>
                                 <div class="input-group">
+
                                     <input type="number" class="form-control" ng-model="newfilter.distance">
                                 </div>
                                 <small class="text-muted">(km)</small>
@@ -91,10 +101,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-5 form-control-label">Ưu tiên ngoại hình</label>
+                                <label class="col-md-5 form-control-label">headhunter</label>
                                 <div class="col-md-7">
                                     <label class="switch switch-3d switch-primary">
-                                        <input ng-model="newfilter.figure" type="checkbox"
+                                        <input ng-model="newfilter.headhunter" type="checkbox"
                                                class="switch-input" checked="">
                                         <span class="switch-label"></span>
                                         <span class="switch-handle"></span>
@@ -131,59 +141,29 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Job seeker
+                        <i class="fa fa-align-justify"></i> Email Channel
                     </div>
 
                     <div class="card-block">
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>avatar</th>
                                 <th>Fullname</th>
-                                <th>Date registered</th>
-                                <th>Job</th>
-                                <th>Status</th>
+                                <th>Email</th>
+                                <th>Date Added</th>
+                                <th>Ref</th>
+                                <th>Data</th>
+
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="card in jobSeeker track by $index">
-                                <td><a href="/view/profile/{{card.userId}}"><img src="{{card.avatar}}"
-                                                                                 width="100px"></a></td>
+                            <tr ng-repeat="card in emailList track by $index">
 
-                                <td ng-click="viewfull(card.userId)">{{card.name}} - {{profileData[card.userId].phone}}
-                                    - {{profileData[card.userId].email}}
-                                </td>
+                                <td>{{card.name}}</td>
+                                <td>{{card.email}}</td>
                                 <td>{{card.createdAt | date}}</td>
-                                <td>{{card.job}}</td>
-                                <td>
-                                    <div class="card-block">
-                                        Feature
-                                        <label class="switch switch-3d switch-primary">
-                                            <input ng-model="card.feature" type="checkbox" class="switch-input"
-                                                   ng-change="updateProfile($index)"
-                                            >
-                                            <span class="switch-label"></span>
-                                            <span class="switch-handle"></span>
-                                        </label>
-                                        &nbsp;&nbsp;&nbsp;Hide
-                                        <label class="switch switch-3d switch-warning">
-                                            <input ng-model="card.hide" type="checkbox" class="switch-input"
-                                                   ng-change="updateProfile($index)"
-                                                   checked="card.hide">
-                                            <span class="switch-label"></span>
-                                            <span class="switch-handle"></span>
-                                        </label>
-                                        Wrong Email
-                                        <label class="switch switch-3d switch-warning">
-                                            <input ng-model="card.wrongEmail" type="checkbox" class="switch-input"
-                                                   ng-change="updateProfile($index)"
-                                                   checked="card.wrongEmail">
-                                            <span class="switch-label"></span>
-                                            <span class="switch-handle"></span>
-                                        </label>
-
-                                    </div>
-                                </td>
+                                <td>{{card.from}}</td>
+                                <td>{{card}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -294,7 +274,7 @@
                         </form>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-sm btn-primary" ng-click="sendEmail()"><i
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="sendEmail(newfilter,mail)"><i
                                 class="fa fa-dot-circle-o"></i> Submit
                         </button>
                         <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>

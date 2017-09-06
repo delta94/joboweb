@@ -23,6 +23,26 @@ gulp.paths = {
 
 var paths = gulp.paths;
 
+
+gulp.task('up-serverAna', function () {
+    return replacePure({
+        regex: "http://localhost:8081",
+        replacement: "https://joboana.herokuapp.com",
+        paths: ['./js/config.js'],
+        recursive: false,
+        silent: false
+    });
+});
+
+gulp.task('down-serverAna', function () {
+    return replacePure({
+        regex: "https://joboana.herokuapp.com",
+        replacement: "http://localhost:8081",
+        paths: ['./js/config.js'],
+        recursive: false,
+        silent: false,
+    });
+})
 gulp.task('up-server', function () {
     return replacePure({
         regex: "http://localhost:8080",
@@ -242,6 +262,7 @@ gulp.task('build:dist', function (callback) {
     runSequence(
         'clean:dist',
         'up-server',
+        'up-serverAna',
         'edit',
         'edit1',
         'copy:bower',
@@ -261,6 +282,7 @@ gulp.task('build:dist', function (callback) {
         'copy:html',
         'replace:bower',
         'down-server',
+        'down-serverAna',
         'unedit',
         'unedit1',
         'concat',

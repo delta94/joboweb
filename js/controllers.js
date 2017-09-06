@@ -1,6 +1,7 @@
 // controller.js
 angular
     .module('app')
+
     .controller('languageCtrl', languageCtrl)
 
     .controller('ModalController', function ($scope, close) {

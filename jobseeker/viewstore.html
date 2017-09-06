@@ -1,66 +1,64 @@
-<div id="productPage" class="parallax parallax-product"
-     style="background: url({{profileData.background}})no-repeat;background-size: cover; " ng-hide="currentJob">
-
+<div class="main main-dark section-creators">
     <div class="container" style="max-width: 100%">
         <div class="row">
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-3 col-md-3">
                 <div class="product-image">
                     <img src="{{profileData.avatar || '/img/ava-background/ava_'+ profileData.industry +'.png'}}"
                          alt="Hinh anh cua hang" style="width: 100%">
                 </div>
             </div>
-            <div class="col-sm-6 col-md-5 col-md-offset-1">
+            <div class="col-sm-9 col-md-9">
                 <div class="pay-area">
 
-                    <div class="text-center">
-                        <h1 itemprop="name" class="product-name">{{profileData.storeName}}</h1>
-                        <h6 class="tagline">{{service.shortAddress(profileData.address)}}</h6>
+                    <div style="margin-bottom: 30px">
+                        <h1 itemprop="name" class="product-name">{{currentJobData.jobName ?currentJobData.jobName + '
+                            -':''}} {{profileData.storeName}}</h1>
+                        <h6 class="tagline"> {{Lang[currentJobData.working_type]?Lang[currentJobData.working_type] + '
+                            •':'' }} {{service.shortAddress(profileData.address)}}</h6>
+                        <p ng-if="adminData && userData.admin"><i class="fa fa-industry"></i>
+                            {{adminData.phone + ' '+ adminData.email}}
+                            </a>
+                        </p>
+                    </div>
 
+                    <button ng-click="service.chatToStore(profileData.storeId)"
+                            type="button" ng-if="profileData.act.status == 1"
+                            class="btn button-vip">Liên hệ
+                    </button>
 
-                        <div class="rating-stars" ng-show="reviewData">
-                            <div class="rating-input">
+                    <button
+                            type="button" ng-if="profileData.act.status == 0 && profileData.act.type == 2"
+                            class="btn btn-warning">Đang chờ phản hồi...
+                    </button>
+
+                    <button ui-sref="store ({id:'update'})"
+                            type="button" ng-if="myself"
+                            class="btn btn-primary">Sửa thông tin
+                    </button>
+                    <button ui-sref="store ({admin:profileData.storeId,id: 'update'})"
+                            type="button" ng-if="userData.admin"
+                            class="btn btn-primary"> Admin: Sửa hồ sơ
+                    </button>
+                    <button ng-click="like(profileData,0,currentJobData.job)"
+                            ng-hide="profileData.act.jobUser[currentJobData.job] || myself"
+                            type="button"
+                            class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV' :'Ứng
+                        tuyển nhanh'}}
+                    </button>
+
+                    <div class="rating-stars" ng-show="reviewData">
+                        <div class="rating-input">
 <span class="fa fa-star fa-full" data-value="1"
       ng-repeat="card in ratingModel.obj"></span>
-                            </div>
-                            <div class="aggregate-rating">
-                                <span>{{ratingModel.average}}</span>/5
-                                (<span>{{ratingModel.total}}</span> Reviews)
-                            </div>
-                            <div class="clearfix"></div>
                         </div>
-                        <div class="choose-license" style="color: white">
-                            <p class="text-center"><i class="fa fa-industry"></i>
-                                {{dataIndustry[profileData.industry]}}
-                                </a>
-                            </p>
-                            <p ng-if="adminData && userData.admin" class="text-center"><i class="fa fa-industry"></i>
-                                {{adminData.phone + ' '+ adminData.email}}
-                                </a>
-                            </p>
+                        <div class="aggregate-rating">
+                            <span>{{ratingModel.average}}</span>/5
+                            (<span>{{ratingModel.total}}</span> Reviews)
                         </div>
-
-
-                        <button ng-click="service.chatToStore(profileData.storeId)"
-                                type="button" ng-if="profileData.act.status == 1"
-                                class="btn button-vip">Liên hệ
-                        </button>
-
-                        <button
-                                type="button" ng-if="profileData.act.status == 0 && profileData.act.type == 2"
-                                class="btn btn-warning">Đang chờ phản hồi...
-                        </button>
-
-                        <button ui-sref="store ({id:'update'})"
-                                type="button" ng-if="myself"
-                                class="btn btn-primary">Sửa thông tin
-                        </button>
-                        <a href="/store/?admin={{profileData.storeId}}" type="button"
-                           ng-if="userData.admin"
-                           class="btn btn-primary btn-block " style="color: white;">
-                            Admin: Sửa hồ sơ
-                        </a>
-
+                        <div class="clearfix"></div>
                     </div>
+
+
                 </div>
 
             </div>
@@ -68,699 +66,253 @@
 
     </div>
 </div>
+<div class="container" style="max-width: 100%" ng-if="currentJobData">
 
-<div class="section-product-description section-white-gradient section-scaled" ng-hide="currentJob">
+    <div class="row" style="margin: 50px 0">
+
+        <div class="col-md-4 col-md-offset-1 ">
+
+            <div class="job-description">
+                <div>
+                    <div ng-if="currentJobData.work_time">• Ca làm
+                        <ul>
+                            <li ng-repeat="work in currentJobData.work_time">{{work.start}} -
+                                {{work.end}}
+                            </li>
+                        </ul>
+                    </div>
+                    <p ng-if="currentJobData.job">• Ngành nghề: {{Lang[currentJobData.job]}}
+
+                    <p ng-if="currentJobData.salary">• Mức lương theo tháng: {{currentJobData.salary}} triệu
+                        đồng/tháng </p>
+                    <p ng-if="currentJobData.hourly_wages">• Mức lương theo giờ: {{currentJobData.hourly_wages}}
+                        nghìn đồng/giờ </p>
+                    <p ng-if="currentJobData.deadline">• Hạn chót: {{currentJobData.deadline |
+                        date}}({{service.timeAgo(currentJobData.deadline)}}) </p>
+                    <p ng-if="currentJobData.unit">• Số lượng: {{currentJobData.unit}}</p>
+                    <p ng-if="currentJobData.createdAt">• Ngày đăng: {{currentJobData.createdAt | date}}</p>
+                    <p ng-if="currentJobData.apply">• Đã ứng tuyển: {{currentJobData.apply}}</p>
+                    <p ng-if="currentJobData.viewed">• Lượt xem: {{currentJobData.viewed ? currentJobData.viewed :
+                        "0"}}</p>
+
+                    <p ng-if="currentJobData.figure || currentJobData.experience || currentJobData.languages"><em>Yêu
+                        cầu
+                        khác:</em></p>
+                    <p ng-if="currentJobData.figure">• Yêu cầu ngoại hình khá</p>
+                    <p ng-if="currentJobData.sex">• Giới tính: {{Lang[currentJobData.sex]}}</p>
+
+                    <p ng-if="currentJobData.experience">• Đã có kinh nghiệm</p>
+                    <p ng-if="currentJobData.languages">• Ngoại ngữ:{{Lang[currentJobData.languages]}}</p>
+                    <p ng-if=" profileData.interviewOption"><em>Lịch phỏng vấn</em></p>
+                    <p ng-repeat="(key,value) in profileData.interviewOption">• Đợt {{key}}:
+                        {{value | date: 'HH giờ dd/MM/yyyy'}}</p>
+
+                    <button class="btn btn-secondary btn-sm"
+                            ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">
+                        Copy link
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 " ng-if="currentJobData.description">
+            <div class="job-description">
+                <div>
+                    <p
+                            ng-repeat="text in service.nextLine(currentJobData.description) track by $index">
+                        {{text}}</p>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-md-offset-3" id="comments"
+             ng-if="(profileData.interviewTime && !profileData.act.jobUser.interviewTime) || type == 0">
+            <div class="creators collaborators-card">
+                <h2 class="legend text-center">Ứng tuyển không cần CV!</h2>
+
+                <div class="collaborators" data-no-turbolink="">
+
+                    <form name="signupForm" class="form-update" autocomplete="off">
+                        <fieldset class="form-group" ng-if="profileData.interviewOption">
+                            <label>Bạn muốn phỏng vấn vào lúc nào? *</label><br>
+                            <label class="radio-inline" ng-repeat="(key,value) in profileData.interviewOption"
+                                   style="margin-right: 10px">
+                                <input type="radio" ng-model="preApply.interviewTime" value="{{value}}"> Đợt
+                                {{key}}:
+                                {{value | date: 'HH giờ dd/MM/yyyy'}}<br>
+                            </label>
+                        </fieldset>
+                        <!--<fieldset class="form-group" ng-hide="profileData.act.jobUser.description || type == 0">-->
+                        <!--<label>Tại sao chúng tôi nên chọn bạn?</label>-->
+
+                        <!--<div class="input-group mb-1">-->
+                        <!--<textarea class="form-control" ng-model="preApply.description" placeholder=""-->
+                        <!--style="height: 100px;"></textarea>-->
+                        <!--</div>-->
+                        <!--</fieldset>-->
+                        <button ng-click="service.userLike(profileData,0,currentJobData.job,preApply)"
+                                type="button"
+                                class="btn btn-primary btn-block">{{type == 0 ? 'Ứng tuyển không cần CV' :'Ứng tuyển
+                            nhanh'}}
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="section-product-description section-white-gradient section-scaled">
     <div class="container product" style="max-width: 100%">
 
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="card" ng-if="profileData.description">
-                    <div class="card-header"><h3 class="card-title clearfix mb-0">Về chúng tôi</h3></div>
-                    <div class="card-block" style="padding: 50px">
+            <div class="col-md-10 offset-md-1">
 
-                        <p ng-if="profileData.description"
-                           ng-repeat="text in service.nextLine(profileData.description) track by $index">
-                            {{text}}</p>
+                <div style="padding: 50px" ng-if="profileData.description">
 
-                    </div>
-                </div>
-                <div class="summary" id="jobposition">
-
-                    <h4 class="legend text-center" ng-if="!profileData.jobData">Hiện tại chúng tôi đang không
-                        tuyển</h4>
-                    <h4 class="legend text-center" ng-if="profileData.jobData && !currentJob">Vị trí đang tuyển</h4>
-
-                    <div class="content-container layout-wrap col-md-12" ng-hide="currentJob == card.job"
-                         ng-repeat="card in profileData.jobData | orderBy: '-deadline' ">
-                        <div class="card content content-main js-job-container">
-                            <div class="row content-section job-header">
-                                <div class="col-md-6 job-header-details job-header-truncate">
-                                    <span class="job-title">{{card.jobName}}</span>
-                                    <h2 class="beicons-pre beicons-pre-location job-location">
-                                        {{Lang[card.working_type]}}
-                                    </h2>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pull-right">
-                                        <div ng-hide="card.deadline < today || card.static.going >= card.unit || myself">
-                                            <button ng-click="service.chatToStore[profileData.storeId]"
-                                                    type="button" ng-if="profileData.act.status == 1"
-                                                    class="btn button-vip">Liên hệ
-                                            </button>
-                                            <button ng-disabled="!card" ng-click="service.reviewing(profileData,1)"
-                                                    type="button"
-                                                    ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                                    class="btn btn-success">Chấp nhận công việc
-                                            </button>
-                                            <button ng-disabled="!card" ng-click="service.reviewing(profileData,-1)"
-                                                    type="button"
-                                                    ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                                    class="btn btn-danger">Từ chối
-                                            </button>
-                                            <button type="button"
-                                                    ng-if="profileData.act.status == 0 && profileData.act.jobUser[card.job]"
-                                                    class="btn btn-warning">Đang chờ phản hồi...
-                                            </button>
-                                            <button ng-click="like(profileData,0,card.job)"
-                                                    ng-hide="profileData.act.jobUser[card.job] || myself"
-                                                    type="button"
-                                                    class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV'
-                                                :'Ứng tuyển nhanh'}}
-                                            </button>
-                                        </div>
-                                        <div ng-if="card.deadline < today || card.static.going >= card.unit">
-                                            <button type="button"
-                                                    ng-if="card.deadline < today"
-                                                    class="btn btn-danger">Hết hạn ứng tuyển
-                                            </button>
-                                            <button type="button"
-                                                    ng-if="card.static.going >= card.unit"
-                                                    class="btn btn-danger">Đã tuyển đủ
-                                            </button>
-                                        </div>
-                                        <button ui-sref="store ({id:'job'})"
-                                                ng-show="myself"
-                                                type="button"
-                                                class="btn btn-primary btn-sm">Sửa thông tin
-                                        </button>
-                                        <div class="avatars-stack mt-h">
-                                            <div class="avatar avatar-xs" ng-repeat="app in card.applied">
-                                                <img src="{{app.pic_small}}" class="img-avatar"
-                                                     alt="admin@bootstrapmaster.com">
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- .apply-container -->
-
-                            </div> <!-- .content-section -->
-                            <div class="content-section job-description-container">
-                                <div class="js-job-description">
-                                    <div class="job-description">
-                                        <div>
-                                            <p><em>Mô tả</em></p>
-                                            <div ng-if="card.work_time">Ca làm
-                                                <ul>
-                                                    <li ng-repeat="work in card.work_time">{{work.start}} -
-                                                        {{work.end}}
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <p ng-if="card.job">• Ngành nghề: {{Lang[card.job]}}
-
-                                            <p ng-if="card.salary">• Mức lương theo tháng: {{card.salary}} triệu
-                                                đồng/tháng </p>
-                                            <p ng-if="card.hourly_wages">• Mức lương theo giờ: {{card.hourly_wages}}
-                                                nghìn đồng/giờ </p>
-                                            <p ng-if="card.deadline">• Hạn chót: {{card.deadline |
-                                                date}}({{service.timeAgo(card.deadline)}}) </p>
-                                            <p ng-if="card.unit">• Số lượng: {{card.unit}}</p>
-                                            <p ng-if="card.createdAt">• Ngày đăng: {{card.createdAt | date}}</p>
-                                            <p ng-if="card.apply">• Đã ứng tuyển: {{card.apply}}</p>
-                                            <p ng-if="card.viewed">• Lượt xem: {{card.viewed ? card.viewed :
-                                                "0"}}</p>
-
-                                            <p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu
-                                                khác:</em></p>
-                                            <p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>
-                                            <p ng-if="card.sex">• Giới tính: {{Lang[card.sex]}}</p>
-
-                                            <p ng-if="card.experience">• Đã có kinh nghiệm</p>
-                                            <p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
-
-
-                                            <p ng-if="card.description"
-                                               ng-repeat="text in service.nextLine(card.description) track by $index">
-                                                {{text}}</p>
-
-                                            <button class="btn btn-secondary btn-sm"
-                                                    ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">
-                                                Copy link
-                                            </button>
-
-                                        </div>
-                                    </div>
-
-                                </div> <!-- .content-section -->
-                            </div> <!-- .content-main -->
+                    <div class="wpb_wrapper text-center">
+                        <div class="section-heading">
+                            <h2>Về chúng tôi</h2>
                         </div>
                     </div>
-
-
-                </div>
-
-            </div>
-        </div>
-        <div class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;"
-             ng-show="userData.admin">
-            <h4><i class="fa fa-sticky-note"></i>Admin Note</h4>
-            <ul>
-                <li ng-repeat="card in profileData.adminNote">
-                    <div class="row">
-                        <div class="col-4">
-                            <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
-                        </div>
-                        <div class="col-8">
-                            <h4 style="margin-top: 0px">{{card.adminId}}</h4>
-                            <p>{{card.note}}</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="row" ng-if="myself">
-
-            <div class="col-md-12">
-                <h4 class="legend text-center">Thống kê</h4>
-
-                <div class="card">
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-sm-12 col-lg-4">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="callout callout-info">
-                                            <small class="text-muted">Tương hợp</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.matched +
-                                                staticData.match}}</strong>
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                    <div class="col-sm-6">
-                                        <div class="callout callout-danger">
-                                            <small class="text-muted">Đánh giá</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                </div>
-                                <!--/.row-->
-                            </div>
-                            <!--/.col-->
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="callout callout-warning">
-                                            <small class="text-muted">Xin ứng tuyển</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.liked}}</strong>
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                    <div class="col-sm-6">
-                                        <div class="callout callout-success">
-                                            <small class="text-muted">Mời ứng tuyển</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.like}}</strong>
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                </div>
-                                <!--/.row-->
-                            </div>
-                            <!--/.col-->
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="callout">
-                                            <small class="text-muted">Lượt xem</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.viewed}}</strong>
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                    <div class="col-sm-6">
-                                        <div class="callout callout-primary">
-                                            <small class="text-muted">Lượt chia sẻ</small>
-                                            <br>
-                                            <strong class="h4">{{staticData.shared}}</strong>
-
-                                        </div>
-                                    </div>
-                                    <!--/.col-->
-                                </div>
-                                <!--/.row-->
-                            </div>
-                            <!--/.col-->
-                        </div>
-                        <!--/.row-->
-                    </div>
-                </div>
-            </div>
-            <!--/.col-->
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="legend text-center">Tình trạng tuyển dụng</h4>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="eMessages" role="tabpanel">
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-4" style="float:right">
-                                    <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Đã tương hợp: {{listReact.match.length}}</b>
-                                        </small>
-                                    </div>
-                                    <div class="callout text-muted text-center" ng-show="listReact.match.length == 0">
-                                        <small><b>Chưa tương hợp với ứng viên nào</b>
-                                        </small>
-                                    </div>
-                                    <div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">
-                                        <div class="message p-h" ng-click="service.chatToUser(card.userId)">
-                                            <div class="py-h mr-1 float-left">
-                                                <div class="avatar">
-                                                    <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
-                                                         class="img-avatar"
-                                                         alt="admin@bootstrapmaster.com">
-                                                    <span class="avatar-status badge-success"
-                                                          ng-if="card.presence == 'online'"></span>
-                                                    <span class="avatar-status badge-default"
-                                                          ng-if="card.presence == 'offline'"></span>
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted float-right mt-q">
-                                                    {{service.timeAgo(card.matchedAt ||
-                                                    card.createdAt)}}
-                                                </small>
-
-                                            </div>
-                                            <div class="text-truncate font-weight-bold">{{card.userName}}</div>
-                                            <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
-                                                   ng-show="card.jobUser">
-                                                {{Lang[key] || '&nbsp'}}
-                                            </small>
-                                            <span style="float:right" ng-show="userData.admin || myself">
-                                                <button ng-click="service.setStatus(card.storeId,card.userId, 'success')"
-                                                        ng-hide="card.success" type="button"
-                                                        class="btn btn-outline-success btn-sm">Thành công</button>
-                                                <button ng-click="service.setStatus(card.storeId,card.userId, 'success', true)"
-                                                        ng-show="card.success" type="button"
-                                                        class="btn btn-success btn-sm">Đã thành công</button>
-                                                <button ng-click="service.setStatus(card.storeId,card.userId, 'meet')"
-                                                        ng-hide="card.meet" type="button"
-                                                        class="btn btn-outline-info btn-sm">Gặp mặt</button>
-                                                <button ng-click="service.setStatus(card.storeId,card.userId, 'meet', true)"
-                                                        ng-show="card.meet" type="button"
-                                                        class="btn btn-info btn-sm">Đã gặp mặt</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('match')"
-                                                                                  role="button"
-                                                                                  ng-if="listReact.match.length > limit.match">Xem
-                                        tất cả</a></div>
-
-                                </div>
-
-                                <div class="col-sm-4" style="float:right">
-                                    <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Ứng viên ứng tuyển vào: {{listReact.liked.length}}</b>
-                                        </small>
-                                    </div>
-                                    <hr class="transparent mx-1 my-0">
-                                    <div class="callout text-muted text-center" ng-show="listReact.liked.length == 0">
-                                        <small><b>Chưa có ứng viên nào ứng tuyển</b>
-                                        </small>
-                                    </div>
-                                    <div ng-repeat="card in listReact.liked| orderBy:'-likeAt' | limitTo:limit.liked">
-
-                                        <div class="message p-h" ng-click="service.chatToUser(card.userId)">
-                                            <div class="py-h mr-1 float-left">
-                                                <div class="avatar">
-                                                    <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
-                                                         class="img-avatar"
-                                                         alt="admin@bootstrapmaster.com">
-                                                    <span class="avatar-status badge-success"
-                                                          ng-if="card.presence == 'online'"></span>
-                                                    <span class="avatar-status badge-default"
-                                                          ng-if="card.presence == 'offline'"></span>
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt
-                                                    ||
-                                                    card.createdAt)}}
-                                                </small>
-                                            </div>
-                                            <div class="text-truncate font-weight-bold">{{card.userName}}</div>
-                                            <small ng-hide="card.jobUser" class="text-muted">Đang tìm công việc bất kỳ
-                                            </small>
-                                            <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
-                                                   ng-show="card.jobUser">
-                                                {{Lang[key] || '&nbsp'}}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('liked')"
-                                                                                  role="button"
-                                                                                  ng-if="listReact.liked.length > limit.liked">Xem
-                                        tất cả</a></div>
-                                </div>
-                                <div class="col-sm-4" style="float:right">
-                                    <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
-                                        <small><b>Đã gửi yêu cầu cho ứng viên: {{listReact.like.length}}</b>
-                                        </small>
-                                    </div>
-                                    <div class="callout text-muted text-center" ng-show="listReact.like.length == 0">
-                                        <small><b>Chưa gửi yêu cầu cho ứng viên nào</b>
-                                        </small>
-                                    </div>
-                                    <div ng-repeat="card in listReact.like| orderBy:'-likeAt'| limitTo:limit.like">
-
-                                        <div class="message p-h" ng-click="service.chatToUser(card.userId)">
-                                            <div class="py-h mr-1 float-left">
-                                                <div class="avatar">
-                                                    <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
-                                                         class="img-avatar"
-                                                         alt="admin@bootstrapmaster.com">
-                                                    <span class="avatar-status badge-success"
-                                                          ng-if="card.presence == 'online'"></span>
-                                                    <span class="avatar-status badge-default"
-                                                          ng-if="card.presence == 'offline'"></span>
-
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt
-                                                    ||
-                                                    card.createdAt)}}
-                                                </small>
-                                            </div>
-                                            <div class="text-truncate font-weight-bold">{{card.userName}}</div>
-                                            <small ng-hide="card.jobStore" class="text-muted">Đang tìm công việc bất
-                                                kỳ
-                                            </small>
-                                            <small class="text-muted" ng-repeat="(key,value) in card.jobStore"
-                                                   ng-show="card.jobStore">
-                                                {{Lang[key] || '&nbsp'}}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('like')"
-                                                                                  role="button"
-                                                                                  ng-if="listReact.like.length > limit.like">Xem
-                                        tất cả</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="container-fluid" style="margin-top: 30px" ng-if="currentJob">
-    <div class="row">
-        <div class="col-sm-9 col-md-9">
-            <div class="content-container layout-wrap col-md-12" ng-if="currentJob == card.job"
-                 ng-repeat="card in profileData.jobData">
-                <div class="card content content-main js-job-container">
-                    <div class="row content-section job-header">
-                        <div class="col-md-6 job-header-details job-header-truncate">
-                            <span class="job-title">{{card.jobName}}</span>
-                            <h2 class="beicons-pre beicons-pre-location job-location">
-                                {{Lang[card.working_type]}}
-                            </h2>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="pull-right">
-                                <div ng-hide="card.deadline < today || card.static.going >= card.unit">
-                                    <button ng-click="service.chatToStore[profileData.storeId]"
-                                            type="button" ng-if="profileData.act.status == 1"
-                                            class="btn button-vip">Liên hệ
-                                    </button>
-                                    <button ng-disabled="!card" ng-click="service.reviewing(profileData,1)"
-                                            type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                            class="btn btn-success">Chấp nhận công việc
-                                    </button>
-                                    <button ng-disabled="!card" ng-click="service.reviewing(profileData,-1)"
-                                            type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                            class="btn btn-danger">Từ chối
-                                    </button>
-                                    <button type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobUser[card.job]"
-                                            class="btn btn-warning">Đang chờ phản hồi...
-                                    </button>
-                                    <button ng-click="like(profileData,0,card.job)"
-                                            ng-hide="profileData.act.jobUser[card.job] || myself"
-                                            type="button"
-                                            class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV' :'Ứng
-                                        tuyển nhanh'}}
-                                    </button>
-                                </div>
-                                <div ng-if="card.deadline < today || card.static.going >= card.unit">
-                                    <button type="button"
-                                            ng-if="card.deadline < today"
-                                            class="btn btn-danger">Hết hạn ứng tuyển
-                                    </button>
-                                    <button type="button"
-                                            ng-if="card.static.going >= card.unit"
-                                            class="btn btn-danger">Đã tuyển đủ
-                                    </button>
-                                </div>
-                                <button ui-sref="store ({id:'job'})"
-                                        ng-show="myself"
-                                        type="button"
-                                        class="btn btn-primary btn-sm">Sửa thông tin
-                                </button>
-                                <div class="avatars-stack mt-h">
-                                    <div class="avatar avatar-xs" ng-repeat="app in card.applied">
-                                        <img src="{{app.pic_small}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- .apply-container -->
-
-                    </div> <!-- .content-section -->
-                    <div class="content-section job-description-container">
-                        <div class="js-job-description">
-
-                        <div class="job-description">
-                            <div>
-                                <div ng-if="card.work_time">Ca làm
-                                    <ul>
-                                        <li ng-repeat="work in card.work_time">{{work.start}} -
-                                            {{work.end}}
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p ng-if="card.job">• Ngành nghề: {{Lang[card.job]}}
-
-                                <p ng-if="card.salary">• Mức lương theo tháng: {{card.salary}} triệu
-                                    đồng/tháng </p>
-                                <p ng-if="card.hourly_wages">• Mức lương theo giờ: {{card.hourly_wages}}
-                                    nghìn đồng/giờ </p>
-                                <p ng-if="card.deadline">• Hạn chót: {{card.deadline |
-                                    date}}({{service.timeAgo(card.deadline)}}) </p>
-                                <p ng-if="card.unit">• Số lượng: {{card.unit}}</p>
-                                <p ng-if="card.createdAt">• Ngày đăng: {{card.createdAt | date}}</p>
-                                <p ng-if="card.apply">• Đã ứng tuyển: {{card.apply}}</p>
-                                <p ng-if="card.viewed">• Lượt xem: {{card.viewed ? card.viewed :
-                                    "0"}}</p>
-
-                                <p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu
-                                    khác:</em></p>
-                                <p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>
-                                <p ng-if="card.sex">• Giới tính: {{Lang[card.sex]}}</p>
-
-                                <p ng-if="card.experience">• Đã có kinh nghiệm</p>
-                                <p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
-
-                            </div>
-                        </div>
-                        </div>
-                    </div> <!-- .content-section -->
-
-                    <div class="content-section job-description-container" ng-if="card.description">
-                        <div class="js-job-description">
-                            <div class="job-description">
-                                <div><h4>Mô tả</h4>
-
-                                    <p
-                                       ng-repeat="text in service.nextLine(card.description) track by $index">
-                                        {{text}}</p>
-
-                                    <button class="btn btn-secondary btn-sm"
-                                            ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">
-                                        Copy link
-                                    </button>
-
-                                </div>
-                            </div>
-
-                        </div> <!-- .content-section -->
-                    </div> <!-- .content-main -->
-                </div>
-            </div>
-            <h4 class="legend"
-                ng-if="profileData.jobData && currentJob && profileData.jobData.length > 1">
-                Các vị trí khác</h4>
-            <div class="content-container layout-wrap col-md-12" ng-hide="currentJob == card.job"
-                 ng-repeat="card in profileData.jobData | orderBy: '-deadline' ">
-                <div class="card content content-main js-job-container">
-                    <div class="row content-section job-header">
-                        <div class="col-md-6 job-header-details job-header-truncate">
-                            <span class="job-title">{{card.jobName}}</span>
-                            <h2 class="beicons-pre beicons-pre-location job-location">
-                                {{Lang[card.working_type]}}
-                            </h2>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="pull-right">
-                                <div ng-hide="card.deadline < today || card.static.going >= card.unit || myself">
-                                    <button ng-click="service.chatToStore[profileData.storeId]"
-                                            type="button" ng-if="profileData.act.status == 1"
-                                            class="btn button-vip">Liên hệ
-                                    </button>
-                                    <button ng-disabled="!card" ng-click="service.reviewing(profileData,1)"
-                                            type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                            class="btn btn-success">Chấp nhận công việc
-                                    </button>
-                                    <button ng-disabled="!card" ng-click="service.reviewing(profileData,-1)"
-                                            type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobStore[card.job]"
-                                            class="btn btn-danger">Từ chối
-                                    </button>
-                                    <button type="button"
-                                            ng-if="profileData.act.status == 0 && profileData.act.jobUser[card.job]"
-                                            class="btn btn-warning">Đang chờ phản hồi...
-                                    </button>
-                                    <button ng-click="like(profileData,0,card.job)"
-                                            ng-hide="profileData.act.jobUser[card.job] || myself"
-                                            type="button"
-                                            class="btn btn-primary">{{type == 0 ? 'Ứng tuyển không cần CV'
-                                        :'Ứng tuyển nhanh'}}
-                                    </button>
-                                </div>
-                                <div ng-if="card.deadline < today || card.static.going >= card.unit">
-                                    <button type="button"
-                                            ng-if="card.deadline < today"
-                                            class="btn btn-danger">Hết hạn ứng tuyển
-                                    </button>
-                                    <button type="button"
-                                            ng-if="card.static.going >= card.unit"
-                                            class="btn btn-danger">Đã tuyển đủ
-                                    </button>
-                                </div>
-                                <button ui-sref="store ({id:'job'})"
-                                        ng-show="myself"
-                                        type="button"
-                                        class="btn btn-primary btn-sm">Sửa thông tin
-                                </button>
-                                <div class="avatars-stack mt-h">
-                                    <div class="avatar avatar-xs" ng-repeat="app in card.applied">
-                                        <img src="{{app.pic_small}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- .apply-container -->
-
-                    </div> <!-- .content-section -->
-                    <div class="content-section job-description-container">
-                        <div class="js-job-description">
-                            <div class="job-description">
-                                <div>
-                                    <p><em>Mô tả</em></p>
-                                    <div ng-if="card.work_time">Ca làm
-                                        <ul>
-                                            <li ng-repeat="work in card.work_time">{{work.start}} -
-                                                {{work.end}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p ng-if="card.job">• Ngành nghề: {{Lang[card.job]}}
-
-                                    <p ng-if="card.salary">• Mức lương theo tháng: {{card.salary}} triệu
-                                        đồng/tháng </p>
-                                    <p ng-if="card.hourly_wages">• Mức lương theo giờ: {{card.hourly_wages}}
-                                        nghìn đồng/giờ </p>
-                                    <p ng-if="card.deadline">• Hạn chót: {{card.deadline |
-                                        date}}({{service.timeAgo(card.deadline)}}) </p>
-                                    <p ng-if="card.unit">• Số lượng: {{card.unit}}</p>
-                                    <p ng-if="card.createdAt">• Ngày đăng: {{card.createdAt | date}}</p>
-                                    <p ng-if="card.apply">• Đã ứng tuyển: {{card.apply}}</p>
-                                    <p ng-if="card.viewed">• Lượt xem: {{card.viewed ? card.viewed :
-                                        "0"}}</p>
-
-                                    <p ng-if="card.figure || card.experience || card.languages"><em>Yêu cầu
-                                        khác:</em></p>
-                                    <p ng-if="card.figure">• Yêu cầu ngoại hình khá</p>
-                                    <p ng-if="card.sex">• Giới tính: {{Lang[card.sex]}}</p>
-
-                                    <p ng-if="card.experience">• Đã có kinh nghiệm</p>
-                                    <p ng-if="card.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
-
-
-                                    <p ng-if="card.description"
-                                       ng-repeat="text in service.nextLine(card.description) track by $index">
-                                        {{text}}</p>
-
-                                    <button class="btn btn-secondary btn-sm"
-                                            ng-click-copy="{{CONFIG.WEBURL}}/view/store/{{profileData.storeId}}?job={{card.job}}">
-                                        Copy link
-                                    </button>
-
-                                </div>
-                            </div>
-
-                        </div> <!-- .content-section -->
-                    </div> <!-- .content-main -->
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <img class="card-img-top" src="{{profileData.avatar}}" width="100%">
-                <div class="card-block">
-                    <h4 class="card-title">{{profileData.storeName}}</h4>
-                    <h6 class="tagline">{{service.shortAddress(profileData.address)}}</h6>
-
-                    <button class="btn btn-vm btn-outline-primary"
-                    >{{Lang[profileData.industry]}}
-                    </button>
-
-                    <p ng-if="profileData.description"
-                       ng-repeat="text in service.nextLine(profileData.description) track by $index">
+                    <p ng-repeat="text in service.nextLine(profileData.description) track by $index">
                         {{text}}</p>
+
+                </div>
+                <div style="margin-top: 50px; margin-bottom: 30px" ng-show="profileData.photo">
+                    <div class="wpb_wrapper text-center">
+                        <div class="section-heading">
+                            <h2>Môi trường làm việc</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-repeat="card in profileData.photo">
+                        <img src="{{card}}" width="100%" class="img-raised" style="margin-bottom: 20px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container testimonials testimonials-raised" ng-if="profileData.jobData">
+    <div class="wpb_wrapper text-center">
+        <div class="section-heading">
+            <h2>Vị trí đang tuyển</h2>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in profileData.jobData">
+            <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
+                <div class="content_">
+
+                    <div class="content-top-new">
+                        <div class="row">
+                            <div class="logo-restaurant-new pull-left">
+                                <a>
+                                    <img class="avatar"
+                                         src="{{card.avatar || '/img/store.png'}}"
+                                         alt="{{card.storeName}}">
+                                </a>
+                            </div>
+                            <div class="logo-job-new pull-right">
+                                <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+                                        ||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}"
+                                     width="auto" height="80px">
+                            </div>
+                        </div>
+                        <div class="row main-content-new">
+                            <table>
+                                <tr>
+                                    <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                                        {{card.jobName}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="time-new" itemprop="description">{{Lang[card.working_type]}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="content-bottom-new">
+                        <div class="jobseeker-new text-left">
+                            <p>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}
+                                <br><i>{{card.address}}</i>
+                            </p>
+                        </div>
+                        <button ng-click="like(card,0,card.job)"
+                                type="button"
+                                ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"
+                                class="btn btn-default apply-new">Chọn công việc này
+                        </button>
+                        <button ng-click="service.chatToStore[card.storeId]"
+                                type="button" ng-if="card.act.status == 1"
+                                class="btn button-vip">Liên hệ
+                        </button>
+                        <button ng-disabled
+                                type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"
+                                class="btn btn-warning">Đang chờ phản hồi...
+                        </button>
+                        <button ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})"
+                                type="button" ng-if="!card.act"
+                                class="btn btn-primary">Xem chi tiết
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" ng-if="profileData.storeList > 1">
+    <div class="container">
+        <div class="wpb_wrapper">
+            <div class="section-heading">
+                <h2>Chi nhánh khác</h2>
+            </div>
+        </div>
+        <div class="list-profile">
+            <div class="row row-s">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in profileData.storeList"
+                     ng-if="card.storeId != profileData.storeId">
+                    <!-- Normal Demo-->
+                    <!-- Post-->
+                    <div class="post-module" style="margin-bottom: 24px">
+                        <!-- Thumbnail-->
+                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">
+                            <img src="{{card.avatar || 'img/store.png'}}"/>
+                        </div>
+                        <!-- Post Content-->
+                        <div class="post-content">
+                            <div class="category" ng-if="card.feature">Hot</div>
+                            <h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>
+                            <p>{{card.address}}</p>
+                        </div>
 
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="main main-dark section-creators">
-    <div class="container" style="max-width: 100%">
+    <div class="container" style="max-width: 100%;padding-top: 50px">
         <div class="testimonials testimonials-raised">
-            <div class="row" style="padding: 60px;">
-                <div class="col-xs-6 col-sm-6 col-md-4" style="padding: 5px"
-                     ng-repeat="card in profileData.photo">
-                    <img src="{{card}}" style="width:100%"/>
-                </div>
-            </div>
             <div class="row" ng-show="!reviewData[userId] && type == 2">
                 <div class="col-md-8 col-md-offset-2 text-center" style="margin-bottom: 80px; margin-top: 40px; ">
                     <h1 itemprop="name" class="product-name">Đánh giá của bạn về </h1>
@@ -814,8 +366,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
                 <div class="sharing-area">
@@ -910,36 +460,269 @@
     </div>
 </div>
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" ng-if="numberStore > 1">
-    <div class="container">
-        <div class="wpb_wrapper">
-            <div class="section-heading">
-                <h2>Chi nhánh khác</h2>
+
+<div class="section-product-description section-white-gradient section-scaled" ng-if="userData.admin">
+
+    <div ng-if="userData.admin" class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;"
+    >
+        <h4><i class="fa fa-sticky-note"></i>Admin Note</h4>
+        <ul>
+            <li ng-repeat="card in profileData.adminNote">
+                <div class="row">
+                    <div class="col-4">
+                        <p>{{card.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
+                    </div>
+                    <div class="col-8">
+                        <h4 style="margin-top: 0px">{{card.adminId}}</h4>
+                        <p>{{card.note}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row" ng-if="myself">
+
+        <div class="col-md-12">
+            <h4 class="legend text-center">Thống kê</h4>
+
+            <div class="card">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="callout callout-info">
+                                        <small class="text-muted">Tương hợp</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.matched +
+                                            staticData.match}}</strong>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                                <div class="col-sm-6">
+                                    <div class="callout callout-danger">
+                                        <small class="text-muted">Đánh giá</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.rated*staticData.rateAverage}}</strong>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.row-->
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="callout callout-warning">
+                                        <small class="text-muted">Xin ứng tuyển</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.liked}}</strong>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                                <div class="col-sm-6">
+                                    <div class="callout callout-success">
+                                        <small class="text-muted">Mời ứng tuyển</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.like}}</strong>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.row-->
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="callout">
+                                        <small class="text-muted">Lượt xem</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.viewed}}</strong>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                                <div class="col-sm-6">
+                                    <div class="callout callout-primary">
+                                        <small class="text-muted">Lượt chia sẻ</small>
+                                        <br>
+                                        <strong class="h4">{{staticData.shared}}</strong>
+
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.row-->
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                </div>
             </div>
         </div>
-        <div class="list-profile">
-            <div class="row row-s">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in storeList"
-                     ng-if="card.storeId != profileData.storeId">
-                    <!-- Normal Demo-->
-                    <!-- Post-->
-                    <div class="post-module" style="margin-bottom: 24px">
-                        <!-- Thumbnail-->
-                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">
-                            <img src="{{card.avatar || 'img/store.png'}}"/>
-                        </div>
-                        <!-- Post Content-->
-                        <div class="post-content">
-                            <div class="category" ng-if="card.feature">Hot</div>
-                            <h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>
-                            <p>{{card.address}}</p>
-                        </div>
+        <!--/.col-->
+    </div>
+    <div class="row" ng-if="userData.admin">
+        <div class="col-md-12">
+            <h4 class="legend text-center">Tình trạng tuyển dụng</h4>
+            <div class="tab-content">
+                <div class="tab-pane active" id="eMessages" role="tabpanel">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4" style="float:right">
+                                <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                                    <small><b>Đã tương hợp: {{listReact.match.length}}</b>
+                                    </small>
+                                </div>
+                                <div class="callout text-muted text-center" ng-show="listReact.match.length == 0">
+                                    <small><b>Chưa tương hợp với ứng viên nào</b>
+                                    </small>
+                                </div>
+                                <div ng-repeat="card in listReact.match | orderBy:'-matchedAt' | limitTo : limit.match">
+                                    <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                                        <div class="py-h mr-1 float-left">
+                                            <div class="avatar">
+                                                <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
+                                                     class="img-avatar"
+                                                     alt="admin@bootstrapmaster.com">
+                                                <span class="avatar-status badge-success"
+                                                      ng-if="card.presence == 'online'"></span>
+                                                <span class="avatar-status badge-default"
+                                                      ng-if="card.presence == 'offline'"></span>
 
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted float-right mt-q">
+                                                {{service.timeAgo(card.matchedAt ||
+                                                card.createdAt)}}
+                                            </small>
+
+                                        </div>
+                                        <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                                        <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
+                                               ng-show="card.jobUser">
+                                            {{Lang[key] || '&nbsp'}}
+                                        </small>
+                                        <span style="float:right" ng-show="userData.admin || myself">
+<button ng-click="service.setStatus(card.storeId,card.userId, 'success')"
+        ng-hide="card.success" type="button"
+        class="btn btn-outline-success btn-sm">Thành công</button>
+<button ng-click="service.setStatus(card.storeId,card.userId, 'success', true)"
+        ng-show="card.success" type="button"
+        class="btn btn-success btn-sm">Đã thành công</button>
+<button ng-click="service.setStatus(card.storeId,card.userId, 'meet')"
+        ng-hide="card.meet" type="button"
+        class="btn btn-outline-info btn-sm">Gặp mặt</button>
+<button ng-click="service.setStatus(card.storeId,card.userId, 'meet', true)"
+        ng-show="card.meet" type="button"
+        class="btn btn-info btn-sm">Đã gặp mặt</button>
+</span>
+                                    </div>
+                                </div>
+                                <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('match')"
+                                                                              role="button"
+                                                                              ng-if="listReact.match.length > limit.match">Xem
+                                    tất cả</a></div>
+
+                            </div>
+
+                            <div class="col-sm-4" style="float:right">
+                                <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                                    <small><b>Ứng viên ứng tuyển vào: {{listReact.liked.length}}</b>
+                                    </small>
+                                </div>
+                                <hr class="transparent mx-1 my-0">
+                                <div class="callout text-muted text-center" ng-show="listReact.liked.length == 0">
+                                    <small><b>Chưa có ứng viên nào ứng tuyển</b>
+                                    </small>
+                                </div>
+                                <div ng-repeat="card in listReact.liked| orderBy:'-likeAt' | limitTo:limit.liked">
+
+                                    <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                                        <div class="py-h mr-1 float-left">
+                                            <div class="avatar">
+                                                <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
+                                                     class="img-avatar"
+                                                     alt="admin@bootstrapmaster.com">
+                                                <span class="avatar-status badge-success"
+                                                      ng-if="card.presence == 'online'"></span>
+                                                <span class="avatar-status badge-default"
+                                                      ng-if="card.presence == 'offline'"></span>
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt
+                                                ||
+                                                card.createdAt)}}
+                                            </small>
+                                        </div>
+                                        <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                                        <small ng-hide="card.jobUser" class="text-muted">Đang tìm công việc bất kỳ
+                                        </small>
+                                        <small class="text-muted" ng-repeat="(key,value) in card.jobUser"
+                                               ng-show="card.jobUser">
+                                            {{Lang[key] || '&nbsp'}}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('liked')"
+                                                                              role="button"
+                                                                              ng-if="listReact.liked.length > limit.liked">Xem
+                                    tất cả</a></div>
+                            </div>
+                            <div class="col-sm-4" style="float:right">
+                                <div class="callout m-0 py-h text-muted text-center bg-faded text-uppercase">
+                                    <small><b>Đã gửi yêu cầu cho ứng viên: {{listReact.like.length}}</b>
+                                    </small>
+                                </div>
+                                <div class="callout text-muted text-center" ng-show="listReact.like.length == 0">
+                                    <small><b>Chưa gửi yêu cầu cho ứng viên nào</b>
+                                    </small>
+                                </div>
+                                <div ng-repeat="card in listReact.like| orderBy:'-likeAt'| limitTo:limit.like">
+
+                                    <div class="message p-h" ng-click="service.chatToUser(card.userId)">
+                                        <div class="py-h mr-1 float-left">
+                                            <div class="avatar">
+                                                <img src="{{card.userAvatar || '/img/macdinh.jpg'}}"
+                                                     class="img-avatar"
+                                                     alt="admin@bootstrapmaster.com">
+                                                <span class="avatar-status badge-success"
+                                                      ng-if="card.presence == 'online'"></span>
+                                                <span class="avatar-status badge-default"
+                                                      ng-if="card.presence == 'offline'"></span>
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted float-right mt-q">{{service.timeAgo(card.likeAt
+                                                ||
+                                                card.createdAt)}}
+                                            </small>
+                                        </div>
+                                        <div class="text-truncate font-weight-bold">{{card.userName}}</div>
+                                        <small ng-hide="card.jobStore" class="text-muted">Đang tìm công việc bất
+                                            kỳ
+                                        </small>
+                                        <small class="text-muted" ng-repeat="(key,value) in card.jobStore"
+                                               ng-show="card.jobStore">
+                                            {{Lang[key] || '&nbsp'}}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div align="right" style="color:#42a1f4" ;><a ng-click="incrementLimit('like')"
+                                                                              role="button"
+                                                                              ng-if="listReact.like.length > limit.like">Xem
+                                    tất cả</a></div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
+
 </div>

@@ -103,6 +103,39 @@
                                         </div>
 
                                     </fieldset>
+                                    <fieldset class="form-group">
+                                        <label>Tôi có thể phỏng vấn ứng viên hằng ngày</label>
+                                        <label class="switch switch-default switch-pill switch-primary"
+                                               style="float: right">
+                                            <input type="checkbox" class="switch-input" class="switch-input"
+                                                   ng-model="storeData.interviewTime.daily">
+                                            <span class="switch-label"></span>
+                                            <span class="switch-handle"></span>
+                                        </label>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <label>Lịch phỏng vấn *</label>
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Giờ</span>
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="storeData.interviewTime.hour">
+                                                <option ng-repeat="(key,value) in CONFIG.hour" value="{{key}}">
+                                                    {{CONFIG.hour[key]}}
+                                                </option>
+
+                                            </select>
+                                            <span class="input-group-addon" ng-hide="storeData.interviewTime.daily">Thứ hằng tuần</span>
+                                            <select ng-hide="storeData.interviewTime.daily" id="select" name="select"
+                                                    class="form-control" size="1"
+                                                    ng-model="storeData.interviewTime.day">
+                                                <option ng-repeat="(key,value) in CONFIG.day" value="{{key}}">
+                                                    {{CONFIG.day[key]}}
+                                                </option>
+
+                                            </select>
+                                        </div>
+                                    </fieldset>
 
 
                                     <fieldset class="form-group">
@@ -183,7 +216,7 @@
                                     <span us-spinner spinner-key="photo"></span>
                                 </div>
                             </div>
-                            <div class="card" ng-hide="type == 'job'" ng-show="admin">
+                            <div class="card" ng-hide="type == 'job'">
                                 <div class="card-header">
                                     <strong>Gói sử dụng</strong>
                                 </div>
@@ -195,7 +228,6 @@
                                                    value="basic"> Basic:
                                         </label>
                                         <small class="text-muted">Tự chọn ứng viên, liên hệ và phỏng vấn</small>
-
                                     </div>
 
                                     <div class="radio">
@@ -418,7 +450,7 @@
                                     <label class="col-md-5 form-control-label" for="select">Ngành nghề</label>
                                     <div class="col-md-7">
                                         <select id="select" name="select" class="form-control" size="1"
-                                                ng-model="card.job" >
+                                                ng-model="card.job">
                                             <option ng-repeat="(key,value) in CONFIG.data.job" value="{{key}}">
                                                 {{ Lang[key]}}
                                             </option>

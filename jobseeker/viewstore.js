@@ -31,15 +31,20 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             url: CONFIG.APIURL + '/view/store',
             params: {storeId: $scope.profileId, userId: $rootScope.userId}
         }).then(function successCallback(response) {
-            console.log("respond", response);
             $scope.profileData = response.data;
             $scope.jobData = $scope.profileData.jobData;
 
             $scope.profileData.background = '/img/ava-background/background_' + $scope.profileData.industry + '.png';
             if ($scope.currentJob) {
-                $timeout(function () {
-                    $scope.currentJobData = $scope.profileData.job[$scope.currentJob]
-                })
+                for(var i in $scope.jobData){
+                    var job = $scope.jobData[i]
+                    if(job.jobId == $scope.currentJob){
+                        $scope.currentJobData = job
+
+                        break
+                    }
+                }
+
             }
 
             $scope.adminData = $scope.profileData.adminData
@@ -190,11 +195,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
     }
 
-    $scope.like = function (card, action, selectedJob) {
-        $rootScope.service.userLike(card, action, selectedJob).then(function (result) {
-            console.log(result)
-        })
-    };
+
 
     $scope.chatto = function (id) {
         $state.go("employer.chats", {to: id, slide: 1})

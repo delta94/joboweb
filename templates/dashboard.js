@@ -4,7 +4,8 @@ app.controller('dashboardCtrl', function ($scope, $timeout, $sce, toastr, $state
         $scope.loading = true
         $rootScope.aside = false
         $scope.showjob = 2;
-
+        $rootScope.og = {
+            title: 'Việc làm lương tốt, ứng tuyển dễ dàng'}
 
         if (!$rootScope.UserCard && !$rootScope.StoreCard) {
             $http({
@@ -127,7 +128,7 @@ app.controller('dashboardCtrl', function ($scope, $timeout, $sce, toastr, $state
         });
     }
 )
-    .controller('hiringCtrl', function ($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope,$stateParams) {
+    .controller('hiringCtrl', function ($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope, $stateParams) {
         if (!$rootScope.newfilter) {
             $rootScope.newfilter = {}
         }

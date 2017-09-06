@@ -670,7 +670,7 @@
         <div class="testimonials testimonials-raised">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.ss">
-                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
                         <div class="content_">
                             <div class="content-top-new">
                                 <div class="row">
@@ -689,7 +689,7 @@
                                         <tr>
                                             <td class="job-new"
                                                 ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.other}}
+                                                {{card.jobName}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -703,7 +703,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="content-bottom-new text-center">
+                        <div class="content-bottom-new text-center">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
                                         <br> <i>{{card.address}}</i>
@@ -719,7 +719,7 @@
             </div>
         </div>
         <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
+            <a ui-sref="app.sdash" role="button"
                style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
                 Xem tất cả</a>
         </div>
@@ -734,7 +734,7 @@
         <div class="testimonials testimonials-raised">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg | limitTo : numberDisplay2.sg">
-                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
                         <div class="content_">
                             <div class="content-top-new">
                                 <div class="row">
@@ -753,7 +753,8 @@
                                         <tr>
                                             <td class="job-new"
                                                 ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{dataJob[card.job] || card.other}}
+                                                {{card.jobName}}
+
                                             </td>
                                         </tr>
                                         <tr>
@@ -783,7 +784,7 @@
             </div>
         </div>
         <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('sg')" role="button" ng-if="JobCard.sg.length > numberDisplay2.sg"
+            <a ui-sref="app.sdash" role="button"
                style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
                 Xem tất cả</a>
         </div>
@@ -814,7 +815,7 @@
                                     <table>
                                         <tr>
                                             <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                                                ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
                                                 {{dataJob[card.job] || card.other}}
                                             </td>
                                         </tr>
@@ -934,12 +935,6 @@
                         <div class="category" ng-if="card.feature">Hot</div>
                         <h3 class="title">{{card.name || 'Your Name Here'}}</h3>
 
-                        <div style="display:inline-block;width:313.98px;height:30px;white-space: nowrap;overflow:hidden !important;text-overflow: ellipsis;">
-                            <button ng-click="applyThis(card.userId,key)" type="button"
-                                    class="btn btn-vm {{selectedJob[card.userId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
-                                    ng-repeat="(key,value) in card.job">{{dataJob[key]}}
-                            </button>
-                        </div>
 
                         <div class="post-meta">
 <span class="comments"><i class="fa fa-tags" aria-hidden="true"></i> <a href="#"
@@ -960,8 +955,6 @@ right: 0px;bottom: 0px;">
         </div>
     </div>
 </div>
-
-
 
 
 

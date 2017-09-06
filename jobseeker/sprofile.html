@@ -171,12 +171,16 @@
                                                         ng-click="uploadAvatar(croppedDataUrl)">
                                                     Tải lên
                                                 </button>
+                                                <button ng-show="userData.avatar" class="btn btn-danger"
+                                                        ng-click="userData.avatar = null">
+                                                    Xoá ảnh hiện tại
+                                                </button>
                                             </div>
                                             <div class="card-footer" style="padding: 0px">
                                                 <button class="btn btn-outline-success btn-block" ngf-select
                                                         ng-model="picFile"
                                                         accept="image/*">
-                                                    <i class="fa fa-magic"></i> Chọn ảnh
+                                                    <i class="fa fa-magic"></i> {{userData.avatar ? 'Chọn ảnh khác':'Chọn ảnh'}}
                                                 </button>
                                             </div>
                                         </div>

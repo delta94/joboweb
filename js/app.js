@@ -59,12 +59,12 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, AuthUser, $stateParams, $state) {
+    .run(function ($rootScope, AuthUser, CONFIG, $state) {
         $rootScope.width = window.innerWidth;
         $rootScope.service = AuthUser;
-
+        $rootScope.CONFIG = CONFIG
         firebase.database().ref('config').once('value', function (snap) {
-            $rootScope.CONFIG = snap.val();
+            $rootScope.CONFIG = Object.assign(CONFIG,snap.val())
             $rootScope.service.loadLang('vi')
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
@@ -126,7 +126,7 @@ var app = angular
                 return 'android'
             }
 
-        };
+        }
 
         $rootScope.checkAgent = {
             platform: checkPlatform(),
@@ -177,7 +177,6 @@ var app = angular
                     currentStore: storeId
                 }
             });
-            window.location = '/view/store/' + storeId
             AuthUser.user()
         };
     });

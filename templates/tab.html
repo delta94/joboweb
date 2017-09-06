@@ -19,7 +19,7 @@
                                              alt="admin@bootstrapmaster.com">
                                     </div>
                                 </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
+                                <a ng-click="searchName = null" href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
                                    class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
                                 <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
                                        ng-show="result.job">

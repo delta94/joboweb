@@ -19,28 +19,35 @@
                 console.log('Auth')
                 if (user) {
                     $rootScope.userId = user.uid;
+                    $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
+                        $rootScope.userData = res.data;
+                        $rootScope.type = $rootScope.userData.type;
 
+                    })
                     $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
                         console.log(res);
                         var user = res.data;
                         console.log('user', user);
                         $rootScope.userData = user.userData;
-                        output = $rootScope.userData;
-                        deferred.resolve(output);
-                        if (!$rootScope.userData.webToken) {
-                            $rootScope.service.saveWebToken();
+                        if ($rootScope.userData) {
+                            output = $rootScope.userData;
+                            deferred.resolve(output);
+                            if (!$rootScope.userData.webToken) {
+                                $rootScope.service.saveWebToken();
+                            }
+                            $rootScope.type = $rootScope.userData.type;
+                            if ($rootScope.userData.currentStore) {
+                                $rootScope.storeId = $rootScope.userData.currentStore
+                            }
+                            $rootScope.storeList = user.storeList;
+                            $rootScope.storeData = user.storeData;
+                            $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
+                            $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+                            $rootScope.reactList = user.reactList;
+                            $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
+                        } else {
+                            toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
                         }
-                        $rootScope.type = $rootScope.userData.type;
-                        if ($rootScope.userData.currentStore) {
-                            $rootScope.storeId = $rootScope.userData.currentStore
-                        }
-                        $rootScope.storeList = user.storeList;
-                        $rootScope.storeData = user.storeData;
-                        $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
-                        $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
-                        $rootScope.reactList = user.reactList;
-                        $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
-
                     })
                     // User is signed in.
                 } else {
@@ -109,7 +116,7 @@
                     };
                     $rootScope.service.Ana('match', {userId: card.userId, job: jobOffer})
 
-                    toastr.success('Bạn đã tương hợp với '+ card.name +' !' )
+                    toastr.success('Bạn đã tương hợp với ' + card.name + ' !')
                 } else {
                     if (card.act && card.act.jobUser) {
 
@@ -150,10 +157,15 @@
                 }
             }
         };
-        this.userLike = function (card, action, jobOffer) {
+        this.userLike = function (card, action, jobOffer, preApply) {
             $rootScope.jobOffer = {}
+            if (preApply) {
+                var selectedJob = preApply
 
-            var selectedJob = {}
+            } else {
+                var selectedJob = {}
+
+            }
             selectedJob[jobOffer] = new Date().getTime()
 
             if ($rootScope.type == 2) {
@@ -182,7 +194,7 @@
                         userId: $rootScope.userId
 
                     }
-                    toastr.success('Bạn đã tương hợp với '+ card.storeName +' !' )
+                    toastr.success('Bạn đã tương hợp với ' + card.storeName + ' !')
                     $rootScope.service.Ana('match', {storeId: card.storeId, job: jobOffer})
                 } else {
                     if (card.act && card.act.jobUser) {
@@ -260,7 +272,7 @@
                         };
                         $rootScope.service.Ana('match', {userId: card.userId})
 
-                        toastr.success('Bạn đã tương hợp với '+ card.name +' !' )
+                        toastr.success('Bạn đã tương hợp với ' + card.name + ' !')
                     }
                     if (action < 0) {
                         likeActivity.update({
@@ -298,7 +310,7 @@
                             userId: $rootScope.userId
 
                         }
-                        toastr.success('Bạn đã tương hợp với '+ card.storeName +' !' )
+                        toastr.success('Bạn đã tương hợp với ' + card.storeName + ' !')
                         $rootScope.service.Ana('match', {storeId: card.storeId})
                     }
                     if (action < 0) {
@@ -668,8 +680,6 @@
         }
 
 
-
-
         this.readNoti = function (id) {
             if ($rootScope.type == 1) {
                 db.ref('notification/' + $rootScope.userId).child(id).update({update: new Date().getTime()})
@@ -678,14 +688,10 @@
             }
         }
         this.calNoti = function (notification) {
-            var noti = {}
+            var noti = 0
             angular.forEach(notification, function (card) {
                 if (!card.update) {
-                    if (!noti[card.storeId]) {
-                        noti[card.storeId] = 0
-                    } else {
-                        noti[card.storeId]++
-                    }
+                    noti++
                 }
             })
             return noti
@@ -867,7 +873,7 @@
                     type: 1
                 };
 
-                newPostRef.update({interview:message});
+                newPostRef.update({interview: message});
 
             }
 
@@ -1038,7 +1044,7 @@
                  userRef.update({email: email})*/
                 toastr.success('Cập nhật email thành công, kiểm tra hòm mail để xác thực', 'Thay đổi email thành công')
 
-                sendVerifyEmail()
+                $rootScope.service.sendVerifyEmail()
             }, function (error) {
                 // An error happened.
                 toastr.error(error, 'Lỗi')

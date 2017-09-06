@@ -5,6 +5,7 @@ angular.module('starter.configs', [])
         'Location': false,
         'WEBURL': 'https://joboapp.com',
         "APIURL": 'http://localhost:8080',
+        "AnaURL": 'http://localhost:8081',
         'FCM_KEY': "AAAArk3qIB4:APA91bEWFyuKiFqLt4UIrjUxLbduQCWJB4ACptTtgAovz4CKrMdonsS3jt06cfD9gGOQr3qtymBmKrsHSzGhqyJ_UWrrEbA4YheznlqYjsCBp_12bNPFSBepqg_qrxwdYxX_IcT9ne5z6s02I2mu2boy3VTN3lGPYg",
         "APIKey": 'AIzaSyATOX9rL_ULV-Q_e2kImu9wYgK2AToOteQ',
         "StatusChat": {
@@ -73,7 +74,7 @@ angular.module('starter.configs', [])
                 "server": "Phục vụ",
                 "designer": "Designer",
                 "other": "Khác",
-                "bartender":"Pha chế"
+                "bartender": "Pha chế"
             },
             "languages": {
                 "english": "Tiếng Anh",
@@ -209,5 +210,26 @@ angular.module('starter.configs', [])
                 "name": "Power",
                 "price": "1.000.000 đ/tháng"
             }
+        },
+        "hour": {
+            9: "9:00",
+            10: "10:00",
+            11: "11:00",
+            12: "12:00",
+            13: "13:00",
+            14: "14:00",
+            15: "15:00",
+            16: "16:00",
+            17: "17:00",
+            18: "18:00"
+        },
+        "day": {
+            1: "Thứ 2",
+            2: "Thứ 3",
+            3: "Thứ 4",
+            4: "Thứ 5",
+            5: "Thứ 6",
+            6: "Thứ 7",
+            7: "Chủ nhật"
         }
     });

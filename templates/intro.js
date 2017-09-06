@@ -238,16 +238,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                         console.log('$rootScope.preApply', $rootScope.preApply)
                     })
                 });
-                /*firebase.database().ref('store/' + $stateParams.apply).once('value', function (snap) {
-                    $timeout(function () {
-                        $rootScope.preApply = {
-                            card: snap.val(),
-                            jobOffer: $stateParams.job
-                        }
-                        console.log('$rootScope.preApply', $rootScope.preApply)
-                    })
 
-                })*/
 
             }
         }

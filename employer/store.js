@@ -446,14 +446,14 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 for (var j in $scope.jobData[i].work_time) {
                     delete $scope.jobData[i].work_time[j].$$hashKey;
                 }
-                if(!$scope.jobData[i].jobId){
+                if (!$scope.jobData[i].jobId) {
                     $scope.jobData[i].jobId = 'j' + Math.round(100000000000000 * Math.random());
                 }
 
                 $rootScope.storeData.job[$scope.jobData[i].job] = $scope.jobData[i].jobName;
                 console.log($scope.jobData)
             }
-            var storeD = Object.assign({},$rootScope.storeData)
+            var storeD = Object.assign({}, $rootScope.storeData)
             delete storeD.adminData;
             delete storeD.jobData;
             delete storeD.actData;
@@ -474,7 +474,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                 }).then(function (res) {
                     toastr.success('Cập nhật vị trí thành công')
                     if ($scope.firsttime) {
-                        $rootScope.service.Ana('createStore');
+                        $rootScope.service.Ana('createStore', {storeId: $rootScope.storeId});
                     } else {
                         $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                     }
