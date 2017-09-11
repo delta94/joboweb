@@ -1135,7 +1135,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         $scope.addJob = function (card) {
             console.log(card)
 
-            secondary.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
+            firebase.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
 
                 // var usersRef = firebase.database().ref('user/' + user.uid);
                 var userData = {

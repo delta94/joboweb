@@ -59,12 +59,13 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, AuthUser, CONFIG, $state) {
+    .run(function ($rootScope, AuthUser, CONFIG) {
         $rootScope.width = window.innerWidth;
         $rootScope.service = AuthUser;
-        $rootScope.CONFIG = CONFIG
-        firebase.database().ref('config').once('value', function (snap) {
-            $rootScope.CONFIG = Object.assign(CONFIG,snap.val())
+        $rootScope.CONFIG = CONFIG;
+        $rootScope.service.JoboApi('config').then(function (res) {
+            $rootScope.CONFIG = res.data;
+            $rootScope.CONFIG = Object.assign(CONFIG, res.data)
             $rootScope.service.loadLang('vi')
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;

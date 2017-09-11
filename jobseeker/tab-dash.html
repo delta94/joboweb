@@ -3,10 +3,12 @@
      background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
     <div class="info" style="margin-top: 0px; float: left">
         <div style="margin-top: 50px">
-            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
                 <h1>Tìm việc nhanh xung quanh bạn</h1>
                 <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text" ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
+                    <input type="text" name="q" id="q" class="form-control form-control-search"
+                           placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text"
+                           ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
                     <ul id="list-add" ng-show="autocompleteAddress.text.length">
                         <li ng-repeat="ketqua in ketquasAddress"
                             ng-click="setSelectedAddress(ketqua)">
@@ -18,22 +20,25 @@
         </div>
     </div>
 </div>
-<div class="card filter-tab" ng-init="init()" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
-        <div class="row" style="margin: 0 auto; ">
-            <div class="col-md-11">
-                <button  ng-repeat="(key,value) in CONFIG.data.job" type="button" class="btn {{newfilter.job == key? 'btn-primary':'btn-link'}}  btn-sm" style="font-size: 0.75rem;" ng-click="newfilterFilter('job',key)">{{Lang[key]}}</button>
-
-            </div>
-
-            <div class="col-md-1 btn-filter-advace pull-right">
-                <a class="text-truncate nav-link nav-pill text-center pull-right " style="float: right"
-                   aria-expanded="false" ng-click="showFilter=true">
-                    Lọc nâng cao</a>
-            </div>
+<div class="card filter-tab"  style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
+    <div class="row" style="margin: 0 auto; ">
+        <div class="col-md-11">
+            <button ng-repeat="(key,value) in CONFIG.data.job" type="button"
+                    class="btn {{newfilter.job == key? 'btn-primary':'btn-link'}}  btn-sm" style="font-size: 0.75rem;"
+                    ng-click="newfilterFilter('job',key)">{{Lang[key]}}
+            </button>
 
         </div>
+
+        <div class="col-md-1 btn-filter-advace pull-right">
+            <a class="text-truncate nav-link nav-pill text-center pull-right " style="float: right"
+               aria-expanded="false" ng-click="showFilter=true">
+                Lọc nâng cao</a>
+        </div>
+
+    </div>
 </div>
-<div class="card filter-tab" ng-init="init()" style="padding:10px;margin-bottom: 0px;" ng-show="showFilter">
+<div class="card filter-tab" style="padding:10px;margin-bottom: 0px;" ng-show="showFilter">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-sm-2 col-xs-2">
@@ -44,7 +49,8 @@
                                                                       aria-hidden="true" style="color: #999"></i>
                     </a>
                     <div class="dropdown-menu popup-content">
-                        <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">
+                        <div class="sort-menu cfix desktop-list" id="featured-menu"
+                             style="height: 300px; overflow-y: scroll; z-index: 1;">
                             <div class="list-header">Lĩnh vực</div>
 
                             <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.industry">
@@ -67,7 +73,9 @@
                                                                   style="color: #999"></i>
                     </a>
                     <div class="dropdown-menu popup-content">
-                        <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">                            <div class="list-header">Vị trí</div>
+                        <div class="sort-menu cfix desktop-list" id="featured-menu"
+                             style="height: 300px; overflow-y: scroll; z-index: 1;">
+                            <div class="list-header">Vị trí</div>
                             <ul class="divided-list" ng-repeat="(key,value) in CONFIG.data.job">
                                 <li class="list-browse {{newfilter.job == key? 'selected':''}}"
                                     ng-click="newfilterFilter('job',key)"><a
@@ -83,50 +91,31 @@
                 <div class="popup dropdown">
                     <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
-                        {{dataTime[newfilter.time] || 'Hình thức'}} <i class="fa fa-chevron-down" aria-hidden="true"
-                                                                       style="color: #999"></i>
+                        {{dataTime[newfilter.working_type] || 'Hình thức'}} <i class="fa fa-chevron-down"
+                                                                               aria-hidden="true"
+                                                                               style="color: #999"></i>
                     </a>
                     <div class="dropdown-menu popup-content">
                         <div class="sort-menu cfix desktop-list" id="featured-menu">
                             <div class="list-header">Hình thức làm việc</div>
                             <ul id="browse-list" class="divided-list">
-                                <li class="list-browse {{!newfilter.time ? 'selected':''}}"
-                                    ng-click="newfilterFilter('time','')"><a
+                                <li class="list-browse {{!newfilter.working_type ? 'selected':''}}"
+                                    ng-click="newfilterFilter('working_type','')"><a
 
                                         class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất
                                     cả</a>
                                 </li>
                             </ul>
-                            <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.time">
+                            <ul id="browse-list" class="divided-list"
+                                ng-repeat="(key,value) in CONFIG.data.working_type">
                                 <li class="list-browse {{newfilter.time == key ? 'selected':''}}"
-                                    ng-click="newfilterFilter('time',key)"><a
+                                    ng-click="newfilterFilter('working_type',key)"><a
 
                                         class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-2" ng-hide="newfilter.type == 'store'">
-                <div ng-hide="salary == true">
-                    <a class="text-truncate nav-link nav-pill" ng-click="setSalary()" role="button" aria-haspopup="true"
-                       aria-expanded="false">
-                        {{newfilter.expect_salary? newfilter.expect_salary +' triệu đồng':'Mức lương'}} <i
-                            class="fa fa-chevron-down"
-                            aria-hidden="true"
-                            style="color: #999"></i>
-                    </a>
-                </div>
-                <div class="input-group" ng-if="salary == true">
-
-                    <input type="number" step="any" ng-model="expect_salary" name="input3-group2" class="form-control"
-                           placeholder="triệu đồng/tháng">
-                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary btn-sm"
-                                                ng-click="newfilterFilter('expect_salary',expect_salary)">OK
-                                        </button>
-                                    </span>
                 </div>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-2">
@@ -183,8 +172,8 @@
 </div>
 
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" ng-hide="newfilter.type == 'store'"
-     infinite-scroll="loadMoreJob()" infinite-scroll-distance="0">
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" infinite-scroll="loadMoreJob()" ng-init="init()"
+     infinite-scroll-distance="0">
     <div class="container">
         <div class="card" style="margin-top: 20px;">
             <hr class="transparent mx-1 my-0">
@@ -201,17 +190,17 @@
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in jobCard">
                     <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
                         <!--<div class="progress progress-sm" data-toggle="popover"-->
-                             <!--data-trigger="hover"-->
-                             <!--data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">-->
-                            <!--<div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"-->
-                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                                 <!--aria-valuemax="100"></div>-->
-                            <!--<div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"-->
-                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                                 <!--aria-valuemax="100"></div>-->
-                            <!--<div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"-->
-                                 <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                                 <!--aria-valuemax="100"></div>-->
+                        <!--data-trigger="hover"-->
+                        <!--data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">-->
+                        <!--<div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
+                        <!--<div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
+                        <!--<div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
                         <!--</div>-->
                         <div class="content_">
 
@@ -227,19 +216,23 @@
                                     <div class="logo-job-new pull-right">
                                         <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
                                         ||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto" height="80px" >
+                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}"
+                                             width="auto" height="80px">
                                     </div>
                                 </div>
                                 <div class="row main-content-new">
                                     <table>
                                         <tr>
-                                            <td class="job-new" ui-sref="app.viewstore ({id:card.storeId , job:card.job})">{{card.jobName}}</td>
+                                            <td class="job-new"
+                                                ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
+                                                {{card.jobName}}
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td class="time-new"  itemprop="description">{{Lang[card.working_type]}}</td>
+                                            <td class="time-new" itemprop="description">{{Lang[card.working_type]}}</td>
                                         </tr>
                                         <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}} </td>
+                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
                                         </tr>
 
                                     </table>
@@ -247,23 +240,23 @@
                             </div>
                             <div class="content-bottom-new">
                                 <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}} {{card.distance ? '- '+card.distance + ' km':''}}
-                                        <br><i>{{card.address}}</i>
+                                    <p>{{card.storeName}}
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
                                     </p>
                                 </div>
-                                <button ng-click="like(card,0,card.job)"
-                                        type="button"
-                                        ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"
-                                        class="btn btn-default apply-new">Chọn công việc này
-                                </button>
-                                <button ng-click="service.chatToStore[card.storeId]"
-                                        type="button" ng-if="card.act.status == 1"
-                                        class="btn button-vip">Liên hệ
-                                </button>
-                                <button ng-disabled
-                                        type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"
-                                        class="btn btn-warning">Đang chờ phản hồi...
-                                </button>
+                                <!--<button ng-click="like(card,0,card.job)"-->
+                                        <!--type="button"-->
+                                        <!--ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"-->
+                                        <!--class="btn btn-default apply-new">Chọn công việc này-->
+                                <!--</button>-->
+                                <!--<button ng-click="service.chatToStore[card.storeId]"-->
+                                        <!--type="button" ng-if="card.act.status == 1"-->
+                                        <!--class="btn button-vip">Liên hệ-->
+                                <!--</button>-->
+                                <!--<button ng-disabled-->
+                                        <!--type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"-->
+                                        <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                                <!--</button>-->
                             </div>
 
                         </div>
@@ -271,87 +264,89 @@
                 </div>
             </div>
         </div>
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in jobCardGoogle">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
+                        <!--<div class="progress progress-sm" data-toggle="popover"-->
+                        <!--data-trigger="hover"-->
+                        <!--data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">-->
+                        <!--<div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
+                        <!--<div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
+                        <!--<div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"-->
+                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
+                        <!--aria-valuemax="100"></div>-->
+                        <!--</div>-->
+                        <div class="content_" ui-sref="app.viewstore ({id:card.place_id})">
+
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <a>
+                                            <img class="avatar"
+                                                 src="{{card.avatar || '/img/store.png'}}"
+                                                 alt="{{card.storeName}}">
+                                        </a>
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+                                        ||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+                                        ||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}"
+                                             width="auto" height="80px">
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new">
+                                                {{card.jobName}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new" itemprop="description">{{Lang[card.working_type]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="content-bottom-new">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}}
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
+                                    </p>
+                                </div>
+                                <!--<button ng-click="like(card,0,card.job)"-->
+                                <!--type="button"-->
+                                <!--ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"-->
+                                <!--class="btn btn-default apply-new">Chọn công việc này-->
+                                <!--</button>-->
+                                <!--<button ng-click="service.chatToStore[card.storeId]"-->
+                                <!--type="button" ng-if="card.act.status == 1"-->
+                                <!--class="btn button-vip">Liên hệ-->
+                                <!--</button>-->
+                                <!--<button ng-disabled-->
+                                <!--type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"-->
+                                <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                                <!--</button>-->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <div class="spinner" ng-show="loading">
     <div class="cube1"></div>
     <div class="cube2"></div>
 </div>
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" ng-show="newfilter.type == 'store'"
-     infinite-scroll="loadMoreStore()" infinite-scroll-distance="0">
-    <div class="container">
 
-        <div class="card" style="margin-top: 20px;width: {{width}}px">
-            <hr class="transparent mx-1 my-0">
-            <div class="callout callout-warning m-0 py-1">
-                <div class="noti" ng-hide="response.total == 0">
-                    <h4>Chúng tôi đã tìm thấy {{response.total}} nhà tuyển dụng phù hợp với bạn</h4>
-                </div>
-                <div class="noti" ng-show="response.total == 0">
-                    <h4>Hiện tại chưa có nhà tuyển dụng phù hợp với yêu cầu của bạn</h4>
-                </div>
-            </div>
-            <hr class="mx-1 my-0">
-        </div>
-        <div class="list-profile">
-            <div class="row row-s" scrolly="showMore()">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in storeCard">
-                    <!-- Normal Demo-->
-                    <!-- Post-->
-                    <div class="post-module" style="margin-bottom: 24px">
-                        <!-- Thumbnail-->
-                        <div class="thumbnail" ui-sref="app.viewstore ({id : card.storeId})">
-                            <img src="{{card.avatar || 'img/store.png'}}"/>
-                        </div>
-                        <!-- Post Content-->
-                        <div class="post-content">
-                            <div class="category" ng-if="card.feature">Hot</div>
-                            <span class="sub_title pull-right"> {{card.distance}} km</span>
-                            <h3 class="title">{{card.storeName || 'Your Name Here'}}</h3>
-                            <button ng-click="applyThis(card.storeId,key)" type="button"
-                                    class="btn btn-vm {{selectedJob[card.storeId][key] ? 'btn-primary ' : 'btn-outline-primary ' }}"
-                                    ng-repeat="(key,value) in card.job">{{dataJob[key] || value}}
-                            </button>
-                            <div class="post-meta">
-                                <span class="comments"></span>
-                                <div style=" position: absolute;right: 0px;bottom: 0px;">
-                                    <button ng-click="service.chatToStore[card.storeId]"
-                                            type="button" ng-if="card.act.status == 1"
-                                            class="btn button-vip btn-sm">Liên hệ
-                                    </button>
-                                    <button ng-disabled="!selectedJob[card.storeId]"
-                                            ng-click="like(card,0,selectedJob[card.storeId])"
-                                            type="button" ng-if="card.act.status == 0 && card.act.type == 1"
-                                            class="btn btn-primary btn-sm">Phản hồi lời mời
-                                    </button>
-                                    <button ng-disabled="card.act.status == 0 && card.act.type == 2"
-                                            type="button" ng-if="card.act.status == 0 && card.act.type == 2"
-                                            class="btn btn-warning btn-sm">Đang chờ phản hồi...
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="progress progress-sm" data-toggle="popover"
-                             data-trigger="hover"
-                             data-content="Bạn có {{card.match}} điểm chung với thương hiệu này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">
-                            <div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                            <div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"
-                                 style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>

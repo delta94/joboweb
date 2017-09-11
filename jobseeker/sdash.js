@@ -13,14 +13,106 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         $rootScope.og = {
             title: '(' + $rootScope.newNoti + ') Jobo'
         }
-    } else if($rootScope.newfilter && $rootScope.newfilter.job && $rootScope.Lang){
+    } else if ($rootScope.newfilter && $rootScope.newfilter.job && $rootScope.Lang) {
         $rootScope.og = {
-            title: 'Jobo - Việc làm '+ $rootScope.Lang[$rootScope.newfilter.job]
+            title: 'Jobo - Việc làm ' + $rootScope.Lang[$rootScope.newfilter.job]
         }
     } else {
         $rootScope.og = {
             title: 'Jobo - Việc làm lương tốt'
         }
+    }
+    $scope.getUserFiltered = function (newfilter) {
+        console.log('filtering..', newfilter)
+        $scope.loading = true;
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/api/job',
+            params: newfilter
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            $scope.response = response.data;
+            if ($rootScope.maxMatchJob == 0) {
+                $rootScope.maxMatchJob = $scope.response.data[0].match
+                console.log($rootScope.maxMatchJob)
+            }
+            $timeout(function () {
+                if (!$rootScope.jobCard) {
+                    $rootScope.jobCard = []
+                }
+                for (var i in $scope.response.data) {
+
+
+                    var jobData = $scope.response.data[i]
+                    $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchJob)
+
+                    if (jobData.act) {
+                        var ref = 'activity/like/' + jobData.storeId + ':' + $rootScope.userId
+                        firebase.database().ref(ref).on('value', function (snap) {
+                            $scope.response.data[i].act = snap.val()
+                        })
+                    }
+                }
+                $rootScope.jobCard = $rootScope.jobCard.concat($scope.response.data);
+                console.log($rootScope.jobCard)
+                $scope.loading = false
+            })
+        }, function (error) {
+            console.log(error)
+
+            $scope.loading = false
+
+        })
+
+        $http({
+            method: 'GET',
+            url: CONFIG.APIURL + '/api/jobOther',
+            params: newfilter
+        }).then(function successCallback(response) {
+            console.log("respond", response);
+            if (response.data && response.data.data) {
+                $timeout(function () {
+                    if (!$rootScope.jobCardGoogle) {
+                        $rootScope.jobCardGoogle = []
+                    }
+                    $rootScope.jobCardGoogle = $rootScope.jobCardGoogle.concat(response.data.data);
+                    console.log($rootScope.jobCard)
+                    $scope.loading = false
+                })
+            }
+            ;
+
+        }, function (error) {
+            console.log(error)
+
+            $scope.loading = false
+
+        })
+
+
+    };
+    $rootScope.newfilter = {
+        p: 1,
+        distance: 50
+    }
+    $scope.getUserFiltered($rootScope.newfilter);
+
+    $scope.initData = function () {
+
+        if (!$rootScope.userData) {
+            toastr.info('Bạn cần cập nhật hồ sơ trước!')
+            $state.go('profile')
+        } else if (!$rootScope.userData.location) {
+            toastr.info('Bạn hãy cập nhật địa chỉ để tìm việc xung quanh!')
+            $state.go('profile')
+            //init filter
+
+        }
+        if ($rootScope.newfilter && !$rootScope.jobCard) {
+            $scope.getUserFiltered($rootScope.newfilter)
+        }
+
+
     }
 
 
@@ -69,38 +161,10 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
                 console.log('Init data', message);
                 $scope.initData()
             });
+
+
         }
     };
-
-    $scope.initData = function () {
-
-        if (!$rootScope.userData) {
-            toastr.info('Bạn cần cập nhật hồ sơ trước!')
-            $state.go('profile')
-        } else if (!$rootScope.userData.location) {
-            toastr.info('Bạn hãy cập nhật địa chỉ để tìm việc xung quanh!')
-            $state.go('profile')
-            //init filter
-
-        } else if (!$rootScope.newfilter) {
-            $rootScope.newfilter = {
-                userId: $rootScope.userId,
-                type: 'job',
-                p: 1,
-                show: 'new'
-            }
-            $scope.getUserFiltered($rootScope.newfilter)
-        }
-
-        if ($rootScope.newfilter && $rootScope.newfilter == 'job' && !$rootScope.jobCard) {
-            $scope.getUserFiltered($rootScope.newfilter)
-        }
-        if ($rootScope.newfilter && $rootScope.newfilter == 'store' && !$rootScope.storeCard) {
-            $scope.getUserFiltered($rootScope.newfilter)
-        }
-
-
-    }
     $scope.setSalary = function () {
         $scope.salary = true
     }
@@ -114,7 +178,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
                 userId: $rootScope.userId,
                 type: 'job',
                 p: 1,
-                show: 'new'
             }
         }
         $rootScope.newfilter.p = 1
@@ -144,98 +207,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
 
     $rootScope.maxMatchJob = 0
     $rootScope.maxMatchStore = 0
-
-    $scope.getUserFiltered = function (newfilter) {
-        console.log('filtering..', newfilter)
-        $scope.loading = true
-        if (newfilter.type == 'store') {
-
-            $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/api/employer',
-                params: newfilter
-            }).then(function successCallback(response) {
-                console.log("response", response);
-                $scope.response = response.data;
-                if ($rootScope.maxMatchStore == 0) {
-                    $rootScope.maxMatchStore = $scope.response.data[0].match
-                    console.log($rootScope.maxMatchStore)
-                }
-                $timeout(function () {
-                    if (!$rootScope.storeCard) {
-                        $rootScope.storeCard = []
-                    }
-                    for (var i in $scope.response.data) {
-                        var storeData = $scope.response.data[i]
-                        $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchStore)
-
-
-                        if (storeData.act) {
-                            var ref = 'activity/like/' + storeData.storeId + ':' + $rootScope.userId
-                            firebase.database().ref(ref).on('value', function (snap) {
-                                $scope.response.data[i].act = snap.val()
-                            })
-                        }
-
-
-                    }
-                    $rootScope.storeCard = $rootScope.storeCard.concat($scope.response.data);
-                    console.log($rootScope.storeCard)
-                    $scope.loading = false
-
-                })
-            }, function (error) {
-                console.log(error)
-
-                $scope.loading = false
-
-            })
-
-
-        } else {
-            $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/api/job',
-                params: newfilter
-            }).then(function successCallback(response) {
-                console.log("respond", response);
-                $scope.response = response.data;
-                if ($rootScope.maxMatchJob == 0) {
-                    $rootScope.maxMatchJob = $scope.response.data[0].match
-                    console.log($rootScope.maxMatchJob)
-                }
-                $timeout(function () {
-                    if (!$rootScope.jobCard) {
-                        $rootScope.jobCard = []
-                    }
-                    for (var i in $scope.response.data) {
-
-
-                        var jobData = $scope.response.data[i]
-                        $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchJob)
-
-                        if (jobData.act) {
-                            var ref = 'activity/like/' + jobData.storeId + ':' + $rootScope.userId
-                            firebase.database().ref(ref).on('value', function (snap) {
-                                $scope.response.data[i].act = snap.val()
-                            })
-                        }
-                    }
-                    $rootScope.jobCard = $rootScope.jobCard.concat($scope.response.data);
-                    console.log($rootScope.jobCard)
-                    $scope.loading = false
-                })
-            }, function (error) {
-                console.log(error)
-
-                $scope.loading = false
-
-            })
-
-        }
-
-
-    };
 
 
     $scope.slideHasChanged = function (index) {

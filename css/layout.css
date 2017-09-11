@@ -277,6 +277,7 @@ ul.ui-select-choices.ui-select-choices-content.select2-results li {
     position: absolute;
     top: 100%;
     z-index: 111;
+    color: #0a0a0a;
     background: white;
     border: 1px solid #ccc;
     list-style-type: none;
@@ -2994,7 +2995,7 @@ section.features .feature-item h3 {
 
 /*Card new*/
 .card-new{
-    height: 350px;
+    height: 300px;
     width: 100%;
     background-color: #fff;
     border-radius: 10px;
@@ -3036,7 +3037,7 @@ section.features .feature-item h3 {
     margin-top: 30px !important;
 }
 .content-bottom-new{
-    height: 35%;
+    height: 25%;
     position: absolute;
     /*background-color: #F7F8FA;*/
     width: 100%;

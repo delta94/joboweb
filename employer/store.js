@@ -97,7 +97,6 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     console.log('Tạo mới');
 
                     var newstoreKey = 's' + Math.round(100000000000000 * Math.random());
-                    // var newstoreKey = firebase.database().ref('store').push().key;
                     $rootScope.userData.currentStore = newstoreKey
                     $rootScope.storeId = newstoreKey
 

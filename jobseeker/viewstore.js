@@ -11,7 +11,8 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
 
     console.log('admin', $scope.admin)
 
-    $rootScope.service.Ana('viewStore', {storeId: $scope.profileId})
+    $rootScope.service.Ana('viewStore', {storeId: $scope.profileId, jobId: $scope.currentJob})
+
     if ($scope.profileId) {
         loadStore($scope.profileId)
         init($scope.profileId, $rootScope.userId)
@@ -29,24 +30,21 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         $http({
             method: 'GET',
             url: CONFIG.APIURL + '/view/store',
-            params: {storeId: $scope.profileId, userId: $rootScope.userId}
+            params: {storeId: $scope.profileId, userId: $rootScope.userId, jobId: $scope.currentJob}
         }).then(function successCallback(response) {
             $scope.profileData = response.data;
             $scope.jobData = $scope.profileData.jobData;
 
             $scope.profileData.background = '/img/ava-background/background_' + $scope.profileData.industry + '.png';
-            if ($scope.currentJob) {
-                for(var i in $scope.jobData){
-                    var job = $scope.jobData[i]
-                    if(job.jobId == $scope.currentJob){
-                        $scope.currentJobData = job
-
-                        break
-                    }
-                }
+            if ($scope.currentJob && $scope.profileData.currentJobData) {
+                $scope.currentJobData = $scope.profileData.currentJobData;
 
             }
-
+            if ($scope.profileData.act && $scope.profileData.act.actId) {
+                firebase.database().ref('activity/like').child($scope.profileData.act.actId).on('value', function (a) {
+                    $scope.profileData.act = a.val()
+                })
+            }
             $scope.adminData = $scope.profileData.adminData
             $scope.listReact = $scope.profileData.actData
             $scope.staticData = $scope.profileData.static
@@ -77,7 +75,7 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
             var profileJob = profileJobtake.slice(0, profileJobtake.length - 2)
             console.log(profileJob);
             $scope.share = {
-                Url: "web.joboapp.com/view/profile/" + profileId,
+                Url: CONFIG.WEBURL + "/view/profile/" + profileId,
                 Text: $scope.profileData.storeName + ' tuyển dụng',
                 Title: $scope.profileData.industry + ' ' + $scope.profileData.name,
                 Description: 'Xem tin tuyển dụng với vị trí' + profileJob + 'của' + $scope.profileData.storeName,
@@ -194,7 +192,6 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
         }
 
     }
-
 
 
     $scope.chatto = function (id) {

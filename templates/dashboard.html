@@ -648,19 +648,14 @@
 </div>
 
 <div class="text-center job-tab">
-    <a href="" ng-click="showjob=2">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == 2, 'active-tab-white' :showjob != 2}"
-                style="border:solid 1px #00a67c">Sài Gòn
-        </button>
-    </a>
-    <a href="" ng-click="showjob=3">
-        <button type="button" class="btn btn-gradient"
-                ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
-                style="border:solid 1px #00a67c">Hà Nội
-        </button>
-    </a>
-    <br>
+    <button type="button" class="btn btn-link btn-sm" ng-click="showjob=2"
+            ng-class="{'active-tab-green' : showjob == 2, 'active-tab-white' :showjob != 2}"
+            style="border:solid 1px #00a67c">Sài Gòn
+    </button>
+    <button type="button" class="btn btn-link btn-sm" ng-click="showjob=3"
+            ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
+            style="border:solid 1px #00a67c">Hà Nội
+    </button>
     <button ng-if="showjob==2" ng-repeat="(key,value) in catalog.sg" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
     <button ng-if="showjob==3" ng-repeat="(key,value) in catalog.hn" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
 
@@ -706,12 +701,10 @@
                         <div class="content-bottom-new text-center">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
                                     </p>
                                 </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -771,13 +764,11 @@
                             <div class="content-bottom-new text-center">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
                                     </p>
                                 </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -836,9 +827,6 @@
                                         <br> <i>{{card.address}}</i>
                                     </p>
                                 </div>
-                                <button ng-click="service.userLike(card,0,card.job)" type="button"
-                                        class="btn btn-default apply-new">Ứng tuyển
-                                </button>
                             </div>
                         </div>
                     </div>
