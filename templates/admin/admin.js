@@ -1272,16 +1272,14 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
 
         $scope.createHospital = function (newfilter, p) {
+            newfilter.p = p
             console.log(newfilter);
-            var q = JSON.stringify(newfilter);
-            var params = {
-                q: q,
-                p: p
-            };
+
+
             $http({
                 method: 'GET',
                 url: CONFIG.APIURL + '/api/lead',
-                params: params
+                params: newfilter
             }).then(function successCallback(response) {
                 $timeout(function () {
                     $scope.response = response.data
@@ -1359,46 +1357,15 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
     .controller('emailCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
         $scope.newfilter = {}
-        $scope.autocompleteAddress = {text: ''};
-        $scope.ketquasAddress = [];
-        $scope.searchAddress = function () {
-            $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
-            $http({
-                method: 'GET',
-                url: $scope.URL
-            }).then(function successCallback(response) {
-                $scope.ketquasAddress = response.data.results;
-                console.log($scope.ketquasAddress);
-                $('#list-add').show();
-
-            })
-        };
-
-        $scope.setSelectedAddress = function (selected) {
-            $scope.autocompleteAddress.text = selected.formatted_address;
-            $scope.address = selected;
-            $scope.newfilter.location = selected.geometry.location;
-            console.log(selected);
-            $('#list-add').hide();
-            //$rootScope.userData.address = selected.formatted_address;
-            //$rootScope.userData.location = selected.geometry.location;
-
-        };
-
-        $scope.eraseAddress = function () {
-            $scope.autocompleteAddress.text = null;
-            $('#list-add').hide();
-        }
-
 
         $scope.createHospital = function (newfilter, p) {
+            newfilter.p = p
             console.log(newfilter)
-            var q = JSON.stringify(newfilter)
-            var params = {q: q, p: p}
+
             $http({
                 method: 'GET',
                 url: CONFIG.APIURL + '/api/email',
-                params: params
+                params: newfilter
             }).then(function successCallback(response) {
                 console.log("respond", response);
                 $timeout(function () {
@@ -1416,14 +1383,19 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             console.log(page)
             $scope.createHospital($scope.newfilter, page)
         }
-        $scope.sendEmail = function (newfilter,mail) {
+        $scope.sendEmail = function (newfilter, mail) {
+            if(newfilter.time){
+                newfilter.time = new Date(newfilter.time).getTime()
+            }
+            console.log(newfilter)
+
             var q = JSON.stringify(newfilter)
             console.log($scope.mail)
             var params = {q: q, mail: JSON.stringify(mail)}
 
             $http({
                 method: 'GET',
-                url: CONFIG.APIURL + '/sendemailMarketing',
+                url: CONFIG.APIURL + '/sendEmailMarketing',
                 params: params
             }).then(function successCallback(response) {
                 console.log("respond", response);
@@ -1435,28 +1407,6 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         $scope.mail = {};
         $scope.data = {};
 
-
-        $scope.deleteProfile = function (userId) {
-            firebase.database().ref('profile/' + userId).set(null).then(function (data) {
-                toastr.success('done', data)
-            }, function (error) {
-                toastr.error('error', error)
-
-            })
-        }
-        $scope.updateProfile = function (index) {
-            var card = $scope.jobSeeker[index]
-            console.log(card)
-            $rootScope.service.JoboApi('update/user', {
-                userId: card.userId,
-                profile: card
-            }).then(function (data) {
-                toastr.success('done', card.feature + card.hide)
-            }, function (error) {
-                toastr.error('error', error)
-            });
-
-        }
     })
 
 

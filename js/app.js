@@ -64,8 +64,8 @@ var app = angular
         $rootScope.service = AuthUser;
         $rootScope.CONFIG = CONFIG;
         $rootScope.service.JoboApi('config').then(function (res) {
-            $rootScope.CONFIG = res.data;
-            $rootScope.CONFIG = Object.assign(CONFIG, res.data)
+            // $rootScope.CONFIG = res.data;
+            // $rootScope.CONFIG = Object.assign(CONFIG, res.data)
             $rootScope.service.loadLang('vi')
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;

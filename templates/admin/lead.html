@@ -1,81 +1,6 @@
 <div class="padding">
     <div class="animated slideOutDown">
 
-        <!--<div class="row">-->
-
-        <!--<div class="col-md-4">-->
-        <!--<div class="card">-->
-        <!--<div class="card-header">-->
-        <!--Lọc-->
-        <!--</div>-->
-        <!--<div class="card-block">-->
-        <!--<label class="col-md-5 form-control-label" for="select">Vị trí</label>-->
-        <!--<div class="col-md-7">-->
-        <!--<select id="select" name="select" class="form-control" size="1"-->
-        <!--ng-model="newfilter.job">-->
-        <!--<option ng-repeat="(key,value) in dataJob" value="{{key}}">-->
-        <!--{{dataJob[key]}}-->
-        <!--</option>-->
-
-        <!--</select>-->
-        <!--</div>-->
-        <!--<fieldset class="form-group {{error.address ? 'has-danger':''}}">-->
-        <!--<label>Địa chỉ</label>-->
-        <!--<div class="pop-add">-->
-        <!--<input ng-keydown="searchAddress()" id="address" ui-items="names"-->
-        <!--ng-model="autocompleteAddress.text" class="form-control">-->
-        <!--<i class="icon-close" id="delete-address"-->
-        <!--ng-show="autocompleteAddress.text.length" ng-click="eraseAddress()"></i>-->
-        <!--<ul id="list-add" ng-show="autocompleteAddress.text.length">-->
-        <!--<li ng-repeat="ketqua in ketquasAddress"-->
-        <!--ng-click="setSelectedAddress(ketqua)">-->
-        <!--{{ketqua.formatted_address}}-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--</fieldset>-->
-        <!--<fieldset class="form-group {{error.birth ? 'has-danger':''}}">-->
-        <!--<label>Khoảng cách</label>-->
-        <!--<div class="input-group">-->
-
-        <!--<input type="number" class="form-control" ng-model="newfilter.distance">-->
-        <!--</div>-->
-        <!--<small class="text-muted">(km)</small>-->
-        <!--</fieldset>-->
-        <!--<div class="form-group row">-->
-        <!--<label class="col-md-5 form-control-label" for="select">Lĩnh vực</label>-->
-        <!--<div class="col-md-7">-->
-        <!--<select id="select" name="select" class="form-control" size="1"-->
-        <!--ng-model="newfilter.industry">-->
-        <!--<option ng-repeat="(key,value) in dataIndustry" value="{{key}}">-->
-        <!--{{dataIndustry[key]}}-->
-        <!--</option>-->
-
-        <!--</select>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="form-group row">-->
-        <!--<label class="col-md-5 form-control-label" for="select">Vị trí</label>-->
-        <!--<div class="col-md-7">-->
-        <!--<select id="select" name="select" class="form-control" size="1"-->
-        <!--ng-model="newfilter.job">-->
-        <!--<option ng-repeat="(key,value) in dataJob" value="{{key}}">-->
-        <!--{{dataJob[key]}}-->
-        <!--</option>-->
-
-        <!--</select>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<button type="button" class="btn btn-primary btn-lg" ng-click="createHospital(newfilter)">Tiến hành-->
-        <!--lọc-->
-        <!--</button>-->
-        <!--</div>-->
-
-
-        <!--</div>-->
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -103,7 +28,7 @@
                             <tr ng-repeat="card in employer track by $index">
                                 <td>{{card.userId}}</td>
                                 <td>{{card.storeName}}
-                                    <button type="button" class="btn btn-primary"
+                                    <button type="button" class="btn btn-primary btn-sm"
                                             ng-click="setEmail(card)">Set Mail
                                     </button>
                                 </td>
@@ -113,7 +38,7 @@
                                 <td>{{card.email}}</td>
                                 <td>{{card.job}}</td>
                                 <td>{{card.industry}}</td>
-                                <th>{{card.firstEmail.title}} - {{card.firstEmail.mail_sent | date}}</th>
+                                <th><b ng-if="card.firstEmail_mail_sent">firstEmail_mail_sent {{card.firstEmail_mail_sent | date}}</b></th>
 
                             </tr>
                             </tbody>
@@ -191,6 +116,8 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+
+
             <div class="card">
                 <div class="card-header">
                     Gửi mail
