@@ -1,0 +1,278 @@
+<div class="padding">
+  <div class="animated slideOutDown">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Scheduled Job
+          </div>
+          <div class="card-block">
+            <table class="table table-bordered table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Poster</th>
+                  <th>Content</th>
+                  <th>Image</th>
+                  <th>Time</th>
+                  <th>Send To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in schedules track by $index">
+                  <td>{{item.postId}}</td>
+                  <td>{{item.poster}}</td>
+                  <td>{{item.content.text}}</td>
+                  <td>{{item.content.image}}</td>
+                  <td>{{item.time}}</td>
+                  <td>{{item.sendTo || 'all'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <paging page="page" ng-click="pagin(page)" page-size="response.per_page" total="response.total" show-prev-next="true" show-first-last="true">
+            </paging>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Schedule a job
+        </div>
+        <div class="card-block">
+          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal ng-pristine ng-valid">
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label">Content</label>
+              <div class="col-md-9">
+                <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="schedule.content" placeholder="..." style="height: 100px;"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label">Job</label>
+              <div class="col-md-9">
+                <!-- <input type="text" ng-model="schedule.job" name="text-input" class="form-control" placeholder="Job"> -->
+                <select name="select" class="form-control" size="1" ng-model="schedule.job">
+                  <option value="">
+                    Tất cả
+                  </option>
+                  <option ng-repeat="(key,value) in CONFIG.data.job" value="{{key}}">
+                    {{ Lang[key]}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label">Poster</label>
+              <div class="col-md-9">
+                <input type="text" ng-model="schedule.poster" name="text-input" class="form-control" placeholder="Poster">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label">Where</label>
+              <div class="col-md-9">
+                <input type="text" ng-model="schedule.where" name="text-input" class="form-control" placeholder="hn,vn,hcm">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 form-control-label">Time</label>
+              <div class="col-md-9">
+                <input type="datetime-local" ng-model="schedule.time" name="text-input" class="form-control" placeholder="currentDate" min="currentDate">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-sm btn-primary" ng-click="sendSchedule(schedule)"><i class="fa fa-dot-circle-o"></i> Submit
+          </button>
+          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 card">
+      <style type="text/css">
+      #outlook a {
+        padding: 0;
+      }
+
+      .ReadMsgBody {
+        width: 100%;
+      }
+
+      .ExternalClass {
+        width: 100%;
+      }
+
+      .ExternalClass * {
+        line-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+
+      table,
+      td {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+
+      img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+
+      p {
+        display: block;
+        margin: 13px 0;
+      }
+      </style>
+      <!--[if !mso]><!-->
+      <style type="text/css">
+      @media only screen and (max-width: 480px) {
+        @-ms-viewport {
+          width: 320px;
+        }
+        @viewport {
+          width: 320px;
+        }
+      }
+      </style>
+      <style type="text/css">
+      @media only screen and (min-width: 480px) {
+        .mj-column-per-33 {
+          width: 33.333333333333336% !important;
+        }
+      }
+      </style>
+      <div>
+        <div style="margin:0px auto;">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+            <tbody>
+              <tr>
+                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                  <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                            <div class="" style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                              <p>{{mail.description1}}</p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]> </td></tr></table> <![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin:0px auto;max-width:500px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+            <tbody>
+              <tr>
+                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin:0px auto;max-width:600px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+            <tbody>
+              <tr>
+                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                  <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                            <div class="" style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                              <p>{{mail.description2}}</p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]> </td></tr></table> <![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin:0px auto;max-width:600px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+            <tbody>
+              <tr>
+                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                  <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                            <p style="font-size:1px;margin:0px auto;border-top:1px solid #E0E0E0;width:100%;"></p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]> </td>
+                            <td style="vertical-align:top;width:600px;"> <![endif]-->
+                  <div class="mj-column-per-80 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                            <div class="" style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                              <p>{{mail.description3}}
+                                <br>{{CONFIG.WEBURL}}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]> </td>
+                            <td style="vertical-align:top;width:600px;"> <![endif]-->
+                  <div class="mj-column-per-20 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;" align="left" border="0">
+                              <tbody>
+                                <tr>
+                                  <td style="width:70px;"><img alt="" title="" height="auto" src="{{CONFIG.WEBURL}}/img/logo.png" style="border:none;border-radius:;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="70"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]> </td></tr></table> <![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!--[if mso | IE]> </td></tr></table> <![endif]-->
+      </div>
+    </div>
+  </div>
+</div>

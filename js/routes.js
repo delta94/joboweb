@@ -335,6 +335,11 @@ angular
                 templateUrl: 'templates/admin/lead.html',
                 controller: 'leadCtrl'
             })
+            .state('admin.schedule', {
+                url: '/admin/schedule',
+                templateUrl: 'templates/admin/schedule.html',
+                controller: 'scheduleCtrl'
+            })
 
         // static
 
