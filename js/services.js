@@ -8,14 +8,13 @@
     })
 
     .service('AuthUser', function ($rootScope, $q, toastr, ModalService, $http, CONFIG, $timeout, $state) {
-        var messaging = firebase.messaging();
-        var db = firebase.database()
+
 
         this.user = function () {
             var output = {},
                 deferred = $q.defer();
 
-            firebase.auth().onAuthStateChanged(function (user) {
+            auth.onAuthStateChanged(function (user) {
                 console.log('Auth')
                 if (user) {
                     $rootScope.userId = user.uid;
@@ -68,11 +67,11 @@
             var data = {}
             data[working] = new Date().getTime()
             if (del == true) {
-                firebase.database().ref('activity/like/' + storeId + ':' + userId).child(working).remove(function (res) {
+                db.ref('activity/like/' + storeId + ':' + userId).child(working).remove(function (res) {
                     console.log('res', res)
                 })
             } else {
-                firebase.database().ref('activity/like/' + storeId + ':' + userId).update(data).then(function (res) {
+                db.ref('activity/like/' + storeId + ':' + userId).update(data).then(function (res) {
                     console.log('done', res)
                 }, function (err) {
                     console.log('err', err)
@@ -89,7 +88,7 @@
         this.answerTest = function (actId, preApply) {
 
             if (actId && preApply) {
-                firebase.database().ref('activity/like/' + actId).update(preApply).then(function () {
+                db.ref('activity/like/' + actId).update(preApply).then(function () {
                     console.log('done')
                     toastr.success('Thành công!')
 
@@ -118,11 +117,8 @@
 
                 var likedId = card.userId;
                 var actId = $rootScope.storeId + ':' + likedId + ':' + jobOffer
-                var likeActivity = firebase.database().ref('activity/like/' + actId);
+                var likeActivity = db.ref('activity/like/' + actId);
 
-                if (card.act && card.act.jobUser) {
-
-                }
                 likeActivity.update({
                     actId: actId,
                     likeAt: new Date().getTime(),
@@ -161,37 +157,30 @@
             }
         };
         this.userLike = function (card, action, jobOffer) {
-            $rootScope.jobOffer = {};
-            var selectedJob = {}
-            selectedJob[jobOffer] = new Date().getTime()
+            return new Promise(function (resolve,reject) {
+                $rootScope.jobOffer = {};
+                var selectedJob = {}
+                selectedJob[jobOffer] = new Date().getTime()
 
-            if ($rootScope.type == 2) {
-                if (!$rootScope.clicked) {
-                    $rootScope.clicked = {}
-                }
-                var output = {},
-                    deferred = $q.defer();
+                if ($rootScope.type == 2) {
+                    if (!$rootScope.clicked) {
+                        $rootScope.clicked = {}
+                    }
+                    var likedId = card.storeId;
+                    var actId = likedId + ':' + $rootScope.userId + ':' + jobOffer
+                    var likeActivity = db.ref('activity/like/' + actId);
 
-                var likedId = card.storeId;
-                var actId = likedId + ':' + $rootScope.userId + ':' + jobOffer
-                var likeActivity = firebase.database().ref('activity/like/' + actId);
 
-                if (card.act && card.act.jobUser) {
-                    selectedJob = Object.assign(selectedJob, card.act.jobUser)
-                }
-                console.log($rootScope.userData);
-                var storeLocation = card.location;
-                var distance = $rootScope.service.getDistanceFromLatLonInKm($rootScope.userData.location.lat, $rootScope.userData.location.lng, storeLocation.lat, storeLocation.lng);
-                console.log(distance + 'km');
-                if ($rootScope.userData.avatar && $rootScope.userData.name) {
-                    if (distance <= 50) {
-                        likeActivity.update({
+                    console.log($rootScope.userData);
+                    var storeLocation = card.location;
+                    var distance = $rootScope.service.getDistanceFromLatLonInKm($rootScope.userData.location.lat, $rootScope.userData.location.lng, storeLocation.lat, storeLocation.lng);
+                    console.log(distance + 'km');
+                    if ($rootScope.userData.name) {
+                        var actData = {
                             actId: actId,
-                            likeAt: new Date().getTime(),
+                            likeAt: Date.now(),
                             type: 2,
                             status: action,
-                            jobUser: selectedJob,
-                            jobName: card.jobName,
                             employerId: card.createdBy,
                             storeId: likedId,
                             storeName: card.storeName,
@@ -200,39 +189,50 @@
                             userName: $rootScope.userData.name,
                             userId: $rootScope.userId,
                             jobId: jobOffer
-                        }).then(function () {
-                            $rootScope.clicked[card.storeId] = true;
-                            toastr.success('Bạn đã ứng tuyển vào ' + card.storeName);
-                            $rootScope.service.Ana('like', {storeId: card.storeId, job: jobOffer})
-                            output = {
-                                result: 0,
-                                storeId: likedId,
-                                userId: $rootScope.userId
-                            };
-                        }).catch(function (err) {
-                            console.log(err)
-                        });
+                        };
+                        if (distance <= 50) {
+                            likeActivity.update(actData, function (err, result) {
+                                if (err) {
+                                    console.log(err)
+                                } else {
+                                    $rootScope.clicked[card.storeId] = true;
+                                    toastr.success('Bạn đã ứng tuyển vào ' + card.storeName);
+                                    $rootScope.service.Ana('like', {storeId: card.storeId, jobId: jobOffer})
+                                    resolve({
+                                        result: 0,
+                                        storeId: likedId,
+                                        userId: $rootScope.userId,
+                                        jobId: jobOffer
+                                    })
+                                }
 
 
+                            })
+
+
+                        } else {
+                            $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
+                            toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km', 'Bạn ở quá xa nhà tuyển dụng, không thể apply');
+                            reject({code:'error',msg:'too long'})
+                        }
                     } else {
                         $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
-                        toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km', 'Bạn ở quá xa nhà tuyển dụng, không thể apply');
+                        toastr.error('Bạn cần cập nhật ảnh đại diện và tên để ứng tuyển');
+                        $state.go('profile')
+                        reject({code:'error',msg:'too long'})
                     }
-                } else {
-                    $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
-                    toastr.error('Bạn cần cập nhật ảnh đại diện và tên để ứng tuyển');
-                    $state.go('profile')
-                }
 
-                deferred.resolve(output);
-                return deferred.promise;
-            } else {
-                if ($rootScope.type == 1) {
-                    toastr.info('Chỉ có ứng viên mới có thể ứng tuyển vào vị trí này!')
                 } else {
-                    $state.go('signup', {id: 2, apply: card.storeId, job: jobOffer})
+                    if ($rootScope.type == 1) {
+                        toastr.info('Chỉ có ứng viên mới có thể ứng tuyển vào vị trí này!')
+                    } else {
+                        $state.go('signup', {id: 2, apply: card.storeId, job: jobOffer})
+                    }
+                    reject({code:'error',msg:'Chỉ có ứng viên mới có thể ứng tuyển vào vị trí này!'})
+
                 }
-            }
+            })
+
         };
         this.reviewing = function (card, action) {
             var output = {},
@@ -241,7 +241,7 @@
             if ($rootScope.type == 1) {
 
 
-                var likeActivity = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + card.userId);
+                var likeActivity = db.ref('activity/like/' + $rootScope.storeId + ':' + card.userId);
 
                 if (card.act && card.act.type == 2 && card.act.status == 0) {
                     if (action == 1) {
@@ -279,7 +279,7 @@
 
 
             } else if ($rootScope.type == 2) {
-                var likeActivity = firebase.database().ref('activity/like/' + card.storeId + ':' + $rootScope.userId);
+                var likeActivity = db.ref('activity/like/' + card.storeId + ':' + $rootScope.userId);
 
 
                 if (card.act && card.act.type == 1) {
@@ -325,6 +325,20 @@
         this.deg2rad = function (deg) {
             return deg * (Math.PI / 180)
         };
+        this.generateLink = function (postId) {
+            var link = null
+
+            if (postId) {
+                var array = postId.split('_')
+                if (array[1]) {
+                    link = `https://www.facebook.com/groups/${array[0]}/permalink/${array[1]}/`
+                } else {
+                    link = 'https://www.facebook.com/photo.php?fbid=' + array[0]
+                }
+            }
+
+            return link
+        }
         this.getDistanceFromLatLonInKm = function (lat1, lon1, lat2, lon2) {
             var R = 6371; // Radius of the earth in km
             var dLat = $rootScope.service.deg2rad(lat2 - lat1);  // deg2rad below
@@ -345,7 +359,7 @@
         this.checkPermit = function checkPermit(storeId, userId) {
             var check = '';
             var defer = $q.defer()
-            var reactRef = firebase.database().ref('activity/like/' + storeId + ":" + userId)
+            var reactRef = db.ref('activity/like/' + storeId + ":" + userId)
             reactRef.once('value', function (snap) {
                 var card = snap.val()
                 if (card) {
@@ -623,7 +637,7 @@
                                 userId: $rootScope.userId,
                                 user: JSON.stringify({webToken: currentToken})
                             });
-                            // firebase.database().ref('user/' + $rootScope.userId).update({webToken: currentToken})
+                            // db.ref('user/' + $rootScope.userId).update({webToken: currentToken})
                             $rootScope.service.Ana('getToken', {token: currentToken});
                             console.log('save token')
                         }
@@ -691,8 +705,8 @@
             var likeAct, messageRef, newPostRef
             if (chatedId) {
                 $rootScope.chatUser = {chatedId: chatedId}
-                likeAct = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
-                messageRef = firebase.database().ref('chat/' + $rootScope.storeId + ':' + chatedId);
+                likeAct = db.ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
+                messageRef = db.ref('chat/' + $rootScope.storeId + ':' + chatedId);
 
                 //có user cụ thể
                 loadMessage($rootScope.storeId, chatedId);
@@ -721,9 +735,9 @@
 
             function setInterview(timeInterview) {
                 console.log(timeInterview);
-                // var timeInterviewRef = firebase.database().ref('activity/' + $rootScope.storeId + ":" + chatedId)
+                // var timeInterviewRef = db.ref('activity/' + $rootScope.storeId + ":" + chatedId)
                 // timeInterviewRef.update({interview: new Date().getTime()});
-                var newPostRef = firebase.database().ref().child('activity/like/' + $rootScope.storeId + ":" + chatedId)
+                var newPostRef = db.ref().child('activity/like/' + $rootScope.storeId + ":" + chatedId)
 
                 var interview = {
                     createdAt: new Date().getTime(),
@@ -776,8 +790,8 @@
             }
 
             $rootScope.sendMessage = function (textmessage) {
-                var newPostKey = firebase.database().ref().child('chat/' + $rootScope.storeId + ":" + chatedId).push().key;
-                var newPostRef = firebase.database().ref().child('chat/' + $rootScope.storeId + ":" + chatedId + '/' + newPostKey)
+                var newPostKey = db.ref().child('chat/' + $rootScope.storeId + ":" + chatedId).push().key;
+                var newPostRef = db.ref().child('chat/' + $rootScope.storeId + ":" + chatedId + '/' + newPostKey)
                 var message = {
                     key: newPostKey,
                     createdAt: new Date().getTime(),
@@ -843,9 +857,9 @@
 
             function setInterview(timeInterview) {
                 console.log(timeInterview);
-                // var timeInterviewRef = firebase.database().ref('activity/' + $rootScope.storeId + ":" + chatedId)
+                // var timeInterviewRef = db.ref('activity/' + $rootScope.storeId + ":" + chatedId)
                 // timeInterviewRef.update({interview: new Date().getTime()});
-                var newPostRef = firebase.database().ref().child('activity/like/' + $rootScope.storeId + ":" + chatedId)
+                var newPostRef = db.ref().child('activity/like/' + $rootScope.storeId + ":" + chatedId)
 
                 var message = {
                     createdAt: new Date().getTime(),
@@ -867,7 +881,7 @@
                     $rootScope.chatUser.data = data.data;
                     console.log('$rootScope.chatUser.data', $rootScope.chatUser.data)
 
-                    var likeAct = firebase.database().ref('activity/like/' + storeId + ':' + chatedId);
+                    var likeAct = db.ref('activity/like/' + storeId + ':' + chatedId);
                     likeAct.on('value', function (snap) {
                         $timeout(function () {
                             $rootScope.chatUser.act = snap.val();
@@ -877,7 +891,7 @@
                 });
 
 
-                var messageRef = firebase.database().ref('chat/' + storeId + ':' + chatedId);
+                var messageRef = db.ref('chat/' + storeId + ':' + chatedId);
                 messageRef.on('value', function (snap) {
                     $timeout(function () {
                         $rootScope.chatUser.messages = snap.val();
@@ -889,8 +903,8 @@
             }
 
             $rootScope.sendMessage = function (textmessage) {
-                var newPostKey = firebase.database().ref().child('chat/' + chatedId + ":" + $rootScope.userId).push().key;
-                var newPostRef = firebase.database().ref().child('chat/' + chatedId + ":" + $rootScope.userId + '/' + newPostKey)
+                var newPostKey = db.ref().child('chat/' + chatedId + ":" + $rootScope.userId).push().key;
+                var newPostRef = db.ref().child('chat/' + chatedId + ":" + $rootScope.userId + '/' + newPostKey)
                 var message = {
                     key: newPostKey,
                     createdAt: new Date().getTime(),
@@ -960,7 +974,7 @@
                     if (result == 1) {
                         $rootScope.service.Ana('confirmShowPhone', {chatedId: chatedId})
                         if ($rootScope.userData.credit >= 30) {
-                            var likeAct = firebase.database().ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
+                            var likeAct = db.ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
                             likeAct.update({
                                 showContact: new Date().getTime()
                             })
@@ -1004,15 +1018,11 @@
                     credit: 500
                 }
             });
-            /*var userRef = firebase.database().ref('user/' + $rootScope.userId)
-             userRef.update({
-             firstFreeCredit: true,
-             credit: 500
-             })*/
+
             toastr.success('Bạn đã nhận 500,000đ credit!')
         }
         this.changeEmail = function (email) {
-            var user = firebase.auth().currentUser;
+            var user = auth.currentUser;
 
             user.updateEmail(email).then(function () {
                 // Update successful.
@@ -1022,7 +1032,7 @@
                         email: email
                     }
                 });
-                /*var userRef = firebase.database().ref('user/' + user.uid)
+                /*var userRef = db.ref('user/' + user.uid)
                  userRef.update({email: email})*/
                 toastr.success('Cập nhật email thành công, kiểm tra hòm mail để xác thực', 'Thay đổi email thành công')
 
@@ -1038,7 +1048,7 @@
         };
 
         this.changePassword = function (password) {
-            var user = firebase.auth().currentUser;
+            var user = auth.currentUser;
             if (password.password == password.password2) {
                 user.updatePassword(password.password).then(function () {
                     toastr.success('Bạn đã đổi mật khẩu thành công')
@@ -1057,7 +1067,7 @@
             }
         }
         this.logout = function () {
-            firebase.auth().signOut().then(function () {
+            auth.signOut().then(function () {
                 // Sign-out successful.
                 toastr.info("Bạn đã đăng xuất thành công!");
                 $rootScope.type = 0
@@ -1338,27 +1348,25 @@
         this.increasedBy2 = function (type) {
             $rootScope.numberDisplay2[type] = $rootScope.JobCard[type].length
         };
-
         this.searchProfile = function (textfull) {
-            $rootScope.searchResults = []
-            var text = S(textfull).latinise().s
-            var URL = $rootScope.CONFIG.APIURL + '/query?q=' + text;
 
-            $http({
-                method: 'GET',
-                url: URL
-            }).then(function successCallback(response) {
-                var i = 0;
-                for (var j = 0; j < response.data.store.length; j++) {
-                    $rootScope.searchResults[i] = response.data.store[j];
-                    i++;
-                }
-                for (var j = 0; j < response.data.profile.length; j++) {
-                    $rootScope.searchResults[i] = response.data.profile[j];
-                    i++;
-                }
-                console.log($rootScope.searchResults);
-            })
+            console.log(textfull)
+            $rootScope.searchResults = {}
+            if (textfull && textfull.length > 2) {
+                var text = S(textfull).latinise().s
+                var URL = $rootScope.CONFIG.APIURL + '/query?q=' + text;
+
+                $http({
+                    method: 'GET',
+                    url: URL
+                }).then(function successCallback(response) {
+                    $rootScope.searchResults = response.data
+                    console.log($rootScope.searchResults);
+                })
+            } else {
+                $rootScope.searchResults = {}
+            }
+
 
         };
 

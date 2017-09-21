@@ -3,7 +3,7 @@
 
 app.controller('introController', function ($state, $scope, $rootScope, $timeout, CONFIG, toastr, ModalService) {
 
-    firebase.auth().getRedirectResult().then(function (result) {
+    auth.getRedirectResult().then(function (result) {
         if (result.credential) {
             toastr.info('Đang đăng nhập bằng Facebook...');
 
@@ -31,13 +31,13 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
     $scope.facebookLogin = function () {
 
         var provider = new firebase.auth.FacebookAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
+        auth.signInWithRedirect(provider);
     }
 
 
     function SignInWithCredential(credential) {
-        firebase.auth().signInWithCredential(credential).then(function (result) {
-            var user = firebase.auth().currentUser || result;
+        auth.signInWithCredential(credential).then(function (result) {
+            var user = auth.currentUser || result;
             var userData = {
                 userId: user.uid,
                 name: user.displayName,
@@ -120,9 +120,9 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $scope.button = "Đang đăng nhập...";
 
         console.log(userLogin);
-        firebase.auth().signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function () {
+        auth.signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function () {
 
-            $rootScope.userId = firebase.auth().currentUser.uid;
+            $rootScope.userId = auth.currentUser.uid;
             $rootScope.service.JoboApi('on/user', {
                 userId: $rootScope.userId
             }).then(function (data) {
@@ -186,7 +186,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
             if (userReset != "") {
 
 
-                firebase.auth().sendPasswordResetEmail(userReset).then(function () {
+                auth.sendPasswordResetEmail(userReset).then(function () {
                     // Sign-In successful.
                     toastr.success("Reset email sent successful");
 
@@ -246,7 +246,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         $scope.type = type;
 
-        firebase.auth().getRedirectResult().then(function (result) {
+        auth.getRedirectResult().then(function (result) {
             if (result.credential) {
                 toastr.info('Đang đăng nhập bằng Facebook...');
 
@@ -271,13 +271,13 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         $scope.facebookLogin = function () {
             var provider = new firebase.auth.FacebookAuthProvider();
-            firebase.auth().signInWithRedirect(provider);
+            auth.signInWithRedirect(provider);
         };
 
 
         function SignInWithCredential(credential) {
-            firebase.auth().signInWithCredential(credential).then(function (result) {
-                var user = firebase.auth().currentUser || result;
+            auth.signInWithCredential(credential).then(function (result) {
+                var user = auth.currentUser || result;
                 var userData = {
                     userId: user.uid,
                     name: user.displayName,
@@ -337,7 +337,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
                 }
             });
-            /*var userRef = firebase.database().ref("user/" + userData.userId);
+            /*var userRef = db.ref("user/" + userData.userId);
             userRef.once('value', function (snap) {
                 console.log('checkSignupOrSignIn', JSON.stringify(snap.val()));
                 var userDataLoad = snap.val();
@@ -407,10 +407,10 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $scope.doSignup = function (userSignup) {
 
             $rootScope.registering = true;
-            firebase.auth().createUserWithEmailAndPassword(userSignup.username, 'tuyendungjobo').then(function (user) {
+            auth.createUserWithEmailAndPassword(userSignup.username, 'tuyendungjobo').then(function (user) {
 
                 $rootScope.userId = user.uid;
-                // $scope.usersRef = firebase.database().ref('user/' + user.uid);
+                // $scope.usersRef = db.ref('user/' + user.uid);
                 var userData = {
                     type: $scope.type,
                     phone: '',

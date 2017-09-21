@@ -9,6 +9,10 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
     , toastr
     , $timeout
     , ModalService) {
+
+
+
+
     if ($rootScope.newNoti && $rootScope.Lang) {
         $rootScope.og = {
             title: '(' + $rootScope.newNoti + ') Jobo'
@@ -22,6 +26,7 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
             title: 'Jobo - Việc làm lương tốt'
         }
     }
+
     $scope.getUserFiltered = function (newfilter) {
         console.log('filtering..', newfilter)
         $scope.loading = true;
@@ -31,29 +36,26 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
             params: newfilter
         }).then(function successCallback(response) {
             console.log("respond", response);
-            $scope.response = response.data;
-            if ($rootScope.maxMatchJob == 0) {
-                $rootScope.maxMatchJob = $scope.response.data[0].match
-                console.log($rootScope.maxMatchJob)
-            }
+
+            $scope.total = response.data.total;
+
             $timeout(function () {
                 if (!$rootScope.jobCard) {
                     $rootScope.jobCard = []
                 }
-                for (var i in $scope.response.data) {
+                for (var i in response.data.data) {
 
 
-                    var jobData = $scope.response.data[i]
-                    $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchJob)
+                    var jobData = response.data.data[i]
 
                     if (jobData.act) {
-                        var ref = 'activity/like/' + jobData.storeId + ':' + $rootScope.userId
-                        firebase.database().ref(ref).on('value', function (snap) {
-                            $scope.response.data[i].act = snap.val()
+                        var ref = 'activity/like/' + jobData.actId
+                        db.ref(ref).on('value', function (snap) {
+                            response.data.data[i].act = snap.val()
                         })
                     }
                 }
-                $rootScope.jobCard = $rootScope.jobCard.concat($scope.response.data);
+                $rootScope.jobCard = $rootScope.jobCard.concat(response.data.data);
                 console.log($rootScope.jobCard)
                 $scope.loading = false
             })
@@ -70,6 +72,7 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
             params: newfilter
         }).then(function successCallback(response) {
             console.log("respond", response);
+            $scope.totalGG = response.data.total
             if (response.data && response.data.data) {
                 $timeout(function () {
                     if (!$rootScope.jobCardGoogle) {
@@ -80,7 +83,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
                     $scope.loading = false
                 })
             }
-            ;
 
         }, function (error) {
             console.log(error)
@@ -91,35 +93,14 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
 
 
     };
-    $rootScope.newfilter = {
-        p: 1,
-        distance: 50
-    }
-    $scope.getUserFiltered($rootScope.newfilter);
-
-    $scope.initData = function () {
-
-        if (!$rootScope.userData) {
-            toastr.info('Bạn cần cập nhật hồ sơ trước!')
-            $state.go('profile')
-        } else if (!$rootScope.userData.location) {
-            toastr.info('Bạn hãy cập nhật địa chỉ để tìm việc xung quanh!')
-            $state.go('profile')
-            //init filter
-
-        }
-        if ($rootScope.newfilter && !$rootScope.jobCard) {
-            $scope.getUserFiltered($rootScope.newfilter)
-        }
 
 
-    }
 
 
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
     $scope.searchAddress = function () {
-        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true&key=' + CONFIG.APIKey;
+        $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&sensor=true&key=' + CONFIG.APIKey;
         $http({
             method: 'GET',
             url: $scope.URL
@@ -139,7 +120,8 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         }
         $rootScope.newfilter.lat = selected.geometry.location.lat;
         $rootScope.newfilter.lng = selected.geometry.location.lng;
-        $rootScope.usercard = []
+        $rootScope.jobCard = []
+        $rootScope.jobCardGoogle = []
 
         $scope.getUserFiltered($rootScope.newfilter)
 
@@ -154,15 +136,34 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         }
     })
     $scope.init = function () {
-        if ($rootScope.userData && $rootScope.userData.location) {
-            $scope.initData()
+        $rootScope.newfilter = {
+            p: 1,
+            distance: 50,
+        }
+        if($stateParams.job){
+            $rootScope.newfilter.job = $stateParams.job
+        }
+        if($stateParams.add){
+            $scope.searchAddress = function () {
+                $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $stateParams.add + '&sensor=true&key=' + CONFIG.APIKey;
+                $http({
+                    method: 'GET',
+                    url: $scope.URL
+                }).then(function successCallback(response) {
+                    var Address = response.data.results[0];
+                    $rootScope.newfilter.lat = Address.lat
+                    $rootScope.newfilter.lng = Address.lng
+                    $scope.getUserFiltered($rootScope.newfilter);
+
+                })
+            };
+        }else if($rootScope.userData && $rootScope.userData.location){
+            $rootScope.newfilter.lat = $rootScope.userData.location.lat
+            $rootScope.newfilter.lng = $rootScope.userData.location.lng
+
+            $scope.getUserFiltered($rootScope.newfilter);
         } else {
-            $scope.$on('handleBroadcast', function (event, message) {
-                console.log('Init data', message);
-                $scope.initData()
-            });
-
-
+            $scope.getUserFiltered($rootScope.newfilter);
         }
     };
     $scope.setSalary = function () {
@@ -260,17 +261,9 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         })
     };
 
-    $scope.chatto = function (id) {
-        $state.go("employer.chats", {to: id})
-    };
 
-    $scope.limit = 5;
-    $scope.showMore = function () {
-        console.log('reach')
-        $rootScope.newfilter.p++
-        $scope.getUserFiltered($rootScope.newfilter)
 
-    }
+
     $scope.loading = false;
     $scope.loadMoreStore = function () {
         if ($scope.newfilter && $scope.response && $scope.newfilter.type == 'store') {
@@ -309,10 +302,8 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
                 } else {
                     console.log('max page')
                 }
-
             }
         }
-
     }
 
 

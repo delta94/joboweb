@@ -45,7 +45,7 @@
                         $scope.customer = Object.assign($scope.customer,data.data)
                     })
                 });
-                /*firebase.database().ref('user/'+ $rootScope.userId).once('value',function (snap) {
+                /*db.ref('user/'+ $rootScope.userId).once('value',function (snap) {
                     $timeout(function () {
                         $scope.customer = Object.assign($scope.customer,snap.val())
                     })
@@ -61,8 +61,8 @@
                     newkey: newkey,
                     cart: $scope.customer
                 })
-                /*var newkey = firebase.database().ref('cart').push().key;
-                firebase.database().ref('cart/' + newkey).update($scope.customer)*/
+                /*var newkey = db.ref('cart').push().key;
+                db.ref('cart/' + newkey).update($scope.customer)*/
 
             }
         }

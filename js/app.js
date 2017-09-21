@@ -50,8 +50,6 @@ var app = angular
             maxOpened: 0,
             newestOnTop: true,
             positionClass: 'toast-top-left',
-            preventDuplicates: true,
-            preventOpenDuplicates: false,
             target: 'body',
             progressBar: false,
             tapToDismiss: true
@@ -60,19 +58,22 @@ var app = angular
     })
 
     .run(function ($rootScope, AuthUser, CONFIG) {
+        $rootScope.searchName = ''
+
         $rootScope.width = window.innerWidth;
         $rootScope.service = AuthUser;
         $rootScope.CONFIG = CONFIG;
         $rootScope.service.JoboApi('config').then(function (res) {
-            // $rootScope.CONFIG = res.data;
-            // $rootScope.CONFIG = Object.assign(CONFIG, res.data)
+            $rootScope.CONFIG = res.data;
+            $rootScope.CONFIG.APIURL = CONFIG.APIURL;
+            console.log('$rootScope.CONFIG.APIURL', $rootScope.CONFIG.APIURL)
             $rootScope.service.loadLang('vi')
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
             $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
             $rootScope.numberDisplay = {like: 10, liked: 10, match: 10};
-            $rootScope.numberDisplay2 = {sg: 9, hn: 9}
+
 
             //Industry
             $rootScope.arrayIndustry = [];
@@ -180,4 +181,9 @@ var app = angular
             });
             AuthUser.user()
         };
-    });
+    })
+    .controller('shortlinkCtrl', function (CONFIG, $stateParams) {
+        axios.get(`${CONFIG.AnaURL}/l/${$stateParams.queryString}`)
+            .then(result => window.location.href = result.data.url)
+            .catch(err => console.log(err));
+    })

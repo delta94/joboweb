@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 app.controller("settingCtrl", function ($scope, $rootScope, $http, $state, toastr,$timeout) {
     $scope.init = function () {
         $rootScope.aside = false

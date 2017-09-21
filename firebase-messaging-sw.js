@@ -7,14 +7,15 @@ importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker by passing in the
 // messagingSenderId.
-var config = {
-    apiKey: "AIzaSyBmGitstHLBeb5-Y4HzQYkm0OnmyHjLm-4",
-    authDomain: "jobfast-359da.firebaseapp.com",
-    databaseURL: "https://jobfast-359da.firebaseio.com",
-    storageBucket: "jobfast-359da.appspot.com",
-    messagingSenderId: "1075962129210"
+var Config = {
+    apiKey: "AIzaSyAjXzJb9LI2_4hpp9NMwuqFr1CWLavwDPA",
+    authDomain: "jobo-b8204.firebaseapp.com",
+    databaseURL: "https://jobo-b8204.firebaseio.com",
+    storageBucket: "jobo-b8204.appspot.com",
+    messagingSenderId: "748631498782"
 };
-firebase.initializeApp(config);
+
+firebase.initializeApp(Config)
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();

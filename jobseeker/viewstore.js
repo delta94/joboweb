@@ -40,11 +40,16 @@ app.controller("ViewStoreCtrl", function ($scope, $stateParams, $sce, $rootScope
                 $scope.currentJobData = $scope.profileData.currentJobData;
 
             }
+            var actId = null
             if ($scope.profileData.act && $scope.profileData.act.actId) {
-                firebase.database().ref('activity/like').child($scope.profileData.act.actId).on('value', function (a) {
-                    $scope.profileData.act = a.val()
-                })
+                actId = $scope.profileData.act.actId
+            } else {
+                actId = $scope.profileId + ':' + $rootScope.userId + ':' + $scope.currentJob
             }
+            var likeActivity = db.ref('activity/like/' + actId);
+            likeActivity.on('value',function (data) {
+                $scope.profileData.act = data.val()
+            })
             $scope.adminData = $scope.profileData.adminData
             $scope.listReact = $scope.profileData.actData
             $scope.staticData = $scope.profileData.static

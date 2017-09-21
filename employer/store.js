@@ -446,16 +446,16 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                     delete $scope.jobData[i].work_time[j].$$hashKey;
                 }
                 if (!$scope.jobData[i].jobId) {
-                    $scope.jobData[i].jobId = 'j' + Math.round(100000000000000 * Math.random());
+                    $scope.jobData[i].jobId = 'j' + Math.round(10000 * Math.random());
                 }
-
-                $rootScope.storeData.job[$scope.jobData[i].job] = $scope.jobData[i].jobName;
-                console.log($scope.jobData)
             }
             var storeD = Object.assign({}, $rootScope.storeData)
             delete storeD.adminData;
             delete storeD.jobData;
             delete storeD.actData;
+            delete storeD.dis;
+            delete storeD.act;
+            delete storeD.currentJobData
 
             storeD.storeId = $rootScope.storeId;
 
@@ -478,9 +478,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
                         $rootScope.service.Ana('updateStore', {job: $scope.anaJob || ''});
                     }
                     if ($scope.adminData && $scope.adminData.admin) {
-                        $timeout(function () {
-                            window.location.href = "/view/store/" + $rootScope.storeId;
-                        });
+                        $state.go('app.viewprofile', {id: $rootScope.storeId})
                     } else {
                         $state.go('app.edash')
                     }

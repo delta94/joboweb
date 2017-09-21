@@ -77,7 +77,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $rootScope.service.JoboApi('on/user', {userId: userid}).then(function (data) {
                 $scope.profileData[userid] = data.data
             });
-            /*firebase.database().ref('user/' + userid).once('value', function (res) {
+            /*db.ref('user/' + userid).once('value', function (res) {
                 $scope.profileData[userid] = res.val()
 
             })*/
@@ -121,7 +121,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
 
         $scope.deleteProfile = function (userId) {
-            firebase.database().ref('profile/' + userId).set(null).then(function (data) {
+            db.ref('profile/' + userId).set(null).then(function (data) {
                 toastr.success('done', data)
             }, function (error) {
                 toastr.error('error', error)
@@ -139,7 +139,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             }, function (error) {
                 toastr.error('error', error)
             });
-            /*firebase.database().ref('profile/' + card.userId).update(card).then(function () {
+            /*db.ref('profile/' + card.userId).update(card).then(function () {
                 toastr.success('done', card.feature + card.hide)
             }, function (error) {
                 toastr.error('error', error)
@@ -219,12 +219,12 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $rootScope.service.JoboApi('on/user', {userId: userid}).then(function (data) {
                 $scope.profileData[userid] = data.data;
             });
-            /*firebase.database().ref('user/' + userid).once('value', function (res) {
+            /*db.ref('user/' + userid).once('value', function (res) {
                 $scope.profileData[userid] = res.val()
             })*/
         }
         $scope.deleteProfile = function (storeId) {
-            firebase.database().ref('store/' + storeId).set(null).then(function (data) {
+            db.ref('store/' + storeId).set(null).then(function (data) {
                 toastr.success('done', data)
             }, function (error) {
                 toastr.error('error', error)
@@ -243,7 +243,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             }, function (error) {
                 toastr.error('error', error)
             });
-            /*firebase.database().ref('store/' + card.storeId).update(card).then(function (data) {
+            /*db.ref('store/' + card.storeId).update(card).then(function (data) {
                 toastr.success('done', card.feature + card.hide)
             }, function (error) {
                 toastr.error('error', error)
@@ -1034,7 +1034,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
                 resolve(dataObject)
             }).then(function (dataObject) {
                 console.log('startup')
-                firebase.database().ref('emailChannel').update(dataObject).then(function (res) {
+                db.ref('emailChannel').update(dataObject).then(function (res) {
                     console.log('done', res)
                 }, function (err) {
                     console.log('err', err)
@@ -1050,7 +1050,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         }
 
         // var i = 0
-        // firebase.database().ref('emailChannel').on('child_added', function (snap) {
+        // db.ref('emailChannel').on('child_added', function (snap) {
         //     i = i + 1
         //     console.log(i)
         // })
@@ -1068,7 +1068,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
     })
     .controller('workingAdminCtrl', function ($scope, $timeout, $rootScope, toastr) {
-        var workingRef = firebase.database().ref('working/job')
+        var workingRef = db.ref('working/job')
         workingRef.on('value', function (snap) {
             $timeout(function () {
                 $scope.working = snap.val()
@@ -1107,7 +1107,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
         }
 
-        var hrRef = firebase.database().ref('working/hr')
+        var hrRef = db.ref('working/hr')
 
         hrRef.on('value', function (snap) {
             $timeout(function () {
@@ -1117,7 +1117,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         $scope.addUser = function (card) {
             console.log(card)
             hrRef.child(card.uid).set(card)
-            var usersRef = firebase.database().ref('user').child(card.uid)
+            var usersRef = db.ref('user').child(card.uid)
             usersRef.update({
                 type: 0,
                 phone: card.phone,
@@ -1129,108 +1129,6 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
                 toastr.info('res.data')
             })
         }
-    })
-    .controller('addJobCtrl', function ($scope, $http, $rootScope, toastr) {
-        $scope.new = {}
-        $scope.addJob = function (card) {
-            console.log(card)
-
-            firebase.auth().createUserWithEmailAndPassword(card.email, 'tuyendungjobo').then(function (user) {
-
-                // var usersRef = firebase.database().ref('user/' + user.uid);
-                var userData = {
-                    type: 1,
-                    phone: card.phone || '',
-                    userId: user.uid,
-                    email: card.email,
-                    provider: 'normal',
-                    createdBy: $rootScope.userId || '',
-                    lead: true,
-                    currentStore: user.uid,
-                    createdAt: new Date().getTime()
-
-                };
-                /*usersRef.update(userData, function (data) {
-                    console.log('user', data)
-                })*/
-                // var storeRef = firebase.database().ref('store/' + user.uid);
-                var storeData = {
-                    storeName: card.storeName,
-                    storeId: user.uid,
-                    industry: card.industry,
-                    address: card.address,
-                    location: card.location,
-                    job: {},
-                    createdBy: user.uid,
-                    createdAt: new Date().getTime()
-                }
-                storeData.job[card.job] = true;
-                /*storeRef.update(storeData, function (data) {
-                    console.log('store', data)
-                })*/
-                $rootScope.service.JoboApi('update/user', {
-                    userId: user.uid,
-                    user: userData,
-                    storeId: user.uid,
-                    store: storeData
-                });
-
-                var jobRef = firebase.database().ref('job/' + user.uid + ':' + card.job);
-                var jobData = {
-                    storeId: user.uid,
-                    job: card.job,
-                    createdAt: new Date().getTime()
-                }
-                jobRef.update(jobData, function (data) {
-                    console.log('job', data)
-                })
-                $rootScope.service.Ana('createLead', {userId: user.uid})
-                toastr.success("Tạo thành công, mật khẩu đăng nhập của bạn là: tuyendungjobo");
-
-            }, function (error) {
-
-                // An error happened.
-                var errorCode = error.code;
-                console.log(errorCode);
-
-                if (errorCode === 'auth/weak-password') {
-
-                    toastr.error('Mật khẩu ngắn, hãy chọn mật khẩu khác!');
-
-                    return false;
-                } else if (errorCode === 'auth/email-already-in-use') {
-                    toastr.error('Email này đã được sử dụng rồi');
-
-                    return false;
-                }
-            });
-
-        }
-
-        $scope.autocompleteAddress = {text: ''};
-        $scope.ketquasAddress = [];
-        $scope.searchAddress = function () {
-            $scope.URL = 'https://maps.google.com/maps/api/geocode/json?address=' + $scope.autocompleteAddress.text + '&components=country:VN&sensor=true';
-            $http({
-                method: 'GET',
-                url: $scope.URL
-            }).then(function successCallback(response) {
-                $scope.ketquasAddress = response.data.results;
-                console.log($scope.ketquasAddress);
-                $('#list-add').show();
-
-            })
-        };
-
-        $scope.setSelectedAddress = function (selected) {
-            $scope.autocompleteAddress.text = selected.formatted_address;
-            $scope.address = selected;
-            console.log(selected);
-            $('#list-add').hide();
-            $scope.new.address = selected.formatted_address;
-            $scope.new.location = selected.geometry.location;
-
-        };
     })
     .controller('leadCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
@@ -1330,7 +1228,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
                 fromName: $rootScope.userData.name + ' | Jobo - Tìm việc nhanh',
                 from: $rootScope.userData.email,
                 to: storeData.email,
-                description1: 'Chào ' + storeData.storeName + '<br>Jobo.asia là dự án cung cấp nhân viên gấp cho ngành dịch vụ trong vòng 24h, với mong muốn giúp nhà tuyển dụng tiết kiệm thời gian để tìm được ứng viên phù hợp. <br> Chúng tôi hiện đang có hơn 12000+ ứng viên và sẵn sàng cung cấp đủ số lượng ứng viên phù hợp với vị trí ' + $rootScope.Lang[$scope.storeData.job] + ' mà đối tác cần tuyển.<br> <br> <b>Các quyền lợi của ' + $scope.storeData.storeName + ' khi trở thành đối tác của JOBO: </b><br> <br> - Cung cấp nhân sự ngay <b>trong vòng 24h</b> và không phải trả phí đối với các ứng viên bị loại.<br> - Tự động đăng tin lên hơn 20+ group tuyển dụng Facebook, website vệ tinh<br> - Quảng cáo thương hiệu <b>hoàn toàn miễn phí</b> trên các kênh truyền thông với hơn 200,000 lượt tiếp cận..<br> <br> Chúng tôi rất mong nhận được phản hồi và xin phép liên hệ lại để giải đáp tất cả các thắc mắc.<br> Để biết thêm các thông tin chi tiết về JOBO – Ứng dụng tuyển dụng nhanh, đối tác có thể tham khảo file đính kèm.<br>Dưới đây là danh sách ứng viên phù hợp với vị trí ' + $rootScope.Lang[$scope.storeData.job] + ' mà Jobo đã tìm cho đối tác. Hãy chọn ứng viên nào đối tác thấy phù hợp và gọi cho chúng tôi để tuyển ứng viên đó',
+                description1: 'Chào ' + storeData.storeName + '<br>Jobo.asia là dự án cung cấp nhân viên gấp cho ngành dịch vụ trong vòng 24h, với mong muốn giúp nhà tuyển dụng tiết kiệm thời gian để tìm được ứng viên phù hợp. <br> Chúng tôi hiện đang có hơn 12000+ ứng viên và sẵn sàng cung cấp đủ số lượng ứng viên phù hợp với vị trí ' + $rootScope.Lang[storeData.job] + ' mà đối tác cần tuyển.<br> <br> <b>Các quyền lợi của ' + storeData.storeName + ' khi trở thành đối tác của JOBO: </b><br> <br> - Cung cấp nhân sự ngay <b>trong vòng 24h</b> và không phải trả phí đối với các ứng viên bị loại.<br> - Tự động đăng tin lên hơn 20+ group tuyển dụng Facebook, website vệ tinh<br> - Quảng cáo thương hiệu <b>hoàn toàn miễn phí</b> trên các kênh truyền thông với hơn 200,000 lượt tiếp cận..<br> <br> Chúng tôi rất mong nhận được phản hồi và xin phép liên hệ lại để giải đáp tất cả các thắc mắc.<br> Để biết thêm các thông tin chi tiết về JOBO – Ứng dụng tuyển dụng nhanh, đối tác có thể tham khảo file đính kèm.<br>Dưới đây là danh sách ứng viên phù hợp với vị trí ' + $rootScope.Lang[storeData.job] + ' mà Jobo đã tìm cho đối tác. Hãy chọn ứng viên nào đối tác thấy phù hợp và gọi cho chúng tôi để tuyển ứng viên đó',
                 description2: 'Nếu vẫn chưa chọn được ứng viên phù hợp, đối tác hãy truy cập vào web của jobo để xem thêm hơn +5500 ứng viên nữa. <br>',
                 description3: $rootScope.userData.name + ' - Recruitment Manager <b>' + $rootScope.userData.phone + '<br> ' + $rootScope.userData.email,
                 storeId: storeData.storeId,
@@ -1351,6 +1249,30 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
             }).catch(function (err) {
                 toastr.error('Lỗi')
+            });
+        }
+        $scope.getNoti = function (email) {
+            var newfilter = {email}
+            $rootScope.service.JoboApi('api/notification', newfilter).then(function (response) {
+
+                $scope.dataEmail = []
+                if(!response.data.data) return
+
+                angular.forEach(response.data.data, function (data) {
+                    var newData = {notiId: data.notiId, userData: data.userData, mail: data.mail, channel: data.channel}
+
+                    var obj = Object.assign({}, data)
+                    delete obj._id;
+                    delete obj.notiId;
+                    delete obj.userData;
+                    delete obj.mail;
+                    delete obj.channel;
+                    newData.sent = obj
+                    $scope.dataEmail.push(newData)
+                })
+
+            }).catch(function (err) {
+                toastr.error(err)
             });
         }
     })
@@ -1384,7 +1306,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $scope.createHospital($scope.newfilter, page)
         }
         $scope.sendEmail = function (newfilter, mail) {
-            if(newfilter.time){
+            if (newfilter.time) {
                 newfilter.time = new Date(newfilter.time).getTime()
             }
             console.log(newfilter)
@@ -1407,6 +1329,56 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         $scope.mail = {};
         $scope.data = {};
 
+    })
+    .controller('scheduleCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+
+        $scope.newfilter = {}
+
+        $scope.pagingSchedules = function (newfilter, p) {
+            newfilter.p = p
+            console.log(newfilter)
+
+            $http({
+                method: 'GET',
+                url: 'https://joboana.herokuapp.com/getFbPost',
+                params: newfilter
+            }).then(function successCallback(response) {
+                console.log("respond", response);
+                $timeout(function () {
+                    $scope.response = response.data
+                    $scope.schedules = $scope.response.data
+                })
+            }, function (error) {
+                console.log(error)
+            })
+        };
+        $scope.pagingSchedules($scope.newfilter, 1)
+
+        $scope.page = 1;
+        $scope.pagin = function (page) {
+            console.log(page)
+            $scope.pagingSchedules($scope.newfilter, page)
+        };
+        $scope.currentDate = new Date(Date.now());
+        $scope.sendSchedule = (schedule) => {
+            if (!schedule) return;
+            const time = new Date(schedule.time).getTime() || undefined;
+            const {content, job, poster, where} = schedule;
+            axios.post(APIURL + '/PostText2Store', {
+                text: content,
+                job,
+                poster,
+                where,
+                time
+            })
+                .then(function (response) {
+                    console.log(content, job, poster, time);
+                    window.location.reload();
+                })
+                .catch(function (error) {
+                    console.log('Post', error);
+                });
+        };
     })
 
 

@@ -54,6 +54,12 @@ angular
                     }]
                 }
             })
+            .state('app.link', {
+                url: '/l/:queryString',
+                templateUrl: 'templates/page/link.html',
+                controller: 'shortlinkCtrl'
+            })
+
 
             .state('signup', {
                 url: '/signup/:id?apply&job',
@@ -238,7 +244,7 @@ angular
             })
             //job seeker dash
             .state('app.sdash', {
-                url: '/jobseeker/dash',
+                url: '/jobseeker/dash?add?job',
                 templateUrl: 'jobseeker/tab-dash.html',
                 controller: 'sDashCtrl'
             })
@@ -334,6 +340,11 @@ angular
                 url: '/admin/lead',
                 templateUrl: 'templates/admin/lead.html',
                 controller: 'leadCtrl'
+            })
+            .state('admin.schedule', {
+                url: '/admin/schedule',
+                templateUrl: 'templates/admin/schedule.html',
+                controller: 'scheduleCtrl'
             })
 
         // static

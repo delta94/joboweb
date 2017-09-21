@@ -186,9 +186,9 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
                     var profileData = $scope.response.data[i]
                     $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchUser)
 
-                    if (profileData.act) {
-                        var ref = 'activity/like/' + $rootScope.storeId + ':' + profileData.userId
-                        firebase.database().ref(ref).on('value', function (snap) {
+                    if (profileData.act && profileData.act.actId) {
+                        var ref = 'activity/like/' + profileData.act.actId
+                        db.ref(ref).on('value', function (snap) {
                             $scope.response.data[i].act = snap.val()
                         })
                     }

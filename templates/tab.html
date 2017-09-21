@@ -1,216 +1,76 @@
 <div>
-    <header class="app-header navbar ">
-        <a class="navbar-brand" ui-sref="app.dash"></a>
-        <span class="hidden-md-down">
-            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
-                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
-                <div class="form-group form-search" style="margin:12px auto !important;">
-                    <input style="font-size: 15px; height: 35px;"
-                           type="text" name="q" id="q" class="form-control form-control-search"
-                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
-                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length"
-                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-                                </div>
-                                <a ng-click="searchName = null" href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
-                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
-                                       ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </span>
-        <ul class="nav navbar-nav ml-auto">
-            <button ui-sref="signup ({id: 2})" type="button" class="btn btn-primary hidden-md-down">Tôi muốn tìm việc
-            </button>
-            <button ui-sref="signup ({id: 1})" class="btn btn-secondary hidden-md-down">Tôi muốn tuyển dụng</button>
-            <button ui-sref="intro" class="btn button-gradient" style="margin-left: 10px">Đăng nhập</button>
-        </ul>
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a ui-sref="signup ({id: 1})" title="" onclick="closeNav()">Tuyển dụng</a>
-            <a ui-sref="signup ({id: 2})" title="" onclick="closeNav()">Tìm việc</a>
-            <a ui-sref="intro" title="" onclick="closeNav()">Đăng nhập</a>
-        </div>
-    </header>
-
-
-</div>
-
-<div ng-show="type == 1">
-    <header class="app-header navbar">
-
-        <a class="navbar-brand" ui-sref="app.edash"></a>
-        <span class="hidden-md-down">
-            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
-                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
-                <div class="form-group form-search" style="margin:12px auto !important;">
-                    <input style="font-size: 15px; height: 35px;"
-                           type="text" name="q" id="q" class="form-control form-control-search"
-                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
-                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length"
-                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
-                                </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
-                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
-                                       ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </span>
-        <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    <i class="icon-bell"></i>
-                    <span class="badge badge-pill badge-danger" ng-if="newNoti[storeId] != 0">{{newNoti[storeId]}}</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;
-    max-height: 325px;
-    overflow-x: hidden;">
-                    <div class="dropdown-header text-center">
-                        <strong>Thông báo</strong>
-                    </div>
-                    <div class="text-center padding" ng-hide="notification">
-                        <p>Bạn chưa có thông báo nào</p>
-                    </div>
-                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)" ng-if="card.storeId == storeId"
-                       href="{{card.linktoaction}}">
-                        <div class="message" style="padding: 5px">
-                            <div class="py-1 mr-1 float-left">
-                                <div class="avatar">
-                                    <img src="{{card.avatar || 'img/macdinh.jpg'}}" class="img-avatar"
-                                         alt="admin@bootstrapmaster.com">
-                                </div>
-                            </div>
-                            <div>
-                                <small class="text-muted">{{service.timeAgo(card.createdAt)}}</small>
-                                <small class="text-muted float-right mt-q"><span ng-hide="card.update"
-                                                                                 class="badge badge-info">NEW</span>
-                                </small>
-                            </div>
-                            <div class="text-truncate font-weight-bold" ng-if="card.title"
-                                 style="color: #0a0a0a!important;">{{card.title}}
-                            </div>
-                            <small class="text-muted">{{card.body}}</small>
-                        </div>
-                    </a>
-
-                </div>
-            </li>
-
-            <li class="nav-item hidden-md-up">
-                <a class="nav-link nav-pill" href="/employer/chats"><i class="icon-bubbles"></i></a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    <img src="{{storeData.avatar || 'img/store.png'}}" class="img-avatar">
-                    <!--<span class="badge badge-pill badge-danger">9</span>-->
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-
-                    <div class="dropdown-header text-center">
-                        <strong>Số dư của bạn: <b>{{userData.credit || 0}} .000đ</b></strong>
-                    </div>
-
-                    <a class="dropdown-item" href="/store/update"><i class="fa fa-edit"></i>Cập nhật thông tin
-                        <!--<span class="badge badge-info">42</span>-->
-                    </a>
-                    <a class="dropdown-item" href="/view/store/{{storeId}}"><i class="fa fa-user"></i> Trang cá nhân</a>
-                    <a class="dropdown-item" href="/setting"><i class="fa fa-lock"></i> Tài khoản</a>
-
-                    <div class="dropdown-header text-center">
-                        <strong>Danh sách cửa hàng</strong>
-                    </div>
-                    <div class="scrollable-menu" role="menu"
-                         style="height: auto;max-height: 300px;overflow-x: hidden;">
-                        <a class="dropdown-item avatar" style="padding-left: 5px" ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
-                                src="{{card.avatar || 'img/store.png'}}"
-                                class="img-avatar ">
-                            <span class="text-truncate">{{ card.storeName }}</span>
-
-                            <i class="fa fa-check pull-right" ng-if="card.storeId == storeId"></i>
-                            <span class="badge badge-danger" ng-show="newNoti[card.storeId] > 0">{{newNoti[card.storeId]}}</span>
-                        </a>
-                    </div>
-                    <div class="divider"></div>
-                    <a class="dropdown-item" href="/store/new"><i class="fa fa-plus"></i> Thêm cửa hàng</a>
-
-
-                </div>
-            </li>
-            <li class="nav-item hidden-md-down">
-                <a class="nav-link navbar-toggler aside-menu-toggler" href="#">&#9776;</a>
-            </li>
-        </ul>
-
-    </header>
-
-
-</div>
-
-<div ng-show="type == 2">
 
     <header class="app-header navbar">
         <!--<button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>-->
-        <a class="navbar-brand" ui-sref="app.sdash"></a>
-        <span class="hidden-md-down">
-            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
-                <!--<h1>Tìm việc nhanh xung quanh bạn</h1>-->
-                <div class="form-group form-search" style="margin:12px auto !important;">
-                    <input style="font-size: 15px; height: 35px;"
-                           type="text" name="q" id="q" class="form-control form-control-search"
-                           placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
-                           ng-model-options="{debounce: 2000}" ng-change="service.searchProfile(searchName)">
-                    <ul ng-show="searchName.length"
-                        style="background: white; color: #000; height: 200px; overflow-y: scroll;">
-                        <li ng-repeat="result in searchResults" style="display: block; text-align: left">
-                            <div class="message p-h">
-                                <div class="py-h mr-1 float-left">
-                                    <div class="avatar">
-                                        <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
-                                    </div>
+        <a class="navbar-brand" ui-sref="app.dash"></a>
+
+        <form ng-hide="type == 0" class="hidden-md-down" accept-charset="UTF-8" autocomplete="off"><input name="utf8"
+                                                                                                        type="hidden"
+                                                                                                        value="✓">
+            <div class="form-group form-search" style="margin:12px auto !important;">
+                <input style="font-size: 15px; height: 35px;"
+                       type="text" name="q" id="q" class="form-control form-control-search"
+                       placeholder="Nhập từ khóa tìm kiếm..." ng-model="searchName"
+                       ng-model-options="{debounce: 500}" ng-change="service.searchProfile(searchName)">
+                <ul ng-show="searchResults.store.length > 0"
+                    style="background: white; color: #000; height: 200px;max-width: 300px; overflow-y: scroll;">
+                    <li ng-repeat="result in searchResults.store" style="display: block; text-align: left">
+                        <div class="message p-h">
+                            <div class="py-h mr-1 float-left">
+                                <div class="avatar">
+                                    <img src="{{result.avatar || '/img/store.png'}}" class="img-avatar"
+                                         alt="admin@bootstrapmaster.com">
                                 </div>
-                                <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
-                                   class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
-                                <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
-                                       ng-show="result.job">
-                                    {{Lang[key] || 'Xem thêm'}}
-                                </small>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </span>
-        <ul class="nav navbar-nav ml-auto">
+                            <a ui-sref="app.viewstore({id:result.storeId})"
+                               class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                            <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
+                                   ng-show="result.job">
+                                {{Lang[key] || 'Xem thêm'}}
+                            </small>
+                        </div>
+                    </li>
+                </ul>
+                <ul ng-show="searchResults.profile.length > 0"
+                    style="background: white; color: #000; height: 200px;max-width: 300px; overflow-y: scroll;">
+                    <li ng-repeat="result in searchResults.profile" style="display: block; text-align: left">
+                        <div class="message p-h">
+                            <div class="py-h mr-1 float-left">
+                                <div class="avatar">
+                                    <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
+                                         alt="admin@bootstrapmaster.com">
+                                </div>
+                            </div>
+                            <a ui-sref="app.viewprofile ({id:result.userId})"
+                               class="text-truncate font-weight-bold">{{result.storeName || result.name}}</a><br>
+                            <small style="color: black; font-size: 1em" ng-repeat="(key,value) in result.job"
+                                   ng-show="result.job">
+                                {{Lang[key] || 'Xem thêm'}}
+                            </small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </form>
+        <div class="hidden-md-down">
+
+            <a style="padding: 1rem" class=" button btn btn-link" ui-sref="app.sdash"><i class="fa fa-map-marker"></i>&nbsp;
+                Việc làm</a>
+            <a style="padding: 1rem" class=" button btn btn-link" ui-sref="app.edash"><i class="fa fa-users"></i>&nbsp;
+                Lọc
+                hồ sơ</a>
+            <a style="padding: 1rem" class=" button btn btn-link" href="https://blog.jobo.asia/faq" target="_blank"
+               aria-expanded="false">&nbsp; Hướng dẫn <i class="fa fa-share-square-o"></i></a>
+            <a style="padding: 1rem" class="button btn btn-link" href="https://blog.jobo.asia" target="_blank">&nbsp;
+                Tài
+                liệu miễn phí <i
+                        class="fa fa-share-square-o"></i></a>
+
+
+        </div>
+
+
+        <ul class="nav navbar-nav ml-auto" ng-show="type == 2">
             <li class="nav-item">
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
@@ -271,6 +131,8 @@
                     <a class="dropdown-item" href="/view/profile/{{userId}}"><i class="fa fa-user"></i> Trang cá
                         nhân</a>
                     <a class="dropdown-item" href="/setting"><i class="fa fa-lock"></i> Tài khoản</a>
+                    <a class="dropdown-item" ng-click="service.logout()"><i class="fa fa-lock"></i> Đăng xuất</a>
+
 
                 </div>
             </li>
@@ -278,7 +140,103 @@
                 <a class="nav-link  navbar-toggler aside-menu-toggler" href="#">&#9776;</a>
             </li>
         </ul>
+        <ul class="nav navbar-nav ml-auto" ng-show="type == 1">
+            <li class="nav-item">
+                <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    <i class="icon-bell"></i>
+                    <span class="badge badge-pill badge-danger"
+                          ng-if="newNoti[storeId] != 0">{{newNoti[storeId]}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right scrollable-menu" role="menu" style="width: 300px; height: auto;
+    max-height: 325px;
+    overflow-x: hidden;">
+                    <div class="dropdown-header text-center">
+                        <strong>Thông báo</strong>
+                    </div>
+                    <div class="text-center padding" ng-hide="notification">
+                        <p>Bạn chưa có thông báo nào</p>
+                    </div>
+                    <a ng-repeat="card in notification| orderBy:'-createdAt'" ng-click="service.readNoti(card.id)"
+                       ng-if="card.storeId == storeId"
+                       href="{{card.linktoaction}}">
+                        <div class="message" style="padding: 5px">
+                            <div class="py-1 mr-1 float-left">
+                                <div class="avatar">
+                                    <img src="{{card.avatar || 'img/macdinh.jpg'}}" class="img-avatar"
+                                         alt="admin@bootstrapmaster.com">
+                                </div>
+                            </div>
+                            <div>
+                                <small class="text-muted">{{service.timeAgo(card.createdAt)}}</small>
+                                <small class="text-muted float-right mt-q"><span ng-hide="card.update"
+                                                                                 class="badge badge-info">NEW</span>
+                                </small>
+                            </div>
+                            <div class="text-truncate font-weight-bold" ng-if="card.title"
+                                 style="color: #0a0a0a!important;">{{card.title}}
+                            </div>
+                            <small class="text-muted">{{card.body}}</small>
+                        </div>
+                    </a>
 
+                </div>
+            </li>
+
+            <li class="nav-item hidden-md-up">
+                <a class="nav-link nav-pill" href="/employer/chats"><i class="icon-bubbles"></i></a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-pill avatar" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    <img src="{{storeData.avatar || 'img/store.png'}}" class="img-avatar">
+                    <!--<span class="badge badge-pill badge-danger">9</span>-->
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="dropdown-header text-center">
+                        <strong>Số dư của bạn: <b>{{userData.credit || 0}} .000đ</b></strong>
+                    </div>
+
+                    <a class="dropdown-item" href="/store/update"><i class="fa fa-edit"></i>Cập nhật thông tin
+                        <!--<span class="badge badge-info">42</span>-->
+                    </a>
+                    <a class="dropdown-item" href="/view/store/{{storeId}}"><i class="fa fa-user"></i> Trang cá nhân</a>
+                    <a class="dropdown-item" href="/setting"><i class="fa fa-lock"></i> Tài khoản</a>
+                    <a class="dropdown-item" ng-click="service.logout()"><i class="fa fa-lock"></i> Đăng xuất</a>
+
+                    <div class="dropdown-header text-center">
+                        <strong>Danh sách cửa hàng</strong>
+                    </div>
+                    <div class="scrollable-menu" role="menu"
+                         style="height: auto;max-height: 300px;overflow-x: hidden;">
+                        <a class="dropdown-item avatar" style="padding-left: 5px"
+                           ng-click="setCurrentStore(card.storeId)" ng-repeat="card in storeList"> <img
+                                src="{{card.avatar || 'img/store.png'}}"
+                                class="img-avatar ">
+                            <span class="text-truncate">{{ card.storeName }}</span>
+
+                            <i class="fa fa-check pull-right" ng-if="card.storeId == storeId"></i>
+                            <span class="badge badge-danger" ng-show="newNoti[card.storeId] > 0">{{newNoti[card.storeId]}}</span>
+                        </a>
+                    </div>
+                    <div class="divider"></div>
+                    <a class="dropdown-item" href="/store/new"><i class="fa fa-plus"></i> Thêm cửa hàng</a>
+
+
+                </div>
+            </li>
+            <li class="nav-item hidden-md-down">
+                <a class="nav-link navbar-toggler aside-menu-toggler" href="#">&#9776;</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto" ng-show="type == 0">
+            <button ui-sref="signup ({id: 2})" type="button" class="btn btn-primary hidden-md-down">Tôi muốn tìm việc
+            </button>
+            <button ui-sref="signup ({id: 1})" class="btn btn-secondary hidden-md-down">Tôi muốn tuyển dụng</button>
+            <button ui-sref="intro" class="btn button-gradient" style="margin-left: 10px">Đăng nhập</button>
+        </ul>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a ui-sref="signup ({id: 1})" title="" onclick="closeNav()">Tuyển dụng</a>
@@ -329,6 +287,7 @@
         document.getElementById("main").style.marginLeft = "0";
         document.body.style.backgroundColor = "white";
     }
+
 </script>
 <!-- Footer -->
 <!--<div ng-include="'views/common/footer.html'"></div>-->

@@ -630,16 +630,19 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     toastr.success('Cập nhật hồ sơ thành công');
                     if ($rootScope.preApply) {
                         $rootScope.service.userLike($rootScope.preApply.card, 0, $rootScope.preApply.jobOffer)
-                        $state.go('app.viewstore', {
-                            id: $rootScope.preApply.card.storeId,
-                            job: $rootScope.preApply.jobOffer
+                            .then(function () {
+                                $state.go('app.viewstore', {
+                                    id: $rootScope.preApply.card.storeId,
+                                    job: $rootScope.preApply.jobOffer
+                                })
                         })
+
                     }
                     if ($scope.adminData && $scope.adminData.admin) {
                         console.log('adminData.admin');
-                        $timeout(function () {
-                            window.location.href = "/view/profile/" + $rootScope.userId;
-                        });
+                        $state.go('app.viewprofile', {
+                            id: $rootScope.userId,
+                        })
                     } else {
                         $state.go('app.sdash', {}, {reload: true})
                     }

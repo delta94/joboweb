@@ -16,7 +16,7 @@
                                 <div class="py-h mr-1 float-left">
                                     <div class="avatar">
                                         <img src="{{result.avatar || '/img/macdinh.jpg'}}" class="img-avatar"
-                                             alt="admin@bootstrapmaster.com">
+                                             alt="contact@jobo.asia">
                                     </div>
                                 </div>
                                 <a href="/view/{{result.storeId ? 'store':'profile'}}/{{result.storeId||result.userId}}"
@@ -47,10 +47,10 @@
  background: -webkit-linear-gradient(#38DEA8 , #20BEEF );
  -webkit-background-clip: text;
  -webkit-text-fill-color: transparent;
- ">Đăng ký Jobo, <br>kiếm thêm thu nhập</h1>
+ ">Khám phá công việc tiếp theo trên Jobo</h1>
 
                         <h3 style="font-size: 22px;">Hàng nghìn công việc <br>bán thời gian và thời vụ <br>đang được
-                            nhận mỗi ngày trên Jobo</h3>
+                            nhận mỗi ngày</h3>
                         <div style="margin-top:30px;">
                             <a href="/signup/2#s=industry"><input type="button" value="Nhận việc với Jobo"
                                                                   style="margin-bottom: 10px;"></a>
@@ -656,8 +656,8 @@
             ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
             style="border:solid 1px #00a67c">Hà Nội
     </button>
-    <button ng-if="showjob==2" ng-repeat="(key,value) in catalog.sg" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
-    <button ng-if="showjob==3" ng-repeat="(key,value) in catalog.hn" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
+    <button ui-sref="app.sdash ({job: key})" ng-if="showjob==2" ng-repeat="(key,value) in catalog.sg" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
+    <button ui-sref="app.sdash ({job: key})" ng-if="showjob==3" ng-repeat="(key,value) in catalog.hn" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
 
 </div>
 <div class="animated fadeIn" ng-show="showjob == 1" style="min-height: 500px; margin-top: 40px">
@@ -726,7 +726,7 @@
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg | limitTo : numberDisplay2.sg">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">
                     <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
                         <div class="content_">
                             <div class="content-top-new">
@@ -777,7 +777,7 @@
         <div align="center" style="margin-top: 20px;">
             <a ui-sref="app.sdash" role="button"
                style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
+                Xem thêm  (2342 công việc)</a>
         </div>
     </div>
 </div>
@@ -787,7 +787,7 @@
     <div class="container">
         <div class="testimonials testimonials-raised">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn | limitTo : numberDisplay2.hn">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">
                     <div class="card-new">
                         <div class="content_">
                             <div class="content-top-new">
@@ -824,7 +824,7 @@
                             <div class="content-bottom-new text-center">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
-                                        <br> <i>{{card.address}}</i>
+                                        <br> <i>{{service.shortAddress(card.address)}}</i>
                                     </p>
                                 </div>
                             </div>
@@ -834,9 +834,9 @@
             </div>
         </div>
         <div align="center" style="margin-top: 20px;">
-            <a ng-click="service.increasedBy2('hn')" role="button" ng-if="JobCard.hn.length > numberDisplay2.hn"
+            <a ui-sref="app.sdash" role="button"
                style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
+                Xem thêm (4534 công việc)</a>
         </div>
 
     </div>
@@ -1031,7 +1031,7 @@ right: 0px;bottom: 0px;">
             <img src="img/logo.png" width="100px">
 
             <p style="margin: 0"><i class="icon-phone text-primary"></i> +84 968 269 860</p>
-            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@joboapp.com</p>
+            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@jobo.asia</p>
 
             <div style="padding: 16px 0">
                 <p>
@@ -1056,11 +1056,11 @@ right: 0px;bottom: 0px;">
             <h3>Về chúng tôi</h3>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://about.joboapp.com">Jobo là gì</a></li>
-                <li><a href="https://joboapp.com/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
-                <li><a href="https://about.joboapp.com/contact">Liên hệ</a></li>
-                <li><a href="https://about.joboapp.com/faq#terms">Terms</a></li>
-                <li><a href="http://about.joboapp.com/faq#privacy">Privacy</a></li>
+                <li><a href="https://blog.jobo.asia/faq">Jobo là gì</a></li>
+                <li><a href="https://jobo.asia/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://blog.jobo.asia/contact">Liên hệ</a></li>
+                <li><a href="https://blog.jobo.asia/faq#terms">Terms</a></li>
+                <li><a href="http://blog.jobo.asia/faq#privacy">Privacy</a></li>
             </ul>
 
         </div>
@@ -1069,15 +1069,15 @@ right: 0px;bottom: 0px;">
 
             <ul class="extra-links" style="list-style-type: none;">
                 <li><a href="/signup/2">Tạo hồ sơ</a></li>
-                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
-                <li><a href="https://about.joboapp.com/refer">Refer</a></li>
+                <li><a href="https://blog.jobo.asia/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="https://blog.jobo.asia/refer">Refer</a></li>
             </ul>
             <h5>Cho nhà tuyển dụng</h5>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://joboapp.com/sigup/1">Đăng việc làm miễn phí</a></li>
-                <li><a href="https://about.joboapp.com/service">Dịch vụ</a></li>
-                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="https://jobo.asia/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://blog.jobo.asia/service">Dịch vụ</a></li>
+                <li><a href="https://blog.jobo.asia/faq">Câu hỏi thường gặp</a></li>
 
             </ul>
         </div>

@@ -241,23 +241,20 @@
                                     </tr>
 
                                 </table>
+                                <button ng-click="like(card,0,card.job)"
+                                        type="button"
+                                        ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"
+                                        class="btn btn-default apply-new">Chọn công việc này
+                                </button>
+                                <button ng-click="service.chatToStore[card.storeId]"
+                                        type="button" ng-if="card.act.status == 1"
+                                        class="btn button-vip">Liên hệ
+                                </button>
+                                <button ng-disabled
+                                        type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"
+                                        class="btn btn-warning">Đang chờ phản hồi...
+                                </button>
                             </div>
-                        </div>
-                        <div class="content-bottom-new">
-
-                            <button ng-click="like(card,0,card.job)"
-                                    type="button"
-                                    ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"
-                                    class="btn btn-default apply-new">Chọn công việc này
-                            </button>
-                            <button ng-click="service.chatToStore[card.storeId]"
-                                    type="button" ng-if="card.act.status == 1"
-                                    class="btn button-vip">Liên hệ
-                            </button>
-                            <button ng-disabled
-                                    type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"
-                                    class="btn btn-warning">Đang chờ phản hồi...
-                            </button>
                         </div>
 
                     </div>

@@ -8,7 +8,7 @@
                 <div class="form-group form-search" style="z-index: 2000">
                     <input type="text" name="q" id="q" class="form-control form-control-search"
                            placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text"
-                           ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
+                           ng-model-options="{debounce: 500}" ng-change="searchAddress()">
                     <ul id="list-add" ng-show="autocompleteAddress.text.length">
                         <li ng-repeat="ketqua in ketquasAddress"
                             ng-click="setSelectedAddress(ketqua)">
@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<div class="card filter-tab"  style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
+<div class="card filter-tab" style="padding:10px;margin-bottom: 0px;" ng-hide="showFilter">
     <div class="row" style="margin: 0 auto; ">
         <div class="col-md-11">
             <button ng-repeat="(key,value) in CONFIG.data.job" type="button"
@@ -172,14 +172,15 @@
 </div>
 
 
-<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" infinite-scroll="loadMoreJob()" ng-init="init()"
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" infinite-scroll="loadMoreJob()"
+     ng-init="init()"
      infinite-scroll-distance="0">
-    <div class="container">
+    <div class="container" ng-hide="total == 0">
         <div class="card" style="margin-top: 20px;">
             <hr class="transparent mx-1 my-0">
             <div class="callout callout-primary m-0 py-1">
-                <div class="noti" ng-hide="response.total == 0">
-                    <h4>Chúng tôi đã tìm thấy {{response.total}} công việc phù hợp với yêu cầu của bạn</h4>
+                <div class="noti" >
+                    <h4>Chúng tôi đã tìm thấy {{total}} công việc phù hợp đang tuyển gấp của bạn</h4>
                 </div>
             </div>
             <hr class="mx-1 my-0">
@@ -241,21 +242,22 @@
                             <div class="content-bottom-new">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
-                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '-
+                                            '+card.distance + ' km':''}}</i>
                                     </p>
                                 </div>
                                 <!--<button ng-click="like(card,0,card.job)"-->
-                                        <!--type="button"-->
-                                        <!--ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"-->
-                                        <!--class="btn btn-default apply-new">Chọn công việc này-->
+                                <!--type="button"-->
+                                <!--ng-if="card.act.status == 0 && card.act.type == 1 && card.act.jobStore[card.job]"-->
+                                <!--class="btn btn-default apply-new">Chọn công việc này-->
                                 <!--</button>-->
                                 <!--<button ng-click="service.chatToStore[card.storeId]"-->
-                                        <!--type="button" ng-if="card.act.status == 1"-->
-                                        <!--class="btn button-vip">Liên hệ-->
+                                <!--type="button" ng-if="card.act.status == 1"-->
+                                <!--class="btn button-vip">Liên hệ-->
                                 <!--</button>-->
                                 <!--<button ng-disabled-->
-                                        <!--type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"-->
-                                        <!--class="btn btn-warning">Đang chờ phản hồi...-->
+                                <!--type="button" ng-if="card.act.status == 0 && card.act.jobUser[card.job]"-->
+                                <!--class="btn btn-warning">Đang chờ phản hồi...-->
                                 <!--</button>-->
                             </div>
 
@@ -264,23 +266,27 @@
                 </div>
             </div>
         </div>
+
+    </div>
+</div>
+<div class="animated fadeIn" style="min-height: 500px; margin-top: 40px" infinite-scroll="loadMoreJob()"
+     ng-init="init()"
+     infinite-scroll-distance="0">
+    <div class="container" ng-hide="totalGG == 0">
+        <div class="card" style="margin-top: 20px;">
+            <hr class="transparent mx-1 my-0">
+            <div class="callout callout-primary m-0 py-1">
+                <div class="noti"  >
+                    <h4>{{totalGG}} công việc phù hợp mới</h4>
+                </div>
+            </div>
+            <hr class="mx-1 my-0">
+        </div>
         <div class="testimonials testimonials-raised">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in jobCardGoogle">
                     <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
-                        <!--<div class="progress progress-sm" data-toggle="popover"-->
-                        <!--data-trigger="hover"-->
-                        <!--data-content="Bạn có {{card.match}} điểm chung với công việc này. Chúng tôi đánh giá công việc này phù hợp {{card.matchPer}}% với bạn">-->
-                        <!--<div ng-if="card.matchPer >= 90" class="progress-bar bg-gradient"-->
-                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                        <!--aria-valuemax="100"></div>-->
-                        <!--<div ng-if="card.matchPer >= 50 && card.matchPer <= 89" class="progress-bar bg-info"-->
-                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                        <!--aria-valuemax="100"></div>-->
-                        <!--<div ng-if="card.matchPer <= 49" class="progress-bar bg-warning"-->
-                        <!--style="width: {{card.matchPer}}%" aria-valuenow="40" aria-valuemin="0"-->
-                        <!--aria-valuemax="100"></div>-->
-                        <!--</div>-->
+
                         <div class="content_" ui-sref="app.viewstore ({id:card.place_id})">
 
                             <div class="content-top-new">
@@ -319,7 +325,8 @@
                             <div class="content-bottom-new">
                                 <div class="jobseeker-new text-left">
                                     <p>{{card.storeName}}
-                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '-
+                                            '+card.distance + ' km':''}}</i>
                                     </p>
                                 </div>
                                 <!--<button ng-click="like(card,0,card.job)"-->
@@ -345,6 +352,8 @@
 
     </div>
 </div>
+
+
 <div class="spinner" ng-show="loading">
     <div class="cube1"></div>
     <div class="cube2"></div>

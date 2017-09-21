@@ -52,7 +52,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
     <script>
-        var secondConfig = {
+        var Config = {
             apiKey: "AIzaSyAjXzJb9LI2_4hpp9NMwuqFr1CWLavwDPA",
             authDomain: "jobo-b8204.firebaseapp.com",
             databaseURL: "https://jobo-b8204.firebaseio.com",
@@ -60,8 +60,22 @@
             messagingSenderId: "748631498782"
         };
 
-        firebase.initializeApp(secondConfig)
+        firebase.initializeApp(Config)
 
+        var secondConfig = {
+            apiKey: "AIzaSyBb9AvLm1fVvPZj6kkuFiE8DsnE10uaUQo",
+            authDomain: "jobotest-15784.firebaseapp.com",
+            databaseURL: "https://jobotest-15784.firebaseio.com",
+            projectId: "jobotest-15784",
+            storageBucket: "jobotest-15784.appspot.com",
+            messagingSenderId: "206975443131"
+        };
+
+        var secondary = firebase.initializeApp(secondConfig,'secondary')
+
+        var db = secondary.database()
+        var auth = firebase.auth()
+        var messaging = firebase.messaging();
 
     </script>
 </head>
