@@ -146,6 +146,20 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
             })*/
         }
+        //Excel Ctrl
+        $scope.importProfile = function () {
+            axios.get(CONFIG.AnaURL + '/profile/collection')
+                .then(result => toastr.success(`Updated: ${result.data.length} rows`))
+                .catch(err => toastr.error(err));
+        }
+
+        $scope.exportProfile = function () {
+            axios.get(CONFIG.AnaURL + '/profile/export')
+                .then(result => {
+                    toastr.success(`Updated Range: ${result.data.response.updates.updatedRange}`);
+                })
+                .catch(err => toastr.error(err));
+        }
     })
     .controller('employerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
@@ -1249,6 +1263,21 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             }).catch(function (err) {
                 toastr.error('Lỗi')
             });
+        }
+
+        //Excel Ctrl
+        $scope.importLead = function () {
+            axios.get(CONFIG.AnaURL + '/lead/collection')
+                .then(result => toastr.success(`Updated: ${result.data.length} rows`))
+                .catch(err => toastr.error(err));
+        }
+
+        $scope.exportLead = function () {
+            axios.get(CONFIG.AnaURL + '/lead/export')
+                .then(result => {
+                    toastr.success(`Updated Range: ${result.data.response.updates.updatedRange}`);
+                })
+                .catch(err => toastr.error(err));
         }
 
     })
