@@ -96,14 +96,13 @@
 
                     </div>
 
-
                 </div>
             </div>
             <div class="col-md-5">
                 <div ng-repeat="card in dataEmail">
                     <div class="card card-accent-info">
                         <div class="card-header">
-                            <p ng-repeat="(key,value) in card.mail">{{key+':'+ value}}</p><br>
+                            <div ng-repeat="(key,value) in card.mail">{{key}}: <span ng-bind-html="value"></span></div>
                         </div>
                         <div class="card-block">
                             <p ng-repeat="(key,value) in card.sent">{{key}}:{{value| date: 'HH giờ mm dd/MM/yyyy'}}</p><br>
@@ -112,7 +111,6 @@
                 </div>
             </div>
         </div>
-
 
     </div>
     <div class="row">
@@ -209,7 +207,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6 card">
+        <div class="col-lg-6 card" >
 
                 <style type="text/css"> #outlook a {
                     padding: 0;
@@ -297,7 +295,7 @@
                                                 align="left">
                                                 <div class=""
                                                      style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
-                                                    <p>{{mail.description1}}</p></div>
+                                                    <p ng-bind-html="mail.description1"></p></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -350,7 +348,7 @@
                                                 align="left">
                                                 <div class=""
                                                      style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
-                                                    <p>{{mail.description2}}</p></div>
+                                                    <p ng-bind-html="mail.description2"></p></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -407,7 +405,7 @@
                                                 align="left">
                                                 <div class=""
                                                      style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
-                                                    <p>{{mail.description3}}<br>{{CONFIG.WEBURL}}
+                                                    <p ng-bind-html="mail.description3"><br>{{CONFIG.WEBURL}}
                                                 </div>
                                             </td>
                                         </tr>

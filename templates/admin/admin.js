@@ -1246,35 +1246,11 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
                     toastr.success('Đã gửi')
                 }
 
-
             }).catch(function (err) {
                 toastr.error('Lỗi')
             });
         }
-        $scope.getNoti = function (email) {
-            var newfilter = {email}
-            $rootScope.service.JoboApi('api/notification', newfilter).then(function (response) {
 
-                $scope.dataEmail = []
-                if(!response.data.data) return
-
-                angular.forEach(response.data.data, function (data) {
-                    var newData = {notiId: data.notiId, userData: data.userData, mail: data.mail, channel: data.channel}
-
-                    var obj = Object.assign({}, data)
-                    delete obj._id;
-                    delete obj.notiId;
-                    delete obj.userData;
-                    delete obj.mail;
-                    delete obj.channel;
-                    newData.sent = obj
-                    $scope.dataEmail.push(newData)
-                })
-
-            }).catch(function (err) {
-                toastr.error(err)
-            });
-        }
     })
     .controller('emailCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
@@ -1332,7 +1308,61 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
     })
     .controller('scheduleCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
 
-        $scope.newfilter = {}
+        $scope.newfilter = {};
+
+        $http({
+            method: 'GET',
+            url: 'https://joboana.herokuapp.com/getallpost'
+        }).then(function successCallback(response) {
+            const posts = response.data;
+            const length = posts.length;
+            const posted = posts.filter(post => post.id != null).length;
+            const alive = posts.filter(post => {
+                if (post.checks && post.checks[0] && post.checks[post.checks.length - 1].error) return true;
+                else return false;
+            }).length;
+            const godTimes = [];
+            for (let hour = 0; hour < 24; hour++) {
+                godTimes[hour] = {
+                    post: posts.filter(post => new Date(post.sent).getHours() === hour).length,
+                    comments: posts.map(post => {
+                        if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].comments) return post.checks[post.checks.length - 1].comments;
+                        else return 0;
+                    }).reduce((sum, value) => sum + value, 0),
+                    reactions: {
+                        like: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.like;
+                            else return 0;
+                        }).reduce((sum, value) => sum + value, 0),
+                        love: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.love;
+                            else return 0;
+                        }).reduce((sum, value) => sum + value, 0),
+                        haha: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.haha;
+                            else return 0;
+                        }).reduce((sum, value) => sum + value, 0),
+                        sad: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.sad;
+                            else return 0;
+                        }).reduce((sum, value) => sum + value, 0),
+                        angry: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.angry;
+                            else return 0;
+                        }).reduce((sum, value) => sum + value, 0)
+                    }
+                }
+            }
+
+            $timeout(function () {
+                $scope.length = length;
+                $scope.alive = alive;
+                $scope.posted = posted;
+                $scope.godTimes = godTimes;
+            })
+        }, function (error) {
+            console.log(error)
+        })
 
         $scope.pagingSchedules = function (newfilter, p) {
             newfilter.p = p
@@ -1364,8 +1394,8 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             if (!schedule) return;
             const time = new Date(schedule.time).getTime() || undefined;
             const {content, job, poster, where} = schedule;
-            axios.post(APIURL + '/PostText2Store', {
-                text: content,
+            axios.post(CONFIG.APIURL + '/PostText2Store', {
+                content,
                 job,
                 poster,
                 where,

@@ -49,9 +49,6 @@
 </div>
 
 
-
-
-
 <section id="features" class="features">
     <div class="container">
         <div class="row">
@@ -67,7 +64,8 @@
                 <div class="feature-item">
                     <i class="icon-user-following text-primary"></i>
                     <h3>1. Gửi yêu cầu công việc</h3>
-                    <p>Chọn vị trí bạn cần tuyển và nhập mô tả cụ thể. Hệ thống của chúng tôi sẽ lọc thông minh ra các ứng viên phù hợp và gửi đề xuất đến cho họ.</p>
+                    <p>Chọn vị trí bạn cần tuyển và nhập mô tả cụ thể. Hệ thống của chúng tôi sẽ lọc thông minh ra các
+                        ứng viên phù hợp và gửi đề xuất đến cho họ.</p>
                     <small>2 phút</small>
                 </div>
             </div>
@@ -75,7 +73,8 @@
                 <div class="feature-item">
                     <i class="icon-envelope-letter text-primary"></i>
                     <h3>2. Chọn ứng viên phù hợp</h3>
-                    <p>Jobo sẽ gửi danh sách các ứng viên phù hợp với yêu cầu của bạn. Hãy chọn những ứng viên bạn thích trong danh sách đó, hoặc nếu bạn không có thời gian, Jobo sẽ chọn thay bạn.</p>
+                    <p>Jobo sẽ gửi danh sách các ứng viên phù hợp với yêu cầu của bạn. Hãy chọn những ứng viên bạn thích
+                        trong danh sách đó, hoặc nếu bạn không có thời gian, Jobo sẽ chọn thay bạn.</p>
                     <small>Tuỳ thuộc vào deadline</small>
 
                 </div>
@@ -86,13 +85,16 @@
                     <h3>3. Gặp mặt và nhận việc</h3>
 
 
-                    <p>Xác nhận lại thời gian và địa điểm để bạn gặp ứng viên và bắt đầu công việc! Trong quá trình ứng viên nhận việc, bạn có thể gửi đánh giá về từng ứng viên để đảm bảo công việc của bạn được hoàn thành tốt nhất</p>
+                    <p>Xác nhận lại thời gian và địa điểm để bạn gặp ứng viên và bắt đầu công việc! Trong quá trình ứng
+                        viên nhận việc, bạn có thể gửi đánh giá về từng ứng viên để đảm bảo công việc của bạn được hoàn
+                        thành tốt nhất</p>
                 </div>
             </div>
         </div>
         <div class="btn-area text-center">
             <a class="typeform-share button" href="/signup/1#ref=howitwork"
-               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Đăng tin miễn phí </a>
+               style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Đăng
+                tin miễn phí </a>
         </div>
     </div>
 </section>
@@ -715,7 +717,7 @@
     </div>
     <div class="list-profile">
         <div class="row row-s">
-            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard" ng-if="card.job[newfilter.job]">
+            <div class="col-xs-12 col-md-6 col-lg-4 col-s" ng-repeat="card in UserCard">
                 <!-- Normal Demo-->
                 <!-- Post-->
 
@@ -774,27 +776,24 @@ right: 0px;bottom: 0px;">
 <div class="animated fadeIn container">
     <div class="wpb_wrapper text-center">
         <div class="section-heading">
-            <h2>Hơn {{StoreCard.length}}++ đối tác đã tin tưởng Jobo </h2>
+            <h2>Hơn 2300++ đối tác đã tin tưởng Jobo </h2>
         </div>
     </div>
-    <div class="spinner" ng-show="!UserCard">
-        <div class="cube1"></div>
-        <div class="cube2"></div>
-    </div>
-    <div class="list-profile">
-        <div class="row row-s">
-            <div class="col-xs-3 col-md-2 col-lg-2" ng-repeat="card in StoreCard" ng-if="card.job[newfilter.job]">
-                <img src="{{card.avatar || 'img/macdinh.jpg'}}" width="100%" style="margin-bottom: 30px">
-            </div>
+
+    <div class="row">
+        <div class="col-md-3" ng-repeat="card in StoreCard">
+            <button type="button" class="btn btn-link btn-sm">{{card}}</button>
         </div>
+    </div>
+    <div class="btn-area text-center" style="margin-top: 40px">
+        <a class="typeform-share button" href="/signup/1#ref=parter"
+           style="display:inline-block;text-decoration:none;background-color:#f498bc;color:white;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:18px;line-height:45px;text-align:center;margin:0;height:45px;padding:0px 30px;border-radius:0px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;">Đăng
+            tin miễn phí </a>
     </div>
 </div>
 
 
-
 <!--Why should jobo web-->
-
-
 
 
 <div class="section-heading text-center" style="margin-top:30px;">
@@ -827,9 +826,10 @@ right: 0px;bottom: 0px;">
                 </div>
             </div>
             <div class="col-md-8" style="margin-top: 15px;">
-            <span >
+            <span>
                 <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F561654820892219%2F&show_text=0&width=560"
-                        width="100%" height="355" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+                        width="100%" height="355" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                        allowTransparency="true" allowFullScreen="true"></iframe>
             </span>
             </div>
         </div>
@@ -870,11 +870,10 @@ right: 0px;bottom: 0px;">
             <h3>Về chúng tôi</h3>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://about.joboapp.com">Jobo là gì</a></li>
-                <li><a href="https://joboapp.com/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
-                <li><a href="https://about.joboapp.com/contact">Liên hệ</a></li>
-                <li><a href="https://about.joboapp.com/faq#terms">Terms</a></li>
-                <li><a href="http://about.joboapp.com/faq#privacy">Privacy</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://blog.joboapp.com/contact">Liên hệ</a></li>
+                <li><a href="https://blog.joboapp.com/faq#terms">Terms</a></li>
+                <li><a href="http://blog.joboapp.com/faq#privacy">Privacy</a></li>
             </ul>
 
         </div>
@@ -882,16 +881,15 @@ right: 0px;bottom: 0px;">
             <h5>Cho ứng viên</h5>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="/signup/2">Tạo hồ sơ</a></li>
-                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
-                <li><a href="https://about.joboapp.com/refer">Refer</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/signup/2">Tạo hồ sơ</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/refer">Refer</a></li>
             </ul>
             <h5>Cho nhà tuyển dụng</h5>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://joboapp.com/sigup/1">Đăng việc làm miễn phí</a></li>
-                <li><a href="https://about.joboapp.com/service">Dịch vụ</a></li>
-                <li><a href="https://about.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
 
             </ul>
         </div>

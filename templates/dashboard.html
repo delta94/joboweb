@@ -656,69 +656,7 @@
             ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
             style="border:solid 1px #00a67c">Hà Nội
     </button>
-    <button ui-sref="app.sdash ({job: key})" ng-if="showjob==2" ng-repeat="(key,value) in catalog.sg" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
-    <button ui-sref="app.sdash ({job: key})" ng-if="showjob==3" ng-repeat="(key,value) in catalog.hn" type="button" class="btn btn-link btn-sm">{{Lang[key] || key}}({{value}})</button>
-
 </div>
-<div class="animated fadeIn" ng-show="showjob == 1" style="min-height: 500px; margin-top: 40px">
-    <div class="container">
-        <div class="testimonials testimonials-raised">
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.ss">
-                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
-                        <div class="content_">
-                            <div class="content-top-new">
-                                <div class="row">
-                                    <div class="logo-restaurant-new pull-left">
-                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
-                                    </div>
-                                    <div class="logo-job-new pull-right">
-                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
-||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
-||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
-                                             height="80px">
-                                    </div>
-                                </div>
-                                <div class="row main-content-new">
-                                    <table>
-                                        <tr>
-                                            <td class="job-new"
-                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
-                                                {{card.jobName}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="time-new" itemprop="description">
-                                                {{CONFIG.data.working_type[card.working_type]}}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="price-new">{{card.salary? card.salary +' triệu ':''}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        <div class="content-bottom-new text-center">
-                                <div class="jobseeker-new text-left">
-                                    <p>{{card.storeName}}
-                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '- '+card.distance + ' km':''}}</i>
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div align="center" style="margin-top: 20px;">
-            <a ui-sref="app.sdash" role="button"
-               style="background-color: #00b3ee; padding:10px 30px;color:#fff;">
-                Xem tất cả</a>
-        </div>
-    </div>
-</div>
-
 
 <!--Sai Gon-->
 
@@ -780,7 +718,6 @@
                 Xem thêm  (2342 công việc)</a>
         </div>
     </div>
-</div>
 <!--Ha noi-->
 
 <div class="animated fadeIn" ng-show="showjob == 3" style="min-height: 500px; margin-top: 40px">
@@ -1031,7 +968,7 @@ right: 0px;bottom: 0px;">
             <img src="img/logo.png" width="100px">
 
             <p style="margin: 0"><i class="icon-phone text-primary"></i> +84 968 269 860</p>
-            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@jobo.asia</p>
+            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@joboapp.com</p>
 
             <div style="padding: 16px 0">
                 <p>
@@ -1056,11 +993,10 @@ right: 0px;bottom: 0px;">
             <h3>Về chúng tôi</h3>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://blog.jobo.asia/faq">Jobo là gì</a></li>
-                <li><a href="https://jobo.asia/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
-                <li><a href="https://blog.jobo.asia/contact">Liên hệ</a></li>
-                <li><a href="https://blog.jobo.asia/faq#terms">Terms</a></li>
-                <li><a href="http://blog.jobo.asia/faq#privacy">Privacy</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://blog.joboapp.com/contact">Liên hệ</a></li>
+                <li><a href="https://blog.joboapp.com/faq#terms">Terms</a></li>
+                <li><a href="http://blog.joboapp.com/faq#privacy">Privacy</a></li>
             </ul>
 
         </div>
@@ -1068,16 +1004,15 @@ right: 0px;bottom: 0px;">
             <h5>Cho ứng viên</h5>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="/signup/2">Tạo hồ sơ</a></li>
-                <li><a href="https://blog.jobo.asia/faq">Câu hỏi thường gặp</a></li>
-                <li><a href="https://blog.jobo.asia/refer">Refer</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/signup/2">Tạo hồ sơ</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/refer">Refer</a></li>
             </ul>
             <h5>Cho nhà tuyển dụng</h5>
 
             <ul class="extra-links" style="list-style-type: none;">
-                <li><a href="https://jobo.asia/sigup/1">Đăng việc làm miễn phí</a></li>
-                <li><a href="https://blog.jobo.asia/service">Dịch vụ</a></li>
-                <li><a href="https://blog.jobo.asia/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
 
             </ul>
         </div>
@@ -1091,7 +1026,6 @@ right: 0px;bottom: 0px;">
                         src="img/app-store-badge.svg" alt=""></a>
             </div>
             &copy; Made with <i class="icon icon-heart"></i> in Hanoi .
-
         </div>
 
     </div>

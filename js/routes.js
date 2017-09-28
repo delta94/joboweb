@@ -1,7 +1,7 @@
 angular
     .module('app')
     .config(['CONFIG', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function (CONFIG, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider, $locationProvider) {
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/hiring');
 
         $locationProvider.html5Mode(CONFIG.Location)
         $locationProvider.hashPrefix('!');
@@ -59,7 +59,6 @@ angular
                 templateUrl: 'templates/page/link.html',
                 controller: 'shortlinkCtrl'
             })
-
 
             .state('signup', {
                 url: '/signup/:id?apply&job',
@@ -153,10 +152,16 @@ angular
                     }]
                 }
             })
+
             .state('app.hiring', {
                 url: '/hiring?job',
                 templateUrl: 'templates/hiring.html',
                 controller: 'hiringCtrl'
+            })
+            .state('app.refer', {
+                url: '/refer?email',
+                templateUrl: 'templates/refer.html',
+                controller: 'referCtrl'
             })
             .state('app.findjob', {
                 url: '/',

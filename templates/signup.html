@@ -15,6 +15,17 @@
                 <div class="card mx-2">
                     <div class="card-block p-2 header-signup">
                         <h1>Đăng ký</h1>
+                        <div class="float-right job-tab">
+                            <button type="button" class="btn btn-link btn-sm" ui-sref="signup ({id:2})"
+                                    ng-class="{'active-tab-green' : type == 2, 'active-tab-white' :type != 2}"
+                                    style="border:solid 1px #00a67c">Ứng viên
+                            </button>
+                            <button type="button" class="btn btn-link btn-sm" ui-sref="signup ({id:1})"
+                                    ng-class="{'active-tab-green' : type == 1, 'active-tab-white' :type != 1}"
+                                    style="border:solid 1px #00a67c">Nhà tuyển dụng
+                            </button>
+                        </div>
+
                         <p class="text-muted" ng-if="type == 1">Tạo tài khoản nhà tuyển dụng</p>
                         <p class="text-muted" ng-if="type == 2">Tạo tài khoản ứng viên</p>
                         <button class="button btn btn-facebook btn-block" ng-click="facebookLogin(type)">
@@ -22,11 +33,17 @@
                         </button>
                         <hr class="mx-1" >
                         <form name="signupForm" ng-submit="doSignup(userSignup)" autocomplete="off">
+                            <div class="input-group mb-1" ng-if="type == 1">
+                                <span class="input-group-addon">S</span>
+                                <input name="storeName" class="form-control" placeholder="Tên thương hiệu"
+                                       ng-model="userSignup.storeName" required>
+                            </div>
                             <div class="input-group mb-1" ng-class="{ 'has-danger' : signupForm.email.$invalid && !signupForm.email.$pristine , 'has-success' : signupForm.email.$valid }">                                <span class="input-group-addon">@</span>
                                 <input type="email" name="email" class="form-control" placeholder="Đăng ký bằng Email" id="email"
                                        ng-model="userSignup.username" required>
                                 <i class="fa fa-check fa-2x" style="color: #00ff00" ng-show="signupForm.email.$valid"></i>
                             </div>
+
 
                             <button ng-disabled="!userSignup.username" type="submit" class="btn btn-block btn-primary main-backgroud">Đăng ký</button>
                         </form>

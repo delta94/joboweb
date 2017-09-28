@@ -1,0 +1,24 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">ViewInbox?</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="card in dataEmail">
+                    <div class="card card-accent-info">
+                        <div class="card-header">
+                            <div ng-repeat="(key,value) in card.mail">{{key}}: <span
+                                    ng-bind-html="value"></span></div>
+                        </div>
+                        <div class="card-block">
+                            <p ng-repeat="(key,value) in card.sent">{{key}}:{{value| date: 'HH giờmm dd/MM/yyyy'}}</p><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

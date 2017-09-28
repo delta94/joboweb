@@ -1,0 +1,397 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">ViewSendNotification</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="card">
+                    <div class="card-header">
+                        Gửi mail
+                    </div>
+                    <div class="card-block">
+                        <div class="form-group row">
+                            <label class="col-md-5 form-control-label">dataEmail</label>
+                            <div class="col-md-7">
+                                <label class="switch switch-3d switch-primary">
+                                    <input ng-model="newfilter.dataEmail" type="checkbox"
+                                           class="switch-input" checked="">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-5 form-control-label">dataLead</label>
+                            <div class="col-md-7">
+                                <label class="switch switch-3d switch-primary">
+                                    <input ng-model="newfilter.dataLead" type="checkbox"
+                                           class="switch-input" checked="">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-5 form-control-label">dataUser</label>
+                            <div class="col-md-7">
+                                <label class="switch switch-3d switch-primary">
+                                    <input ng-model="newfilter.dataUser" type="checkbox"
+                                           class="switch-input" checked="">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" ng-model="newfilter.type" name="text-input" class="form-control"
+                                       placeholder="type">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" ng-model="newfilter.email" name="text-input" class="form-control"
+                                       placeholder="email">
+                            </div>
+                        </div>
+                        {{respondSend.numberSent}}
+                    </div>
+                    <button ng-click="service.viewSendEmail(newfilter,mail)" class="btn btn-sm btn-danger"> Viewlist
+                    </button>
+
+                    <div class="card-block">
+                        <form action="" method="post" enctype="multipart/form-data"
+                              class="form-horizontal ng-pristine ng-valid">
+
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">Title</label>
+                                <div class="col-md-9">
+                                    <input type="text" ng-model="mail.title" name="text-input" class="form-control"
+                                           placeholder="Text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">Body</label>
+                                <div class="col-md-9">
+                                   <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                             ng-model="mail.body" placeholder="Tóm tắt nội dung"
+                                             style="height: 100px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">From Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" ng-model="mail.name" name="text-input"
+                                           class="form-control"
+                                           placeholder="Text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">from Email</label>
+                                <div class="col-md-9">
+                                    <input type="text" ng-model="mail.address" name="text-input" class="form-control"
+                                           placeholder="Text">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">Body</label>
+                                <div class="col-md-9">
+
+                                <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                          ng-model="mail.description1" placeholder="..."
+                                          style="height: 100px;"></textarea>
+                                    <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                              ng-model="mail.description2" placeholder="..."
+                                              style="height: 100px;"></textarea>
+                                    <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                              ng-model="mail.description3" placeholder="..."
+                                              style="height: 100px;"></textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label">Gửi kèm danh sách</label>
+                                <div class="col-md-9">
+                                    <label class="switch switch-3d switch-primary">
+                                        <input ng-model="mail.profileList" type="checkbox"
+                                               class="switch-input" checked="">
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-sm btn-primary"
+                                ng-click="service.sendEmail(newfilter, mail)"><i
+                                class="fa fa-dot-circle-o"></i> Submit
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="card">
+
+                    <style type="text/css"> #outlook a {
+                        padding: 0;
+                    }
+
+                    .ReadMsgBody {
+                        width: 100%;
+                    }
+
+                    .ExternalClass {
+                        width: 100%;
+                    }
+
+                    .ExternalClass * {
+                        line-height: 100%;
+                    }
+
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        -webkit-text-size-adjust: 100%;
+                        -ms-text-size-adjust: 100%;
+                    }
+
+                    table, td {
+                        border-collapse: collapse;
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                    }
+
+                    img {
+                        border: 0;
+                        height: auto;
+                        line-height: 100%;
+                        outline: none;
+                        text-decoration: none;
+                        -ms-interpolation-mode: bicubic;
+                    }
+
+                    p {
+                        display: block;
+                        margin: 13px 0;
+                    } </style> <!--[if !mso]><!-->
+                    <style type="text/css"> @media only screen and (max-width: 480px) {
+                        @-ms-viewport {
+                            width: 320px;
+                        } @viewport {
+                            width: 320px;
+                        }
+                    } </style> <!--<![endif]--> <!--[if mso]>
+                    <xml>
+                        <o:OfficeDocumentSettings>
+                            <o:AllowPNG/>
+                            <o:PixelsPerInch>96</o:PixelsPerInch>
+                        </o:OfficeDocumentSettings>
+                    </xml><![endif]--> <!--[if lte mso 11]>
+                    <style type="text/css"> .outlook-group-fix {
+                        width: 100% !important;
+                    }</style><![endif]-->
+                    <style type="text/css"> @media only screen and (min-width: 480px) {
+                        .mj-column-per-33 {
+                            width: 33.333333333333336% !important;
+                        }
+                    } </style>
+                    <div> <!--[if mso | IE]>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tr>
+                                <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"> <![endif]-->
+                        <div style="margin:0px auto;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;"
+                                   align="center" border="0">
+                                <tbody>
+                                <tr>
+                                    <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                        <!--[if mso | IE]>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align:top;width:600px;"> <![endif]-->
+                                        <div class="mj-column-per-100 outlook-group-fix"
+                                             style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                            <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+                                                   border="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;"
+                                                        align="left">
+                                                        <div class=""
+                                                             style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                                                            <p ng-bind-html="mail.description1"></p></div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--[if mso | IE]> </td></tr></table> <![endif]--> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso | IE]> </td></tr></table> <![endif]--> <!--[if mso | IE]>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="500" align="center"
+                               style="width:500px;">
+                            <tr>
+                                <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"> <![endif]-->
+                        <div style="margin:0px auto;max-width:500px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;"
+                                   align="center" border="0">
+                                <tbody>
+                                <tr>
+                                    <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                        <!--[if mso | IE]>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr><!--[if mso | IE]> </td></tr></table> <![endif]--> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso | IE]> </td></tr></table> <![endif]--> <!--[if mso | IE]>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center"
+                               style="width:600px;">
+                            <tr>
+                                <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"> <![endif]-->
+                        <div style="margin:0px auto;max-width:600px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;"
+                                   align="center" border="0">
+                                <tbody>
+                                <tr>
+                                    <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                        <!--[if mso | IE]>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align:top;width:600px;"> <![endif]-->
+                                        <div class="mj-column-per-100 outlook-group-fix"
+                                             style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                            <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+                                                   border="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;"
+                                                        align="left">
+                                                        <div class=""
+                                                             style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                                                            <p ng-bind-html="mail.description2"></p></div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--[if mso | IE]> </td></tr></table> <![endif]--> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso | IE]> </td></tr></table> <![endif]--> <!--[if mso | IE]>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center"
+                               style="width:600px;">
+                            <tr>
+                                <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"> <![endif]-->
+                        <div style="margin:0px auto;max-width:600px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;"
+                                   align="center" border="0">
+                                <tbody>
+                                <tr>
+                                    <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                        <!--[if mso | IE]>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="vertical-align:top;width:600px;"> <![endif]-->
+                                        <div class="mj-column-per-100 outlook-group-fix"
+                                             style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                            <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+                                                   border="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                        <p
+                                                                style="font-size:1px;margin:0px auto;border-top:1px solid #E0E0E0;width:100%;"></p>
+                                                        <!--[if mso | IE]>
+                                                        <table role="presentation" align="center" border="0"
+                                                               cellpadding="0"
+                                                               cellspacing="0"
+                                                               style="font-size:1px;margin:0px auto;border-top:1px solid #E0E0E0;width:100%;"
+                                                               width="600">
+                                                            <tr>
+                                                                <td style="height:0;line-height:0;"></td>
+                                                            </tr>
+                                                        </table><![endif]--> </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--[if mso | IE]> </td>
+                                    <td style="vertical-align:top;width:600px;"> <![endif]-->
+                                        <div class="mj-column-per-80 outlook-group-fix"
+                                             style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                            <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+                                                   border="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;"
+                                                        align="left">
+                                                        <div class=""
+                                                             style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
+                                                            <p ng-bind-html="mail.description3"><br>{{CONFIG.WEBURL}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--[if mso | IE]> </td>
+                                    <td style="vertical-align:top;width:600px;"> <![endif]-->
+                                        <div class="mj-column-per-20 outlook-group-fix"
+                                             style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                            <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+                                                   border="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;"
+                                                        align="left">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0"
+                                                               style="border-collapse:collapse;border-spacing:0px;"
+                                                               align="left"
+                                                               border="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td style="width:70px;"><img alt="" title=""
+                                                                                             height="auto"
+                                                                                             src="{{CONFIG.WEBURL}}/img/logo.png"
+                                                                                             style="border:none;border-radius:;display:block;outline:none;text-decoration:none;width:100%;height:auto;"
+                                                                                             width="70"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--[if mso | IE]> </td></tr></table> <![endif]--> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--[if mso | IE]> </td></tr></table> <![endif]--></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

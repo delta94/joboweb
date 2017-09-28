@@ -7,49 +7,26 @@
                 <div class="card-header">
                     1. Lọc ứng viên theo nhu cầu
                 </div>
+
                 <div class="card-block">
                     <div class="row">
-                        <div class="col-md-3">
-                            <fieldset class="form-group">
+
+                        <div class="col-md-3" ng-repeat="(key,value) in emailList[0]">
+                            <fieldset class="form-group" >
                                 <label>Email </label>
                                 <div class="input-group mb-1">
-                                    <input  type="text" class="form-control"
-                                           placeholder="Email"
-                                           ng-model="newfilter.email" id="email" name="email">
+                                    <input class="form-control"
+                                           placeholder="{{key}}"
+                                           ng-model="newfilter[key]">
                                 </div>
                             </fieldset>
-                            <fieldset class="form-group">
-                                <label>from </label>
-                                <div class="input-group mb-1">
-                                    <input  type="text" class="form-control"
-                                            placeholder="Email"
-                                            ng-model="newfilter.from" id="email" name="email">
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <label class="col-md-5 form-control-label">headhunter</label>
-                                <div class="col-md-7">
-                                    <label class="switch switch-3d switch-primary">
-                                        <input ng-model="newfilter.headhunter" type="checkbox"
-                                               class="switch-input" checked="">
-                                        <span class="switch-label"></span>
-                                        <span class="switch-handle"></span>
-                                    </label>
-                                </div>
-                            </div>
-
 
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-lg" ng-click="createHospital(newfilter)">
-                                Tiến
-                                hành
-                                lọc
-                            </button>
-
-                        </div>
+                        <button type="button" class="btn btn-primary btn-lg" ng-click="createHospital(newfilter)">
+                            Tiến
+                            hành
+                            lọc
+                        </button>
                     </div>
                 </div>
             </div>
@@ -66,22 +43,14 @@
                         <table class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>Fullname</th>
-                                <th>Email</th>
-                                <th>Date Added</th>
-                                <th>Ref</th>
-                                <th>Data</th>
+                                <th ng-repeat="(key,value) in emailList[0]">{{key}}</th>
 
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="card in emailList track by $index">
 
-                                <td>{{card.name}}</td>
-                                <td>{{card.email}}</td>
-                                <td>{{card.createdAt | date}}</td>
-                                <td>{{card.from}}</td>
-                                <td>{{card}}</td>
+                                <td ng-repeat="(key,value) in card"> {{value}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -93,13 +62,9 @@
                                 show-prev-next="true"
                                 show-first-last="true">
                         </paging>
-
                     </div>
-
-
                 </div>
             </div>
-
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -168,7 +133,7 @@
                         Gửi mail
                     </div>
                     <div class="card-block">
-                        <form action="" method="post" enctype="multipart/form-data"
+                        <form method="post" enctype="multipart/form-data"
                               class="form-horizontal ng-pristine ng-valid">
 
                             <div class="form-group row">

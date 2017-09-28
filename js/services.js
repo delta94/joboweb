@@ -9,18 +9,22 @@
 
     .service('AuthUser', function ($rootScope, $q, toastr, ModalService, $http, CONFIG, $timeout, $state) {
 
-
         this.user = function () {
             var output = {},
                 deferred = $q.defer();
 
             auth.onAuthStateChanged(function (user) {
                 console.log('Auth')
+                console.time('a')
+
                 if (user) {
                     $rootScope.userId = user.uid;
                     $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
                         $rootScope.userData = res.data;
                         $rootScope.type = $rootScope.userData.type;
+                        if ($rootScope.userData.admin) {
+                            $rootScope.adminId = $rootScope.userId
+                        }
 
                     })
                     $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
@@ -43,7 +47,7 @@
                             $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
                             $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
                             $rootScope.reactList = user.reactList;
-                            $rootScope.$broadcast('handleBroadcast', $rootScope.userId);
+                            console.timeEnd('a')
                         } else {
                             toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
                         }
@@ -80,6 +84,75 @@
 
 
         }
+        this.viewInbox = function (email) {
+            ModalService.showModal({
+                templateUrl: "templates/modals/ViewInbox.html",
+                controller: "ModalCtrlViewInbox",
+                inputs: {
+                    email
+                }
+            }).then(function (modal) {
+                // The modal object has the element built, if this is a bootstrap modal
+                // you can call 'modal' to show it, if it's a custom modal just show or hide
+                // it as you need to.
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    $scope.message = result ? "You said Yes" : "You said No";
+                });
+            });
+
+        }
+        this.viewSendNotification = function (card) {
+            ModalService.showModal({
+                templateUrl: "templates/modals/ViewSendNotification.html",
+                controller: "ModalCtrlViewSendNotification",
+                inputs: {
+                    card
+                }
+            }).then(function (modal) {
+                // The modal object has the element built, if this is a bootstrap modal
+                // you can call 'modal' to show it, if it's a custom modal just show or hide
+                // it as you need to.
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    $scope.message = result ? "You said Yes" : "You said No";
+                });
+            });
+
+        }
+        this.sendEmail = function (newfilter, mail) {
+            if (newfilter.time) {
+                newfilter.time = new Date(newfilter.time).getTime()
+            }
+            console.log(newfilter)
+
+            var params = {newfilter, mail}
+
+            axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
+                .then(function successCallback(response) {
+                    console.log("respond", response);
+                }, function (error) {
+                    console.log(error)
+                })
+        }
+        this.viewSendEmail = function (newfilter, mail) {
+            newfilter.action = 0
+            console.log(newfilter)
+
+
+            var params = {newfilter, mail}
+
+            axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
+                .then(function (response) {
+                    $rootScope.respondSend = response.data
+                    console.log("respond", response);
+                    toastr.info('sent',$rootScope.respondSend.numberSent)
+                }, function (error) {
+                    console.log(error)
+                })
+        }
+
+
         this.sendVerifyEmail = function (userId) {
             console.log('sendVerifyEmail')
             $rootScope.service.JoboApi('sendverify', {id: userId})
@@ -157,7 +230,7 @@
             }
         };
         this.userLike = function (card, action, jobOffer) {
-            return new Promise(function (resolve,reject) {
+            return new Promise(function (resolve, reject) {
                 $rootScope.jobOffer = {};
                 var selectedJob = {}
                 selectedJob[jobOffer] = new Date().getTime()
@@ -213,13 +286,13 @@
                         } else {
                             $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
                             toastr.error('Bạn ở cách nhà tuyển dụng này ' + distance + ' km', 'Bạn ở quá xa nhà tuyển dụng, không thể apply');
-                            reject({code:'error',msg:'too long'})
+                            reject({code: 'error', msg: 'too long'})
                         }
                     } else {
                         $rootScope.service.Ana('like-error', {storeId: card.storeId, job: jobOffer});
                         toastr.error('Bạn cần cập nhật ảnh đại diện và tên để ứng tuyển');
                         $state.go('profile')
-                        reject({code:'error',msg:'too long'})
+                        reject({code: 'error', msg: 'too long'})
                     }
 
                 } else {
@@ -228,7 +301,7 @@
                     } else {
                         $state.go('signup', {id: 2, apply: card.storeId, job: jobOffer})
                     }
-                    reject({code:'error',msg:'Chỉ có ứng viên mới có thể ứng tuyển vào vị trí này!'})
+                    reject({code: 'error', msg: 'Chỉ có ứng viên mới có thể ứng tuyển vào vị trí này!'})
 
                 }
             })
@@ -961,7 +1034,46 @@
             var txtInput; // ^^^
 
         }
+        this.addAdminNote = function (type, id, note) {
+            console.log(note)
+            var data = {
+                type, id,
+                note: {
+                    note: note,
+                    id: Math.round(Math.random() * 1000000),
+                    date: Date.now(),
+                    adminId: $rootScope.userId
+                }
+            }
+            console.log(data)
 
+            axios.post(CONFIG.APIURL + '/addAdminNote', data).then(function (result) {
+                if (result.data.err) {
+                    console.log(result.data)
+                } else {
+                    toastr.info('added')
+                }
+            }).catch(function (err) {
+                toastr.error(err)
+
+            })
+        }
+        this.showAndHide = function (id) {
+            if (!$rootScope.showHideData) {
+                $rootScope.showHideData = {}
+            }
+            if ($rootScope.showHideData[id]) {
+                $timeout(function () {
+                    $rootScope.showHideData[id] = false
+                })
+            } else {
+                $timeout(function () {
+                    $rootScope.showHideData[id] = true
+                })
+            }
+
+
+        }
         this.showphone = function (chatedId) {
             $rootScope.service.Ana('showPhone', {chatedId: chatedId})
             ModalService.showModal({
@@ -973,14 +1085,14 @@
                     console.log(result)
                     if (result == 1) {
                         $rootScope.service.Ana('confirmShowPhone', {chatedId: chatedId})
-                        if ($rootScope.userData.credit >= 30) {
+                        if ($rootScope.userData.credit >= $rootScope.CONFIG.price) {
                             var likeAct = db.ref('activity/like/' + $rootScope.storeId + ':' + chatedId);
                             likeAct.update({
                                 showContact: new Date().getTime()
                             })
                             $rootScope.service.JoboApi('update/user', {
                                 userId: $rootScope.userId,
-                                user: {credit: $rootScope.userData.credit - 30}
+                                user: {credit: $rootScope.userData.credit - $rootScope.CONFIG.price}
                             });
                             if ($rootScope.chatUser.act && $rootScope.chatUser.act.showContact) {
                                 $rootScope.service.JoboApi('on/user', {userId: chatedId}).then(function (data) {

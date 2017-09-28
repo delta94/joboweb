@@ -72,6 +72,7 @@
 
         <ul class="nav navbar-nav ml-auto" ng-show="type == 2">
             <li class="nav-item">
+
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
                     <i class="icon-bell"></i>
@@ -140,6 +141,13 @@
                 <a class="nav-link  navbar-toggler aside-menu-toggler" href="#">&#9776;</a>
             </li>
         </ul>
+        <label class="switch switch-default switch-pill switch-primary" ng-if="userData.admin"
+               style="float: right">
+            <input type="checkbox" class="switch-input" checked="{{userData.admin}}"
+                   ng-model="userData.admin" >
+            <span class="switch-label"></span>
+            <span class="switch-handle"></span>
+        </label>
         <ul class="nav navbar-nav ml-auto" ng-show="type == 1">
             <li class="nav-item">
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -223,7 +231,6 @@
                     </div>
                     <div class="divider"></div>
                     <a class="dropdown-item" href="/store/new"><i class="fa fa-plus"></i> Thêm cửa hàng</a>
-
 
                 </div>
             </li>

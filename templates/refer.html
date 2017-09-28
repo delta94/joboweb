@@ -1,0 +1,346 @@
+﻿<div class="section section-header"
+     style="padding-top: 0px; margin-top: 0px; background-image: url('img/banner.jpg'); background-position: center;
+     background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
+    <div class="info" style="margin-top: 0px; float: left">
+        <div style="margin-top: 100px">
+            <form accept-charset="UTF-8" autocomplete="off">
+                <h1>Giới thiệu việc làm cho bạn bè, nhận hoa hồng cực lớn</h1>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="why-use">
+    <div class="container">
+        <div class="section-heading text-center" style="margin-top:30px;">
+            <h2>Tại sao nên tham gia chương trình Freelance Headhunter</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-why text-center">
+                    <img src="img/iMoney2.png" alt="">
+                    <h4>Hoa hồng hấp dẫn</h4>
+                    <p>Hoa hồng vô cùng hấp dẫn (lên đến 1,000,000đ khi người giới thiệu ứng tuyển thành công) </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/24h2.png" width="75px">
+                    <h4>Thời gian thoải mái</h4>
+                    <p>Hệ thống quản lý thông tin minh bạch và rõ ràng. Bạn có thể tự kiểm tra kết quả công việc của
+                        mình.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-why  text-center">
+                    <img src="img/star2.png" alt="" width="70px">
+                    <h4>Hỗ trợ 24/7</h4>
+                    <p>Hỗ trợ chuyên nghiệp và nhanh chóng. Bất cứ khi nào có khó khăn bạn có thể liên hệ ngay với Jobo
+                        để nhận được sự hỗ trợ.</p>
+                </div>
+            </div>
+        </div>
+        <fieldset class="form-group" style="width: 300px">
+            <div class="input-group">
+                <input type="email" id="input2-group2" ng-model="newEmail"
+                       name="input2-group2" class="form-control" placeholder="Điền email của bạn">
+                <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="service.changeEmail(newEmail)">Đăng ký</button>
+                        </span>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-heading">
+                    <h2>CÁCH THỨC HOẠT ĐỘNG:</h2>
+                    <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-user-following text-primary"></i>
+                    <h3>1. Chia sẻ mã giới thiệu</h3>
+                    <p> Chia sẻ cho bạn bè của mình (bạn bè quen biết, các câu lạc bộ, tổ chức sinh viên tại trường đang
+                        theo học/ các trường lân cận,...) để họ ứng tuyển qua đường link đã gắn mã giới thiệu của
+                        bạn </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-envelope-letter text-primary"></i>
+                    <h3>2. Hoặc tìm việc thay bạn</h3>
+                    <p>Bạn có thể tạo hồ sơ thay bạn bè, thông báo lịch đi phỏng vấn cho họ</p>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-item">
+                    <i class="icon-present text-primary"></i>
+                    <h3>3. Gặp mặt và nhận việc</h3>
+
+
+                    <p>Bạn sẽ được nhận thông báo mỗi khi bạn bè ứng tuyển, được mời đi phỏng vấn và được chọn (thông
+                        báo về email này</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="col-lg-12 text-center">
+    <div class="section-heading">
+        <h2>DANH SÁCH VIỆC LÀM HOT</h2>
+        <!--<p class="text-muted">Check out what you can do with this app theme!</p>-->
+    </div>
+</div>
+
+<div class="text-center job-tab">
+    <button type="button" class="btn btn-link btn-sm" ng-click="showjob=2"
+            ng-class="{'active-tab-green' : showjob == 2, 'active-tab-white' :showjob != 2}"
+            style="border:solid 1px #00a67c">Sài Gòn
+    </button>
+    <button type="button" class="btn btn-link btn-sm" ng-click="showjob=3"
+            ng-class="{'active-tab-green' : showjob == 3, 'active-tab-white' :showjob != 3}"
+            style="border:solid 1px #00a67c">Hà Nội
+    </button>
+</div>
+
+<!--Sai Gon-->
+
+<div class="animated fadeIn" ng-show="showjob == 2" style="min-height: 500px; margin-top: 40px">
+    <div class="container">
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.sg">
+                    <div class="card-new" ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
+                        <div class="content_">
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
+                                             height="80px">
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new"
+                                                ui-sref="app.viewstore ({id:card.storeId , job:card.job})">
+                                                {{card.jobName}}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new" itemprop="description">
+                                                {{CONFIG.data.working_type[card.working_type]}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">Phần thưởng: 150,000vnd</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="content-bottom-new text-center">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}}
+                                        <br><i>{{service.shortAddress(card.address)}} {{card.distance ? '-
+                                            '+card.distance + ' km':''}}</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Ha noi-->
+
+<div class="animated fadeIn" ng-show="showjob == 3" style="min-height: 500px; margin-top: 40px">
+    <div class="container">
+        <div class="testimonials testimonials-raised">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in JobCard.hn">
+                    <div class="card-new">
+                        <div class="content_">
+                            <div class="content-top-new">
+                                <div class="row">
+                                    <div class="logo-restaurant-new pull-left">
+                                        <img src="{{card.avatar || '/img/store.png'}}" alt="{{card.storeName}}">
+                                    </div>
+                                    <div class="logo-job-new pull-right">
+                                        <img ng-src="{{((card.job == 'server')||card.job == 'bartender'||card.job == 'cook'
+||card.job == 'sale' ||card.job == 'receptionist_cashier' || card.job =='financing_accounting'
+||card.job =='designer' ||card.job=='manager'||card.job=='marketing_pr' ) ? 'img/'+card.job +'.png' : ''}}" width="auto"
+                                             height="80px">
+                                    </div>
+                                </div>
+                                <div class="row main-content-new">
+                                    <table>
+                                        <tr>
+                                            <td class="job-new"
+                                                ui-sref="app.viewstore ({id:card.storeId , job:card.jobId})">
+                                                {{dataJob[card.job] || card.other}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="time-new" itemprop="description">
+                                                {{CONFIG.data.working_type[card.working_type]}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="price-new">Phần thưởng: 150,000vnd</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="content-bottom-new text-center">
+                                <div class="jobseeker-new text-left">
+                                    <p>{{card.storeName}}
+                                        <br> <i>{{service.shortAddress(card.address)}}</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!--Why should jobo web-->
+
+
+<div class="section-heading text-center" style="margin-top:30px;">
+    <h2>Về chúng tôi</h2>
+</div>
+<!--Award-->
+<div class="award-demo" style="margin-top:30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="img/award3.png" alt="" width="90%">
+                        <p class="text-center">Giải nhì cuộc thi Khởi nghiệp của đại sứ Mỹ</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <img src="img/vtv.png" alt="" width="100%"
+                             style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                    </div>
+                    <div class="col-4">
+                        <img src="img/vitv.png" alt="" width="100%"
+                             style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                    </div>
+                    <div class="col-4">
+                        <img src="img/baomoi.png" alt="" width="100%"
+                             style="margin-bottom:20px;padding: 10px; background-color: #fff;border-radius:5px;box-shadow: 0 3px 9px rgba(0,0,0,0.15);">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8" style="margin-top: 15px;">
+            <span>
+                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fjobovietnam%2Fvideos%2F561654820892219%2F&show_text=0&width=560"
+                        width="100%" height="355" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                        allowTransparency="true" allowFullScreen="true"></iframe>
+            </span>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<footer class="app-footer main-dark" style="line-height: inherit;">
+    <div class="row">
+        <div class="padding col-md-3
+">
+            <img src="img/logo.png" width="100px">
+
+            <p style="margin: 0"><i class="icon-phone text-primary"></i> +84 968 269 860</p>
+            <p style="margin: 0"><i class="icon-envelope-open text-primary"></i> contact@joboapp.com</p>
+
+            <div style="padding: 16px 0">
+                <p>
+                    <a href="http://facebook.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-facebook icon"
+                       type="button">
+                        <span>Facebook</span>
+                    </a>
+
+                    <a style="margin-bottom: 4px" class="btn btn-youtube icon" type="button">
+                        <span>YouTube</span>
+                    </a>
+
+                    <a href="http://instagram.com/jobovietnam" style="margin-bottom: 4px" class="btn btn-instagram icon"
+                       type="button">
+                        <span>Instagram</span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+        <div class="padding col-md-3">
+            <h3>Về chúng tôi</h3>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="{{CONFIG.WEBURL}}/view/store/-KlHtQjeuuNtv5p18A36#s=footer">Việc làm</a></li>
+                <li><a href="https://blog.joboapp.com/contact">Liên hệ</a></li>
+                <li><a href="https://blog.joboapp.com/faq#terms">Terms</a></li>
+                <li><a href="http://blog.joboapp.com/faq#privacy">Privacy</a></li>
+            </ul>
+
+        </div>
+        <div class="padding col-md-3">
+            <h5>Cho ứng viên</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="{{CONFIG.WEBURL}}/signup/2">Tạo hồ sơ</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+                <li><a href="{{CONFIG.WEBURL}}/refer">Refer</a></li>
+            </ul>
+            <h5>Cho nhà tuyển dụng</h5>
+
+            <ul class="extra-links" style="list-style-type: none;">
+                <li><a href="{{CONFIG.WEBURL}}/sigup/1">Đăng việc làm miễn phí</a></li>
+                <li><a href="https://blog.joboapp.com/faq">Câu hỏi thường gặp</a></li>
+
+            </ul>
+        </div>
+        <div class="padding col-md-3">
+            <h5>Tải ứng dụng</h5>
+
+            <div class="badges">
+                <a class="badge-link" href="https://play.google.com/store/apps/details?id=com.ambius.jobo"
+                   style="margin-bottom: 10px"><img src="img/google-play-badge.svg" alt=""></a>
+                <a class="badge-link" href="https://itunes.apple.com/us/app/jobo-tim-viec-nhanh/id1180445871"><img
+                        src="img/app-store-badge.svg" alt=""></a>
+            </div>
+            &copy; Made with <i class="icon icon-heart"></i> in Hanoi .
+
+        </div>
+
+    </div>
+</footer>

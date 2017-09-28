@@ -289,6 +289,12 @@
                                                    ng-model="userData.phone" name="phone">
                                         </div>
                                     </fieldset>
+                                    <fieldset class="form-group" ng-show="userData.incharge">
+                                        <label>Lead phụ trách: {{userData.incharge}}</label>
+                                    </fieldset>
+                                    <button  ng-click="userData.incharge = adminId" type="submit" ng-hide="userData.incharge"
+                                             class="btn btn-success main-backgroud">Nhận care
+                                    </button>
                                 </div>
                             </div>
                         </div>
