@@ -167,6 +167,27 @@ var app = angular
             console.log(data);
             $rootScope.$broadcast('auth', data);
             $rootScope.$broadcast('handleBroadcast', data);
+            $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
+                var user = res.data;
+                console.log('user', user);
+                $rootScope.userData = user.userData;
+                if ($rootScope.userData) {
+                    if (!$rootScope.userData.webToken) {
+                        $rootScope.service.saveWebToken();
+                    }
+                    $rootScope.type = $rootScope.userData.type;
+                    if ($rootScope.userData.currentStore) {
+                        $rootScope.storeId = $rootScope.userData.currentStore
+                    }
+                    $rootScope.storeList = user.storeList;
+                    $rootScope.storeData = user.storeData;
+                    $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
+                    $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+                    $rootScope.reactList = user.reactList;
+                } else {
+                    toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
+                }
+            })
 
 
         })

@@ -117,40 +117,15 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         }
     }
 
-
-    //admin note
-    $scope.addMoreNote = function () {
-        $scope.tempoAdminNote = {};
-        $scope.tempoAdminNote.date = new Date();
-        $scope.tempoAdminNote.adminId = $scope.adminData.userId;
-    };
-    $scope.deleteNote = function (id) {
-        delete $scope.storeData.adminNote[id]
-    };
-    $scope.deleteTempNote = function () {
-        delete $scope.tempoAdminNote
-    }
-    $scope.saveNote = function () {
-
-        var newkey = 'p' + Math.round(100000000000000 * Math.random());
-        $scope.tempoAdminNote.id = newkey;
-        if (!$scope.storeData.adminNote) {
-            $scope.storeData.adminNote = {}
-        }
-        $scope.storeData.adminNote[newkey] = $scope.tempoAdminNote;
-        delete $scope.tempoAdminNote
-    };
-
-    var admin = $stateParams.admin;
     $scope.admin = $stateParams.admin;
-    if (admin) {
+    if ($scope.admin) {
         console.log($rootScope.storeId)
         $scope.ByHand = true
 
         AuthUser.user().then(function (adminInfo) {
             $scope.adminData = adminInfo;
             if ($scope.adminData.admin) {
-                $rootScope.storeId = admin;
+                $rootScope.storeId = $scope.admin;
                 $rootScope.service.JoboApi('on/store', {
                     storeId: $rootScope.storeId
                 }).then(function (data) {
@@ -180,6 +155,30 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
     } else {
         $scope.init()
     }
+    //admin note
+    $scope.addMoreNote = function () {
+        $scope.tempoAdminNote = {};
+        $scope.tempoAdminNote.date = new Date();
+        $scope.tempoAdminNote.adminId = $scope.adminData.userId;
+    };
+    $scope.deleteNote = function (id) {
+        delete $scope.storeData.adminNote[id]
+    };
+    $scope.deleteTempNote = function () {
+        delete $scope.tempoAdminNote
+    }
+    $scope.saveNote = function () {
+
+        var newkey = 'p' + Math.round(100000000000000 * Math.random());
+        $scope.tempoAdminNote.id = newkey;
+        if (!$scope.storeData.adminNote) {
+            $scope.storeData.adminNote = {}
+        }
+        $scope.storeData.adminNote[newkey] = $scope.tempoAdminNote;
+        delete $scope.tempoAdminNote
+    };
+
+
 
 
     $scope.createByHand = function () {

@@ -10,61 +10,35 @@
     .service('AuthUser', function ($rootScope, $q, toastr, ModalService, $http, CONFIG, $timeout, $state) {
 
         this.user = function () {
-            var output = {},
-                deferred = $q.defer();
+            return new Promise(function (resolve, reject) {
+                auth.onAuthStateChanged(function (user) {
+                    console.log('Auth')
+                    console.time('a')
 
-            auth.onAuthStateChanged(function (user) {
-                console.log('Auth')
-                console.time('a')
-
-                if (user) {
-                    $rootScope.userId = user.uid;
-                    $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
-                        $rootScope.userData = res.data;
-                        $rootScope.type = $rootScope.userData.type;
-                        if ($rootScope.userData.admin) {
-                            $rootScope.adminId = $rootScope.userId
-                        }
-
-                    })
-                    $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
-                        console.log(res);
-                        var user = res.data;
-                        console.log('user', user);
-                        $rootScope.userData = user.userData;
-                        if ($rootScope.userData) {
-                            output = $rootScope.userData;
-                            deferred.resolve(output);
-                            if (!$rootScope.userData.webToken) {
-                                $rootScope.service.saveWebToken();
-                            }
+                    if (user) {
+                        $rootScope.userId = user.uid;
+                        $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
+                            $rootScope.userData = res.data;
                             $rootScope.type = $rootScope.userData.type;
-                            if ($rootScope.userData.currentStore) {
-                                $rootScope.storeId = $rootScope.userData.currentStore
+                            if ($rootScope.userData.admin) {
+                                $rootScope.adminId = $rootScope.userId
                             }
-                            $rootScope.storeList = user.storeList;
-                            $rootScope.storeData = user.storeData;
-                            $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
-                            $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
-                            $rootScope.reactList = user.reactList;
-                            console.timeEnd('a')
-                        } else {
-                            toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
-                        }
-                    })
-                    // User is signed in.
-                } else {
-                    $rootScope.type = 0;
+                            resolve($rootScope.userData)
 
-                    output = {type: 0}
-                    console.log(output)
-                    deferred.resolve(output);
-                    // No user is signed in.
-                }
+                        })
+                        // User is signed in.
+                    } else {
+                        $rootScope.type = 0;
+                        resolve(null)
 
-            });
+                        // No user is signed in.
+                    }
 
-            return deferred.promise;
+                });
+
+            })
+
+
         };
         this.setStatus = function (storeId, userId, working, del) {
             console.log(storeId, userId, working)
@@ -146,7 +120,7 @@
                 .then(function (response) {
                     $rootScope.respondSend = response.data
                     console.log("respond", response);
-                    toastr.info('sent',$rootScope.respondSend.numberSent)
+                    toastr.info('sent', $rootScope.respondSend.numberSent)
                 }, function (error) {
                     console.log(error)
                 })
