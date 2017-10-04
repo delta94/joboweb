@@ -34,8 +34,13 @@ var app = angular
         'ngImgCrop',
         'datetime',
         'infinite-scroll',
-        'chart.js'
+        'chart.js',
+        'froala'
     ])
+    .value('froalaConfig', {
+        toolbarInline: false,
+        placeholderText: 'Edit Your Content Here!'
+    })
     .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
         cfpLoadingBarProvider.latencyThreshold = 1;

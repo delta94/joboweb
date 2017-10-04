@@ -1,0 +1,13 @@
+{
+  "name": "ionrangeslider.angular",
+  "homepage": "https://github.com/mrholek/ionRangeSlider-Angular-Directive",
+  "_release": "eeaa1e8083",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "eeaa1e8083384661ddf17978d13134d9a48de354"
+  },
+  "_source": "https://github.com/mrholek/ionRangeSlider-Angular-Directive.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/mrholek/ionRangeSlider-Angular-Directive.git"
+}

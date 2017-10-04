@@ -1,0 +1,93 @@
+<div class="padding">
+    <div class="animated slideOutDown">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Scheduled Job
+                    </div>
+
+                    <div class="card-block">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Content</th>
+                                <th>Sent</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in schedules track by $index">
+                                <td>
+                                    <b>postId:</b> {{item.postId}}<br>
+                                    <b>poster:</b> {{item.poster}}<br>
+                                    <b>time:</b> {{item.time | date: 'HH giờ mm dd/MM/yyyy'}}<br>
+                                    <b>groupId:</b>
+                                    <a href="https://www.facebook.com/groups/{{item.to}}">{{item.to}}</a>
+
+                                </td>
+                                <td>{{item.content.text}}<br> Image: {{item.content.image}}</td>
+                                <td>{{item.sent | date: 'HH giờ mm dd/MM/yyyy'}} <br>
+                                    <a href="{{service.generateLink(item.id)}}">{{item.id}}</a> <br>
+                                    {{item.sent_error}}<br>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <paging page="page" ng-click="pagin(page)" page-size="response.per_page" total="response.total"
+                                show-prev-next="true" show-first-last="true">
+                        </paging>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animated slideOutDown">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Báo cáo
+                    </div>
+
+                    <div class="card-block">
+                        <div>
+                            <p>Tổng bài đăng: {{length}}</p>
+                            <p>Bài đã đăng: {{posted}}</p>
+                            <p>Còn sống: {{alive}} ({{alive/posted*100}} %)</p>
+                            <p>Thống kê theo giờ:</p>
+                        </div>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>Giờ</th>
+                                <th>Bài đăng</th>
+                                <th>Comment</th>
+                                <th style="color: #0687FF">Like</th>
+                                <th style="color: #f00">Love</th>
+                                <th style="color:#030">Haha</th>
+                                <th style="color:#3FF81B">Sad</th>
+                                <th style="color:#FF6600">Angry</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in godTimes track by $index">
+                                <td>{{$index}} giờ</td>
+                                <td>{{item.post}}</td>
+                                <td>{{item.comments}}</td>
+                                <td style="color: #0687FF">{{item.reactions.like}}</td>
+                                <td style="color: #f00">{{item.reactions.love}}</td>
+                                <td style="color:#030">{{item.reactions.haha}}</td>
+                                <td style="color:#3FF81B">{{item.reactions.sad}}</td>
+                                <td style="color:#FF6600">{{item.reactions.angry}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

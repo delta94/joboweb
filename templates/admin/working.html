@@ -93,16 +93,18 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">Body</label>
                         <div class="col-md-9">
-
-                                <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
-                                          ng-model="mail.description1" placeholder="..."
-                                          style="height: 100px;"></textarea>
-                            <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
-                                      ng-model="mail.description2" placeholder="..."
+                            <textarea froala class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                      ng-model="mail.description1" rows="100"
                                       style="height: 100px;"></textarea>
-                            <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
-                                      ng-model="mail.description3" placeholder="..."
-                                      style="height: 100px;"></textarea>
+                                <!--<textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"-->
+                                          <!--ng-model="mail.description1" placeholder="..."-->
+                                          <!--style="height: 100px;"></textarea>-->
+                            <!--<textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"-->
+                                      <!--ng-model="mail.description2" placeholder="..."-->
+                                      <!--style="height: 100px;"></textarea>-->
+                            <!--<textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"-->
+                                      <!--ng-model="mail.description3" placeholder="..."-->
+                                      <!--style="height: 100px;"></textarea>-->
 
                         </div>
                     </div>
@@ -243,7 +245,9 @@
                                                 align="left">
                                                 <div class=""
                                                      style="cursor:auto;color:#000000;font-family:' + font + ';font-size:13px;line-height:22px;text-align:left;">
-                                                    <p ng-bind-html="mail.description1"></p></div>
+                                                    <p><%= name =>: Tên của người nhận</p>
+                                                    <p ng-bind-html="mail.description1"></p>
+                                                    </div>
                                             </td>
                                         </tr>
                                         </tbody>

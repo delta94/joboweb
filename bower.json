@@ -48,7 +48,8 @@
     "videogular-controls": "^1.4.4",
     "videogular-buffering": "^1.4.4",
     "videogular-overlay-play": "^1.4.4",
-    "videogular-poster": "^1.4.4"
+    "videogular-poster": "^1.4.4",
+    "froala-wysiwyg-editor": "^2.7.0"
   },
   "overrides": {
     "angular-gaugejs": {
