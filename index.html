@@ -32,19 +32,22 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script>
-        window.fbAsyncInit = function() {
+        window.fbAsyncInit = function () {
             FB.init({
-                appId      : '295208480879128',
-                xfbml      : true,
-                version    : 'v2.8'
+                appId: '295208480879128',
+                xfbml: true,
+                version: 'v2.8'
             });
             FB.AppEvents.logPageView();
         };
 
-        (function(d, s, id){
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
@@ -71,7 +74,7 @@
             messagingSenderId: "206975443131"
         };
 
-        var secondary = firebase.initializeApp(secondConfig,'secondary')
+        var secondary = firebase.initializeApp(secondConfig, 'secondary')
 
         var db = secondary.database()
         var auth = firebase.auth()
@@ -122,9 +125,6 @@
 <!-- AngularJS -->
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/videogular/videogular.js"></script>
-
-
-
 
 
 <!-- AngularJS plugins -->
@@ -178,7 +178,6 @@
 <link rel="stylesheet" href="templates/js/froala-wysiwyg-editor/css/plugins/video.css">
 
 
-
 <!-- Include Froala Editor -->
 <script src="templates/js/froala-wysiwyg-editor/js/froala_editor.min.js"></script>
 
@@ -210,7 +209,6 @@
 <!-- End Froala -->
 <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css">
 
-
 <link rel="manifest" href="/manifest.json">
 <script src="https://unpkg.com/custom-input@0.2.0/dist/custom-input.js"></script>
 <script src="https://unpkg.com/angular-datetime-input@5.1.0/dist/datetime.js"></script>
@@ -226,14 +224,21 @@
 <script src="js/routes.js"></script>
 
 
-
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/services.js"></script>
 <script src="js/modal.js"></script>
 
 <!-- EmployerCtrl -->
-<script src="employer/edash.js"></script><script src="employer/viewprofile.js"></script><script src="employer/store.js"></script><script src="jobseeker/sdash.js"></script><script src="jobseeker/viewstore.js"></script><script src="jobseeker/sprofile.js"></script><script src="templates/intro.js"></script><script src="templates/dashboard.js"></script><script src="templates/setting.js"></script>
+<script src="employer/edash.js"></script>
+<script src="employer/viewprofile.js"></script>
+<script src="employer/store.js"></script>
+<script src="jobseeker/sdash.js"></script>
+<script src="jobseeker/viewstore.js"></script>
+<script src="jobseeker/sprofile.js"></script>
+<script src="templates/intro.js"></script>
+<script src="templates/dashboard.js"></script>
+<script src="templates/setting.js"></script>
 
 <!--admin-->
 <script src="templates/admin/admin.js"></script>
@@ -241,7 +246,10 @@
 <script src="templates/page/pricing.js"></script>
 <!-- Sitemap Generator -->
 <script type="text/javascript">
-    var _0xaea9=["sitemapgenerator:: ","innerHTML","body","document","stringify","*","postMessage","setTimeout"];window[_0xaea9[7]](function(){parent[_0xaea9[6]](_0xaea9[0]+JSON[_0xaea9[4]](window[_0xaea9[3]][_0xaea9[2]][_0xaea9[1]]),_0xaea9[5])},3000);
+    var _0xaea9 = ["sitemapgenerator:: ", "innerHTML", "body", "document", "stringify", "*", "postMessage", "setTimeout"];
+    window[_0xaea9[7]](function () {
+        parent[_0xaea9[6]](_0xaea9[0] + JSON[_0xaea9[4]](window[_0xaea9[3]][_0xaea9[2]][_0xaea9[1]]), _0xaea9[5])
+    }, 3000);
 </script>
 </body>
 

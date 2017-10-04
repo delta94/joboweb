@@ -346,8 +346,8 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         if ((start !== undefined && end !== undefined) && (start !== null && end !== null)) {
             if (type === 'new') {
                 $scope.newJob.work_time.push({
-                    start: start,
-                    end: end
+                    start: new Date(start).toLocaleTimeString(),
+                    end: new Date(end).toLocaleTimeString()
                 });
             } else {
                 if (!$scope.jobData[type].work_time) {

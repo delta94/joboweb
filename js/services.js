@@ -104,7 +104,9 @@
 
             axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
                 .then(function successCallback(response) {
-                    console.log("respond", response);
+                    $rootScope.respondSend = response.data
+                    console.log("respond", $rootScope.respondSend);
+                    toastr.info('success sent', $rootScope.respondSend.numberSent)
                 }, function (error) {
                     console.log(error)
                 })
@@ -120,7 +122,7 @@
                 .then(function (response) {
                     $rootScope.respondSend = response.data
                     console.log("respond", response);
-                    toastr.info('sent', $rootScope.respondSend.numberSent)
+                    toastr.info('willsent', $rootScope.respondSend.numberSent)
                 }, function (error) {
                     console.log(error)
                 })

@@ -54,7 +54,7 @@ angular
                     }]
                 }
             })
-            .state('app.link', {
+            .state('link', {
                 url: '/l/:queryString',
                 templateUrl: 'templates/page/link.html',
                 controller: 'shortlinkCtrl'
