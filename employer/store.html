@@ -363,14 +363,22 @@
                                             </li>
                                         </ul>
                                         <div class="input-group">
-                                            <select class="form-control col-md-5" ng-model="newWorkTime.start"
-                                                    ng-options="n for n in workTime">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="newWorkTime.start">
                                                 <option value=''>Từ</option>
+                                                <option ng-repeat="(key,value) in CONFIG.hour" value="{{value}}">
+                                                    {{value}}
+                                                </option>
+
                                             </select>
-                                            <select class="form-control col-md-5" ng-model="newWorkTime.end"
-                                                    ng-options="n for n in workTime">
+                                            <select class="form-control col-md-5" ng-model="newWorkTime.end">
                                                 <option value=''>Đến</option>
+                                                <option ng-repeat="(key,value) in CONFIG.hour" value="{{value}}">
+                                                    {{value}}
+                                                </option>
+
                                             </select>
+
                                             <button type="button" class="btn btn-outline-primary col-md-2 "
                                                     ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, $index)">
                                                 <i class="fa fa-plus"></i></button>
@@ -553,18 +561,14 @@
                                                 </li>
                                             </ul>
                                             <div class="input-group">
-                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.start" type="time">-->
-                                                <!--<input class="col-md-5 form-control" ng-model="newWorkTime.end" type="time">-->
-                                                <input type="time" name="timetu" id="timetu" ng-model="newWorkTime.start">
-                                                <!--<select class="form-control col-md-5" ng-model="newWorkTime.start"-->
-                                                        <!--ng-options="n for n in workTime">-->
-                                                    <!--<option value=''>Từ</option>-->
-                                                <!--</select>-->
-                                                <input type="time" name="" id="" ng-model="newWorkTime.end">
-                                                <!--<select class="form-control col-md-5" ng-model="newWorkTime.end"-->
-                                                        <!--ng-options="n for n in workTime">-->
-                                                    <!--<option value=''>Đến</option>-->
-                                                <!--</select>-->
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.start"
+                                                        ng-options="n for n in CONFIG.hour">
+                                                    <option value='{{n}}'>Từ</option>
+                                                </select>
+                                                <select class="form-control col-md-5" ng-model="newWorkTime.end"
+                                                        ng-options="n for n in CONFIG.hour">
+                                                    <option value=''>Đến</option>
+                                                </select>
                                                 <button type="button" class="btn btn-outline-primary col-md-2"
                                                         ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, 'new')">
                                                     <i class="fa fa-plus"></i></button>

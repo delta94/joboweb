@@ -1,4 +1,67 @@
-<div class="container">
+
+    <div class="row" ng-controller="UserRegisterAdminCtrl">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    UserRegister
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tbody>
+                        <tr ng-repeat="card in log">
+
+                            <td><p ng-repeat="(key,value) in card"><b>{{key}}:</b> {{value}}</p></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                    <paging
+                            page="page"
+                            ng-click="pagin(page)"
+                            page-size="response.per_page"
+                            total="response.total"
+                            show-prev-next="true"
+                            show-first-last="true">
+                    </paging>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+
+
+    <div class="row" ng-controller="userActivityAdminCtrl">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    User Activity
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tbody>
+                        <tr ng-repeat="card in log">
+
+                            <td><p ng-repeat="(key,value) in card"><b>{{key}}:</b> {{value}}</p></td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                    <paging
+                            page="page"
+                            ng-click="pagin(page)"
+                            page-size="response.per_page"
+                            total="response.total"
+                            show-prev-next="true"
+                            show-first-last="true">
+                    </paging>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+
+
+
 
     <div class="text-center job-tab" style="margin:20px 0 20px 0">
         <a href="" ng-click="showjob=1">
@@ -630,206 +693,3 @@
         </div>
         <!--/.col-->
     </div>
-
-    <div class="row" ng-controller="userActivityAdminCtrl">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    User Activity
-                </div>
-                <div class="card-block">
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>At</th>
-                            <th>Type</th>
-                            <th>Job</th>
-                            <th>User</th>
-                            <th>Question</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="card in log">
-
-                            <td>
-                                <span ng-if="card.createdAt">createdAt:{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}</span><br>
-                                <span ng-if="card.likeAt">likeAt:{{card.likeAt | date: 'HH:mm dd/MM/yyyy'}}</span><br>
-                                <span ng-if="card.matchedAt">matchedAt:{{card.matchedAt | date: 'HH:mm dd/MM/yyyy'}}</span>
-                            </td>
-                            <td>{{card.type}}</td>
-                            <td>{{card.jobName}}<br>
-                                <a ui-sref="app.viewstore ({id:storeId,job:card.jobId })">{{card.jobId}}</a><br>
-                                {{card.storeName}}<br>
-                                <a href="{{CONFIG.WEBURL + '/view/store/'+ card.storeId}}">{{card.storeId}}</a>
-                            </td>
-                            <td>{{card.userName}}<br><a href="{{CONFIG.WEBURL + '/view/profile/'+ card.userId}}">{{card.userId}}</a>
-                            </td>
-                            <td> {{card.interviewTime}}
-                                {{card.description}}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <paging
-                            page="page"
-                            ng-click="pagin(page)"
-                            page-size="response.per_page"
-                            total="response.total"
-                            show-prev-next="true"
-                            show-first-last="true">
-                    </paging>
-                </div>
-            </div>
-        </div>
-        <!--/.col-->
-    </div>
-
-    <div class="row" ng-controller="jobAdminCtrl">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    job
-                </div>
-                <div class="card-block">
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>At</th>
-                            <th>Job</th>
-                            <th>store</th>
-                            <th>working_type</th>
-                            <th>data</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="card in log">
-
-                            <td>{{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}</td>
-                            <td>{{card.job}}</td>
-                            <td>{{card.storeName}}<br>{{card.storeId}}</td>
-                            <td>{{card.working_type}}</td>
-                            <td>{{card}}</td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-                    <paging
-                            page="page"
-                            ng-click="pagin(page)"
-                            page-size="response.per_page"
-                            total="response.total"
-                            show-prev-next="true"
-                            show-first-last="true">
-                    </paging>
-                </div>
-            </div>
-        </div>
-        <!--/.col-->
-    </div>
-    <div class="row" ng-controller="profileAdminCtrl">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    Profile
-                </div>
-                <div class="card-block">
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>At</th>
-                            <th>Avatar</th>
-                            <th>Name</th>
-                            <th>address</th>
-                            <th>industry</th>
-                            <th>job</th>
-                            <th>working_type</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="card in log">
-
-                            <td>
-                                {{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}
-                            </td>
-                            <td><img src="{{card.avatar}} " width="100px"></td>
-                            <td>{{card.name}}<br>{{card.userId}}</td>
-                            <td>{{card.address}}</td>
-                            <td>{{card.industry}}</td>
-                            <td>{{card.job}}</td>
-                            <td>{{card.working_type}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <paging
-                            page="page"
-                            ng-click="pagin(page)"
-                            page-size="response.per_page"
-                            total="response.total"
-                            show-prev-next="true"
-                            show-first-last="true">
-                    </paging>
-                </div>
-            </div>
-        </div>
-        <!--/.col-->
-    </div>
-    <div class="row" ng-controller="UserRegisterAdminCtrl">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    UserRegister
-                </div>
-                <div class="card-block">
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>At</th>
-                            <th>type</th>
-                            <th>userId</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>VerifyEmail</th>
-                            <th>mobileToken</th>
-                            <th>webToken</th>
-                            <th>ref</th>
-
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="card in log">
-
-                            <td>
-                                {{card.createdAt | date: 'HH:mm dd/MM/yyyy'}}
-                            </td>
-                            <td>{{card.type}}</td>
-                            <td>{{card.name}}<br><a href="{{CONFIG.WEBURL + '/profile?admin='+ card.userId}}">{{card.userId}}</a><a
-                                    href="{{CONFIG.WEBURL + '/view/store/'+ card.currentStore}}">{{card.currentStore}}</a>
-                            </td>
-                            <td>{{card.email}}</td>
-                            <td>{{card.phone}}</td>
-                            <td>{{card.verifyEmail}}</td>
-                            <td><span ng-if="card.mobileToken">true</span></td>
-                            <td><span ng-if="card.webToken">true</span></td>
-                            <td>{{card.ref}}</td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-                    <paging
-                            page="page"
-                            ng-click="pagin(page)"
-                            page-size="response.per_page"
-                            total="response.total"
-                            show-prev-next="true"
-                            show-first-last="true">
-                    </paging>
-                </div>
-            </div>
-        </div>
-        <!--/.col-->
-    </div>
-</div>

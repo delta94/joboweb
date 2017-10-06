@@ -1310,89 +1310,69 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             console.log(page)
             $scope.createHospital($scope.newfilter, page)
         }
-        $scope.sendEmail = function (newfilter, mail) {
-            if (newfilter.time) {
-                newfilter.time = new Date(newfilter.time).getTime()
-            }
-            console.log(newfilter)
 
-            var q = JSON.stringify(newfilter)
-            console.log($scope.mail)
-            var params = {q: q, mail: JSON.stringify(mail)}
-
-            $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/sendEmailMarketing',
-                params: params
-            }).then(function successCallback(response) {
-                console.log("respond", response);
-            }, function (error) {
-                console.log(error)
-            })
-
-        }
-        $scope.mail = {};
-        $scope.data = {};
 
     })
     .controller('scheduleCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
 
         $scope.newfilter = {};
 
-        $http({
-            method: 'GET',
-            url: 'https://joboana.herokuapp.com/getallpost'
-        }).then(function successCallback(response) {
-            const posts = response.data;
-            const length = posts.length;
-            const posted = posts.filter(post => post.id != null).length;
-            const alive = posts.filter(post => {
-                if (post.checks && post.checks[0] && post.checks[post.checks.length - 1].error) return true;
-                else return false;
-            }).length;
-            const godTimes = [];
-            for (let hour = 0; hour < 24; hour++) {
-                godTimes[hour] = {
-                    post: posts.filter(post => new Date(post.sent).getHours() === hour).length,
-                    comments: posts.map(post => {
-                        if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].comments) return post.checks[post.checks.length - 1].comments;
-                        else return 0;
-                    }).reduce((sum, value) => sum + value, 0),
-                    reactions: {
-                        like: posts.map(post => {
-                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.like;
+
+        $scope.getReport = function () {
+            $http({
+                method: 'GET',
+                url: 'https://joboana.herokuapp.com/getallpost'
+            }).then(function successCallback(response) {
+                const posts = response.data;
+                const length = posts.length;
+                const posted = posts.filter(post => post.id != null).length;
+                const alive = posts.filter(post => {
+                    if (post.checks && post.checks[0] && post.checks[post.checks.length - 1].error) return true;
+                    else return false;
+                }).length;
+                const godTimes = [];
+                for (let hour = 0; hour < 24; hour++) {
+                    godTimes[hour] = {
+                        post: posts.filter(post => new Date(post.sent).getHours() === hour).length,
+                        comments: posts.map(post => {
+                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].comments) return post.checks[post.checks.length - 1].comments;
                             else return 0;
                         }).reduce((sum, value) => sum + value, 0),
-                        love: posts.map(post => {
-                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.love;
-                            else return 0;
-                        }).reduce((sum, value) => sum + value, 0),
-                        haha: posts.map(post => {
-                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.haha;
-                            else return 0;
-                        }).reduce((sum, value) => sum + value, 0),
-                        sad: posts.map(post => {
-                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.sad;
-                            else return 0;
-                        }).reduce((sum, value) => sum + value, 0),
-                        angry: posts.map(post => {
-                            if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.angry;
-                            else return 0;
-                        }).reduce((sum, value) => sum + value, 0)
+                        reactions: {
+                            like: posts.map(post => {
+                                if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.like;
+                                else return 0;
+                            }).reduce((sum, value) => sum + value, 0),
+                            love: posts.map(post => {
+                                if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.love;
+                                else return 0;
+                            }).reduce((sum, value) => sum + value, 0),
+                            haha: posts.map(post => {
+                                if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.haha;
+                                else return 0;
+                            }).reduce((sum, value) => sum + value, 0),
+                            sad: posts.map(post => {
+                                if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.sad;
+                                else return 0;
+                            }).reduce((sum, value) => sum + value, 0),
+                            angry: posts.map(post => {
+                                if (new Date(post.sent).getHours() === hour && post.checks && post.checks[0] && post.checks[post.checks.length - 1].reactions) return post.checks[post.checks.length - 1].reactions.angry;
+                                else return 0;
+                            }).reduce((sum, value) => sum + value, 0)
+                        }
                     }
                 }
-            }
 
-            $timeout(function () {
-                $scope.length = length;
-                $scope.alive = alive;
-                $scope.posted = posted;
-                $scope.godTimes = godTimes;
+                $timeout(function () {
+                    $scope.length = length;
+                    $scope.alive = alive;
+                    $scope.posted = posted;
+                    $scope.godTimes = godTimes;
+                })
+            }, function (error) {
+                console.log(error)
             })
-        }, function (error) {
-            console.log(error)
-        })
-
+        }
         $scope.pagingSchedules = function (newfilter, p) {
             newfilter.p = p
             console.log(newfilter)
@@ -1411,6 +1391,22 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
                 console.log(error)
             })
         };
+        $scope.deletePost = function (newfilter) {
+            console.log(newfilter)
+            $http({
+                method: 'DELETE',
+                url: 'https://joboana.herokuapp.com/removePost',
+                params: newfilter
+            }).then(function successCallback(response) {
+                console.log("respond", response);
+                $timeout(function () {
+                    $scope.response = response.data
+                    toastr.info($scope.response)
+                })
+            }, function (error) {
+                console.log(error)
+            })
+        };
         $scope.pagingSchedules($scope.newfilter, 1)
 
         $scope.page = 1;
@@ -1419,25 +1415,37 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $scope.pagingSchedules($scope.newfilter, page)
         };
         $scope.currentDate = new Date(Date.now());
-        $scope.sendSchedule = (schedule) => {
-            if (!schedule) return;
-            const time = new Date(schedule.time).getTime() || undefined;
-            const {content, job, poster, where} = schedule;
-            axios.post(CONFIG.APIURL + '/PostText2Store', {
-                content,
-                job,
-                poster,
-                where,
-                time
-            })
-                .then(function (response) {
-                    console.log(content, job, poster, time);
-                    window.location.reload();
+    })
+    .controller('notificationCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+        //address
+        $scope.newfilter = {}
+
+        $scope.createHospital = function (newfilter, p) {
+            newfilter.p = p
+            console.log(newfilter)
+
+            $http({
+                method: 'GET',
+                url: CONFIG.APIURL + '/api/notification',
+                params: newfilter
+            }).then(function successCallback(response) {
+                console.log("respond", response);
+                $timeout(function () {
+                    $scope.response = response.data
                 })
-                .catch(function (error) {
-                    console.log('Post', error);
-                });
+            }, function (error) {
+                console.log(error)
+            })
         };
+        $scope.createHospital({email: 'thonglk.mac@gmail.com'})
+
+        $scope.page = 1
+        $scope.pagin = function (page) {
+            console.log(page)
+            $scope.createHospital($scope.newfilter, page)
+        }
+
+
     })
 
 

@@ -72,7 +72,7 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
                 console.log(result)
                 if (result.currentStore) {
-
+                    $rootScope.storeId = result.currentStore
                     $rootScope.service.JoboApi('on/store', {
                         storeId: $rootScope.storeId
                     }).then(function (data) {
@@ -177,8 +177,6 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         $scope.storeData.adminNote[newkey] = $scope.tempoAdminNote;
         delete $scope.tempoAdminNote
     };
-
-
 
 
     $scope.createByHand = function () {
@@ -346,8 +344,8 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
         if ((start !== undefined && end !== undefined) && (start !== null && end !== null)) {
             if (type === 'new') {
                 $scope.newJob.work_time.push({
-                    start: new Date(start).toLocaleTimeString(),
-                    end: new Date(end).toLocaleTimeString()
+                    start,
+                    end
                 });
             } else {
                 if (!$scope.jobData[type].work_time) {
@@ -454,18 +452,15 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
 
             storeD.storeId = $rootScope.storeId;
 
-            $rootScope.service.JoboApi('update/user', {
-                userId: $rootScope.userId,
-                storeId: $rootScope.storeId,
-                user: $rootScope.userData,
-                store: storeD
-            }).then(function (res) {
+            $rootScope.service.JoboApi('update/user?userId=' + $rootScope.userId + '&storeId=' + $rootScope.storeId,{
+                    user: $rootScope.userData,
+                    store: storeD
+                }, 'post').then(function (res) {
                 console.log(res)
                 toastr.success('Cập nhật thông tin thành công')
-                $rootScope.service.JoboApi('update/job', {
-                    userId: $rootScope.userId,
-                    job: JSON.stringify($scope.jobData)
-                }).then(function (res) {
+                $rootScope.service.JoboApi('update/job?userId=' + $rootScope.userId, {
+                    job: $scope.jobData
+                }, 'post').then(function (res) {
                     toastr.success('Cập nhật vị trí thành công')
                     if ($scope.firsttime) {
                         $rootScope.service.Ana('createStore', {storeId: $rootScope.storeId});

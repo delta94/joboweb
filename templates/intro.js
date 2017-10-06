@@ -104,7 +104,6 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
             userId: userId,
             user: userData
         });
-        // userRef.update(userData);
         toastr.success('Đăng ký thành công')
         if (userData.type == 1) {
             $state.go('store', {id: null})
@@ -225,14 +224,15 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
     .controller('signupCtrl', function ($scope, $rootScope, $stateParams, $http, $state, ModalService, toastr, $timeout) {
 
         var type = $stateParams.id;
-        if ($stateParams.apply) {
+        if ($stateParams.job) {
             if (type == 2) {
-                $rootScope.service.JoboApi('on/store', {
-                    storeId: $stateParams.apply
-                }).then(function (data) {
+                $rootScope.service.JoboApi('on/job', {
+                    jobId: $stateParams.job
+                }).then(function (result) {
                     $timeout(function () {
+                        $scope.jobData = result.data
                         $rootScope.preApply = {
-                            card: data.data,
+                            card: $scope.jobData.storeData,
                             jobOffer: $stateParams.job
                         }
                         console.log('$rootScope.preApply', $rootScope.preApply)
@@ -337,49 +337,6 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
                 }
             });
-            /*var userRef = db.ref("user/" + userData.userId);
-            userRef.once('value', function (snap) {
-                console.log('checkSignupOrSignIn', JSON.stringify(snap.val()));
-                var userDataLoad = snap.val();
-                if (userDataLoad) {
-                    toastr.success('Đăng nhập')
-                    var type = userDataLoad.type
-                    if (type == 1) {
-                        console.log('employer go to');
-
-                        $state.go('app.edash')
-                    }
-                    if (type == 2) {
-                        $state.go('app.sdash')
-                    }
-                } else {
-
-                    toastr.success('Đăng ký')
-
-                    if (!$scope.type) {
-
-                        ModalService.showModal({
-                            templateUrl: 'templates/modals/address.html',
-                            controller: 'ModalController'
-                        }).then(function (modal) {
-                            modal.element.modal();
-                            modal.close.then(function (result) {
-                                if (result == 1 || 2) {
-                                    createDataUser(userData.userId, userData, result)
-                                }
-                            });
-                        });
-                        // A confirm dialog
-                    }
-                    if ($scope.type) {
-                        console.log('has type');
-
-                        createDataUser(userData.userId, userData, $scope.type)
-                    }
-
-
-                }
-            })*/
 
         }
 

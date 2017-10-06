@@ -3,11 +3,86 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card mx-2" ng-show="preApply">
-                    <hr class="transparent mx-1 my-0">
-                    <div class="callout callout-primary m-0 py-1">
-                        <div class="callout_preApply" >
-                            <p>Chỉ một bước nữa là bạn có thể ứng tuyển vào {{preApply.card.storeName}}</p>
+                    <div class="message p-h">
+
+                        <div class="py-h mr-1 float-left">
+                            <div class="avatar">
+                                <img src="{{jobData.storeData.avatar}}" class="img-avatar">
+
+                            </div>
                         </div>
+
+                        <div >{{jobData.jobName}}
+                            <strong>{{jobData.storeData.storeName}}</strong>
+                        </div>
+                        <small class="text-muted mr-1"><i class="icon-calendar"></i>&nbsp;
+                            {{Lang[jobData.working_type]}}
+                        </small>
+                        <small class="text-muted"><i class="icon-location-pin"></i>&nbsp;
+                            {{service.shortAddress(jobData.storeData.address)}} {{jobData.distance ? '- '+card.distance +'
+                            km':''}}
+                        </small>
+
+                    </div>
+                    <div class="row animated fadeIn" style="margin-bottom: 30px;padding: 0 30px">
+
+                        <div class="col-md-12">
+
+                            <div class="job-description">
+                                <div>
+                                    <div ng-if="jobData.work_time">• Ca làm
+                                        <ul>
+                                            <li ng-repeat="work in jobData.work_time">{{work.start}} -
+                                                {{work.end}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p ng-if="jobData.job">• Ngành nghề: {{Lang[jobData.job]}}
+
+                                    <p ng-if="jobData.salary">• Mức lương theo tháng: {{jobData.salary}} triệu
+                                        đồng/tháng </p>
+                                    <p ng-if="jobData.hourly_wages">• Mức lương theo giờ: {{jobData.hourly_wages}}
+                                        nghìn đồng/giờ </p>
+                                    <p ng-if="jobData.deadline">• Hạn chót: {{jobData.deadline |
+                                        date}}({{service.timeAgo(jobData.deadline)}}) </p>
+                                    <p ng-if="jobData.createdAt">• Ngày đăng: {{jobData.createdAt | date}}</p>
+
+                                    <p ng-if="jobData.unit">• Số lượng: {{jobData.unit}}</p>
+                                    <p ng-if="jobData.apply">• Đã ứng tuyển: {{jobData.apply.length}}</p>
+                                    <div class="avatars-stack mt-2" ng-if="jobData.apply">
+                                        <div class="avatar avatar-xs" ng-repeat="people in jobData.apply">
+                                            <img src="{{people.userAvatar}}" class="img-avatar"
+                                                 ui-sref="app.viewprofile ({id: people.userId})">
+                                        </div>
+                                    </div>
+                                    <p ng-if="jobData.viewed">• Lượt xem: {{jobData.viewed ? card.viewed :
+                                        "0"}}</p>
+
+                                    <p ng-if="jobData.figure || jobData.experience || jobData.languages"><em>Yêu
+                                        cầu
+                                        khác:</em></p>
+                                    <p ng-if="jobData.figure">• Yêu cầu ngoại hình khá</p>
+                                    <p ng-if="jobData.sex">• Giới tính: {{Lang[jobData.sex]}}</p>
+
+                                    <p ng-if="jobData.experience">• Đã có kinh nghiệm</p>
+                                    <p ng-if="jobData.languages">• Ngoại ngữ:{{Lang[card.languages]}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="job-description" ng-if="jobData.description">
+                                <div>
+                                    <p
+                                            ng-repeat="text in service.nextLine(jobData.description) track by $index">
+                                        {{text}}</p>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                     <hr class="mx-1 my-0">
                 </div>
@@ -15,16 +90,6 @@
                 <div class="card mx-2">
                     <div class="card-block p-2 header-signup">
                         <h1>Đăng ký</h1>
-                        <div class="float-right job-tab">
-                            <button type="button" class="btn btn-link btn-sm" ui-sref="signup ({id:2})"
-                                    ng-class="{'active-tab-green' : type == 2, 'active-tab-white' :type != 2}"
-                                    style="border:solid 1px #00a67c">Ứng viên
-                            </button>
-                            <button type="button" class="btn btn-link btn-sm" ui-sref="signup ({id:1})"
-                                    ng-class="{'active-tab-green' : type == 1, 'active-tab-white' :type != 1}"
-                                    style="border:solid 1px #00a67c">Nhà tuyển dụng
-                            </button>
-                        </div>
 
                         <p class="text-muted" ng-if="type == 1">Tạo tài khoản nhà tuyển dụng</p>
                         <p class="text-muted" ng-if="type == 2">Tạo tài khoản ứng viên</p>

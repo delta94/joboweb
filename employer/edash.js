@@ -40,8 +40,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
 
         console.log(selected);
         $('#list-add').hide();
-        //$rootScope.userData.address = selected.formatted_address;
-        //$rootScope.userData.location = selected.geometry.location;
 
     };
 

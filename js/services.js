@@ -13,26 +13,27 @@
             return new Promise(function (resolve, reject) {
                 auth.onAuthStateChanged(function (user) {
                     console.log('Auth')
-                    console.time('a')
+                    $timeout(function () {
+                        if (user) {
+                            $rootScope.userId = user.uid;
+                            $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
+                                $rootScope.userData = res.data;
+                                $rootScope.type = $rootScope.userData.type;
+                                if ($rootScope.userData.admin) {
+                                    $rootScope.adminId = $rootScope.userId
+                                }
+                                resolve($rootScope.userData)
+                            })
+                            // User is signed in.
+                        } else {
+                            $rootScope.type = 0;
+                            console.log('type',$rootScope.type)
+                            resolve({type: 0})
 
-                    if (user) {
-                        $rootScope.userId = user.uid;
-                        $rootScope.service.JoboApi('on/user', {userId: $rootScope.userId}).then(function (res) {
-                            $rootScope.userData = res.data;
-                            $rootScope.type = $rootScope.userData.type;
-                            if ($rootScope.userData.admin) {
-                                $rootScope.adminId = $rootScope.userId
-                            }
-                            resolve($rootScope.userData)
+                            // No user is signed in.
+                        }
+                    })
 
-                        })
-                        // User is signed in.
-                    } else {
-                        $rootScope.type = 0;
-                        resolve(null)
-
-                        // No user is signed in.
-                    }
 
                 });
 
@@ -98,6 +99,7 @@
             if (newfilter.time) {
                 newfilter.time = new Date(newfilter.time).getTime()
             }
+            newfilter.action = 1;
             console.log(newfilter)
 
             var params = {newfilter, mail}
@@ -282,6 +284,13 @@
                 }
             })
 
+        };
+        this.PostFacebook = function (content) {
+            console.log('content', content)
+            $rootScope.service.JoboApi('PostFacebook', content, 'post').then(function (res) {
+                console.log(res)
+                toastr.info(res.data)
+            })
         };
         this.reviewing = function (card, action) {
             var output = {},
@@ -602,23 +611,32 @@
             }
 
         }
-        this.JoboApi = function (url, params) {
-            var defer = $q.defer();
+        this.JoboApi = function (url, params, type) {
+            return new Promise(function (resolve, reject) {
+                if (type == 'post') {
+                    axios.post(CONFIG.APIURL + '/' + url, params).then(function (response) {
+                        console.log(response);
+                        resolve(response)
+                    }).catch(function (error) {
+                        console.log(error);
+                        reject(error)
+                    });
 
-            axios.get(CONFIG.APIURL + '/' + url, {
-                headers: {'Content-Type': 'application/json'},
-                params: params
-            }).then(function (response) {
-                console.log(response);
-                defer.resolve(response)
+                } else {
+                    axios.get(CONFIG.APIURL + '/' + url, {
+                        headers: {'Content-Type': 'application/json'},
+                        params: params
+                    }).then(function (response) {
+                        console.log(response);
+                        resolve(response)
+                    }).catch(function (error) {
+                        console.log(error);
+                        reject(error)
+                    });
+                }
+
             })
-                .catch(function (error) {
-                    console.log(error);
-                    defer.resolve(error)
 
-                });
-
-            return defer.promise
 
         }
         this.convertDate = function (array) {

@@ -3,7 +3,7 @@ angular.module('starter.configs', [])
     .constant("CONFIG", {
         'UpdateAt': "2017-04-10T04:44:21.253Z",
         'Location': false,
-        'WEBURL': 'https://joboapp.com',
+        "WEBURL": 'https://jobo.asia',
         "APIURL": 'http://localhost:8080',
         "AnaURL": 'http://localhost:8081',
         'FCM_KEY': "AAAArk3qIB4:APA91bEWFyuKiFqLt4UIrjUxLbduQCWJB4ACptTtgAovz4CKrMdonsS3jt06cfD9gGOQr3qtymBmKrsHSzGhqyJ_UWrrEbA4YheznlqYjsCBp_12bNPFSBepqg_qrxwdYxX_IcT9ne5z6s02I2mu2boy3VTN3lGPYg",
@@ -212,6 +212,15 @@ angular.module('starter.configs', [])
             }
         },
         "hour": {
+            0: "0:00",
+            1: "1:00",
+            2: "2:00",
+            3: "3:00",
+            4: "4:00",
+            5: "5:00",
+            6: "6:00",
+            7: "7:00",
+            8: "8:00",
             9: "9:00",
             10: "10:00",
             11: "11:00",
@@ -221,15 +230,22 @@ angular.module('starter.configs', [])
             15: "15:00",
             16: "16:00",
             17: "17:00",
-            18: "18:00"
+            18: "18:00",
+            19: "19:00",
+            20: "20:00",
+            21: "21:00",
+            22: "22:00",
+            23: "23:00",
+            24: "24:00",
+
         },
         "day": {
+            0: "Chủ nhật",
             1: "Thứ 2",
             2: "Thứ 3",
             3: "Thứ 4",
             4: "Thứ 5",
             5: "Thứ 6",
             6: "Thứ 7",
-            7: "Chủ nhật"
         }
     });

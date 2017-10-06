@@ -46,7 +46,7 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
                 params: newfilter
             }).then(function successCallback(response) {
                 var result = response.data
-
+                $rootScope.newfilter = result.newfilter
                 for (var i in result.data) {
                     var jobData = result.data[i]
                     if (jobData.act) {
@@ -71,7 +71,6 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
             })
         })
     };
-
 
     $scope.autocompleteAddress = {text: ''};
     $scope.ketquasAddress = [];
@@ -113,11 +112,19 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
     $scope.initStatic = function () {
         $rootScope.jobCard = {}
         $scope.getUserFiltered({type: 'premium'}).then(function (result) {
-            $rootScope.jobCard['premium'] = result
+            $rootScope.jobCard = result
         })
-        $scope.getUserFiltered({type: 'basic'}).then(function (result) {
-            $rootScope.jobCard['basic'] = result
-        })
+        if ($rootScope.userId) {
+            $rootScope.service.JoboApi('on/profile', {userId: $rootScope.userId}).then(function (result) {
+               if(result.data.err){
+
+               }else {
+                   $rootScope.userData = result.data;
+
+               }
+            })
+        }
+
     }
 
     $scope.setSalary = function () {
@@ -125,17 +132,15 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
     }
 
     $scope.salary = false
-    $rootScope.newfilterFilter = function (type, key, collection) {
-        if (!collection) {
-            collection = 'premium'
+    $rootScope.newfilterFilter = function (type, key) {
+        if (!$rootScope.newfilter) {
+            $rootScope.newfilter = {}
         }
-        $rootScope.jobCard[collection].data = []
-        $rootScope.jobCard[collection].newfilter[type] = key
-        $rootScope.jobCard[collection].newfilter.page = 1
-
-        console.log(' $rootScope.jobCard[collection].newfilter', $rootScope.jobCard[collection].newfilter)
-        $scope.getUserFiltered($rootScope.jobCard[collection].newfilter)
-            .then(result => $rootScope.jobCard[collection] = result)
+        $rootScope.newfilter[type] = key
+        $rootScope.newfilter.page = 1
+        console.log(' $rootScope.jobCard[collection].newfilter', $rootScope.jobCard.newfilter)
+        $scope.getUserFiltered($rootScope.newfilter)
+            .then(result => $rootScope.jobCard = result)
 
 
     }

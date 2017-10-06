@@ -1,0 +1,30 @@
+<div class="app flex-row align-items-center animated fadeIn">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mx-2" ng-show="preApply">
+                    <hr class="transparent mx-1 my-0">
+                    <div class="callout callout-primary m-0 py-1">
+                        <div class="callout_preApply">
+                            <p>Hãy cho chúng tôi biết tại sao bạn từ chối nhận tin.</p>
+                        </div>
+                    </div>
+                    <hr class="mx-1 my-0">
+                </div>
+                <div class="card mx-2">
+                    <div class="card-block p-2 header-signup">
+                        <h1>Từ chối nhận tin</h1>
+                        <div class="callout_preApply">
+                            <p>Hãy cho chúng tôi biết tại sao bạn từ chối nhận tin.</p>
+                        </div>
+                        <div class="input-group mb-1" ng-class="{ 'has-danger' : reason && !reason , 'has-success' : reason }">
+              <textarea name="reason" class="form-control" placeholder="..." id="reason" ng-model="reason" rows="20" required>
+              </textarea>
+                        </div>
+                        <button ng-disabled="!reason" type="submit" class="btn btn-block btn-primary main-backgroud" ng-click="unsubscribe(reason)">Đồng ý</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

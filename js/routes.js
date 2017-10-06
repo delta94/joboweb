@@ -351,6 +351,16 @@ angular
                 templateUrl: 'templates/admin/schedule.html',
                 controller: 'scheduleCtrl'
             })
+            .state('admin.notification', {
+                url: '/admin/notification',
+                templateUrl: 'templates/admin/notification.html',
+                controller: 'notificationCtrl'
+            })
+            .state('unsubscribe', {
+                url: '/unsubscribe?id?email',
+                templateUrl: 'templates/unsubscribe.html',
+                controller: 'unsubscribeCtrl'
+            })
 
         // static
 

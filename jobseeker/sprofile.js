@@ -23,58 +23,70 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
         $scope.indexToShow = 0;
         AuthUser.user()
             .then(function (userInfo) {
-                $scope.userInfo = userInfo
-                $timeout(function () {
-                    if (!$rootScope.userData) {
-                        //chưa có hồ sơ
+                $rootScope.userInfo = userInfo
+                $rootScope.service.JoboApi('on/profile', {userId: $rootScope.userId}).then(function (result) {
+                    if (result.data.err) {
+
                         $scope.firsttime = true
                         $rootScope.userData = {
                             userId: $rootScope.userId,
                             name: userInfo.name,
                             photo: []
                         }
-                    }
-                    if ($rootScope.userData.email && $rootScope.userData.phone) {
-                        $scope.indexToShow = 1;
-                        if ($rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.address && $rootScope.userData.job) {
-                            $scope.indexToShow = 2;
-                        }
+
+                    } else {
+
+                        $timeout(function () {
+
+                            $rootScope.userData = result.data
+                            if ($rootScope.userInfo.email && $rootScope.userInfo.phone) {
+                                $scope.indexToShow = 1;
+                                if ($rootScope.userData.name && $rootScope.userData.birthArray && $rootScope.userData.address && $rootScope.userData.job) {
+                                    $scope.indexToShow = 2;
+                                }
+                            }
+
+                            if ($rootScope.userData.school) {
+                                $scope.autocompleteSchool = {text: $rootScope.userData.school}
+                            }
+                            if ($rootScope.userData.address) {
+                                $scope.autocompleteAddress = {text: $rootScope.userData.address}
+                            }
+
+                            if ($rootScope.userData.industry) {
+                                for (var i in $rootScope.userData.industry) {
+                                    $scope.multiple.industry.push(i)
+                                }
+                            }
+                            if ($rootScope.userData.languages) {
+                                for (var i in $rootScope.userData.languages) {
+                                    $scope.multiple.languages.push(i)
+                                }
+                            }
+
+                            if ($rootScope.userData.job) {
+                                for (var i in $rootScope.userData.job) {
+                                    $scope.multiple.job.push(i)
+                                }
+                            }
+                            if ($rootScope.userData.birth) {
+                                $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
+                                console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
+                            }
+
+                            if (!$rootScope.userData.photo) {
+                                $rootScope.userData.photo = []
+                            }
+
+                            $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
+
+
+                        })
                     }
 
-                    if ($rootScope.userData.school) {
-                        $scope.autocompleteSchool = {text: $rootScope.userData.school}
-                    }
-                    if ($rootScope.userData.address) {
-                        $scope.autocompleteAddress = {text: $rootScope.userData.address}
-                    }
 
-                    if ($rootScope.userData.industry) {
-                        for (var i in $rootScope.userData.industry) {
-                            $scope.multiple.industry.push(i)
-                        }
-                    }
-                    if ($rootScope.userData.languages) {
-                        for (var i in $rootScope.userData.languages) {
-                            $scope.multiple.languages.push(i)
-                        }
-                    }
-
-                    if ($rootScope.userData.job) {
-                        for (var i in $rootScope.userData.job) {
-                            $scope.multiple.job.push(i)
-                        }
-                    }
-                    if ($rootScope.userData.birth) {
-                        $rootScope.userData.birthArray = $rootScope.service.convertDateArray($rootScope.userData.birth)
-                        console.log('$rootScope.userData.birthArray', $rootScope.userData.birthArray)
-                    }
-
-                    if (!$rootScope.userData.photo) {
-                        $rootScope.userData.photo = []
-                    }
-
-                    $scope.videoTrusted = $sce.trustAsResourceUrl($rootScope.userData.videourl)
                 })
+
 
             }, function (error) {
                 console.log(error)
@@ -318,8 +330,6 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
         console.log(selected);
         $('#list-add').hide();
-        //$rootScope.userData.address = selected.formatted_address;
-        //$rootScope.userData.location = selected.geometry.location;
 
     };
     $scope.eraseAddress = function () {
@@ -553,8 +563,8 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
     $scope.submit = function () {
         console.log('$rootScope.userData', $rootScope.userData)
-        if (($rootScope.userData.email
-                && $rootScope.userData.phone
+        if (($rootScope.userInfo.email
+                && $rootScope.userInfo.phone
                 && $rootScope.userData.address
                 && $rootScope.userData.name
                 && $rootScope.userData.birthArray
@@ -614,7 +624,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
 
                 $rootScope.service.JoboApi('update/user', {
                     userId: $rootScope.userId,
-                    user: dataUser,
+                    user: $rootScope.userInfo,
                     profile: dataProfile
                 }).then(function (res) {
                     if ($scope.firsttime) {
@@ -635,7 +645,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                                     id: $rootScope.preApply.card.storeId,
                                     job: $rootScope.preApply.jobOffer
                                 })
-                        })
+                            })
 
                     }
                     if ($scope.adminData && $scope.adminData.admin) {
@@ -668,7 +678,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.email) {
+            if ($rootScope.userInfo.email) {
 
             } else {
                 $scope.error.email = true;
@@ -676,7 +686,7 @@ function sprofileCtrl(debounce, $rootScope, $scope, AuthUser, $stateParams, $tim
                     console.log($scope.error)
                 })
             }
-            if ($rootScope.userData.phone) {
+            if ($rootScope.userInfo.phone) {
 
             } else {
                 $scope.error.phone = true;

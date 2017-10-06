@@ -56,15 +56,7 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
         $rootScope.service.JoboApi('on/profile', {userId: userId}).then(function (data) {
             $scope.user = data.data;
         });
-        /*var storeRef = firebase.database().ref('/store/' + storeId);
-        storeRef.once('value', function (snap) {
-            $scope.store = snap.val()
-        });
 
-        var userRef = firebase.database().ref('/profile/' + userId);
-        userRef.once('value', function (snap) {
-            $scope.user = snap.val()
-        });*/
 
 
         $scope.close = function (result) {
@@ -100,8 +92,6 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
 
             console.log(selected);
             $('#list-add').hide();
-            //$rootScope.userData.address = selected.formatted_address;
-            //$rootScope.userData.location = selected.geometry.location;
 
         };
 

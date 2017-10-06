@@ -71,8 +71,10 @@ var app = angular
         $rootScope.service.JoboApi('config').then(function (res) {
             $rootScope.CONFIG = res.data;
             $rootScope.CONFIG.APIURL = CONFIG.APIURL;
+            $rootScope.CONFIG.hour = CONFIG.hour;
+            $rootScope.CONFIG.day = CONFIG.day;
             console.log('$rootScope.CONFIG.APIURL', $rootScope.CONFIG.APIURL)
-            $rootScope.service.loadLang('vi')
+            $rootScope.service.loadLang('vi');
             $rootScope.dataJob = $rootScope.CONFIG.data.job;
             $rootScope.dataTime = $rootScope.CONFIG.data.time;
             $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
@@ -170,29 +172,34 @@ var app = angular
 
         AuthUser.user().then(function (data) {
             console.log(data);
-            $rootScope.$broadcast('auth', data);
-            $rootScope.$broadcast('handleBroadcast', data);
-            $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
-                var user = res.data;
-                console.log('user', user);
-                $rootScope.userData = user.userData;
-                if ($rootScope.userData) {
-                    if (!$rootScope.userData.webToken) {
-                        $rootScope.service.saveWebToken();
+            if($rootScope.userId){
+                $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
+                    var user = res.data;
+                    console.log('user', user);
+                    $rootScope.userData = user.userData;
+                    if ($rootScope.userData) {
+                        $timeout(function () {
+                            if (!$rootScope.userData.webToken) {
+                                $rootScope.service.saveWebToken();
+                            }
+                            $rootScope.type = $rootScope.userData.type;
+                            if ($rootScope.userData.currentStore) {
+                                $rootScope.storeId = $rootScope.userData.currentStore
+                            }
+                            $rootScope.storeList = user.storeList;
+                            $rootScope.storeData = user.storeData;
+                            $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
+                            $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
+                            $rootScope.reactList = user.reactList;
+
+
+                        })
+
+                    } else {
+                        toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
                     }
-                    $rootScope.type = $rootScope.userData.type;
-                    if ($rootScope.userData.currentStore) {
-                        $rootScope.storeId = $rootScope.userData.currentStore
-                    }
-                    $rootScope.storeList = user.storeList;
-                    $rootScope.storeData = user.storeData;
-                    $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
-                    $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
-                    $rootScope.reactList = user.reactList;
-                } else {
-                    toastr.info('Chúng tôi đang kiểm tra lại thông tin người dùng')
-                }
-            })
+                })
+            }
 
 
         })
@@ -212,4 +219,16 @@ var app = angular
         axios.get(`${CONFIG.AnaURL}/l/${$stateParams.queryString}`)
             .then(result => window.location.href = result.data.url)
             .catch(err => console.log(err));
+    })
+    .controller('unsubscribeCtrl', function ($scope, CONFIG, $stateParams, toastr) {
+        const { id, email } = $stateParams;
+        $scope.unsubscribe = function (reason) {
+            axios.post(`${CONFIG.APIURL}/unsubscribe`, {
+                notiId: id,
+                email,
+                reason
+            })
+                .then(result => toastr.success(result.data.message))
+                .catch(err => toastr.error(err.data.message));
+        }
     })

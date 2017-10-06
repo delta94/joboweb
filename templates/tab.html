@@ -4,7 +4,7 @@
         <!--<button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>-->
         <a class="navbar-brand" ui-sref="app.dash"></a>
 
-        <form ng-hide="type == 0" class="hidden-md-down" accept-charset="UTF-8" autocomplete="off"><input name="utf8"
+        <form ng-show="userData.admin" class="hidden-md-down" accept-charset="UTF-8" autocomplete="off"><input name="utf8"
                                                                                                         type="hidden"
                                                                                                         value="✓">
             <div class="form-group form-search" style="margin:12px auto !important;">
