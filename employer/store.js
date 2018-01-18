@@ -121,36 +121,35 @@ function storeCtrl($rootScope, $q, $scope, AuthUser, $stateParams, $timeout, $st
     if ($scope.admin) {
         console.log($rootScope.storeId)
         $scope.ByHand = true
+        $rootScope.storeId = $scope.admin;
+        $rootScope.service.JoboApi('on/store', {
+            storeId: $rootScope.storeId
+        }).then(function (data) {
+            $timeout(function () {
+                $rootScope.storeData = data.data
 
-        AuthUser.user().then(function (adminInfo) {
-            $scope.adminData = adminInfo;
-            if ($scope.adminData.admin) {
-                $rootScope.storeId = $scope.admin;
-                $rootScope.service.JoboApi('on/store', {
-                    storeId: $rootScope.storeId
-                }).then(function (data) {
+                $rootScope.userId = $rootScope.storeData.createdBy
+                $rootScope.service.JoboApi('on/user', {
+                    userId: $rootScope.userId
+                }).then(function (datauser) {
                     $timeout(function () {
-                        $rootScope.storeData = data.data
-                        $rootScope.userId = $rootScope.storeData.createdBy
-                        $rootScope.service.JoboApi('on/user', {
-                            userId: $rootScope.userId
-                        }).then(function (datauser) {
-                            $timeout(function () {
-                                $rootScope.userData = datauser.data
-                            })
-                        })
-                        if ($rootScope.storeData && $rootScope.storeData.jobData) {
-                            $scope.jobData = $rootScope.storeData.jobData
-                        } else {
-                            //chưa có job
-                            $rootScope.storeData.job = {}
-                            $scope.jobData = []
-                        }
-                        //Đã có, vào để update
-                        $scope.autocompleteAddress.text = $rootScope.storeData.address
+                        $rootScope.userData = datauser.data
                     })
                 })
-            }
+
+                if ($rootScope.storeData && $rootScope.storeData.jobData) {
+                    $scope.jobData = $rootScope.storeData.jobData
+                } else {
+                    //chưa có job
+                    $rootScope.storeData.job = {}
+                    $scope.jobData = []
+                }
+                //Đã có, vào để update
+                $scope.autocompleteAddress.text = $rootScope.storeData.address
+            })
+        })
+        AuthUser.user().then(function (adminInfo) {
+            $scope.adminData = adminInfo;
         });
     } else {
         $scope.init()

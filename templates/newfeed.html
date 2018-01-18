@@ -1,0 +1,647 @@
+<div class="row">
+    <div class="col-md-3 card">
+        <div class="card-block">
+            <fieldset class="form-group">
+                <label>interviewTime_from </label>
+                <div class="input-group mb-1">
+                    <input class="form-control" type="date"
+                           ng-model="newfilter.interviewTime_from">
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>interviewTime_to </label>
+                <div class="input-group mb-1">
+                    <input class="form-control" type="date"
+                           ng-model="newfilter.interviewTime_to">
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>JobId </label>
+                <div class="input-group mb-1">
+                    <input class="form-control"
+                           ng-model="newfilter.jobId">
+                </div>
+            </fieldset>
+            <!--<fieldset class="form-group">-->
+                <!--<label>jobId </label>-->
+                <!--<div class="input-group mb-1">-->
+                    <!--<input class="form-control"-->
+                           <!--ng-model="newfilter.jobId">-->
+                <!--</div>-->
+            <!--</fieldset>-->
+            <!--<fieldset class="form-group">-->
+                <!--<label>id</label>-->
+                <!--<label class="switch switch-default switch-pill switch-primary"-->
+                       <!--style="float: right">-->
+                    <!--<input type="checkbox" class="switch-input"-->
+                           <!--ng-model="newfilter.id">-->
+                    <!--<span class="switch-label"></span>-->
+                    <!--<span class="switch-handle"></span>-->
+                <!--</label><br>-->
+
+            <!--</fieldset>-->
+            <!--<fieldset class="form-group">-->
+                <!--<label>still_alive</label>-->
+                <!--<label class="switch switch-default switch-pill switch-primary"-->
+                       <!--style="float: right">-->
+                    <!--<input type="checkbox" class="switch-input"-->
+                           <!--ng-model="newfilter.still_alive">-->
+                    <!--<span class="switch-label"></span>-->
+                    <!--<span class="switch-handle"></span>-->
+                <!--</label><br>-->
+
+            <!--</fieldset>-->
+            <!--<fieldset class="form-group">-->
+                <!--<label>comment</label>-->
+                <!--<label class="switch switch-default switch-pill switch-primary"-->
+                       <!--style="float: right">-->
+                    <!--<input type="checkbox" class="switch-input"-->
+                           <!--ng-model="newfilter.comment">-->
+                    <!--<span class="switch-label"></span>-->
+                    <!--<span class="switch-handle"></span>-->
+                <!--</label><br>-->
+
+            <!--</fieldset>-->
+            <!--<fieldset class="form-group">-->
+                <!--<label>schedule</label>-->
+                <!--<label class="switch switch-default switch-pill switch-primary"-->
+                       <!--style="float: right">-->
+                    <!--<input type="checkbox" class="switch-input"-->
+                           <!--ng-model="newfilter.schedule">-->
+                    <!--<span class="switch-label"></span>-->
+                    <!--<span class="switch-handle"></span>-->
+                <!--</label><br>-->
+
+            <!--</fieldset>-->
+            <button type="button" class="btn btn-primary" ng-click="getLog(newfilter)">
+                Tiến
+                hành
+                lọc
+            </button>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        <div class="animated fadeIn" style="min-height: 500px" ng-init="init()">
+
+            <div class="container" ng-show="response.total">
+                <div class="card" style="margin-top: 20px;">
+                    <hr class="transparent mx-1 my-0">
+                    <div class="callout callout-primary m-0 py-1">
+                        <label class="switch switch-sm switch-text switch-info float-right mb-0">
+                            <input type="checkbox" class="switch-input" ng-model="showType">
+                            <span class="switch-label" data-on="List" data-off="Card"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+
+                        <div class="noti" ng-hide="response.total == 0">
+                            <h4> {{response.total}} lượt ứng tuyển</h4>
+                        </div>
+
+                        <!--<div>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.job"-->
+                        <!--ng-repeat="(key,value) in userData.job">{{Lang[key]}}-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.industry"-->
+                        <!--ng-repeat="(key,value) in userData.industry">{{Lang[key]}}-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.working_type">-->
+                        <!--{{Lang[userData.working_type]}}-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.time"-->
+                        <!--ng-repeat="(key,value) in userData.time">{{Lang[key]}}-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.expect_salary">-->
+                        <!--{{userData.expect_salary + ' triệu đồng/tháng'}}-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-outline-success btn-sm" ng-if="userData.expect_distance">-->
+                        <!--{{userData.expect_distance+ ' km'}}-->
+                        <!--</button>-->
+                        <!--</div>-->
+
+                        <div class="col-md-2" ng-if="view.admin">
+                            <div class="popup dropdown">
+                                <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    {{newfilter.type || 'Loại'}} <i class="fa fa-chevron-down" aria-hidden="true"
+                                                                    style="color: #999"></i>
+                                </a>
+                                <div class="dropdown-menu popup-content">
+                                    <div class="sort-menu cfix desktop-list" id="featured-menu">
+                                        <div class="list-header">Loại</div>
+                                        <ul id="browse-list" class="divided-list"
+                                            ng-repeat="(key,value) in {premium,basic,lead,marketing,google}">
+                                            <li class="list-browse {{newfilter.type == key ? 'selected':''}}"
+                                                ng-click="newfilterFilter('type',key)"><a
+                                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{key}}</a>
+                                            </li>
+                                        </ul>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr class="mx-1 my-0">
+                </div>
+
+
+                <div ng-repeat="card in response.data" class="card-joblist">
+                    <div class="noti">
+                        <small class="text-muted float-right mt-q ng-binding">
+                            Đặt lịch {{service.timeAgo(card.likeAt)}}<br>
+
+                            <i class="fa {{showHideData[card.userId] ? 'fa-toggle-up':'fa-toggle-down'}} float-right"
+                               style="font-size: large" ng-click="service.showAndHide(card.userId)"></i>
+
+                        </small>
+                        <h4><a href="/view/profile/{{card.userId}}">{{card.userName}}</a> ứng tuyển vào <a href="/view/store/{{card.storeId+'?job='+card.jobId}}">{{card.jobName + ' | '+card.storeName}}</a></h4>
+                        <p ng-if="card.description">Cover letter: {{card.description}} </p>
+                        <p ng-if="card.interviewTime">Lịch phỏng vấn: {{card.interviewTime | date: 'HH:mm dd/MM/yyyy'}} </p>
+
+                        <button ng-click="service.setStatus(card, 'success')"
+                                ng-hide="card.success" type="button"
+                                class="btn btn-outline-success btn-sm">Thành công
+                        </button>
+                        <button ng-click="service.setStatus(card, 'success', true)"
+                                ng-show="card.success" type="button"
+                                class="btn btn-success btn-sm">Đã thành công
+                        </button>
+                        <button ng-click="service.setStatus(card, 'meet')"
+                                ng-hide="card.meet" type="button"
+                                class="btn btn-outline-info btn-sm">Gặp mặt
+                        </button>
+                        <button ng-click="service.setStatus(card, 'meet', true)"
+                                ng-show="card.meet" type="button"
+                                class="btn btn-info btn-sm">Đã gặp mặt
+                        </button>
+                    </div>
+
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-6">-->
+                            <!--<div class="message p-h">-->
+
+                                <!--<div class="py-h mr-1 float-left">-->
+                                    <!--<div class="avatar">-->
+                                        <!--<img src="{{card.profile.avatar || 'img/macdinh.jpg'}}" class="img-avatar">-->
+
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<small class="text-muted float-right mt-q ng-binding">-->
+                                        <!--{{service.timeAgo(card.profile.updatedAt)}}<br>-->
+
+                                        <!--<i class="fa {{showHideData[card.profile.userId] ? 'fa-toggle-up':'fa-toggle-down'}} float-right"-->
+                                           <!--style="font-size: large"-->
+                                           <!--ng-click="service.showAndHide(card.profile.userId)"></i>-->
+
+                                    <!--</small>-->
+                                    <!--<div ui-sref="app.viewprofile ({id:card.profile.userId})">-->
+                                        <!--<strong>{{card.profile.name}}</strong> <span ng-if="card.profile.urgent == 1"-->
+                                                                                     <!--class="badge badge-success">Tìm việc gấp</span>-->
+                                        <!--<span ng-if="card.profile.urgent == -1"-->
+                                              <!--class="badge badge-warning">Đã có việc</span>-->
+                                        <!--<br>-->
+                                        <!--<small class="{{userData.expect_distance < card.profile.distance ?'text-success':'text-muted'}}">-->
+                                            <!--<i class="icon-location-pin"></i>&nbsp;-->
+                                            <!--{{service.shortAddress(card.profile.address)}} {{card.profile.distance ? ' - -->
+                                            <!--'+ card.profile.distance +'-->
+                                            <!--km':''}}-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                    <!--<small class="col-md-4 {{userData.job[card.profile.job] ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="fa fa-compass"></i>&nbsp;-->
+                                        <!--<span ng-repeat="(key,value) in card.profile.job">{{Lang[key]}} | </span>-->
+                                    <!--</small>-->
+                                    <!--<small class="col-md-4 {{userData.industry[card.profile.industry] ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-suitcase"></i>&nbsp;-->
+                                        <!--<span ng-repeat="(key,value) in card.profile.industry">{{Lang[key]}} | </span>-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.working_type"-->
+                                           <!--class="col-md-4 {{userData.working_type == card.profile.working_type ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="icon-calendar"></i>&nbsp;-->
+                                        <!--{{Lang[card.profile.working_type]}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.time" class="col-md-4 text-muted"><i-->
+                                            <!--class="fa fa-clock-o"></i>&nbsp;-->
+                                        <!--<span ng-repeat="(key,value) in card.profile.time">{{Lang[key]}} | </span>-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.expect_salary"-->
+                                           <!--class="col-md-4 {{Number(userData.expect_salary) <= Number(card.profile.salary) ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-dollar"></i>&nbsp;-->
+                                        <!--{{card.profile.expect_salary}} tr/tháng-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.hourly_wages" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-clock"></i>&nbsp;-->
+                                        <!--{{card.profile.hourly_wages}} k/giờ-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.birth"-->
+                                           <!--class="col-md-4 {{Number(userData.expect_salary) <= Number(card.profile.salary) ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-calendar-o"></i>&nbsp;-->
+                                        <!--{{card.profile.birth | date: 'y'}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.height || card.profile.weight"-->
+                                           <!--class="col-md-4 {{Number(userData.expect_salary) <= Number(card.profile.salary) ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-star"></i>&nbsp;-->
+                                        <!--{{card.profile.height ? card.profile.height + ' cm - ':''}}-->
+                                        <!--{{card.profile.weight ?-->
+                                        <!--card.profile.weight + ' kg':''}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.school"-->
+                                           <!--class="col-md-4 {{Number(userData.expect_salary) <= Number(card.profile.salary) ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-calendar-o"></i>&nbsp;-->
+                                        <!--{{card.profile.school}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.languages"-->
+                                           <!--class="col-md-4 {{userData.languages[card.profile.languages] ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="icon-globe"></i>&nbsp;-->
+                                        <!--<span ng-repeat="(key,value) in card.profile.languages">{{Lang[key]}}</span>-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.figure"-->
+                                           <!--class="col-md-4 {{userData.figure ?'text-success':'text-muted'}}"><i-->
+                                            <!--class="icon-earphones"></i>&nbsp;-->
+                                        <!--Có ngoại hình-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.sex"-->
+                                           <!--class="col-md-4 {{userData.sex == card.profile.sex ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="fa fa-venus-mars"></i>&nbsp;-->
+                                        <!--{{Lang[card.profile.sex]}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.experience"-->
+                                           <!--class="col-md-4 {{userData.experience ?'text-success':'text-muted'}}"><i-->
+                                            <!--class="icon-calendar"></i>&nbsp;-->
+                                        <!--Có kinh nghiệm-->
+                                        <!--<span ng-repeat="exp in card.profile.experience">{{Lang[exp.job]}}, {{exp.company}} | </span>-->
+
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.profile.interviewTime" class="col-md-4 text-muted"><i-->
+                                            <!--class="fa fa-calendar-o"></i>&nbsp;-->
+                                        <!--{{card.profile.interviewTime.daily?'Hằng ngày':''}}-->
+                                        <!--{{card.profile.interviewTime.hour? ' lúc '+-->
+                                        <!--card.profile.interviewTime.hour+' giờ':''}}-->
+                                        <!--{{card.profile.interviewTime.day?'thứ ' +-->
+                                        <!--CONFIG.day[card.profile.interviewTime.day]:''}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.deadline" class="col-md-4 text-muted"><i-->
+                                            <!--class="fa fa-bomb"></i>&nbsp;-->
+                                        <!--{{card.profile.deadline | date}}({{service.timeAgo(card.profile.deadline)}})-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.createdAt" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-calendar"></i>&nbsp;-->
+                                        <!--{{card.profile.createdAt | date}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.profile.viewed" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-graph"></i>&nbsp;-->
+                                        <!--{{card.profile.viewed}}-->
+                                    <!--</small>-->
+                                <!--</div>-->
+
+                                <!--<div class="card.profile-block" ng-if="view.admin">-->
+
+                                    <!--<i class="fa fa-check-square-o" ng-if="card.profile.incharge">{{card.profile.incharge}}</i>-->
+                                    <!--<i style="margin-left: 5px; color:#00bf8f;"-->
+                                       <!--class="fa fa-check-square"-->
+                                       <!--ng-hide="card.profile.incharge">Availble</i>-->
+
+                                    <!--<i class="fa fa-user"></i> {{card.profile.name}}-->
+
+                                    <!--<i class="fa fa-phone"></i> {{card.profile.phone}}-->
+
+                                    <!--<i class="fa fa-inbox"></i> {{card.profile.email}}-->
+                                    <!--<i ng-if="card.profile.ref" class="icon-graph"> </i> {{card.profile.ref}}-->
+                                    <!--<i style="margin-left: 5px; color:#00bf8f;font-size:20px;"-->
+                                       <!--class="fa fa-check-square-o"-->
+                                       <!--aria-hidden="true"-->
+                                       <!--data-toggle="popover" data-placement="top" data-content="Đã phỏng vấn"-->
+                                       <!--data-trigger="hover"-->
+                                       <!--ng-if="card.profile.verify == true"></i>-->
+                                    <!--<i ng-if="card.profile.mobileToken"-->
+                                       <!--style="position: absolute; bottom: 3px; right: 0;font-size:23px;"-->
+                                       <!--class="fa fa-mobile fa-lg mt-2"-->
+                                       <!--data-toggle="popover" data-placement="top"-->
+                                       <!--data-content="Nhận thông báo trên điện thoại"-->
+                                       <!--data-trigger="hover"></i>-->
+                                    <!--<i ng-if="card.profile.webToken"-->
+                                       <!--style="position: absolute; bottom: 3px; right: 24px; font-size:20px;"-->
+                                       <!--class="fa fa-globe fa-lg mt-2"-->
+                                       <!--data-toggle="popover" data-placement="top"-->
+                                       <!--data-content="Nhận thông báo trên máy tính"-->
+                                       <!--data-trigger="hover"></i>-->
+
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="note in card.profile.adminNote">-->
+                                            <!--<div class="row">-->
+                                                <!--<div class="col-xs-12 col-sm-3">-->
+                                                    <!--<p>{{note.date | date: 'dd/MM/yyyy - HH:mm'}}</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-12 col-sm-9">-->
+                                                    <!--<h4 style="margin-top: 0px">{{note.admin}}</h4>-->
+                                                    <!--<p>{{note.note}}</p>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                    <!--<fieldset class="form-group">-->
+                                        <!--<div class="input-group">-->
+                                            <!--<input id="input2-group2" ng-model="card.profile.note"-->
+                                                   <!--name="input2-group2" class="form-control" placeholder="Add note">-->
+                                            <!--<span class="input-group-btn">-->
+                                        <!--<button type="button" class="btn btn-primary"-->
+                                                <!--ng-click="service.addAdminNote('lead',card.profile.storeId,card.profile.note)">ADD</button>-->
+                                    <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</fieldset>-->
+                                    <!--<button class="btn btn-secondary btn-sm"-->
+                                            <!--ng-click="service.viewInbox(card.profile.email)">-->
+                                        <!--View Notification-->
+                                    <!--</button>-->
+                                    <!--<button class="btn btn-secondary btn-sm"-->
+                                            <!--ng-click="service.viewSendNotification(card.profile)">-->
+                                        <!--Send Notification-->
+                                    <!--</button>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                            <!--<div class="animated fadeIn" style="margin-bottom: 30px;padding: 0 30px"-->
+                                 <!--ng-show="showHideData[card.profile.userId]">-->
+                                <!--<div>-->
+
+                                    <!--<p ng-if="card.profile.apply">• Đã ứng tuyển: {{card.profile.apply.length}}</p>-->
+                                    <!--<div class="avatars-stack mt-2" ng-if="card.profile.apply">-->
+                                        <!--<div class="avatar avatar-xs" ng-repeat="people in card.profile.apply">-->
+                                            <!--<img src="{{people.userAvatar}}" class="img-avatar"-->
+                                                 <!--ui-sref="app.viewprofile ({id: people.userId})">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="job-description" ng-if="card.profile.description">-->
+                                        <!--<div>-->
+
+                                            <!--<small ng-repeat="text in service.nextLine(card.profile.description) track by $index">-->
+                                                <!--{{text}}<br></small>-->
+
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="row" style="margin-top: 40px" ng-if="card.photo || myself">-->
+                                        <!--<div class="col-md-12">-->
+                                            <!--<div class="card">-->
+                                                <!--<div class="card-block">-->
+                                                    <!--<div class="row">-->
+                                                        <!--<div class="col-sm-6">-->
+                                                            <!--<h3 class="card-title clearfix mb-0">Hình ảnh</h3>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-sm-6">-->
+                                                            <!--<button ng-if="myself" type="button"-->
+                                                                    <!--class="btn btn-outline-primary float-right ml-1"><i-->
+                                                                    <!--class="icon-add" ui-sref="profile"-->
+                                                                    <!--type="button"></i> &nbsp;Thêm-->
+                                                            <!--</button>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--<hr class="m-0">-->
+                                                    <!--{{!card.photo && myself ? 'Hãy tải thêm hình ảnh của bạn':''}}-->
+                                                    <!--<div class="row">-->
+                                                        <!--<div class="col-xs-6 col-sm-6 col-md-4" style="padding: 5px"-->
+                                                             <!--ng-repeat="card in card.profile.photo">-->
+                                                            <!--<img src="{{card}}" style="width:100%;"/>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--&lt;!&ndash;/.row&ndash;&gt;-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--&lt;!&ndash;/.col&ndash;&gt;-->
+                                    <!--</div>-->
+
+
+                                <!--</div>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-6">-->
+                            <!--<div class="message p-h">-->
+
+                                <!--<div class="py-h mr-1 float-left">-->
+                                    <!--<div class="avatar">-->
+                                        <!--<img src="{{card.job.avatar}}" class="img-avatar">-->
+
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<small class="text-muted float-right mt-q ng-binding">-->
+                                        <!--{{service.timeAgo(card.job.updatedAt)}}<br>-->
+
+                                        <!--<i class="fa {{showHideData[card.job.jobId] ? 'fa-toggle-up':'fa-toggle-down'}} float-right"-->
+                                           <!--style="font-size: large" ng-click="service.showAndHide(card.job.jobId)"></i>-->
+
+                                    <!--</small>-->
+                                    <!--<div ui-sref="app.viewstore ({id:card.job.storeId,job:card.job.jobId})">-->
+                                        <!--{{card.job.jobName}}-->
+                                        <!--<strong>{{card.job.storeName}}</strong> <span-->
+                                            <!--ng-if="card.job.package == 'premium'"-->
+                                            <!--class="badge badge-info">HOT</span>-->
+                                        <!--<br>-->
+                                        <!--<small class="{{userData.expect_distance < card.job.distance ?'text-success':'text-muted'}}">-->
+                                            <!--<i class="icon-location-pin"></i>&nbsp;-->
+                                            <!--{{service.shortAddress(card.job.address)}} {{card.job.distance ? ' - '+-->
+                                            <!--card.job.distance +'-->
+                                            <!--km':''}}-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                    <!--<small class="col-md-4 {{userData.job[card.job.job] ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="fa fa-compass"></i>&nbsp;-->
+                                        <!--{{Lang[card.job.job]}}-->
+                                    <!--</small>-->
+                                    <!--<small class="col-md-4 {{userData.industry[card.job.industry] ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-suitcase"></i>&nbsp;-->
+                                        <!--{{Lang[card.job.industry]}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.job.working_type"-->
+                                           <!--class="col-md-4 {{userData.working_type == card.job.working_type ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="icon-calendar"></i>&nbsp;-->
+                                        <!--{{Lang[card.job.working_type]}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.job.work_time" class="col-md-4 text-muted"><i-->
+                                            <!--class="fa fa-clock-o"></i>&nbsp;-->
+                                        <!--<span ng-repeat="work in card.job.work_time">{{work.start}} - {{work.end}}</span>-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.job.salary"-->
+                                           <!--class="col-md-4 {{Number(userData.expect_salary) <= Number(card.job.salary) ?'text-success':'text-muted'}}">-->
+                                        <!--<i class="fa fa-dollar"></i>&nbsp;-->
+                                        <!--{{card.job.salary}} tr/tháng-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.hourly_wages" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-clock"></i>&nbsp;-->
+                                        <!--{{card.job.hourly_wages}} k/giờ-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.job.unit" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-equalizer"></i>&nbsp;-->
+                                        <!--{{card.job.unit}}-->
+                                    <!--</small>-->
+
+                                    <!--<small ng-if="card.job.figure"-->
+                                           <!--class="col-md-4 {{userData.figure ?'text-success':'text-muted'}}"><i-->
+                                            <!--class="icon-earphones"></i>&nbsp;-->
+                                        <!--Yêu cầu ngoại hình-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.sex"-->
+                                           <!--class="col-md-4 {{userData.sex == card.job.sex ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="fa fa-venus-mars"></i>&nbsp;-->
+                                        <!--{{Lang[card.job.sex]}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.experience"-->
+                                           <!--class="col-md-4 {{userData.experience ?'text-success':'text-muted'}}"><i-->
+                                            <!--class="icon-calendar"></i>&nbsp;-->
+                                        <!--Yêu cầu kinh nghiệm-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.languages"-->
+                                           <!--class="col-md-4 {{userData.languages[card.job.languages] ?'text-success':'text-muted'}}">-->
+                                        <!--<i-->
+                                                <!--class="icon-globe"></i>&nbsp;-->
+                                        <!--{{Lang[card.job.languages]}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.interviewTime" class="col-md-4 text-muted"><i-->
+                                            <!--class="fa fa-calendar-o"></i>&nbsp;-->
+                                        <!--{{card.job.interviewTime.daily?'Hằng ngày':''}} {{card.job.interviewTime.hour? '-->
+                                        <!--lúc '+-->
+                                        <!--card.job.interviewTime.hour+' giờ':''}} {{card.job.interviewTime.day?'thứ ' +-->
+                                        <!--CONFIG.day[card.job.interviewTime.day]:''}}-->
+                                    <!--</small>-->
+                                    <!--<small class="col-md-4 text-muted"><i class="fa fa-bomb"></i>&nbsp;-->
+                                        <!--{{card.job.deadline | date}}({{service.timeAgo(card.job.deadline)}})-->
+                                    <!--</small>-->
+                                    <!--<small class="col-md-4 text-muted"><i class="icon-calendar"></i>&nbsp;-->
+                                        <!--{{card.job.createdAt | date}}-->
+                                    <!--</small>-->
+                                    <!--<small ng-if="card.job.viewed" class="col-md-4 text-muted"><i-->
+                                            <!--class="icon-graph"></i>&nbsp;-->
+                                        <!--{{card.job.viewed}}-->
+                                    <!--</small>-->
+                                <!--</div>-->
+
+                                <!--<div class="card.job-block" ng-if="view.admin">-->
+
+                                    <!--<i class="fa fa-check-square-o" ng-if="card.job.incharge">{{card.job.incharge}}</i>-->
+                                    <!--<i style="margin-left: 5px; color:#00bf8f;"-->
+                                       <!--class="fa fa-check-square"-->
+                                       <!--ng-hide="card.job.incharge">Availble</i>-->
+
+                                    <!--<i class="fa fa-user"></i> {{card.job.name}}-->
+
+                                    <!--<i class="fa fa-phone"></i> {{card.job.phone}}-->
+
+                                    <!--<i class="fa fa-inbox"></i> {{card.job.email}}-->
+
+                                    <!--<ul>-->
+                                        <!--<li ng-repeat="note in card.job.adminNote">-->
+                                            <!--<div class="row">-->
+                                                <!--<div class="col-xs-12 col-sm-3">-->
+                                                    <!--<p>{{note.date | date: 'dd/MM/yyyy - HH:mm'}}</p>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-xs-12 col-sm-9">-->
+                                                    <!--<h4 style="margin-top: 0px">{{note.admin}}</h4>-->
+                                                    <!--<p>{{note.note}}</p>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                    <!--<fieldset class="form-group">-->
+                                        <!--<div class="input-group">-->
+                                            <!--<input id="input2-group2" ng-model="card.job.note"-->
+                                                   <!--name="input2-group2" class="form-control" placeholder="Add note">-->
+                                            <!--<span class="input-group-btn">-->
+                                        <!--<button type="button" class="btn btn-primary"-->
+                                                <!--ng-click="service.addAdminNote('lead',card.job.storeId,card.job.note)">ADD</button>-->
+                                    <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</fieldset>-->
+                                    <!--<button class="btn btn-secondary btn-sm"-->
+                                            <!--ng-click="service.viewInbox(card.job.email)">-->
+                                        <!--View Notification-->
+                                    <!--</button>-->
+                                    <!--<button class="btn btn-secondary btn-sm"-->
+                                            <!--ng-click="service.viewSendNotification(card.job)">-->
+                                        <!--Send Notification-->
+                                    <!--</button>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                            <!--<div class="animated fadeIn" style="margin-bottom: 30px;padding: 0 30px"-->
+                                 <!--ng-show="showHideData[card.job.jobId]">-->
+                                <!--<div>-->
+
+                                    <!--<p ng-if="card.job.apply">• Đã ứng tuyển: {{card.job.apply.length}}</p>-->
+                                    <!--<div class="avatars-stack mt-2" ng-if="card.job.apply">-->
+                                        <!--<div class="avatar avatar-xs" ng-repeat="people in card.job.apply">-->
+                                            <!--<img src="{{people.userAvatar}}" class="img-avatar"-->
+                                                 <!--ui-sref="app.viewprofile ({id: people.userId})">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="job-description" ng-if="card.job.description">-->
+                                        <!--<div>-->
+
+                                            <!--<small ng-repeat="text in service.nextLine(card.job.description) track by $index">-->
+                                                <!--{{text}}<br></small>-->
+
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+
+                                <!--</div>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+
+                </div>
+
+
+                <div class="spinner" ng-show="loading">
+                    <div class="cube1"></div>
+                    <div class="cube2"></div>
+                </div>
+
+
+                <br>
+
+                <button type="button" ng-hide="loading" ng-click="loadMore()"
+                        class="btn btn-link btn-lg btn-block">Tải thêm
+                </button>
+            </div>
+            <div class="spinner" ng-if="!response.total || loading">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

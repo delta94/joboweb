@@ -59,9 +59,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
     });
     $scope.init = function () {
 
-        if ($rootScope.storeData) {
-            $scope.initData($rootScope.storeData)
-        }
         if (!$rootScope.newfilter) {
             $rootScope.newfilter = {
                 p: 1
@@ -84,7 +81,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
             $rootScope.newfilter.job = $stateParams.job
         }
         $rootScope.usercard = []
-
         $scope.getUserFiltered($rootScope.newfilter)
 
 
@@ -95,18 +91,7 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
-    $scope.initData = function (storeData) {
-        if (!storeData) {
-            $state.go('store', {id: null})
-            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
-        } else if (!$rootScope.storeData.location) {
-            $state.go('store', {id: null})
-            toastr.info('Hãy tạo cửa hàng đầu tiên của bạn')
-        } else if (!$rootScope.storeData.job) {
-            toastr.info('Hãy cập nhật địa chỉ cửa hàng?')
-            $state.go('store', {id: 'job'})
-        }
-    }
+
 
     $rootScope.newfilterFilter = function (type, key) {
         $rootScope.newfilter[type] = key
@@ -117,7 +102,6 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         if ($rootScope.newfilter.figure == false) {
             delete $rootScope.newfilter.figure
         }
-
         console.log($rootScope.newfilter)
         $rootScope.usercard = []
         $scope.getUserFiltered($rootScope.newfilter)
@@ -171,31 +155,35 @@ app.controller('eDashCtrl', function ($scope, $state, $http, $sce, toastr, $q
         }).then(function successCallback(response) {
             console.log("respond", response);
             $scope.response = response.data;
-            if ($rootScope.maxMatchUser == 0) {
-                $rootScope.maxMatchUser = $scope.response.data[0].match
-                console.log($rootScope.maxMatchUser)
+            $scope.loading = false
+            if($scope.response.data.length >0 ){
+                if ($rootScope.maxMatchUser == 0) {
+                    $rootScope.maxMatchUser = $scope.response.data[0].match
+                    console.log($rootScope.maxMatchUser)
+                }
+
+                $timeout(function () {
+                    if (!$rootScope.usercard) {
+                        $rootScope.usercard = []
+                    }
+                    for (var i in $scope.response.data) {
+                        var profileData = $scope.response.data[i]
+                        $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchUser)
+
+                        if (profileData.act && profileData.act.actId) {
+                            var ref = 'activity/like/' + profileData.act.actId
+                            db.ref(ref).on('value', function (snap) {
+                                $scope.response.data[i].act = snap.val()
+                            })
+                        }
+
+                    }
+                    $rootScope.usercard = $rootScope.usercard.concat($scope.response.data);
+                    console.log($rootScope.usercard)
+                    $scope.loading = false
+                })
             }
 
-            $timeout(function () {
-                if (!$rootScope.usercard) {
-                    $rootScope.usercard = []
-                }
-                for (var i in $scope.response.data) {
-                    var profileData = $scope.response.data[i]
-                    $scope.response.data[i].matchPer = Math.round($scope.response.data[i].match * 100 / $rootScope.maxMatchUser)
-
-                    if (profileData.act && profileData.act.actId) {
-                        var ref = 'activity/like/' + profileData.act.actId
-                        db.ref(ref).on('value', function (snap) {
-                            $scope.response.data[i].act = snap.val()
-                        })
-                    }
-
-                }
-                $rootScope.usercard = $rootScope.usercard.concat($scope.response.data);
-                console.log($rootScope.usercard)
-                $scope.loading = false
-            })
         }, function (error) {
             console.log(error)
             $scope.loading = false

@@ -1,53 +1,14 @@
-<div class="spinner" ng-hide="storeData">
-    <div class="cube1"></div>
-    <div class="cube2"></div>
-</div>
-<div class="col-md-6" ng-hide="ByHand == true">
-    <div class="card">
-        <div class="card-header">
-            <h2>Thông tin cửa hàng</h2>
-        </div>
-        <div class="card-block">
-            <fieldset class="form-group">
-                <label class="text-muted">Tìm cửa hàng của bạn trên Google Places</label>
-
-                <div class="pop-add">
-                    <input ng-keydown="searchStore()" id="Store" ui-items="names"
-                           ng-model="autocompleteStore.text" class="form-control">
-                    <i class="icon-close" id="delete-store"
-                       ng-show="autocompleteStore.text.length" ng-click="eraseStore()"></i>
-                    <ul id="list-store" ng-show="autocompleteStore.text.length">
-                        <li ng-repeat="ketqua in ketquasStore"
-                            ng-click="setSelectedStore(ketqua)">{{ketqua.name +" - "+
-                            ketqua.formatted_address}}
-                        </li>
-                    </ul>
-                </div>
-
-            </fieldset>
-
-            <div class="row">
-                <div class="col-6 text-left">
-                    <button ng-click="createByHand()" type="button" class="btn btn-link px-0">Không
-                        tìm thấy? Tự tạo
-                    </button>
-                </div>
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">Edit Store</h4>
             </div>
+            <div class="modal-body">
 
-        </div>
-        <button ng-click="createByHand()" type="submit"
-                class="btn btn-block btn-success main-backgroud">Đăng
-            ký
-        </button>
-    </div>
-
-</div>
-
-<div class="container" style="margin-top: 30px">
-
-    <div class="animated fadeIn ng-scope justify-content-center">
-        <div class="row">
-            <div class="col-md-6" ng-show="ByHand == true">
                 <div class="card card-border">
                     <form name="signupForm" class="form-update" autocomplete="off">
                         <div>
@@ -103,25 +64,21 @@
                                         </div>
 
                                     </fieldset>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <strong>Lịch phỏng vấn</strong>
-                                        </div>
-                                        <div class="card-block ex-em">
-                                            <fieldset class="form-group"
-                                                      ng-repeat="(key,value) in CONFIG.interviewOption">
-                                                <label>{{value}}</label>
-                                                <label class="switch switch-default switch-pill switch-primary"
-                                                       style="float: right">
-                                                    <input type="checkbox" class="switch-input" class="switch-input"
-                                                           ng-model="storeData.interviewTime[key]">
-                                                    <span class="switch-label"></span>
-                                                    <span class="switch-handle"></span>
-                                                </label>
-                                            </fieldset>
 
-                                        </div>
-                                    </div>
+                                    <fieldset class="form-group">
+                                        <label>Lịch phỏng vấn *</label>
+
+                                        <fieldset class="form-group" ng-repeat="(key,value) in CONFIG.interviewOption">
+                                            <label>{{value}}</label>
+                                            <label class="switch switch-default switch-pill switch-primary"
+                                                   style="float: right">
+                                                <input type="checkbox" class="switch-input" class="switch-input"
+                                                       ng-model="storeData.interviewTime[key]">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </fieldset>
+                                    </fieldset>
 
 
                                     <fieldset class="form-group">
@@ -182,8 +139,7 @@
                                         </div>
                                         <div ngf-no-file-drop>Bạn chỉ có thể upload file ảnh</div>
                                         <div class="row">
-                                            <div class="col-sm-6 col-lg-3"
-                                                 ng-repeat="(key,value) in storeData.photo  track by $index">
+                                            <div class="col-sm-6 col-lg-3" ng-repeat="(key,value) in storeData.photo">
                                                 <div class="card">
                                                     <div class="card-block p-0 clearfix">
                                                         <img src="{{value}}" width="100%">
@@ -210,16 +166,16 @@
                                 <div class="card-block">
 
                                     <div class="radio">
-                                        <label>
-                                            <input type="radio" ng-model="userData.package" name="radios"
+                                        <label for="radio2">
+                                            <input type="radio" id="radio2" ng-model="userData.package" name="radios"
                                                    value="basic"> Basic:
                                         </label>
                                         <small class="text-muted">Tự chọn ứng viên, liên hệ và phỏng vấn</small>
                                     </div>
 
                                     <div class="radio">
-                                        <label>
-                                            <input type="radio" ng-model="userData.package" name="radios"
+                                        <label for="radio3">
+                                            <input type="radio" id="radio3" ng-model="userData.package" name="radios"
                                                    value="premium"> Premium:
                                         </label>
                                         <small class="text-muted">Chúng tôi sẽ cung cấp nhân sự theo yêu cầu của bạn,
@@ -276,19 +232,17 @@
                                                    ng-model="userData.phone" name="phone">
                                         </div>
                                     </fieldset>
-
-
-
+                                    <fieldset class="form-group" ng-show="userData.incharge">
+                                        <label>Lead phụ trách: {{userData.incharge}}</label>
+                                    </fieldset>
+                                    <button  ng-click="userData.incharge = adminId" type="submit" ng-hide="userData.incharge"
+                                             class="btn btn-success main-backgroud">Nhận care
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
-            </div>
-            <!--/.col-->
-
-            <div class="col-md-6" ng-show="ByHand == true">
                 <div class="card card-border">
 
                     <form name="signupForm" class="form-update" autocomplete="off">
@@ -684,85 +638,13 @@
                     <div class="card-header">
                         <strong>Admin ghi chú</strong>
                     </div>
-                    <div class="card-block">
-                        <div class="card-header">
-                            <strong>UserData</strong>
+                    <fieldset class="form-group {{error.name ? 'has-danger':''}}">
+                        <label>Ref</label>
+                        <div class="input-group mb-1">
+                            <input type="text" name="name" class="form-control" placeholder="Họ tên"
+                                   ng-model="storeData.ref" id="ref">
                         </div>
-                        <fieldset class="form-group">
-                            <label>userId</label>
-                            <input type="text" class="form-control" ng-model="userData.userId" name="credit">
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label>MessengerId</label>
-                            <input type="text" class="form-control" ng-model="userData.messengerId" name="credit">
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <label>Credit</label>
-                            <div class="input-group mb-1">
-                                        <span class="input-group-addon">
-                                            <i class="icon-phone"></i>
-                                        </span>
-                                <input type="number" class="form-control" ng-model="userData.credit"
-                                       name="credit">
-                            </div>
-                        </fieldset>
-
-
-                        <fieldset class="form-group {{error.name ? 'has-danger':''}}">
-                            <label>Incharge</label>
-                            <div class="input-group mb-1">
-                                <input type="text" name="name" class="form-control" placeholder="Incharge"
-                                       ng-model="userData.incharge" id="incharge">
-                            </div>
-                        </fieldset>
-
-                        <fieldset class="form-group {{error.name ? 'has-danger':''}}">
-                            <label>Ref</label>
-                            <div class="input-group mb-1"><input type="text" name="name" class="form-control"
-                                                                 placeholder="Ref" ng-model="userData.ref" id="ref">
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="card-block">
-                        <div class="card-header">
-                            <strong>storeData</strong>
-                        </div>
-                        <div class="card-header">
-                            <strong>Level</strong>
-                        </div>
-                        <div class="card-block">
-
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" ng-model="storeData.level" name="radio"
-                                           value="basic"> Basic
-                                </label>
-                            </div>
-
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" ng-model="storeData.level" name="radio"
-                                           value="triad"> Dùng thử
-                                </label>
-                            </div>
-
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" ng-model="storeData.level" name="radio"
-                                           value="premium"> Premium
-                                </label>
-
-
-                            </div>
-
-                        </div>
-
-                        <fieldset class="form-group">
-                            <label>createdBy</label>
-                            <input type="text" class="form-control" ng-model="storeData.createdBy" name="credit">
-                        </fieldset>
-                    </div>
-
+                    </fieldset>
                     <div class="card-block ex-em">
                         <ul>
                             <li ng-repeat="card in storeData.adminNote">
@@ -865,7 +747,7 @@
                             <label class="switch switch-default switch-pill switch-danger"
                                    style="float: right">
                                 <input type="checkbox" class="switch-input" class="switch-input"
-                                       ng-model="userData.wrongEmail" checked="userData.wrongEmail">
+                                       ng-model="storeData.wrongEmail" checked="storeData.wrongEmail">
                                 <span class="switch-label"></span>
                                 <span class="switch-handle"></span>
                             </label>
@@ -880,15 +762,12 @@
                     </div>
                 </div>
 
-
-
                 <button ng-hide="newJob" ng-click="submit()" type="submit"
                         class="btn btn-block btn-success main-backgroud">
                     Cập nhật
                 </button>
             </div>
-            <!--/.col-->
+
         </div>
-        <!--/.row-->
     </div>
 </div>

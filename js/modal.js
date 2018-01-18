@@ -6,7 +6,7 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
     };
 
 })
-    .controller('ModalCtrlViewInbox', function ($scope, $rootScope, email, toastr, close) {
+    .controller('ModalCtrlViewInbox', function ($scope, $rootScope, email, toastr, close,$timeout) {
         var newfilter = {email}
         $rootScope.service.JoboApi('api/notification', newfilter).then(function (response) {
             $scope.dataEmail = []
@@ -21,7 +21,10 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
                 delete obj.mail;
                 delete obj.channel;
                 newData.sent = obj;
-                $scope.dataEmail.push(newData)
+                $timeout(function () {
+                    $scope.dataEmail.push(newData)
+
+                })
             })
 
         }).catch(function (err) {
@@ -65,7 +68,6 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
 
     })
 
-
     .controller('ModalAddressCtrl', function ($scope, close, $http, CONFIG, $rootScope) {
 
         $scope.autocompleteAddress = {text: ''};
@@ -102,6 +104,22 @@ app.controller('ModalController', function ($scope, $rootScope, email, toastr, c
 
         $scope.close = function () {
             close($rootScope.userData, 500); // close, but give 500ms for bootstrap to animate
+        };
+
+    })
+    .controller('ModalCtrlStore', function (data, $scope, close, $http, CONFIG, $rootScope,$timeout) {
+        if(data.storeId){
+            $rootScope.service.JoboApi('on/store',{storeId:data.storeId}).then(result =>{
+               $timeout(function () {
+                   $scope.storeData = result
+                   $scope.userInfo = result.userData || {}
+                   $scope.jobData = result.jobData || []
+               })
+
+            } )
+        }
+        $scope.close = function (result) {
+            close(result, 500); // close, but give 500ms for bootstrap to animate
         };
 
     })

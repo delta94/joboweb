@@ -3,8 +3,13 @@
     <header class="app-header navbar">
         <!--<button class="navbar-toggler hidden-lg-up" type="button" onclick="openNav()">&#9776;</button>-->
         <a class="navbar-brand" ui-sref="app.dash"></a>
-
-        <form ng-show="userData.admin" class="hidden-md-down" accept-charset="UTF-8" autocomplete="off"><input name="utf8"
+        <label class="switch switch-default switch-pill switch-primary" ng-if="userData.admin"
+               style="float: right">
+            <input type="checkbox" class="switch-input" checked="{{view.admin}}" ng-model="view.admin">
+            <span class="switch-label"></span>
+            <span class="switch-handle"></span>
+        </label>
+        <form ng-show="view.admin" class="hidden-md-down" accept-charset="UTF-8" autocomplete="off"><input name="utf8"
                                                                                                         type="hidden"
                                                                                                         value="✓">
             <div class="form-group form-search" style="margin:12px auto !important;">
@@ -18,8 +23,7 @@
                         <div class="message p-h">
                             <div class="py-h mr-1 float-left">
                                 <div class="avatar">
-                                    <img src="{{result.avatar || '/img/store.png'}}" class="img-avatar"
-                                         alt="admin@bootstrapmaster.com">
+                                    <img src="{{result.avatar || '/img/store.png'}}" class="img-avatar">
                                 </div>
                             </div>
                             <a ui-sref="app.viewstore({id:result.storeId})"
@@ -53,15 +57,15 @@
             </div>
         </form>
         <div class="hidden-md-down">
-
+            <a ng-show="view.admin" style="padding: 1rem" class=" button btn btn-link" ui-sref="app.newfeed"><i class="icon-globe"></i>&nbsp;
+                Newfeed</a>
             <a style="padding: 1rem" class=" button btn btn-link" ui-sref="app.sdash"><i class="fa fa-map-marker"></i>&nbsp;
                 Việc làm</a>
             <a style="padding: 1rem" class=" button btn btn-link" ui-sref="app.edash"><i class="fa fa-users"></i>&nbsp;
-                Lọc
-                hồ sơ</a>
-            <a style="padding: 1rem" class=" button btn btn-link" href="https://blog.jobo.asia/faq" target="_blank"
-               aria-expanded="false">&nbsp; Hướng dẫn <i class="fa fa-share-square-o"></i></a>
-            <a style="padding: 1rem" class="button btn btn-link" href="https://blog.jobo.asia" target="_blank">&nbsp;
+                Lọc hồ sơ</a>
+            <a style="padding: 1rem" class=" button btn btn-link" href="https://m.me/jobo.asia?ref=start_faq_website" target="_blank"
+               aria-expanded="false">&nbsp;Hướng dẫn <i class="fa fa-share-square-o"></i></a>
+            <a style="padding: 1rem" class="button btn btn-link" href="https://m.me/jobo.asia?ref=start_tailieunhansu_websiteTab" target="_blank">&nbsp;
                 Tài
                 liệu miễn phí <i
                         class="fa fa-share-square-o"></i></a>
@@ -124,6 +128,8 @@
 
                     <div class="dropdown-header text-center">
                         <strong>Tài khoản</strong>
+                        <br>
+                        ID: {{userData.userId}}
                     </div>
 
                     <a class="dropdown-item" ui-sref="profile"><i class="fa fa-edit"></i>Cập nhật hồ sơ
@@ -141,13 +147,7 @@
                 <a class="nav-link  navbar-toggler aside-menu-toggler" href="#">&#9776;</a>
             </li>
         </ul>
-        <label class="switch switch-default switch-pill switch-primary" ng-if="userData.admin"
-               style="float: right">
-            <input type="checkbox" class="switch-input" checked="{{userData.admin}}"
-                   ng-model="userData.admin" >
-            <span class="switch-label"></span>
-            <span class="switch-handle"></span>
-        </label>
+
         <ul class="nav navbar-nav ml-auto" ng-show="type == 1">
             <li class="nav-item">
                 <a class="nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -205,6 +205,8 @@
 
                     <div class="dropdown-header text-center">
                         <strong>Số dư của bạn: <b>{{userData.credit || 0}} .000đ</b></strong>
+                        <br>
+                        ID: {{userData.userId}}
                     </div>
 
                     <a class="dropdown-item" href="/store/update"><i class="fa fa-edit"></i>Cập nhật thông tin

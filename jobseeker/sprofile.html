@@ -1,4 +1,4 @@
-<div class="spinner" ng-hide="userData">
+<div class="spinner" ng-hide="userData" ng-init="init()">
     <div class="cube1"></div>
     <div class="cube2"></div>
 </div>
@@ -48,7 +48,7 @@
                                                                         <span class="input-group-addon">
                                              <i class="icon-phone"></i>
                                          </span>
-                                        <input type="number" name="phonenum" class="form-control" placeholder=""
+                                        <input type="text" name="phonenum" class="form-control" placeholder=""
                                                ng-model="userInfo.phone" required>
 
                                     </div>
@@ -373,6 +373,40 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="select">Ca làm</label>
+                                    <div class="col-md-7">
+                                        <ul>
+                                            <li ng-repeat="work in card.work_time">{{work.start}} - {{work.end}}
+                                                <button class="btn btn-outline-danger btn-round"
+                                                        ng-click="deleteWorkTime($index, $parent.$index)"><i
+                                                        class="fa fa-close"></i></button>
+                                            </li>
+                                        </ul>
+                                        <div class="input-group">
+                                            <select id="select" name="select" class="form-control" size="1"
+                                                    ng-model="newWorkTime.start">
+                                                <option value=''>Từ</option>
+                                                <option ng-repeat="(key,value) in CONFIG.hour" value="{{value}}">
+                                                    {{value}}
+                                                </option>
+
+                                            </select>
+                                            <select class="form-control col-md-5" ng-model="newWorkTime.end">
+                                                <option value=''>Đến</option>
+                                                <option ng-repeat="(key,value) in CONFIG.hour" value="{{value}}">
+                                                    {{value}}
+                                                </option>
+
+                                            </select>
+
+                                            <button type="button" class="btn btn-outline-primary col-md-2 "
+                                                    ng-click="addWorkTime(newWorkTime.start, newWorkTime.end, $index)">
+                                                <i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row" ng-class="{'has-success' : userData.time != null}">
                                     <label class="col-md-4 form-control-label">Thời gian sẵn sàng làm việc <i
                                             class="fa fa-check" style="color: #00ff00"
@@ -611,7 +645,7 @@
 
 
                         </div>
-                        <div class="card" ng-show="admin">
+                        <div class="card" ng-show="adminId">
                             <div class="card-header">
                                 <strong>Admin ghi chú</strong>
                             </div>

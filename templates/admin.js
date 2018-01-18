@@ -5,6 +5,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
     AuthUser.user().then(function (data) {
         console.log(data);
         if (data.admin == true) {
+
         } else {
             toastr.error('You are not supposed to be here!')
             $state.go('app.dash')
@@ -36,9 +37,6 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $scope.newfilter.location = selected.geometry.location;
             console.log(selected);
             $('#list-add').hide();
-            //$rootScope.userData.address = selected.formatted_address;
-            //$rootScope.userData.location = selected.geometry.location;
-
         };
 
         $scope.eraseAddress = function () {
@@ -77,31 +75,12 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $rootScope.service.JoboApi('on/user', {userId: userid}).then(function (data) {
                 $scope.profileData[userid] = data.data
             });
-            /*db.ref('user/' + userid).once('value', function (res) {
-                $scope.profileData[userid] = res.val()
 
-            })*/
         }
 
         $scope.mail = {};
         $scope.data = {};
 
-        $scope.sendEmail = function () {
-
-            console.log($scope.mail)
-            var mailstring = JSON.stringify($scope.mail)
-
-            $http({
-                method: 'GET',
-                url: CONFIG.APIURL + '/sendemailMarketing',
-                params: {mail: mailstring}
-            }).then(function successCallback(response) {
-                console.log("respond", response);
-            }, function (error) {
-                console.log(error)
-            })
-
-        }
         $scope.upload = function (imageData) {
             console.log('imageData', imageData)
             var metadata = {
@@ -139,27 +118,9 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             }, function (error) {
                 toastr.error('error', error)
             });
-            /*db.ref('profile/' + card.userId).update(card).then(function () {
-                toastr.success('done', card.feature + card.hide)
-            }, function (error) {
-                toastr.error('error', error)
 
-            })*/
-        }
-        //Excel Ctrl
-        $scope.importProfile = function () {
-            axios.get(CONFIG.AnaURL + '/profile/collection')
-                .then(result => toastr.success(`Updated: ${result.data.length} rows`))
-                .catch(err => toastr.error(err));
         }
 
-        $scope.exportProfile = function () {
-            axios.get(CONFIG.AnaURL + '/profile/export')
-                .then(result => {
-                    toastr.success(`Updated Range: ${result.data.response.updates.updatedRange}`);
-                })
-                .catch(err => toastr.error(err));
-        }
     })
     .controller('employerAdminCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
@@ -233,9 +194,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             $rootScope.service.JoboApi('on/user', {userId: userid}).then(function (data) {
                 $scope.profileData[userid] = data.data;
             });
-            /*db.ref('user/' + userid).once('value', function (res) {
-                $scope.profileData[userid] = res.val()
-            })*/
+
         }
         $scope.deleteProfile = function (storeId) {
             db.ref('store/' + storeId).set(null).then(function (data) {
@@ -1251,19 +1210,6 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             }
 
         }
-        $scope.sendEmail = function (mail) {
-            $rootScope.service.JoboApi('sendFirstEmail', {
-                mail: JSON.stringify(mail)
-            }).then(function (res) {
-
-                if (res.data && res.data.code == 'success') {
-                    toastr.success('Đã gửi')
-                }
-
-            }).catch(function (err) {
-                toastr.error('Lỗi')
-            });
-        }
 
         //Excel Ctrl
         $scope.importLead = function () {
@@ -1321,7 +1267,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
         $scope.getReport = function () {
             $http({
                 method: 'GET',
-                url: 'https://joboana.herokuapp.com/getallpost'
+                url: CONFIG.AnaURL + '/getallpost'
             }).then(function successCallback(response) {
                 const posts = response.data;
                 const length = posts.length;
@@ -1379,7 +1325,7 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
 
             $http({
                 method: 'GET',
-                url: 'https://joboana.herokuapp.com/getFbPost',
+                url: CONFIG.APIURL + '/getFbPost',
                 params: newfilter
             }).then(function successCallback(response) {
                 console.log("respond", response);
@@ -1392,10 +1338,10 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
             })
         };
         $scope.deletePost = function (newfilter) {
-            console.log(newfilter)
+            console.log(newfilter);
             $http({
                 method: 'DELETE',
-                url: 'https://joboana.herokuapp.com/removePost',
+                url: CONFIG.APIURL + '/removePost',
                 params: newfilter
             }).then(function successCallback(response) {
                 console.log("respond", response);
@@ -1418,32 +1364,166 @@ app.controller('dashAdminCtrl', function (AuthUser, $state, $scope, $rootScope, 
     })
     .controller('notificationCtrl', function ($state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
         //address
-        $scope.newfilter = {}
+        $scope.newfilter = {};
 
         $scope.createHospital = function (newfilter, p) {
             newfilter.p = p
-            console.log(newfilter)
-
+            console.log(newfilter);
             $http({
                 method: 'GET',
                 url: CONFIG.APIURL + '/api/notification',
                 params: newfilter
             }).then(function successCallback(response) {
-                console.log("respond", response);
+                console.log("respond", response.data);
                 $timeout(function () {
                     $scope.response = response.data
+                    $scope.response.data = $scope.response.data.map(data => $rootScope.service.timify(data))
+
                 })
             }, function (error) {
                 console.log(error)
             })
         };
-        $scope.createHospital({email: 'thonglk.mac@gmail.com'})
+        $scope.createHospital({});
 
         $scope.page = 1
         $scope.pagin = function (page) {
             console.log(page)
             $scope.createHospital($scope.newfilter, page)
         }
+
+
+    })
+    .controller('ladibotCtrl', function (AuthUser, $stateParams, $state, $scope, $rootScope, $timeout, CONFIG, $http, toastr) {
+        var state = $stateParams.id
+        $scope.url = $stateParams.url
+        console.log(state, $scope.url)
+        $scope.chatBot = {}
+        if (state && state == 'create') {
+            if ($scope.url) {
+                $rootScope.service.JoboApi('getchat?url=' + $scope.url)
+                    .then(function successCallback(response) {
+                        console.log('response', response)
+                        toastr.info('success sent', response.data)
+                        $timeout(function () {
+                            $scope.chatBot = response.data
+                        })
+                    }, function (error) {
+                        console.log('error', error)
+                        toastr.error(error)
+                    })
+            }
+
+        }
+        loop();
+
+        function loop() {
+            if (typeof FB === "undefined") $timeout(function () {
+                loop()
+            }, 1000)
+            else FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+
+                FB.Event.subscribe('auth.statusChange', auth_status_change_callback);
+
+// In your JavaScript
+
+            });
+
+        }
+
+
+        $scope.pageList = []
+        $scope.viewLink = ''
+
+        $scope.setPage = function (card, url) {
+
+            $scope.loading = true
+            $rootScope.service.JoboApi('getchat', {
+                pageID: card.id,
+                access_token: card.access_token,
+                name: card.name,
+                url: url
+            }).then(function successCallback(response) {
+                $scope.loading = false
+
+                console.log('response', response)
+                $timeout(function () {
+                    $scope.chatBot = response.data
+                    $scope.viewLink = `https://m.me/${card.id}?ref=${$scope.chatBot.flow}_w`
+                })
+            }, function (error) {
+                console.log('error', error)
+                toastr.error(error)
+            })
+
+        }
+
+
+        var auth_status_change_callback = function (response) {
+            console.log("auth_status_change_callback: " + response.status);
+            if (response.status == 'connected') {
+                toastr.info('Welcome!  Fetching your information.... ');
+                FB.api('/me', function (user) {
+
+                    console.log('Good to see you, ', user);
+
+                    FB.api('/me/accounts', function (response) {
+                        console.log(response)
+                        $timeout(function () {
+                            $scope.pageList = response.data
+
+                            if ($scope.pageList.length > 0) {
+
+
+                            } else {
+                                toastr.info('No page created.');
+
+                            }
+                        })
+
+
+                    });
+
+                })
+            }
+
+        }
+
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                auth_status_change_callback(response);
+            } else {
+                // The person is not logged into your app or we are unable to tell.
+                console.log('Please log into this app.')
+            }
+        }
+
+        // This function is called when someone finishes with the Login
+        // Button.  See the onlogin handler attached to it in the sample
+        // code below.
+
+
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+
 
 
     })

@@ -27,11 +27,10 @@ app.controller("settingCtrl", function ($scope, $rootScope, $http, $state, toast
 
     }
 
-    $scope.submit = function (noti) {
-        $rootScope.service.JoboApi('update/setting',{
-            userId: $rootScope.userId,
-            setting: noti
-        }).then(function () {
+    $scope.submit = function (user,noti) {
+        $rootScope.service.JoboApi('update/user?userId=' + $rootScope.userId,{
+            user
+        },'post').then(function () {
             toastr.success('Cập nhật thành công')
         },function (error) {
             toastr.error(error)

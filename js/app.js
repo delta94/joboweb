@@ -1,13 +1,13 @@
 //Default colors
-var brandPrimary = '#3DBEEE';
-var brandSuccess = '#75C7A8';
+var brandPrimary = '#1FBDF1';
+var brandSuccess = '#39DFA5';
 var brandInfo = '#67c2ef';
 var brandWarning = '#fabb3d';
 var brandDanger = '#ff5454';
 
 var grayDark = '#384042';
 var gray = '#9faecb';
-var grayLight = '#c0cadd';
+var grayLight = '#90949c';
 var grayLighter = '#e1e6ef';
 var grayLightest = '#f9f9fa';
 
@@ -62,49 +62,55 @@ var app = angular
         });
     })
 
-    .run(function ($rootScope, AuthUser, CONFIG) {
+    .run(function ($rootScope, AuthUser, CONFIG,$timeout) {
         $rootScope.searchName = ''
-
+        $rootScope.view = {}
         $rootScope.width = window.innerWidth;
         $rootScope.service = AuthUser;
         $rootScope.CONFIG = CONFIG;
-        $rootScope.service.JoboApi('config').then(function (res) {
-            $rootScope.CONFIG = res.data;
-            $rootScope.CONFIG.APIURL = CONFIG.APIURL;
-            $rootScope.CONFIG.hour = CONFIG.hour;
-            $rootScope.CONFIG.day = CONFIG.day;
-            console.log('$rootScope.CONFIG.APIURL', $rootScope.CONFIG.APIURL)
-            $rootScope.service.loadLang('vi');
-            $rootScope.dataJob = $rootScope.CONFIG.data.job;
-            $rootScope.dataTime = $rootScope.CONFIG.data.time;
-            $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
-            $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
-            $rootScope.numberDisplay = {like: 10, liked: 10, match: 10};
+
+        $rootScope.service.JoboApi('config').then(res => {
+            $timeout(function () {
+
+                $rootScope.CONFIG = res.data;
+                $rootScope.CONFIG.APIURL = CONFIG.APIURL;
+                $rootScope.CONFIG.hour = CONFIG.hour;
+                $rootScope.CONFIG.day = CONFIG.day;
+                console.log('$rootScope.CONFIG.APIURL', $rootScope.CONFIG.APIURL)
+                $rootScope.service.loadLang('vi');
+                $rootScope.dataJob = $rootScope.CONFIG.data.job;
+                $rootScope.dataTime = $rootScope.CONFIG.data.time;
+                $rootScope.dataIndustry = $rootScope.CONFIG.data.industry;
+                $rootScope.dataLanguages = $rootScope.CONFIG.data.languages;
+                $rootScope.numberDisplay = {like: 10, liked: 10, match: 10};
 
 
-            //Industry
-            $rootScope.arrayIndustry = [];
-            for (var i in $rootScope.dataIndustry) {
-                $rootScope.arrayIndustry.push(i);
-            }
+                //Industry
+                $rootScope.arrayIndustry = [];
+                for (var i in $rootScope.dataIndustry) {
+                    $rootScope.arrayIndustry.push(i);
+                }
 
-            //Job
-            $rootScope.arrayJob = [];
-            for (var i in $rootScope.dataJob) {
-                $rootScope.arrayJob.push(i);
-            }
+                //Job
+                $rootScope.arrayJob = [];
+                for (var i in $rootScope.dataJob) {
+                    $rootScope.arrayJob.push(i);
+                }
 
-            //Language
-            $rootScope.arrayLang = [];
-            for (var i in $rootScope.dataLanguages) {
-                $rootScope.arrayLang.push(i);
-            }
+                //Language
+                $rootScope.arrayLang = [];
+                for (var i in $rootScope.dataLanguages) {
+                    $rootScope.arrayLang.push(i);
+                }
 
-            //Time
-            $rootScope.arrayTime = [];
-            for (var i in $rootScope.dataTime) {
-                $rootScope.arrayTime.push(i);
-            }
+                //Time
+                $rootScope.arrayTime = [];
+                for (var i in $rootScope.dataTime) {
+                    $rootScope.arrayTime.push(i);
+                }
+
+            })
+
         });
 
         function checkPlatform() {
@@ -144,8 +150,6 @@ var app = angular
         console.log('checkAgent', $rootScope.checkAgent)
         $rootScope.today = new Date().getTime()
         $rootScope.jobOffer = {}
-
-
     })
 
 
@@ -172,8 +176,9 @@ var app = angular
 
         AuthUser.user().then(function (data) {
             console.log(data);
-            if($rootScope.userId){
+            if ($rootScope.userId) {
                 $rootScope.service.JoboApi('initData', {userId: $rootScope.userId}).then(function (res) {
+                    if (res.data.err) return toastr.error(res.data.err)
                     var user = res.data;
                     console.log('user', user);
                     $rootScope.userData = user.userData;
@@ -191,8 +196,6 @@ var app = angular
                             $rootScope.notification = $rootScope.service.ObjectToArray(user.notification)
                             $rootScope.newNoti = $rootScope.service.calNoti($rootScope.notification)
                             $rootScope.reactList = user.reactList;
-
-
                         })
 
                     } else {
@@ -221,7 +224,7 @@ var app = angular
             .catch(err => console.log(err));
     })
     .controller('unsubscribeCtrl', function ($scope, CONFIG, $stateParams, toastr) {
-        const { id, email } = $stateParams;
+        const {id, email} = $stateParams;
         $scope.unsubscribe = function (reason) {
             axios.post(`${CONFIG.APIURL}/unsubscribe`, {
                 notiId: id,

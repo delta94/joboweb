@@ -8,20 +8,40 @@
 
                 <div class="card-block">
                     <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="select">Poster</label>
+                            <div class="col-md-9">
+                                <select id="select" name="select" class="form-control form-control-sm" ng-model="newfilter.poster">
+                                    <option ng-repeat="card in CONFIG.facebookAccount" value="{{card.key}}">{{card.key}}</option>
+                                </select>
+                            </div>
+                        </div>
                         <fieldset class="form-group">
-                            <label>poster </label>
+                            <label>time_from </label>
                             <div class="input-group mb-1">
-                                <input class="form-control"
-                                       ng-model="newfilter.poster">
+                                <input class="form-control" type="date" ng-model="newfilter.time_from">
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>time_to </label>
+                            <div class="input-group mb-1">
+                                <input class="form-control" type="date" ng-model="newfilter.time_to">
                             </div>
                         </fieldset>
                         <fieldset class="form-group">
                             <label>to(groupId) </label>
                             <div class="input-group mb-1">
-                                <input class="form-control"
-                                       ng-model="newfilter.to">
+                                <input class="form-control" ng-model="newfilter.to">
                             </div>
                         </fieldset>
+                        <fieldset class="form-group">
+                            <label>notiId </label>
+                            <div class="input-group mb-1">
+                                <input class="form-control"
+                                       ng-model="newfilter.postId">
+                            </div>
+                        </fieldset>
+
                         <fieldset class="form-group">
                             <label>jobId </label>
                             <div class="input-group mb-1">
@@ -46,6 +66,17 @@
                                    style="float: right">
                                 <input type="checkbox" class="switch-input"
                                        ng-model="newfilter.still_alive">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label><br>
+
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>comment</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input"
+                                       ng-model="newfilter.comment">
                                 <span class="switch-label"></span>
                                 <span class="switch-handle"></span>
                             </label><br>
@@ -82,7 +113,10 @@
                         <tr>
                             <th>Id</th>
                             <th>Content</th>
-                            <th>Sent</th>
+                            <th>Sent {{service.timeAgo(schedules[0].checkAt)}}
+                                <button type="button" class="btn btn-primary" ng-click="getReport(newfilter)">
+                                   Check
+                                </button></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -90,15 +124,39 @@
                             <td>
                                 <b>postId:</b> {{item.postId}}<br>
                                 <b>poster:</b> {{item.poster}}<br>
+                                <b>jobId:</b> {{item.jobId}}<br>
+
                                 <b>time:</b> {{item.time | date: 'HH giờ mm dd/MM/yyyy'}}<br>
                                 <b>groupId:</b>
                                 <a href="https://www.facebook.com/groups/{{item.to}}">{{item.to}}</a>
 
                             </td>
-                            <td>{{item.content.text}}<br> Image: {{item.content.image}}</td>
+                            <td><p ng-bind-html="service.htmlize(item.content.text)"></p><br> Image: {{item.content.image}}</td>
                             <td>{{item.sent | date: 'HH giờ mm dd/MM/yyyy'}} <br>
                                 <a href="{{service.generateLink(item.id)}}">{{item.id}}</a> <br>
+                                still_alive: {{item.still_alive}}<br>
                                 {{item.sent_error}}<br>
+                                {{item.check_error}}
+
+                                {{item.reactions}}
+                                <p ng-repeat="com in item.comments">{{com}}<br></p>
+                                <div class="card-block">
+                                    <form action="" method="post" enctype="multipart/form-data"
+                                          class="form-horizontal ng-pristine ng-valid">
+                                        <select id="select" name="select" class="form-control form-control-sm" ng-model="comment.poster">
+                                            <option ng-repeat="card in CONFIG.facebookAccount" value="{{card.key}}">{{card.key}}</option>
+                                        </select>
+                                        <input type="text" ng-model="comment.id" name="text-input" class="form-control"
+                                               placeholder="Comment Id">
+                                        <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                                  ng-model="comment.text" placeholder="Nội dung comment"></textarea>
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                                ng-click="service.PostComment(comment)"><i
+                                                class="fa fa-dot-circle-o"></i> PostComment
+                                        </button>
+
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -118,9 +176,7 @@
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Báo cáo
                 </div>
-                <button type="button" class="btn btn-primary" ng-click="getReport(newfilter)">
-                   Lấy báo cáo
-                </button>
+
 
                 <div class="card-block">
                     <div>
@@ -161,8 +217,7 @@
     </div>
 
 
-    <div class="row">
-        <div class="col-md-6">
+        <div class="card">
             <div class="card">
                 <div class="card-header">
                     Post Group
@@ -204,7 +259,13 @@
                                              style="height: 100px;"></textarea>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">jobId</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="content.jobId" name="text-input" class="form-control"
+                                       placeholder="jobId">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-3 form-control-label">Job</label>
                             <div class="col-md-9">
@@ -220,17 +281,256 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Time</label>
+                            <div class="col-md-9">
+                                <input type="datetime-local" ng-model="content.time" name="text-input" class="form-control">
+                            </div>
+                        </div>
+
+                        <fieldset class="form-group">
+                            <label>Wall Post</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input"
+                                       ng-model="channel.wall">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label><br>
+
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Page Jobo Post</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input"
+                                       ng-model="channel.page">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label><br>
+
+                        </fieldset>
 
                     </form>
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-sm btn-primary"
-                            ng-click="service.PostFacebook(content)"><i
+                            ng-click="service.PostFacebook(content,channel)"><i
                             class="fa fa-dot-circle-o"></i> Submit
                     </button>
 
                 </div>
             </div>
         </div>
-    </div>
+        <div class="card">
+            <div class="card">
+                <div class="card-header">
+                    Push Job
+                    <button type="button" class="btn btn-sm btn-primary"
+                            ng-click="service.loadPremiumJob()"><i
+                            class="fa fa-dot-circle-o"></i> loadPremiumJob
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary"
+                            ng-click="service.scheduleAll()"><i
+                            class="fa fa-dot-circle-o"></i> scheduleAll
+                    </button>
+                </div>
+
+
+                <div class="card-block">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="select">Job</label>
+                        <div class="col-md-9">
+                            <select id="select" name="select" class="form-control form-control-sm" ng-model="post.jobId">
+                                <option ng-repeat="card in PremiumJob" value="{{card.jobId}}">{{card.jobName +' '+card.storeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="select">Poster</label>
+                        <div class="col-md-9">
+                            <select id="select" name="select" class="form-control form-control-sm" ng-model="post.poster">
+                                <option ng-repeat="card in CONFIG.facebookAccount" value="{{card.key}}">{{card.key}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-sm btn-primary"
+                            ng-click="service.postStore(post)"><i
+                            class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card">
+                <div class="card-header">
+                    Add account
+                </div>
+                <div class="card-block">
+                    <form action="" method="post" enctype="multipart/form-data"
+                          class="form-horizontal ng-pristine ng-valid">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">key</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="account.key" name="text-input" class="form-control"
+                                       placeholder="Text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">accessToken</label>
+                            <div class="col-md-9">
+                                   <textarea class="form-control ng-pristine ng-valid ng-empty ng-touched"
+                                             ng-model="account.access_token"
+                                             style="height: 100px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Area</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="account.area" name="text-input" class="form-control"
+                                       placeholder="hn,hcm">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <label>Không đăng tự động</label>
+                            <label class="switch switch-default switch-pill switch-primary"
+                                   style="float: right">
+                                <input type="checkbox" class="switch-input"
+                                       ng-model="account.block">
+                                <span class="switch-label"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </fieldset>
+
+
+
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-sm btn-primary"
+                            ng-click="service.addAccount(account)"><i
+                            class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                   Account
+                </div>
+
+
+                <div class="card-block">
+                    <div ng-repeat="(key,card) in CONFIG.facebookAccount"> {{card.key}} |  {{card.area}} | {{card.block}}
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="service.editAccount(card)"> Sửa</button>
+                        <button type="button" class="btn btn-sm btn-danger" ng-click="service.deleteAccount(card,key)"> Xoá</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card">
+                <div class="card-header">
+                    Add GroupFB
+                </div>
+
+
+                <div class="card-block">
+                    <form action="" method="post" enctype="multipart/form-data"
+                          class="form-horizontal ng-pristine ng-valid">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">groupId</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="group.groupId" name="text-input" class="form-control"
+                                       placeholder="Text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">GroupName</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="group.name" name="text-input" class="form-control"
+                                       placeholder="Text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Job</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="group.job" name="text-input" class="form-control"
+                                       placeholder="hn,hcm">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Area</label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="group.area" name="text-input" class="form-control"
+                                       placeholder="hn,hcm">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label">Member</label>
+                            <div class="col-md-9">
+                                <input type="number" ng-model="group.member" name="text-input" class="form-control">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-sm btn-primary"
+                            ng-click="service.addGroupFB(group)"><i
+                            class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Group
+                </div>
+
+
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>Job</th>
+                            <th>Area</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key,card) in CONFIG.groupData">
+                            <td><a href="https://www.facebook.com/groups/{{key}}">{{card.name}}</a></td>
+                            <td>{{card.job}}</td>
+                            <td>{{card.area}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" ng-click="service.editGroupFB(card,key)"> Sửa</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="service.deleteGroupFB(card,key)"> Xoá</button>
+                            </td>
+
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
 </div>

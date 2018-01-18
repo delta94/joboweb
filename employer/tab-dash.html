@@ -3,10 +3,12 @@
      background-size: cover; background-repeat: no-repeat; float: left; width: 100%;">
     <div class="info" style="margin-top: 0px; float: left">
         <div style="margin-top: 50px">
-            <form class=""  accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
+            <form class="" accept-charset="UTF-8" autocomplete="off"><input name="utf8" type="hidden" value="✓">
                 <h1>Tìm việc nhanh xung quanh bạn</h1>
                 <div class="form-group form-search" style="z-index: 2000">
-                    <input type="text" name="q" id="q" class="form-control form-control-search" placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text" ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
+                    <input type="text" name="q" id="q" class="form-control form-control-search"
+                           placeholder="Nhập địa chỉ..." ng-model="autocompleteAddress.text"
+                           ng-model-options="{debounce: 2000}" ng-change="searchAddress()">
                     <ul id="list-add" ng-show="autocompleteAddress.text.length">
                         <li ng-repeat="ketqua in ketquasAddress"
                             ng-click="setSelectedAddress(ketqua)">
@@ -18,7 +20,7 @@
         </div>
     </div>
 </div>
-<div class="card filter-tab" ng-init="init()" ng-if="type" style="padding:10px;">
+<div class="card filter-tab" style="padding:10px;">
     <div class="row">
         <div class="col-md-2">
             <div class="popup dropdown">
@@ -28,7 +30,8 @@
                                                            style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
-                    <div class="sort-menu cfix desktop-list" id="featured-menu" style="height: 300px; overflow-y: scroll; z-index: 1;">
+                    <div class="sort-menu cfix desktop-list" id="featured-menu"
+                         style="height: 300px; overflow-y: scroll; z-index: 1;">
                         <div class="list-header">Vị trí cần tuyển</div>
                         <ul id="browse-list" class="divided-list">
                             <li class="list-browse {{!newfilter.time ? 'selected':''}}"
@@ -38,7 +41,8 @@
                         </ul>
                         <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.job">
                             <li class="list-browse {{newfilter.job == key ? 'selected':''}}"
-                                ng-click="newfilterFilter('job',key)"><a class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
+                                ng-click="newfilterFilter('job',key)"><a
+                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                             </li>
                         </ul>
 
@@ -127,7 +131,7 @@
             </fieldset>
         </div>
 
-        <div class="col-md-2 col-sm-2 col-xs-2" ng-hide="newfilter.type == 'store'">
+        <div class="col-md-2 col-sm-2 col-xs-2">
             <div ng-hide="age == true">
                 <a class="text-truncate nav-link nav-pill" ng-click="setAge()" role="button" aria-haspopup="true"
                    aria-expanded="false">
@@ -149,26 +153,26 @@
                                     </span>
             </div>
         </div>
-        <div class="col-md-1">
+
+        <div class="col-md-1 float-right">
             <div class="popup dropdown">
                 <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    {{Lang[newfilter.sort] || 'Sắp xếp'}} <i class="fa fa-chevron-down" aria-hidden="true"
-                                                             style="color: #999"></i>
+                    {{Lang[newfilter.languages] || 'Ngoại ngữ'}}
+                    <i class="fa fa-chevron-down" aria-hidden="true" style="color: #999"></i>
                 </a>
                 <div class="dropdown-menu popup-content">
                     <div class="sort-menu cfix desktop-list" id="featured-menu">
-                        <div class="list-header">Sắp xếp</div>
+                        <div class="list-header">Ngoại ngữ</div>
                         <ul id="browse-list" class="divided-list">
-                            <li class="list-browse {{!newfilter.sort ? 'selected':''}}"
-                                ng-click="newfilterFilter('sort','')"><a
-
-                                    class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất cả</a>
+                            <li class="list-browse {{!newfilter.languages ? 'selected':''}}"
+                                ng-click="newfilterFilter('languages','')">
+                                <a class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất cả</a>
                             </li>
                         </ul>
-                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.sort">
-                            <li class="list-browse {{newfilter.sort == key ? 'selected':''}}"
-                                ng-click="newfilterFilter('sort',key)"><a
+                        <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.languages">
+                            <li class="list-browse {{newfilter.languages == key ? 'selected':''}}"
+                                ng-click="newfilterFilter('languages',key)"><a
 
                                     class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
                             </li>
@@ -179,6 +183,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
 </div>
@@ -187,9 +193,7 @@
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="verifyEmail">
     <div class="card-block" style="padding: 0.25rem 1.25rem">
         <button ng-click="service.sendVerifyEmail(userId)" class="btn btn-secondary pull-right"
-                style="border-radius: 30px"><i
-
-                aria-hidden="true"></i> Gửi lại email cho tôi
+                style="border-radius: 30px"><i aria-hidden="true"></i> Gửi lại email cho tôi
         </button>
         <span>Bạn không thể sử dụng mọi tính năng nếu chưa xác nhận Email, hãy đảm bảo bạn đã kiểm tra hòm mail.</span>
 
@@ -197,28 +201,385 @@
 </div>
 <div class="card card-inverse card-danger" style="margin: 0" ng-if="webToken && !verifyEmail">
     <div class="card-block" style="padding: 0.25rem 1.25rem">
-        <button ng-click="service.saveWebToken()" class="btn btn-secondary pull-right" style="border-radius: 30px">Bật thông báo
+        <button ng-click="service.saveWebToken()" class="btn btn-secondary pull-right" style="border-radius: 30px">Bật
+            thông báo
         </button>
         <p>Để nhận thông báo khi có ứng viên ứng tuyển, hãy bật thông báo (Nếu bật thông báo, việc làm sẽ ưu tiên hiển
             thị hơn).</p>
     </div>
 </div>
 
-<div class="animated fadeIn" infinite-scroll="loadMore()" infinite-scroll-distance="0" style="min-height: 500px">
+<div class="animated fadeIn" style="min-height: 500px" ng-init="init()">
 
-    <div class="container" ng-show="response.total">
+    <div class="container">
 
         <div class="card" style="margin-top: 20px;">
             <hr class="transparent mx-1 my-0">
             <div class="callout callout-primary m-0 py-1">
-                <div class="noti" ng-hide="response.total == 0">
-                    <h4>Chúng tôi đã tìm thấy {{response.total}} ứng viên phù hợp với yêu cầu của bạn</h4>
+
+                <label class="switch switch-sm switch-text switch-info float-right mb-0">
+                    <input type="checkbox" class="switch-input" ng-model="showType">
+                    <span class="switch-label" data-on="List" data-off="Card"></span>
+                    <span class="switch-handle"></span>
+                </label>
+                <div class="noti">
+                    <h4 ng-if="response.total > 0">Chúng tôi đã tìm thấy {{response.total}} ứng viên phù hợp với yêu cầu
+                        của bạn</h4>
+                    <h4 ng-if="response.total == 0">Hiện tại chưa có sẵn ứng viên phù hợp với bạn</h4>
+                    <h4 ng-hide="response">Đang tìm kiếm ứng viên phù hợp...</h4>
+
                 </div>
+                <div class="col-md-2">
+                    <div class="popup dropdown">
+                        <a class="text-truncate nav-link nav-pill" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            {{Lang[newfilter.sort] || 'Sắp xếp'}} <i class="fa fa-chevron-down" aria-hidden="true"
+                                                                     style="color: #999"></i>
+                        </a>
+                        <div class="dropdown-menu popup-content">
+                            <div class="sort-menu cfix desktop-list" id="featured-menu">
+                                <div class="list-header">Sắp xếp</div>
+                                <ul id="browse-list" class="divided-list">
+                                    <li class="list-browse {{!newfilter.sort ? 'selected':''}}"
+                                        ng-click="newfilterFilter('sort','')"><a
+
+                                            class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">Tất
+                                        cả</a>
+                                    </li>
+                                </ul>
+                                <ul id="browse-list" class="divided-list" ng-repeat="(key,value) in CONFIG.data.sort">
+                                    <li class="list-browse {{newfilter.sort == key ? 'selected':''}}"
+                                        ng-click="newfilterFilter('sort',key)"><a
+
+                                            class="discover-sprite-pre discover-sprite sort-item sort-appreciations ">{{Lang[key]}}</a>
+                                    </li>
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <fieldset style="padding: 0.5em">
+                        <label>Phone</label>
+                        <label class="switch switch-3d switch-primary">
+                            <input type="checkbox" ng-model="newfilter.phone"
+                                   ng-change="newfilterFilter('phone',newfilter.phone)"
+                                   class="switch-input"
+                                   checked="newfilter.phone">
+                            <span class="switch-label"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="col-md-2">
+                    <fieldset style="padding: 0.5em">
+                        <label>Messenger</label>
+                        <label class="switch switch-3d switch-primary">
+                            <input type="checkbox" ng-model="newfilter.messenger"
+                                   ng-change="newfilterFilter('messenger',newfilter.messenger)"
+                                   class="switch-input"
+                                   checked="newfilter.messenger">
+                            <span class="switch-label"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="col-md-2">
+                    <fieldset style="padding: 0.5em">
+                        <label>Email</label>
+                        <label class="switch switch-3d switch-primary">
+                            <input type="checkbox" ng-model="newfilter.email"
+                                   ng-change="newfilterFilter('email',newfilter.email)"
+                                   class="switch-input"
+                                   checked="newfilter.email">
+                            <span class="switch-label"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                    </fieldset>
+                </div>
+                <div class="col-md-2">
+                    <fieldset class="form-group">
+                        <label>Ref</label>
+                        <div class="input-group mb-1">
+                                        <span class="input-group-addon">
+                                            <i class="icon-directions"></i>
+                                        </span>
+                            <input type="text" class="form-control" placeholder=""
+                                   ng-model="newfilter.ref" id="name" name="ref"
+                                   ng-change="newfilterFilter('ref',newfilter.ref)"
+                            >
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div ng-if="view.admin">
+
+                    <div>
+                        <button style="display: inline" type="button"
+                                class="btn {{newfilter.type == key ? 'btn-success':'btn-outline-success'}}"
+                                ng-repeat="(key,value) in {null,lead,marketing}" ng-click="newfilterFilter('type',key)">
+                            {{key}}
+                        </button>
+                        {{newfilter}}
+                        <button ng-click="service.exportProfile(newfilter)"
+                                type="button"
+                                class="btn btn-vm btn-primary">exportProfile
+                        </button>
+                    </div>
+                </div>
+
             </div>
             <hr class="mx-1 my-0">
         </div>
 
-        <div class="list-profile">
+        <div ng-show="showType">
+            <div ng-repeat="card in usercard" class="card-joblist">
+
+                <div class="message p-h">
+
+                    <div class="mr-1 float-left">
+                        <a href="/view/profile/{{card.userId}}" class="avatar avatar-lg">
+                            <img src="{{card.avatar || 'img/macdinh.jpg'}}" class="img-avatar">
+                        </a>
+                    </div>
+                    <div>
+                        <small class="text-muted float-right mt-q ng-binding">
+                            {{service.timeAgo(card.updatedAt)}}<br>
+
+                            <i class="fa {{showHideData[card.userId] ? 'fa-toggle-up':'fa-toggle-down'}} float-right"
+                               style="font-size: large" ng-click="service.showAndHide(card.userId)"></i>
+
+                        </small>
+                        <div><a href="/view/profile/{{card.userId}}">
+                            <strong>{{card.name}}</strong>
+                        </a>
+                            <span ng-if="card.urgent == 1"
+                                  class="badge badge-success">Tìm việc gấp</span>
+                            <span ng-if="card.urgent == -1"
+                                  class="badge badge-warning">Đã có việc</span>
+                            <br>
+                            <small class="{{userData.expect_distance < card.distance ?'text-success':'text-muted'}}">
+                                <i class="icon-location-pin"></i>&nbsp;
+                                {{service.shortAddress(card.address)}} {{card.distance ? ' - '+ card.distance +'
+                                km':''}}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <small class="col-md-4 {{userData.job[card.job] ?'text-success':'text-muted'}}"><i
+                                class="fa fa-compass"></i>&nbsp;
+                            <span ng-repeat="(key,value) in card.job">{{Lang[key]}} | </span>
+                        </small>
+                        <small class="col-md-4 {{userData.industry[card.industry] ?'text-success':'text-muted'}}">
+                            <i class="fa fa-suitcase"></i>&nbsp;
+                            <span ng-repeat="(key,value) in card.industry">{{Lang[key]}} | </span>
+                        </small>
+
+                        <small ng-if="card.working_type"
+                               class="col-md-4 {{userData.working_type == card.working_type ?'text-success':'text-muted'}}">
+                            <i
+                                    class="icon-calendar"></i>&nbsp;
+                            {{Lang[card.working_type]}}
+                        </small>
+
+                        <small ng-if="card.time" class="col-md-4 text-muted"><i
+                                class="fa fa-clock-o"></i>&nbsp;
+                            <span ng-repeat="(key,value) in card.time">{{Lang[key]}} | </span>
+                        </small>
+
+                        <small ng-if="card.expect_salary"
+                               class="col-md-4 {{Number(userData.expect_salary) <= Number(card.salary) ?'text-success':'text-muted'}}">
+                            <i class="fa fa-dollar"></i>&nbsp;
+                            {{card.expect_salary}} tr/tháng
+                        </small>
+                        <small ng-if="card.hourly_wages" class="col-md-4 text-muted"><i
+                                class="icon-clock"></i>&nbsp;
+                            {{card.hourly_wages}} k/giờ
+                        </small>
+                        <small ng-if="card.birth"
+                               class="col-md-4 {{Number(userData.expect_salary) <= Number(card.salary) ?'text-success':'text-muted'}}">
+                            <i class="fa fa-calendar-o"></i>&nbsp;
+                            {{card.birth | date: 'y'}}
+                        </small>
+                        <small ng-if="card.height || card.weight"
+                               class="col-md-4 {{Number(userData.expect_salary) <= Number(card.salary) ?'text-success':'text-muted'}}">
+                            <i class="fa fa-star"></i>&nbsp;
+                            {{card.height ? card.height + ' cm - ':''}} {{card.weight ?
+                            card.weight + ' kg':''}}
+                        </small>
+
+                        <small ng-if="card.school"
+                               class="col-md-4 {{Number(userData.expect_salary) <= Number(card.salary) ?'text-success':'text-muted'}}">
+                            <i class="fa fa-calendar-o"></i>&nbsp;
+                            {{card.school}}
+                        </small>
+
+                        <small ng-if="card.languages"
+                               class="col-md-4 {{userData.languages[card.languages] ?'text-success':'text-muted'}}">
+                            <i
+                                    class="icon-globe"></i>&nbsp;
+                            <span ng-repeat="(key,value) in card.languages">{{Lang[key]}}</span>
+                        </small>
+
+                        <small ng-if="card.figure"
+                               class="col-md-4 {{userData.figure ?'text-success':'text-muted'}}"><i
+                                class="icon-earphones"></i>&nbsp;
+                            Có ngoại hình
+                        </small>
+                        <small ng-if="card.sex"
+                               class="col-md-4 {{userData.sex == card.sex ?'text-success':'text-muted'}}"><i
+                                class="fa fa-venus-mars"></i>&nbsp;
+                            {{Lang[card.sex]}}
+                        </small>
+                        <small ng-if="card.experience"
+                               class="col-md-4 {{userData.experience ?'text-success':'text-muted'}}"><i
+                                class="icon-calendar"></i>&nbsp;
+                            Có kinh nghiệm
+                            <span ng-repeat="exp in card.experience">{{Lang[exp.job]}}, {{exp.company}} | </span>
+
+                        </small>
+
+                        <small ng-if="card.interviewTime" class="col-md-4 text-muted"><i
+                                class="fa fa-calendar-o"></i>&nbsp;
+                            {{card.interviewTime.daily?'Hằng ngày':''}} {{card.interviewTime.hour? ' lúc '+
+                            card.interviewTime.hour+' giờ':''}} {{card.interviewTime.day?'thứ ' +
+                            CONFIG.day[card.interviewTime.day]:''}}
+                        </small>
+                        <small ng-if="card.deadline" class="col-md-4 text-muted"><i class="fa fa-bomb"></i>&nbsp;
+                            {{card.deadline | date}}({{service.timeAgo(card.deadline)}})
+                        </small>
+
+                        <small ng-if="card.viewed" class="col-md-4 text-muted"><i class="icon-graph"></i>&nbsp;
+                            {{card.viewed}}
+                        </small>
+                    </div>
+
+                    <div class="card-block" ng-if="view.admin">
+
+                        <i class="fa fa-check-square-o" ng-if="card.incharge">{{card.incharge}}</i>
+                        <i style="margin-left: 5px; color:#00bf8f;"
+                           class="fa fa-check-square"
+                           ng-hide="card.incharge">Availble</i>
+
+                        <i class="fa fa-user"></i> {{card.name}}
+
+                        <i class="fa fa-phone"></i> {{card.phone}}
+
+                        <i class="fa fa-inbox"></i> {{card.email}}
+                        <i ng-if="card.ref" class="icon-graph"> </i> {{card.ref}}
+                        <i style="margin-left: 5px; color:#00bf8f;font-size:20px;" class="fa fa-check-square-o"
+                           aria-hidden="true"
+                           data-toggle="popover" data-placement="top" data-content="Đã phỏng vấn" data-trigger="hover"
+                           ng-if="card.verify == true"></i>
+                        <i ng-if="card.mobileToken" class="fa fa-mobile fa-lg mt-2"
+                           data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên điện thoại"
+                           data-trigger="hover"></i>
+                        <i ng-if="card.webToken"
+                           class="fa fa-globe fa-lg mt-2"
+                           data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên máy tính"
+                           data-trigger="hover"></i>
+                        <i ng-if="card.messengerId"
+                           class="fa fa-comment fa-lg mt-2"
+                           data-toggle="popover" data-placement="top" data-content="Có thể chat bot"
+                           data-trigger="hover"></i>
+                        <i ng-if="card.wrongEmail"
+                           class="fa fa-envelope-open fa-lg mt-2"
+                           data-toggle="popover" data-placement="top" data-content="Sai Email" data-trigger="hover"></i>
+
+                        <ul>
+                            <li ng-repeat="note in card.adminNote">
+                                <p class="float-right">{{note.date | date: 'dd/MM/yyyy - HH:mm'}}</p>
+                                <p><strong>{{note.adminId}}: </strong>{{note.note}}</p>
+                            </li>
+                        </ul>
+                        <fieldset class="form-group">
+                            <div class="input-group">
+                                <input id="input2-group2" ng-model="card.note"
+                                       name="input2-group2" class="form-control" placeholder="Add note">
+                                <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="service.addAdminNote(newfilter.type,{userId:card.userId},card.note)">ADD</button>
+                                    </span>
+                            </div>
+                        </fieldset>
+                        <button class="btn btn-secondary btn-sm"
+                                ng-click="service.viewInbox(card.email)">
+                            View Notification
+                        </button>
+                        <button class="btn btn-secondary btn-sm"
+                                ng-click="service.viewSendNotification(card)">
+                            Send Notification
+                        </button>
+                        <a class="btn btn-secondary btn-sm"
+                           href="/profile?admin={{card.userId}}">
+                            Edit & Add Note
+                        </a>
+                    </div>
+
+                </div>
+                <div class="animated fadeIn" style="margin-bottom: 30px;padding: 0 30px"
+                     ng-show="showHideData[card.userId]">
+                    <div>
+                        <p ng-if="card.createdAt">• Ngày tạo: {{card.createdAt | date}}</p>
+
+                        <p ng-if="card.apply">• Đã ứng tuyển: {{card.apply.length}}</p>
+                        <div class="avatars-stack mt-2" ng-if="card.apply">
+                            <div class="avatar avatar-xs" ng-repeat="people in card.apply">
+                                <img src="{{people.userAvatar}}" class="img-avatar"
+                                     ui-sref="app.viewprofile ({id: people.userId})">
+                            </div>
+                        </div>
+
+                        <div class="job-description" ng-if="card.description">
+                            <div>
+                                <small ng-repeat="text in service.nextLine(card.description) track by $index">
+                                    {{text}}<br>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 40px" ng-if="card.photo || myself">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h3 class="card-title clearfix mb-0">Hình ảnh</h3>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button ng-if="myself" type="button"
+                                                        class="btn btn-outline-primary float-right ml-1"><i
+                                                        class="icon-add" ui-sref="profile"
+                                                        type="button"></i> &nbsp;Thêm
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <hr class="m-0">
+                                        {{!card.photo && myself ? 'Hãy tải thêm hình ảnh của bạn':''}}
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-4" style="padding: 5px"
+                                                 ng-repeat="card in card.photo">
+                                                <img src="{{card}}" style="width:100%;"/>
+                                            </div>
+                                        </div>
+                                        <!--/.row-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <br>
+        </div>
+
+        <div ng-hide="showType" class="list-profile">
             <div class="row row-s">
 
                 <div class="col-xs-6 col-sm-6 col-md-4" ng-repeat="card in usercard track by $index">
@@ -231,8 +592,9 @@
                                 <i class="fa fa-play-circle play-button" aria-hidden="true"
                                    ng-click="showVideo(card)"></i>
                             </div>
-                            <img ui-sref="app.viewprofile ({id:card.userId})"
-                                 src="{{card.avatar || 'img/macdinh.jpg'}}">
+                            <a href="/view/profile/{{card.userId}}">
+                                <img src="{{card.avatar || 'img/macdinh.jpg'}}">
+                            </a>
                         </div>
                         <div class="videogular-container text-center" ng-show="showVid == card.userId">
                             <videogular>
@@ -311,10 +673,15 @@
                     </div>
                 </div>
             </div>
+
         </div>
+        <div class="spinner" ng-if="loading">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+        <button type="button" ng-hide="loading" ng-click="loadMore()"
+                class="btn btn-link btn-lg btn-block">Tải thêm
+        </button>
     </div>
-    <div class="spinner" ng-if="!response.total || loading">
-        <div class="cube1"></div>
-        <div class="cube2"></div>
-    </div>
+
 </div>

@@ -12,14 +12,15 @@
                             </div>
                         </div>
 
-                        <div >{{jobData.jobName}}
+                        <div>{{jobData.jobName}}
                             <strong>{{jobData.storeData.storeName}}</strong>
                         </div>
                         <small class="text-muted mr-1"><i class="icon-calendar"></i>&nbsp;
                             {{Lang[jobData.working_type]}}
                         </small>
                         <small class="text-muted"><i class="icon-location-pin"></i>&nbsp;
-                            {{service.shortAddress(jobData.storeData.address)}} {{jobData.distance ? '- '+card.distance +'
+                            {{service.shortAddress(jobData.storeData.address)}} {{jobData.distance ? '- '+card.distance
+                            +'
                             km':''}}
                         </small>
 
@@ -45,6 +46,7 @@
                                         nghìn đồng/giờ </p>
                                     <p ng-if="jobData.deadline">• Hạn chót: {{jobData.deadline |
                                         date}}({{service.timeAgo(jobData.deadline)}}) </p>
+
                                     <p ng-if="jobData.createdAt">• Ngày đăng: {{jobData.createdAt | date}}</p>
 
                                     <p ng-if="jobData.unit">• Số lượng: {{jobData.unit}}</p>
@@ -89,28 +91,33 @@
 
                 <div class="card mx-2">
                     <div class="card-block p-2 header-signup">
-                        <h1>Đăng ký</h1>
+                        <h1 ng-if="type == 1">Đăng ký để tuyển ứng viên </h1>
+                        <h1 ng-if="type == 2">Đăng ký để nhận việc</h1>
 
-                        <p class="text-muted" ng-if="type == 1">Tạo tài khoản nhà tuyển dụng</p>
-                        <p class="text-muted" ng-if="type == 2">Tạo tài khoản ứng viên</p>
-                        <button class="button btn btn-facebook btn-block" ng-click="facebookLogin(type)">
-                            Kết nối bằng Facebook
-                        </button>
-                        <hr class="mx-1" >
                         <form name="signupForm" ng-submit="doSignup(userSignup)" autocomplete="off">
+
                             <div class="input-group mb-1" ng-if="type == 1">
                                 <span class="input-group-addon">S</span>
                                 <input name="storeName" class="form-control" placeholder="Tên thương hiệu"
                                        ng-model="userSignup.storeName" required>
                             </div>
-                            <div class="input-group mb-1" ng-class="{ 'has-danger' : signupForm.email.$invalid && !signupForm.email.$pristine , 'has-success' : signupForm.email.$valid }">                                <span class="input-group-addon">@</span>
-                                <input type="email" name="email" class="form-control" placeholder="Đăng ký bằng Email" id="email"
+                            <div class="input-group mb-1"
+                                 ng-class="{ 'has-danger' : signupForm.email.$invalid && !signupForm.email.$pristine , 'has-success' : signupForm.email.$valid }">
+                                <span class="input-group-addon">@</span>
+                                <input type="email" name="email" class="form-control" placeholder="Email của bạn"
+                                       id="email"
                                        ng-model="userSignup.username" required>
-                                <i class="fa fa-check fa-2x" style="color: #00ff00" ng-show="signupForm.email.$valid"></i>
+                                <i class="fa fa-check fa-2x" style="color: #00ff00"
+                                   ng-show="signupForm.email.$valid"></i>
                             </div>
+                            <button ng-disabled="!userSignup.username" type="submit"
+                                    class="btn btn-block btn-primary main-backgroud">Đăng ký
+                            </button>
+                            <hr class="mx-1">
 
-
-                            <button ng-disabled="!userSignup.username" type="submit" class="btn btn-block btn-primary main-backgroud">Đăng ký</button>
+                            <button class="button btn btn-facebook btn-block" ng-click="facebookLogin()">
+                                Kết nối bằng Facebook
+                            </button>
                         </form>
 
                     </div>

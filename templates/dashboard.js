@@ -1,6 +1,7 @@
 ﻿"use strict"
 
 app.controller('dashboardCtrl', function ($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope) {
+        window.location = '/jobseeker/dash'
         $scope.loading = true
         $rootScope.aside = false
         $scope.showjob = 2;
@@ -311,4 +312,49 @@ app.controller('dashboardCtrl', function ($scope, $timeout, $sce, toastr, $state
             });
         }
     )
+    .controller('newfeedCtrl', function ($scope, $timeout, $sce, toastr, $state, CONFIG, $http, $rootScope) {
+        $rootScope.newfilter = {
+            p: 1
+        }
+        $scope.getLog = function (newfilter,more) {
+            if (!$rootScope.newfilter) {
+                $rootScope.newfilter = {
+                    p: 1
+                }
+            }
+
+            if ($rootScope.newfilter.interviewTime_from) $rootScope.newfilter.interviewTime_from = new Date($rootScope.newfilter.interviewTime_from).getTime()
+            if ($rootScope.newfilter.interviewTime_to) $rootScope.newfilter.interviewTime_to = new Date($rootScope.newfilter.interviewTime_to).getTime()
+
+            $rootScope.service.JoboApi('newfeed', $rootScope.newfilter).then(function (response) {
+                if (!$scope.response) {
+                    $scope.response = response.data
+                } else {
+                    if(more){
+                        $timeout(function () {
+                            $scope.response.data = $scope.response.data.concat(response.data.data)
+                        })
+                    } else {
+                        $timeout(function () {
+                            $scope.response = response.data
+                        })
+                    }
+
+
+                }
+
+            })
+        }
+
+        $scope.loadMore = function () {
+            console.log('request load')
+            if ($rootScope.newfilter && $rootScope.newfilter.p < $scope.response.total_pages) {
+                console.log('loading')
+                $rootScope.newfilter.p++
+                $scope.getLog($rootScope.newfilter.p,true);
+
+            }
+        }
+        $scope.getLog()
+    })
 

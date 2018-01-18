@@ -8,9 +8,9 @@
                         <i class="fa fa-align-justify"></i> Employer
                     </div>
                     <div class="btn-group" role="group" aria-label="">
-                        <button type="button" class="btn btn-primary" ng-click="importProfile()"><i class="fa fa-external-link"></i> Import
+                        <button type="button" class="btn btn-primary" ng-click="service.import('lead')"><i class="fa fa-external-link"></i> Import
                         </button>
-                        <button type="button" class="btn btn-primary" ng-click="exportProfile()"><i class="fa fa-file-excel-o"></i> Export</button>
+                        <button type="button" class="btn btn-primary" ng-click="service.export('lead')"><i class="fa fa-file-excel-o"></i> Export</button>
                     </div>
                     <div class="card-block">
                         <table class="table table-bordered table-striped table-condensed">
@@ -201,7 +201,6 @@
                                 </label>
                             </div>
                         </div>
-
 
                     </form>
                 </div>

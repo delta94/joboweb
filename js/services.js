@@ -27,7 +27,7 @@
                             // User is signed in.
                         } else {
                             $rootScope.type = 0;
-                            console.log('type',$rootScope.type)
+                            console.log('type', $rootScope.type)
                             resolve({type: 0})
 
                             // No user is signed in.
@@ -41,21 +41,29 @@
 
 
         };
-        this.setStatus = function (storeId, userId, working, del) {
-            console.log(storeId, userId, working)
+        this.timify = function (data) {
+            for (var i in data) {
+                if (data[i] <Date.now()+12*30*24*60*60*1000 && data[i]> 1000000000000) data[i] = new Date(data[i]) + `(${data[i]} )`
+            }
+            return data
+        }
+
+        this.setStatus = function (card, working, del) {
+            console.log(card.actId, working)
             var data = {}
             data[working] = new Date().getTime()
-            if (del == true) {
-                db.ref('activity/like/' + storeId + ':' + userId).child(working).remove(function (res) {
-                    console.log('res', res)
+            if (del == true) db.ref('activity/like/' + card.actId).child(working)
+                .remove(result=> {
+                    toastr.success(result)
+                    delete card[working]
+                });
+            else db.ref('activity/like/' + card.actId).update(data)
+                .then(result => {
+                    toastr.success(result)
+                    card[working] = data[working]
                 })
-            } else {
-                db.ref('activity/like/' + storeId + ':' + userId).update(data).then(function (res) {
-                    console.log('done', res)
-                }, function (err) {
-                    console.log('err', err)
-                })
-            }
+                    .catch(err => toastr.error(err))
+
 
 
         }
@@ -95,30 +103,70 @@
             });
 
         }
-        this.sendEmail = function (newfilter, mail) {
+        this.editStore = function (storeId) {
+            ModalService.showModal({
+                templateUrl: "templates/modals/store.html",
+                controller: "ModalCtrlStore",
+                inputs: {
+                    data: {storeId}
+                }
+            }).then(function (modal) {
+                // The modal object has the element built, if this is a bootstrap modal
+                // you can call 'modal' to show it, if it's a custom modal just show or hide
+                // it as you need to.
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    $scope.message = result ? "You said Yes" : "You said No";
+                });
+            });
+
+        }
+        this.sendEmail = function (newfilter, mail,channel,sent =false) {
+            newfilter.action = 1;
             if (newfilter.time) {
                 newfilter.time = new Date(newfilter.time).getTime()
             }
-            newfilter.action = 1;
-            console.log(newfilter)
 
-            var params = {newfilter, mail}
+            console.log(newfilter);
 
-            axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
-                .then(function successCallback(response) {
-                    $rootScope.respondSend = response.data
-                    console.log("respond", $rootScope.respondSend);
-                    toastr.info('success sent', $rootScope.respondSend.numberSent)
-                }, function (error) {
-                    console.log(error)
-                })
+            // if (newfilter.filterList) {
+            //     newfilter.mail = mail
+            //     $http({
+            //         method: 'GET',
+            //         url: CONFIG.APIURL + '/send/notification',
+            //         params: newfilter
+            //     }).then(function successCallback(response) {
+            //         $rootScope.respondSend = response.data
+            //         console.log("respond", $rootScope.respondSend);
+            //         toastr.info('success sent', $rootScope.respondSend.numberSent)
+            //     }, function (error) {
+            //         toastr.error(error)
+            //     })
+            // }
+            var params = {newfilter, mail,channel}
+
+            if(sent == false){
+                axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
+                    .then(function successCallback(response) {
+                        sent = true
+                        $rootScope.respondSend = response.data
+                        console.log("respond", $rootScope.respondSend);
+                        toastr.info('success sent', $rootScope.respondSend.numberSent)
+                    }, function (error) {
+                        toastr.error(error)
+                    })
+            }
+
+
+
+
         }
         this.viewSendEmail = function (newfilter, mail) {
             newfilter.action = 0
             console.log(newfilter)
 
 
-            var params = {newfilter, mail}
+            var params = {newfilter, mail,channel}
 
             axios.post(CONFIG.APIURL + '/sendEmailMarketing', params)
                 .then(function (response) {
@@ -129,13 +177,29 @@
                     console.log(error)
                 })
         }
-
-
         this.sendVerifyEmail = function (userId) {
             console.log('sendVerifyEmail')
             $rootScope.service.JoboApi('sendverify', {id: userId})
             toastr.success('Đã gửi lại email, hãy kiểm tra hòm mail của bạn')
         }
+
+        this.loadPremiumJob = function () {
+
+            $rootScope.service.JoboApi('PremiumJob?type=array')
+                .then(result => $timeout($rootScope.PremiumJob = result.data))
+                .catch(err => toastr.error(err));
+        }
+        this.scheduleAll = function () {
+            axios.get(CONFIG.APIURL + '/scheduleJobPushEveryday')
+                .then(result => toastr.success(result))
+                .catch(err => toastr.error(err));
+        };
+        this.postStore = function (post) {
+            $rootScope.service.JoboApi('PostStore', post)
+                .then(result => toastr.success(result))
+                .catch(err => toastr.error(err));
+        }
+
         this.answerTest = function (actId, preApply) {
 
             if (actId && preApply) {
@@ -285,9 +349,22 @@
             })
 
         };
-        this.PostFacebook = function (content) {
+        this.PostFacebook = function (content,channel) {
+            if (content.image) content.type = 'image'
+            if(content.time) content.time = new Date(content.time).getTime()
+            if(channel){
+                content.channel = channel
+            }
             console.log('content', content)
+
             $rootScope.service.JoboApi('PostFacebook', content, 'post').then(function (res) {
+                console.log(res)
+                toastr.info(res.data)
+            })
+        };
+        this.PostComment = function (comment) {
+            console.log('comment', comment)
+            $rootScope.service.JoboApi('PostComment', comment, 'post').then(function (res) {
                 console.log(res)
                 toastr.info(res.data)
             })
@@ -379,7 +456,6 @@
 
             }
         };
-
         this.deg2rad = function (deg) {
             return deg * (Math.PI / 180)
         };
@@ -412,8 +488,6 @@
             x = Math.round(n * 10) / 10;
             return x;
         };
-
-
         this.checkPermit = function checkPermit(storeId, userId) {
             var check = '';
             var defer = $q.defer()
@@ -453,8 +527,6 @@
             })
             return defer.promise
         }
-
-
         this.timeAgo = function (timestamp) {
             var time;
             timestamp = new Date(timestamp).getTime()
@@ -518,6 +590,9 @@
 
         }
 
+
+
+
         this.Ana = function (action, data) {
             if (!data) {
                 data = {}
@@ -543,14 +618,13 @@
                 id: analyticKey
             };
 
-            $rootScope.service.JoboApi('update/log', {
-                userId: anany,
-                key: analyticKey,
-                log: obj
-            });
-            console.log("Jobo Analytics", obj);
-        }
+            $rootScope.service.JoboApi('update/log?userId=' + anany, {log: obj}, 'post')
+                .then(result => console.log(result))
+                .catch(err => console.log(err))
 
+            console.log("Jobo Analytics", obj);
+
+        }
         this.shortAddress = function (fullAddress) {
             if (fullAddress) {
                 var mixAddress = fullAddress.split(",")
@@ -564,9 +638,22 @@
             }
         };
 
+        this.exportProfile = function (newfilter) {
+            axios.get(CONFIG.AnaURL + '/profile/export', {params: newfilter})
+                .then(result => toastr.success(result.data))
+                .catch(err => toastr.err(err))
+        }
         this.nextLine = function (text) {
             if (text) {
                 return text.split(/\r\n|\r|\n/g);
+            }
+
+        }
+        this.htmlize = function (text) {
+            if (text && text.match(/\r\n|\r|\n/g)) {
+                var res = text.replace(/\r\n|\r|\n/g, '<br>');
+
+                return res;
             }
 
         }
@@ -611,6 +698,7 @@
             }
 
         }
+
         this.JoboApi = function (url, params, type) {
             return new Promise(function (resolve, reject) {
                 if (type == 'post') {
@@ -636,9 +724,8 @@
                 }
 
             })
-
-
         }
+
         this.convertDate = function (array) {
 
             return new Date(array.year, array.month, array.day).getTime()
@@ -1028,29 +1115,45 @@
             var txtInput; // ^^^
 
         }
-        this.addAdminNote = function (type, id, note) {
-            console.log(note)
-            var data = {
-                type, id,
-                note: {
-                    note: note,
-                    id: Math.round(Math.random() * 1000000),
-                    date: Date.now(),
-                    adminId: $rootScope.userId
-                }
+        this.addAdminNote = function (type, ref, note) {
+            var noteId = Math.round(Math.random() * 1000000)
+            var notedata = {
+                note: note,
+                id: noteId,
+                date: Date.now(),
+                adminId: $rootScope.userId
             }
+            var data = {
+                adminNote: {}
+            }
+            data.adminNote[noteId] = notedata
             console.log(data)
-
-            axios.post(CONFIG.APIURL + '/addAdminNote', data).then(function (result) {
-                if (result.data.err) {
-                    console.log(result.data)
-                } else {
-                    toastr.info('added')
+            if (type == 'marketing' || type == 'premium' || type == 'basic' || !type) {
+                if (ref.userId) {
+                    axios.post(CONFIG.APIURL + '/update/user?userId=' + ref.userId, {profile: data}, 'post')
+                        .then(result => toastr.info(result))
+                        .catch(error => toastr.error(error))
                 }
-            }).catch(function (err) {
-                toastr.error(err)
+                if (ref.storeId) {
+                    axios.post(CONFIG.APIURL + '/update/user?storeId=' + ref.storeId, {store: data}, 'post')
+                        .then(result => toastr.info(result))
+                        .catch(error => toastr.error(error))
+                }
 
-            })
+            } else if (type == 'lead') {
+
+                if (ref.userId) {
+
+                }
+                if (ref.storeId) {
+                    axios.post(CONFIG.APIURL + '/update/lead?storeId=' + ref.storeId, {lead: data}, 'post')
+                        .then(result => toastr.info(result))
+                        .catch(error => toastr.error(error))
+                }
+
+            }
+
+
         }
         this.showAndHide = function (id) {
             if (!$rootScope.showHideData) {
@@ -1429,9 +1532,7 @@
             return array
         }
         this.loadLang = function (lang) {
-            $rootScope.service.JoboApi('lang').then(function (res) {
-                $rootScope.Lang = res.data
-            })
+            $rootScope.service.JoboApi('lang').then(result => $timeout($rootScope.Lang = result.data))
         }
         this.getRefer = function (str) {
             var res
@@ -1475,6 +1576,53 @@
 
 
         };
+        //Excel Ctrl
+        this.import = function (col) {
+            axios.get(CONFIG.AnaURL + '/' + col + '/collection')
+                .then(result => toastr.success(`Updated: ${result.data.length} rows`))
+                .catch(err => toastr.error(err));
+        }
+
+        this.export = function (col) {
+            axios.get(CONFIG.AnaURL + '/' + col + '/export')
+                .then(result => {
+                    toastr.success(`Updated Range: ${result.data.response.updates.updatedRange}`);
+                })
+                .catch(err => toastr.error(err));
+        }
+        this.addAccount = function (account) {
+            axios.post(CONFIG.APIURL + '/addFacebookAccount', account)
+                .then((result) => toastr.success(result.data))
+                .catch(err => toastr.error({err}))
+        }
+        this.deleteAccount = function (card,key) {
+            var params = {
+                card,key, action: 'delete'
+            }
+            axios.get(CONFIG.APIURL + '/accountFB', {params})
+                .then(result => toastr.success(result.data))
+                .catch(err => toastr.error(err))
+        }
+        this.editAccount = function (card) {
+            $rootScope.account = card
+        }
+
+        this.addGroupFB = function (group) {
+            axios.post(CONFIG.APIURL + '/addGroupFB', group)
+                .then((result) => toastr.success(result.data))
+                .catch(err => toastr.error({err}))
+        }
+        this.deleteGroupFB = function (card,key) {
+            var params = {
+                card,key, action: 'delete'
+            }
+            axios.get(CONFIG.APIURL + '/groupFB', {params})
+                .then(result => toastr.success(result.data))
+                .catch(err => toastr.error(err))
+        }
+        this.editGroupFB = function (card) {
+            $rootScope.group = card
+        }
 
     })
     .service('ngCopy', ['$window', function ($window) {

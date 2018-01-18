@@ -62,10 +62,14 @@
                         <h4 style="position: relative;margin-bottom: 15px;">{{profileData.name}}
                             <i style="margin-left: 5px; color:#00bf8f;font-size:20px;" class="fa fa-check-square-o" aria-hidden="true"
                                data-toggle="popover" data-placement="top" data-content="Đã phỏng vấn" data-trigger="hover" ng-if="profileData.verify == true"></i>
-                            <i  style="position: absolute; bottom: 3px; right: 0;font-size:23px;" class="fa fa-mobile fa-lg mt-2"
+                            <i ng-if="userInfo.mobileToken" style="position: absolute; bottom: 3px; right: 0;font-size:23px;" class="fa fa-mobile fa-lg mt-2"
                                 data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên điện thoại" data-trigger="hover"></i>
-                            <i  style="position: absolute; bottom: 3px; right: 24px; font-size:20px;" class="fa fa-globe fa-lg mt-2"
+                            <i ng-if="userInfo.webToken" style="position: absolute; bottom: 3px; right: 24px; font-size:20px;" class="fa fa-globe fa-lg mt-2"
                                 data-toggle="popover" data-placement="top" data-content="Nhận thông báo trên máy tính" data-trigger="hover"></i>
+                            <i ng-if="userInfo.messengerId" style="position: absolute; bottom: 3px; right: 24px; font-size:20px;" class="fa fa-comment fa-lg mt-2"
+                               data-toggle="popover" data-placement="top" data-content="Có thể chat bot" data-trigger="hover"></i>
+                            <i ng-if="userInfo.wrongEmail" style="position: absolute; bottom: 3px; right: 24px; font-size:20px;" class="fa fa-envelope-open fa-lg mt-2"
+                               data-toggle="popover" data-placement="top" data-content="Sai Email" data-trigger="hover"></i>
                         </h4>
                         <span class="badge badge-danger pull-right" ng-if="profileData.urgent == -1">Đã có việc</span>
                         <span class="badge badge-info pull-right" ng-if="profileData.urgent == 1">Tìm việc gấp</span>
@@ -81,11 +85,11 @@
                             <div class="clearfix"></div>
                         </div>
                         <ul style="list-style-type: none;padding-left: 0px;">
-                            <li ng-show="adminData.phone && userData.admin">
-                                <i class="fa fa-phone"></i> {{adminData.phone}}
+                            <li ng-show="userInfo.phone && adminId">
+                                <i class="fa fa-phone"></i> {{userInfo.phone}}
                             </li>
-                            <li ng-show="adminData.email && userData.admin">
-                                <i class="fa fa-inbox"></i> {{adminData.email}}
+                            <li ng-show="userInfo.email && adminId">
+                                <i class="fa fa-inbox"></i> {{userInfo.email}}
                             </li>
                             <li>
                                 <i class="fa fa-home"></i> {{service.shortAddress(profileData.address)}}
@@ -167,6 +171,9 @@
                         </div>
                     </div>
                     <div class="ex-em" style="border-bottom: 0; border-top: 1px solid #1FBDF1; padding-top: 0;" ng-show="userData.admin">
+                        <p ng-if="card.createdAt">• Ngày tạo: {{card.createdAt | date}}</p>
+                        <p ng-if="card.createdAt">• Ngày cập nhật: {{card.updatedAt | date}}</p>
+
                         <h4><i class="fa fa-sticky-note"></i>Admin Note</h4>
                         <ul>
                             <li ng-repeat="card in profileData.adminNote">

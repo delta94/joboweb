@@ -39,7 +39,9 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
 
             console.log('filtering..', newfilter)
 
-            $scope.loading = true;
+            $timeout(function () {
+                $scope.loading = true
+            })
             axios({
                 method: 'GET',
                 url: CONFIG.APIURL + '/api/job',
@@ -95,9 +97,11 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         }
         $rootScope.newfilter.lat = selected.geometry.location.lat;
         $rootScope.newfilter.lng = selected.geometry.location.lng;
+        $rootScope.newfilter.p = 1
         $rootScope.jobCard = {}
-
-        $scope.getUserFiltered($rootScope.newfilter)
+        $scope.getUserFiltered($rootScope.newfilter).then(function (result) {
+            $rootScope.jobCard = result
+        })
 
         console.log(selected);
         $('#list-add').hide();
@@ -114,16 +118,28 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         $scope.getUserFiltered({type: 'premium'}).then(function (result) {
             $rootScope.jobCard = result
         })
-        if ($rootScope.userId) {
-            $rootScope.service.JoboApi('on/profile', {userId: $rootScope.userId}).then(function (result) {
-               if(result.data.err){
+        $rootScope.service.user().then(function (data) {
+            if ($rootScope.userId) {
+                $rootScope.service.JoboApi('on/profile', {userId: $rootScope.userId}).then(function (result) {
+                    if(result.data.err){
 
-               }else {
-                   $rootScope.userData = result.data;
+                    }else {
+                        $rootScope.userData = result.data;
+                        if($rootScope.userData.location){
+                            $scope.autocompleteAddress.text = $rootScope.userData.address
+                            $rootScope.newfilter = Object.assign($rootScope.newfilter,$rootScope.userData.location,{userId:$rootScope.userId})
 
-               }
-            })
-        }
+                            $scope.getUserFiltered($rootScope.newfilter).then(function (result) {
+                                $rootScope.jobCard = result
+                            })
+
+                        }
+
+                    }
+                })
+            }
+
+        })
 
     }
 
@@ -136,9 +152,10 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
         if (!$rootScope.newfilter) {
             $rootScope.newfilter = {}
         }
+        $rootScope.jobCard = {}
         $rootScope.newfilter[type] = key
         $rootScope.newfilter.page = 1
-        console.log(' $rootScope.jobCard[collection].newfilter', $rootScope.jobCard.newfilter)
+        console.log(' $rootScope.jobCard[collection].newfilter', $rootScope.newfilter)
         $scope.getUserFiltered($rootScope.newfilter)
             .then(result => $rootScope.jobCard = result)
 
@@ -194,8 +211,8 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
 
 
     $scope.loading = false;
-    $scope.loadMore = function (type) {
-        var current = $rootScope.jobCard[type]
+    $scope.loadMore = function () {
+        var current = $rootScope.jobCard
         var filter = current.newfilter
 
         if (filter.page < current.total_pages) {
@@ -203,9 +220,8 @@ app.controller('sDashCtrl', function ($scope, $state, $http, $stateParams
             console.log('loading')
             filter.page++
             $scope.getUserFiltered(filter, current.data).then(function (result) {
-                $rootScope.jobCard[type] = result
+                $rootScope.jobCard = result
                 $scope.loading = false;
-
             })
 
         } else {

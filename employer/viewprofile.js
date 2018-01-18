@@ -20,14 +20,17 @@ app.controller("ViewProfileCtrl", function ($scope, $stateParams, $sce, $rootSco
             }).then(function successCallback(response) {
                 console.log("respond", response);
                 $scope.profileData = response.data
-                if ($scope.profileData.act && $scope.profileData.act.actId) {
-                    var likeActivity = db.ref('activity/like/' + $scope.profileData.act.actId);
-                    likeActivity.on('value',function (data) {
-                        $scope.profileData.act = data.val()
-                    })
+                if ($scope.profileData.act) {
+                    for(var i in $scope.profileData.act){
+                        var dataLike = $scope.profileData.act[i];
+                        var likeActivity = db.ref('activity/like/' + dataLike.actId);
+                        likeActivity.on('value',function (data) {
+                            $scope.profileData.act[i] = data.val()
+                        })
+                    }
                 }
 
-                $scope.adminData = $scope.profileData.adminData
+                $scope.userInfo = $scope.profileData.userInfo
                 $scope.listReact = $scope.profileData.actData
                 $scope.reviewData = $scope.profileData.review;
                 if ($scope.reviewData) {

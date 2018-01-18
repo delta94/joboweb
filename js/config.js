@@ -1,5 +1,4 @@
 angular.module('starter.configs', [])
-
     .constant("CONFIG", {
         'UpdateAt': "2017-04-10T04:44:21.253Z",
         'Location': false,

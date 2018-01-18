@@ -1,0 +1,58 @@
+<div class="app flex-row align-items-center animated fadeIn">
+    <div style="width: 1100px; margin: auto" ng-style="backgroundLoading">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-6">
+                <div class="card" style="margin-top: 20px;">
+                    <hr class="transparent mx-1 my-0">
+                    <div class="callout callout-primary m-0 py-1">
+
+                        <div class="noti">
+                            <h4 ng-if="!chatBot.id">We are creating your awesome chatbot!...</h4>
+                            <h4 ng-if="chatBot.id">Your bot '{{chatBot.data[8]}}' is ready...</h4>
+                        </div>
+                    </div>
+                    <hr class="mx-1 my-0">
+                </div>
+
+                <div class="card-group mb-0">
+
+                    <div class="card p-2">
+                        <div class="spinner" ng-if="loading">
+                            <div class="cube1"></div>
+                            <div class="cube2"></div>
+                        </div>
+                        <div class="card-block" ng-if="viewLink.length == 0" ng-hide="loading">
+                            <h1>Step 2: Deploy</h1>
+                            <p class="text-muted">Deploy bot to platform you like</p>
+                            <div ng-hide="pageList.length> 0">
+                                <div class="fb-login-button" data-max-rows="1" data-size="large"
+                                     data-button-type="continue_with" data-show-faces="false"
+                                     data-auto-logout-link="true" data-use-continue-as="false"
+                                     data-scope="manage_pages,pages_messaging"
+                                ></div>
+                            </div>
+
+
+                            <div ng-if="pageList" ng-repeat="card in pageList">
+                                <button ng-click="setPage(card,url)" class="btn btn-secondary">
+                                    {{card.name}}
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="card-block" ng-if="viewLink.length > 0">
+                            <h1>Step 3: Share your form</h1>
+                            <p class="text-muted">Here are link to collect your leads</p>
+                            <a href="{{viewLink}}" target="_blank">{{viewLink}}</a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

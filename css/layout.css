@@ -1528,7 +1528,7 @@ footer .badges .badge-link img {
 }
 
 .extra-links li a {
-    color: #c0cadd;
+    color: #90949c;
 }
 
 .contact .section-heading {
@@ -1659,16 +1659,12 @@ section.cta .overlay {
 
 .product-image {
     box-shadow: 0 29px 32px -20px rgba(0, 0, 0, 0.5);
-    margin: 9vh auto 30px;
     position: relative;
     z-index: 100;
     overflow: hidden;
     border-radius: 10px;
 }
 
-.pay-area {
-    margin-top: 15vh;
-}
 
 .pay-area .product-name {
     margin-bottom: 0px;
@@ -2111,7 +2107,7 @@ img {
 
 .carde .small-title {
     font-size: 18px;
-    color: #20a8d8;
+    color: #1FBDF1;
     margin-bottom: 0px;
 }
 
@@ -3107,13 +3103,13 @@ section.features .feature-item h3 {
 
 
 .btn-filter-advace > a:hover {
-    background-color: #20a8d8 !important;
+    background-color: #1FBDF1 !important;
     color: #fff !important;}
 
 
 .btn-filter-advace > a{
-    border: solid 1px #20a8d8 ;
-    color: #20a8d8 !important;}
+    border: solid 1px #1FBDF1 ;
+    color: #1FBDF1 !important;}
 
 
 .actives{
@@ -3196,8 +3192,28 @@ section.features .feature-item h3 {
 .card-industry:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+.card-new:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 .card-industry {
     padding: 30px;
+}
+
+.card-joblist{
+    margin-bottom: 10px;
+    height: auto;
+    width: 100%;
+    border-radius:10px;
+    background-color: #fff;
+    box-shadow: 0 3px 9px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+/* Transition to a bigger shadow on hover */
+.card-joblist:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.card-joblist {
+    padding: 10px;
 }
 #div1{
     display:inline-block;

@@ -119,56 +119,57 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         $scope.button = "Đang đăng nhập...";
 
         console.log(userLogin);
-        auth.signInWithEmailAndPassword(userLogin.username, userLogin.password).then(function () {
+        auth.signInWithEmailAndPassword(userLogin.username, userLogin.password)
+            .then(function () {
 
-            $rootScope.userId = auth.currentUser.uid;
-            $rootScope.service.JoboApi('on/user', {
-                userId: $rootScope.userId
-            }).then(function (data) {
-                $rootScope.type = data.data.type;
-                console.log($rootScope.type);
-                toastr.success('Đăng nhập thành công...')
+                $rootScope.userId = auth.currentUser.uid;
+                $rootScope.service.JoboApi('on/user', {
+                    userId: $rootScope.userId
+                }).then(function (data) {
+                    $rootScope.type = data.data.type;
+                    console.log($rootScope.type);
+                    toastr.success('Đăng nhập thành công...')
 
-                if ($rootScope.type == 1) {
-                    $state.go('app.edash')
+                    if ($rootScope.type == 1) {
+                        $state.go('app.edash')
+                    }
+                    if ($rootScope.type == 2) {
+                        $state.go('app.sdash')
+                    }
+                });
+
+            }, function (error) {
+
+                $scope.button = "Đăng nhập...";
+
+                // An error happened.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorCode);
+                if (errorCode === 'auth/invalid-email') {
+                    toastr.error('Kiểm tra lại email.');
+                    return false;
+                } else if (errorCode === 'auth/wrong-password') {
+                    toastr.error('Mật khẩu không đúng.');
+                    return false;
+                } else if (errorCode === 'auth/argument-error') {
+                    toastr.error('Password must be string.');
+                    return false;
+                } else if (errorCode === 'auth/user-not-found') {
+                    toastr.error('Email này không tồn tại.');
+                    return false;
+                } else if (errorCode === 'auth/too-many-requests') {
+                    toastr.error('Too many failed login attempts, please try after sometime.');
+                    return false;
+                } else if (errorCode === 'auth/network-request-failed') {
+                    toastr.error('Request timed out, please try again.');
+                    return false;
+                } else {
+                    toastr.error(errorMessage);
+                    return false;
                 }
-                if ($rootScope.type == 2) {
-                    $state.go('app.sdash')
-                }
+
             });
-
-        }, function (error) {
-
-            $scope.button = "Đăng nhập...";
-
-            // An error happened.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode);
-            if (errorCode === 'auth/invalid-email') {
-                toastr.error('Kiểm tra lại email.');
-                return false;
-            } else if (errorCode === 'auth/wrong-password') {
-                toastr.error('Mật khẩu không đúng.');
-                return false;
-            } else if (errorCode === 'auth/argument-error') {
-                toastr.error('Password must be string.');
-                return false;
-            } else if (errorCode === 'auth/user-not-found') {
-                toastr.error('Email này không tồn tại.');
-                return false;
-            } else if (errorCode === 'auth/too-many-requests') {
-                toastr.error('Too many failed login attempts, please try after sometime.');
-                return false;
-            } else if (errorCode === 'auth/network-request-failed') {
-                toastr.error('Request timed out, please try again.');
-                return false;
-            } else {
-                toastr.error(errorMessage);
-                return false;
-            }
-
-        });
 
 
     };
@@ -269,7 +270,9 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
             // ...
         });
 
-        $scope.facebookLogin = function () {
+        $scope.facebookLogin = function (userSignup) {
+            $rootScope.userSignup = userSignup;
+            console.log('$rootScope.userSignup', $rootScope.userSignup)
             var provider = new firebase.auth.FacebookAuthProvider();
             auth.signInWithRedirect(provider);
         };
@@ -278,15 +281,17 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
         function SignInWithCredential(credential) {
             auth.signInWithCredential(credential).then(function (result) {
                 var user = auth.currentUser || result;
+
                 var userData = {
                     userId: user.uid,
                     name: user.displayName,
                     email: user.email,
-                    provider: 'facebook'
+                    provider: 'facebook',
                 };
 
-                console.log(user);
+
                 checkSignupOrSignIn(userData);
+
             }, function (error) {
                 console.log(error)
             })
@@ -296,7 +301,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
 
         function checkSignupOrSignIn(userData) {
             $rootScope.service.JoboApi('on/user', {userId: userData.userId}).then(function (data) {
-                console.log('checkSignupOrSignIn', JSON.stringify(data.data));
+                console.log('checkSignupOrSignIn', data.data);
                 var userDataLoad = data.data;
                 if (userDataLoad && userDataLoad.type) {
                     toastr.success('Đăng nhập')
@@ -344,14 +349,20 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
             userData.type = type;
             userData.createdAt = new Date().getTime();
             var refer = window.localStorage.getItem('ref')
+
             if (refer) {
                 userData.ref = refer;
             }
-            $rootScope.service.JoboApi('update/user', {
-                userId: userId,
-                user: JSON.stringify(userData)
-            });
-            // userRef.update(userData);
+            if ($rootScope.userSignup && $rootScope.userSignup.phone) {
+                userData.phone = $rootScope.userSignup.phone
+            }
+
+            console.log(userData);
+
+            $rootScope.service.JoboApi('update/user?userId=' + userId, {
+                user: userData
+            }, 'post');
+
             if (userData.type == 1) {
                 $state.go('store', {id: null})
             }
@@ -370,7 +381,7 @@ app.controller('introController', function ($state, $scope, $rootScope, $timeout
                 // $scope.usersRef = db.ref('user/' + user.uid);
                 var userData = {
                     type: $scope.type,
-                    phone: '',
+                    phone: userSignup.phone,
                     userId: user.uid,
                     email: userSignup.username,
                     provider: 'normal'

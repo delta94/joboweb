@@ -27,7 +27,7 @@ var paths = gulp.paths;
 gulp.task('up-serverAna', function () {
     return replacePure({
         regex: "http://localhost:8081",
-        replacement: "https://joboana.herokuapp.com",
+        replacement: "https://jobo-ana.herokuapp.com",
         paths: ['./js/config.js'],
         recursive: false,
         silent: false
@@ -36,7 +36,7 @@ gulp.task('up-serverAna', function () {
 
 gulp.task('down-serverAna', function () {
     return replacePure({
-        regex: "https://joboana.herokuapp.com",
+        regex: "https://jobo-ana.herokuapp.com",
         replacement: "http://localhost:8081",
         paths: ['./js/config.js'],
         recursive: false,
@@ -46,7 +46,7 @@ gulp.task('down-serverAna', function () {
 gulp.task('up-server', function () {
     return replacePure({
         regex: "http://localhost:8080",
-        replacement: "https://jobohihi.herokuapp.com",
+        replacement: "https://jobo-server.herokuapp.com",
         paths: ['./js/config.js'],
         recursive: false,
         silent: false
@@ -55,7 +55,7 @@ gulp.task('up-server', function () {
 
 gulp.task('down-server', function () {
     return replacePure({
-        regex: "https://jobohihi.herokuapp.com",
+        regex: "https://jobo-server.herokuapp.com",
         replacement: "http://localhost:8080",
         paths: ['./js/config.js'],
         recursive: false,

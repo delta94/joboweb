@@ -15,8 +15,7 @@
     <img src="img/feature.png" style="display: none">
 
     <meta name="author" content="Jobo team">
-    <meta name="keyword"
-          content="Jobo,vieclam,pg,model,nhahang,khanhsan,letan,thu ngân,phục vụ">
+    <meta name="keyword" content="Jobo,vieclam,pg,model,nhahang,khanhsan,letan,thu ngân,phục vụ">
 
 
     <link rel="icon" type="image/png" href="img/icon.png">
@@ -32,27 +31,52 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script>
-        window.fbAsyncInit = function () {
+        window.fbAsyncInit = function() {
             FB.init({
-                appId: '295208480879128',
-                xfbml: true,
-                version: 'v2.8'
+                appId      : '295208480879128',
+                cookie     : true,  // enable cookies to allow the server to access
+                                    // the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.8' // use graph api version 2.8
             });
             FB.AppEvents.logPageView();
+
+
+            // Now that we've initialized the JavaScript SDK, we call
+            // FB.getLoginStatus().  This function gets the state of the
+            // person visiting this page and can return one of three states to
+            // the callback you provide.  They can be:
+            //
+            // 1. Logged into your app ('connected')
+            // 2. Logged into Facebook, but not your app ('not_authorized')
+            // 3. Not logged into Facebook and can't tell if they are logged into
+            //    your app or not.
+            //
+            // These three cases are handled in the callback function.
+
+
         };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
 
+
+    </script>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2077504552482775');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=2077504552482775&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
     <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
     <script>
         var Config = {
@@ -114,8 +138,13 @@
 
 <!-- Bootstrap and necessary plugins -->
 <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
-<script
-        src="https://code.jquery.com/jquery-2.2.4.min.js"
+<div class="fb-customerchat"
+     page_id="385066561884380"
+     ref="jobo_customerchat"
+     minimized="false">
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>
 <script
@@ -205,7 +234,7 @@
 <script src="templates/js/froala-wysiwyg-editor/js/plugins/save.min.js"></script>
 <script src="templates/js/froala-wysiwyg-editor/js/plugins/table.min.js"></script>
 <script src="templates/js/froala-wysiwyg-editor/js/plugins/video.min.js"></script>
-<script src="js/angular-froala.js"></script>
+<script src="templates/js/angular-froala.js"></script>
 <!-- End Froala -->
 <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css">
 
@@ -241,7 +270,7 @@
 <script src="templates/setting.js"></script>
 
 <!--admin-->
-<script src="templates/admin/admin.js"></script>
+<script src="templates/admin.js"></script>
 <!--static-->
 <script src="templates/page/pricing.js"></script>
 <!-- Sitemap Generator -->

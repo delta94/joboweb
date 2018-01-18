@@ -55,31 +55,30 @@ angular
                 }
             })
             .state('link', {
+                url: '/link/:queryString',
+                templateUrl: 'templates/page/link.html',
+                controller: 'shortlinkCtrl'
+            })
+            .state('l', {
                 url: '/l/:queryString',
                 templateUrl: 'templates/page/link.html',
                 controller: 'shortlinkCtrl'
             })
-
             .state('signup', {
                 url: '/signup/:id?apply&job',
                 templateUrl: 'templates/signup.html',
                 controller: 'signupCtrl'
             })
-
-
             .state('reset', {
                 url: '/reset',
                 templateUrl: "templates/resetemail.html",
                 controller: "resetController"
             })
-
-
             .state('intro', {
                 url: '/intro',
                 templateUrl: "templates/intro.html",
                 controller: "introController"
             })
-
             .state('profile', {
                 url: '/profile?admin',
                 templateUrl: 'jobseeker/sprofile.html',
@@ -152,7 +151,11 @@ angular
                     }]
                 }
             })
-
+            .state('app.newfeed', {
+                url: '/newfeed',
+                templateUrl: 'templates/newfeed.html',
+                controller: 'newfeedCtrl'
+            })
             .state('app.hiring', {
                 url: '/hiring?job',
                 templateUrl: 'templates/hiring.html',
@@ -178,16 +181,14 @@ angular
                 templateUrl: 'jobseeker/viewstore.html',
                 controller: 'ViewStoreCtrl'
             })
-
-            .state('app.404', {
+            .state('404', {
                 url: '/404',
                 templateUrl: 'views/pages/404.html'
             })
-            .state('app.500', {
+            .state('500', {
                 url: '/500',
                 templateUrl: 'views/pages/500.html'
             })
-
             .state('store', {
                 url: '/store/:id?admin',
                 templateUrl: 'employer/store.html',
@@ -271,6 +272,11 @@ angular
                 url: '/cart/:id',
                 templateUrl: 'templates/page/cart.html',
                 controller: 'cartCtrl'
+            })
+            .state('ladibot', {
+                url: '/ladibot/:id?url',
+                templateUrl: 'templates/ladibot.html',
+                controller: 'ladibotCtrl'
             })
 
 
